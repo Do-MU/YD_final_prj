@@ -7,10 +7,8 @@
 	<section class="banner_area">
 		<div class="container box_1620">
 			<div class="banner_inner d-flex align-items-center">
-				<div class="container">
-					<div class="banner_content text-center">
-						<h3>금융비서 금비</h3>
-					</div>
+				<div class="container" align="center">
+						<h1>금융비서 금비</h1>
 				</div>
 			</div>
 		</div>
