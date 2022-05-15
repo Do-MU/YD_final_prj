@@ -4,6 +4,7 @@ import lombok.Data;
 
 @Data
 public class DepositBaseVO {
+	private int dep_id;
 	private String dcls_month;
 	private String fin_co_no;
 	private String fin_prdt_cd;

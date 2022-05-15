@@ -36,7 +36,7 @@
 							</ul>
 						</li>
 						<li class="nav-item"><a class="nav-link" href="#">가계부</a></li>
-						<li class="nav-item"><a class="nav-link" href="#">커뮤니티</a></li>
+						<li class="nav-item"><a class="nav-link" href="boardList">커뮤니티</a></li>
 						<li class="nav-item"><a class="nav-link" href="#">팁</a></li>
 						<li class="nav-item"><a class="nav-link" href="#"></a></li>
 						<li class="nav-item"><a class="nav-link" href="#">로그인</a></li>

@@ -1,4 +1,4 @@
-package com.keumbi.prj.border.web;
+package com.keumbi.prj.borad.web;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -8,13 +8,13 @@ public class BoardController {
 	
 	@RequestMapping("/boardList")
 	public String boardList() {
-		return "border/boardList";
+		return "board/boardList";
 		
 	}
 	
-	@RequestMapping("boardWriter")
+	@RequestMapping("/boardInsertForm")
 	public String boardWriter() {
-		return "board/boardWriter";	
+		return "board/boardInsertForm";	
 	
 	}
 }

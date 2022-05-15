@@ -74,24 +74,29 @@
 			<form method="post" name="search" action="#">
 				<table class="pull-right">																				
 					<tr>
-					
-					<td><select class="form-control" name="searchField">
+						<td>
+							<select class="form-control" name="searchField">
 								<option value="0">10페이지</option>
 								<option value="0">20페이지</option>
 								<option value="0">30페이지</option>
-						</select></td>	
+							</select>
+						</td>	
 																																			    			    
-						<td><select class="form-control2" name="searchField">						
+						<td>
+							<select class="form-control2" name="searchField">						
 								<option value="">제목</option>
 								<option value="0">내용</option>
 								<option value="0">제목 + 내용</option>
 								<option value="0">태그</option>
-						</select></td>
-						<td><input type="text" class="form-control3"
-							placeholder="검색어 입력" name="searchText" maxlength="100"></td>
-						<td><button type="submit" class="btn btn-success">검색</button></td>
+							</select>
+						</td>
+						<td>
+							<input type="text" class="form-control3" placeholder="검색어 입력" name="searchText" maxlength="100">
+						</td>
+						<td>
+							<button type="submit" class="btn btn-success">검색</button>
+						</td>
 					</tr>
-
 				</table>
 			</form>
 		</div>
@@ -114,18 +119,20 @@
 					</tr>
 				</thead>
 				<tbody>
-					<tr>
-						<!-- 테스트 코드 -->
-						<td>1</td>
-						<td>안녕하세요</td>
-						<td>22/05/13</td>
-						<td>홍길동</td>
-						<td>0</td>
-					</tr>
+					<c:forEach var="i" begin="1" end="10">
+						<tr>
+							<!-- 테스트 코드 -->
+							<td>${i}</td>
+							<td>안녕하세요</td>
+							<td>22/05/13</td>
+							<td>홍길동</td>
+							<td>${i*100}</td>
+						</tr>
+					</c:forEach>
 				</tbody>
 			</table>
 			<!-- 글쓰기 버튼 생성 -->
-			<a href="borderList/borderWriter" class="btn btn-primary">게시글 작성</a>								
+			<a href="boardInsertForm" class="btn btn-primary">게시글 작성</a>								
 		</div>
 		
 		<br>
@@ -135,7 +142,7 @@
         
         
         <div class="num">
-        	<span>${(empty param.p)? 1 : param.p }</span> /  pages &nbsp&nbsp
+        	<span>${(empty param.p)? 1 : param.p }</span> /  pages &nbsp;&nbsp;
         	
             <c:set var = "page" value = "${(param.p==null)? 1: param.p}"/>
             <c:set var ="startNum" value = "${page-(page-1)%5}"/>    

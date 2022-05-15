@@ -26,7 +26,7 @@ public class PrdAPI {
 		
 		String reqURL = "http://finlife.fss.or.kr/finlifeapi/depositProductsSearch.json";
 		String param = "auth=" + auth;
-		param += "&topFinGrpNo=020000";			// 금융사가 속한 권역코드
+		param += "&topFinGrpNo=020000";			// 금융사가 속한 권역코드(은행)
 		param += "&pageNo=1";
 		
 		RestTemplate restTemplate = new RestTemplate();
