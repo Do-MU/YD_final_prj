@@ -1,15 +1,15 @@
 package com.keumbi.prj.common;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 public class BankAuthorCommon {
-	AuthorizeVO avo = new AuthorizeVO();
 	
 	// 사용자 인증요청
 	@RequestMapping("/bankAuth")
-	public String bankAuth() throws Exception {
+	public String bankAuth(AuthorizeVO avo) throws Exception {
 		String reqUrl = "https://testapi.openbanking.or.kr/oauth/2.0/authorize";
 		String url = reqUrl
 			    +"?response_type=code"
@@ -22,15 +22,16 @@ public class BankAuthorCommon {
 		return "redirect:" + url;
 	}
 	
-	// 콜백함수로 인증코드가 들어오는 곳
+	// 사용자 인증을 받아 인증코드를 받는 CallBackUrl
+	// 			>> 인증코드를 통해 AccessToken을 받아와 DB에 저장한다.
 	@RequestMapping("/bankCallback")
-	public String bankCallback(String code) { // 넘어오는 파라미터와 같은 값을 받아야함
+	public String bankCallback(String code, Model model) { // 넘어오는 파라미터와 같은 값을 받아야함
 		// code로 토큰 발급
 		System.out.println("=====" + code);
-		BankAPI.getToken(code);
+		model.addAttribute("result", BankAPI.getToken(code));
+		model.addAttribute("code",code);
 		
-		return "";
-		
+		return "account/accountList";
 	}
 	
 }
