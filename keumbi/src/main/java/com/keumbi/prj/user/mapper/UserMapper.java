@@ -1,9 +1,8 @@
-package com.keumbi.prj.users.mapper;
+package com.keumbi.prj.user.mapper;
 
 import java.util.List;
 
-
-import com.keumbi.prj.users.vo.UserVO;
+import com.keumbi.prj.user.vo.UserVO;
 
 public interface UserMapper {
 	List<UserVO> userSelectList();
