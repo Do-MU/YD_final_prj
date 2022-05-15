@@ -3,6 +3,7 @@ package com.keumbi.prj.common;
 import java.util.HashMap;
 import java.util.Map;
 import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
@@ -17,6 +18,9 @@ public class BankAPI {
 		
 		//요청 파라미터		
 		Map<String, String> param = new HashMap<String, String>();
+		
+		HttpHeaders headers = new HttpHeaders();
+		headers.set("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
 		param.put("code", code);
 		//System.out.println(code);
 		param.put("client_id", avo.getClient_id());
@@ -24,7 +28,7 @@ public class BankAPI {
 		param.put("redirect_uri", avo.getRedirect_uri());
 		param.put("grant_type", "authorization_code");
 		
-		HttpEntity<Map<String, String>> request = new HttpEntity<Map<String,String>>(param);
+		HttpEntity<Map<String, String>> request = new HttpEntity<Map<String,String>>(param, headers);
 		ResponseEntity<Map> res = new RestTemplate().exchange(reqURL, HttpMethod.POST, request, Map.class);
 		
 		System.out.println("====" + res.getBody());
