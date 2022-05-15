@@ -7,7 +7,7 @@
 <meta charset="UTF-8">
 <title><tiles:getAsString name="title" /></title>
 <link rel="icon" href="${pageContext.request.contextPath}/resources/img/favicon.png" type="image/png">
-<title>MeetMe Personal</title>
+
 <!-- Bootstrap CSS -->
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/bootstrap.css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/vendors/linericon/style.css">

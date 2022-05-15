@@ -1,4 +1,4 @@
-package com.keumbi.prj.border.vo;
+package com.keumbi.prj.board.vo;
 
 import java.util.Date;
 
