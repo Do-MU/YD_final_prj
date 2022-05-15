@@ -1,4 +1,4 @@
-package com.keumbi.prj.users.vo;
+package com.keumbi.prj.user.vo;
 
 import lombok.Data;
 
