@@ -125,7 +125,7 @@
 				</tbody>
 			</table>
 			<!-- 글쓰기 버튼 생성 -->
-			<a href="borderList/borderWriter" class="btn btn-primary">게시글 작성</a>								
+			<a href="boardList/boardWriter" class="btn btn-primary">게시글 작성</a>								
 		</div>
 		
 		<br>

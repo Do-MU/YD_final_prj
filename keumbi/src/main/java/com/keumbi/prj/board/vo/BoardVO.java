@@ -1,4 +1,4 @@
-package com.keumbi.prj.border.vo;
+package com.keumbi.prj.board.vo;
 
 import java.util.Date;
 
@@ -11,7 +11,7 @@ import lombok.Data;
 @Data
 @AllArgsConstructor
 @Builder
-public class BorderVO {
+public class BoardVO {
 	private int bod_num;
 	private String user_id;
 	private String contents;
