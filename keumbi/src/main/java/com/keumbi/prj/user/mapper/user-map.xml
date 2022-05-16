@@ -10,11 +10,9 @@
 		SELECT	*
 		FROM	USERS
 		WHERE	ID = #{id}
-       	AND		PW = #{pw}
-	</select>
-	
-	<select id="userCheck" resultType="UserVO">
-
+		<if test="pw != null">
+       		AND		PW = #{pw}
+       	</if>
 	</select>
 	
 	<select id="userFind" resultType="UserVO">
@@ -24,15 +22,15 @@
 		AND		EMAIL = #{email}
 	</select>
 		
-	<insert id="userInsert" parameterType="int">
+	<insert id="userInsert" parameterType="UserVO">
 		INSERT INTO USERS ( ID, PW, NAME, BIRTH, GENDER_CODE, ADDR, PHONE, USER_CODE )
 	</insert>
 	
-	<update id="userUpdate" parameterType="int">
+	<update id="userUpdate" parameterType="UserVO">
 	
 	</update>
 	
-	<delete id="userDelete" parameterType="int">
+	<delete id="userDelete" parameterType="UserVO">
 	
 	</delete>
 	
