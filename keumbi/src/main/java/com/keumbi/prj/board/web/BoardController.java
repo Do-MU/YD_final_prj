@@ -1,4 +1,4 @@
-package com.keumbi.prj.borad.web;
+package com.keumbi.prj.board.web;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;

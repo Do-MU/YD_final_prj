@@ -1,5 +1,6 @@
 package com.keumbi.prj.common;
 
+
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
@@ -15,6 +16,7 @@ public class BankAPI {
 		AuthorizeVO avo = new AuthorizeVO();
 		
 		//요청 파라미터		
+
 		String param = "";
 		param += "code=" + code;
 		param += "&client_id=" + avo.getClient_id();
