@@ -1,5 +1,6 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+
 <header class="header_area">
 	<div class="main_menu">
 		<nav class="navbar navbar-expand-lg navbar-light">
@@ -14,24 +15,39 @@
 				<!-- Collect the nav links, forms, and other content for toggling -->
 				<div class="collapse navbar-collapse offset" id="navbarSupportedContent">
 					<ul class="nav navbar-nav menu_nav ml-auto">
-						<li class="nav-item active"><a class="nav-link" href="index.html">Home</a></li> 
-						<li class="nav-item"><a class="nav-link" href="about-us.html">About</a></li> 
-						<li class="nav-item"><a class="nav-link" href="services.html">Services</a></li> 
 						<li class="nav-item submenu dropdown">
-							<a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Pages</a>
+							<a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">계좌</a>
 							<ul class="dropdown-menu">
-								<li class="nav-item"><a class="nav-link" href="portfolio.html">Portfolio</a></li>
-								<li class="nav-item"><a class="nav-link" href="elements.html">Elements</a></li>
+								<li class="nav-item"><a class="nav-link" href="#">내 계좌 목록</a></li>
+								<li class="nav-item"><a class="nav-link" href="#">송금</a></li>
+								<li class="nav-item"><a class="nav-link" href="#">상품추천</a></li>
 							</ul>
-						</li> 
+						</li>
 						<li class="nav-item submenu dropdown">
-							<a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Blog</a>
+							<a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">카드</a>
 							<ul class="dropdown-menu">
-								<li class="nav-item"><a class="nav-link" href="blog.html">Blog</a></li>
-								<li class="nav-item"><a class="nav-link" href="single-blog.html">Blog Details</a></li>
+								<li class="nav-item"><a class="nav-link" href="#">내 카드 목록</a></li>
+								<li class="nav-item"><a class="nav-link" href="#">상품추천</a></li>
 							</ul>
-						</li> 
-						<li class="nav-item"><a class="nav-link" href="teamKeumbi">Team Keumbi</a></li>
+						</li>
+						<li class="nav-item submenu dropdown">
+							<a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">대출</a>
+							<ul class="dropdown-menu">
+								<li class="nav-item"><a class="nav-link" href="#">상품추천</a></li>
+							</ul>
+						</li>
+						<li class="nav-item"><a class="nav-link" href="#">가계부</a></li>
+						<li class="nav-item"><a class="nav-link" href="boardList">커뮤니티</a></li>
+						<li class="nav-item"><a class="nav-link" href="#">팁</a></li>
+						<li class="nav-item"><a class="nav-link" href="#"></a></li>
+						<c:if test="${empty loginUser}">
+							<li class="nav-item"><a class="nav-link" href="userLoginForm">로그인</a></li>
+						</c:if>
+							
+						<c:if test="${not empty loginUser}">
+							<li class="nav-item"><a class="nav-link" href="#">${loginUser.name} 님</a></li>
+							<li class="nav-item"><a class="nav-link" href="userLoginForm">로그아웃</a></li>
+						</c:if>
 					</ul>
 				</div> 
 			</div>

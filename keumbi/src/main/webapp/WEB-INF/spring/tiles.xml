@@ -1,17 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE tiles-definitions PUBLIC
-       "-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN"
-       "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
+<!DOCTYPE tiles-definitions PUBLIC "-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN" "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
+
 <tiles-definitions>
-	<definition name="myapp.homepage" template="/WEB-INF/views/layouts/layout.jsp">
+
+	<!-- ADMIN PAGE -->
+	<definition name="admin_page" template="/WEB-INF/views/layouts/adminLayout.jsp">
+		<put-attribute name="title" value="금비_관리자모드"/>
+		<put-attribute name="header" value="/WEB-INF/views/layouts/adminHeader.jsp"/>
+		<put-attribute name="body" value=""/>
+	</definition>
+
+	<definition name="admin/*" extends="admin_page">
+		<put-attribute name="body" value="/WEB-INF/views/admin/{1}.jsp" />
+	</definition>
+	
+	
+	<definition name="default" template="/WEB-INF/views/layouts/layout.jsp">
 		<put-attribute name="title" value="금비"/>
 		<put-attribute name="header" value="/WEB-INF/views/layouts/header.jsp"/>
 		<put-attribute name="body" value=""/>
 		<put-attribute name="footer" value="/WEB-INF/views/layouts/footer.jsp"/>
 	</definition>
 
-	<definition name="*/*" extends="myapp.homepage">
-		<put-attribute name="body"
-			value="/WEB-INF/views/{1}/{2}.jsp" />
+	<definition name="*/*" extends="default">
+		<put-attribute name="body" value="/WEB-INF/views/{1}/{2}.jsp" />
 	</definition>
 </tiles-definitions>
