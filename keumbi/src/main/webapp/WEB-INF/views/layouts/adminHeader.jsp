@@ -9,7 +9,7 @@
 </style>
 
 <nav class="navbar navbar-dark bg-primary">
-	<a class="navbar-brand" href="home">
+	<a class="navbar-brand" href="${pageContext.request.contextPath}/home">
 		<img src="${pageContext.request.contextPath}/resources/img/favicon.png" width="40" height="40">
 		<span id="main_logo">KEUMBI</span>
 	</a>
