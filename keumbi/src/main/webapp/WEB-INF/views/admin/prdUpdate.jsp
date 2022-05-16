@@ -34,4 +34,20 @@
 			alert(str);
 		});
 	});
+	
+	$("#saving").on('click', function(){
+		$.ajax({
+			url : "savUpdate"
+		}).done(function(str){
+			alert(str);
+		});
+	});
+	
+	$("#loan").on('click', function(){
+		$.ajax({
+			url : "loanUpdate"
+		}).done(function(str){
+			alert(str);
+		});
+	});
 </script>
