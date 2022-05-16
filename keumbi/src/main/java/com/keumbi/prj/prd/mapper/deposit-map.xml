@@ -36,4 +36,9 @@
 	<delete id="deleteAllDepOpt">
 		DELETE FROM PRD_DEP_OPTIONS
 	</delete>
+	
+	<select id="allDeposit" resultType="DepositVO">
+		SELECT *
+		FROM PRD_DEP_BASES
+	</select>
 </mapper>

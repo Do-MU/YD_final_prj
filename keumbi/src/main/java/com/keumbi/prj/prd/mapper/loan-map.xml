@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.keumbi.prj.prd.mapper.LoanMapper">
+	<insert id="insertLoanBase" parameterType="LoanBaseVO">
+		<selectKey keyProperty="loan_id" resultType="int" order="BEFORE">
+			SELECT 	NVL(MAX(LOAN_ID),0)+1
+			FROM 	PRD_LOAN_BASES
+		</selectKey>
+		INSERT INTO PRD_LOAN_BASES (loan_id, dcls_month, fin_co_no, fin_prdt_cd, crdt_prdt_type, kor_co_nm, 
+									fin_prdt_nm, join_way, cb_name, crdt_prdt_type_nm)
+		
+		VALUES (#{loan_id}, #{dcls_month}, #{fin_co_no}, #{fin_prdt_cd}, #{crdt_prdt_type}, #{kor_co_nm},
+				#{fin_prdt_nm}, #{join_way}, #{cb_name}, #{crdt_prdt_type_nm})
+	</insert>
+	
+	<insert id="insertLoanOpt" parameterType="LoanOptionVO">
+		<selectKey keyProperty="loan_id" resultType="int" order="BEFORE">
+			SELECT LOAN_ID
+			FROM PRD_LOAN_BASES
+			WHERE DCLS_MONTH = #{dcls_month}
+			AND FIN_CO_NO = #{fin_co_no}
+			AND FIN_PRDT_CD = #{fin_prdt_cd}
+			AND CRDT_PRDT_TYPE = #{crdt_prdt_type}
+		</selectKey>
+		INSERT INTO PRD_LOAN_OPTIONS (LOAN_ID, CRDT_LEND_RATE_TYPE, CRDT_LEND_RATE_TYPE_NM, CRDT_GRAD_1, CRDT_GRAD_4,
+									  CRDT_GRAD_5, CRDT_GRAD_6, CRDT_GRAD_10, CRDT_GRAD_11, CRDT_GRAD_12, CRDT_GRAD_13, CRDT_GRAD_AVG, CRDT_PRDT_TYPE)
+				
+		VALUES (#{loan_id}, #{crdt_lend_rate_type}, #{crdt_lend_rate_type_nm}, #{crdt_grad_1}, #{crdt_grad_4},
+				#{crdt_grad_5}, #{crdt_grad_6}, #{crdt_grad_10}, #{crdt_grad_11}, #{crdt_grad_12}, #{crdt_grad_13}, #{crdt_grad_avg}, #{crdt_prdt_type})
+	</insert>
+	
+	<delete id="deleteAllLoanBase">
+		DELETE FROM PRD_LOAN_BASES
+	</delete>
+	
+	<delete id="deleteAllLoanOpt">
+		DELETE FROM PRD_LOAN_OPTIONS
+	</delete>
+</mapper>

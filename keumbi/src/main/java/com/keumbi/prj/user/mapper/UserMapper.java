@@ -11,4 +11,8 @@ public interface UserMapper {
 	int userInsert(UserVO vo);
 	int userUpdate(UserVO vo);
 	int userDelete(UserVO vo);
+	
+	// 토큰 저장
+	int selectToken(UserVO vo);
+	int UpdateToken(UserVO vo);
 }

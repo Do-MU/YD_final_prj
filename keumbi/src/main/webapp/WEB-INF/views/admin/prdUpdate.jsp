@@ -1,12 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<!DOCTYPE html>
 
 <script src="http://code.jquery.com/jquery-3.6.0.js"></script>
 
 <style>
-#btn_cont {
-	margin: auto;
+.container {
+	text-align:center;
 }
 
 #btn_cont>button {
@@ -30,6 +29,22 @@
 	$("#deposit").on('click', function(){
 		$.ajax({
 			url : "depUpdate"
+		}).done(function(str){
+			alert(str);
+		});
+	});
+	
+	$("#saving").on('click', function(){
+		$.ajax({
+			url : "savUpdate"
+		}).done(function(str){
+			alert(str);
+		});
+	});
+	
+	$("#loan").on('click', function(){
+		$.ajax({
+			url : "loanUpdate"
 		}).done(function(str){
 			alert(str);
 		});

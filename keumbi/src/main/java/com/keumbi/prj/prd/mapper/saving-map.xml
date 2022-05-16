@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.keumbi.prj.prd.mapper.SavingMapper">
+
+	<insert id="insertSavBase" parameterType="SavingBaseVO">
+		<selectKey keyProperty="sav_id" resultType="int" order="BEFORE">
+			SELECT 	NVL(MAX(SAV_ID),0)+1
+			FROM 	PRD_SAV_BASES
+		</selectKey>
+		INSERT INTO PRD_SAV_BASES (SAV_ID, DCLS_MONTH, FIN_CO_NO, FIN_PRDT_CD, KOR_CO_NM,
+								   FIN_PRDT_NM, JOIN_WAY, MTRT_INT, SPCL_CND, JOIN_DENY, 
+								   JOIN_MEMBER, ETC_NOTE, MAX_LIMIT)
+									
+		VALUES (#{sav_id}, #{dcls_month}, #{fin_co_no}, #{fin_prdt_cd}, #{kor_co_nm},
+				#{fin_prdt_nm}, #{join_way}, #{mtrt_int}, #{spcl_cnd}, #{join_deny}, 
+				#{join_member}, #{etc_note}, #{max_limit})
+	</insert>
+	
+	<insert id="insertSavOpt" parameterType="SavingOptionVO">
+		<selectKey keyProperty="sav_id" resultType="int" order="BEFORE">
+			SELECT 	SAV_ID
+			FROM 	PRD_SAV_BASES
+			WHERE 	DCLS_MONTH = #{dcls_month}
+			AND 	FIN_CO_NO = #{fin_co_no}
+			AND 	FIN_PRDT_CD = #{fin_prdt_cd}
+		</selectKey>
+		INSERT INTO PRD_SAV_OPTIONS (SAV_ID, INTR_RATE_TYPE, INTR_RATE_TYPE_NM, RSRV_TYPE, RSRV_TYPE_NM, 
+								     SAVE_TRM, INTR_RATE, INTR_RATE2)
+		VALUES (#{sav_id}, #{intr_rate_type}, #{intr_rate_type_nm}, #{rsrv_type}, #{rsrv_type_nm}, 
+				#{save_trm}, #{intr_rate}, #{intr_rate2})
+	</insert>
+	
+	<delete id="deleteAllSavBase">
+		DELETE FROM PRD_SAV_BASES
+	</delete>
+	
+	<delete id="deleteAllSavOpt">
+		DELETE FROM PRD_SAV_OPTIONS
+	</delete>
+</mapper>
