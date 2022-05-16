@@ -12,9 +12,9 @@ public class BoardController {
 		
 	}
 	
-	@RequestMapping("boardList/boardWriter")
+	@RequestMapping("/boardInsertForm")
 	public String boardWriter() {
-		return "board/boardWriter";	
+		return "board/boardInsertForm";	
 	
 	}
 }

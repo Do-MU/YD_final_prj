@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.keumbi.prj.prd.mapper.DepositMapper">
+
+	<insert id="insertDepBase" parameterType="DepositBaseVO">
+		<selectKey keyProperty="dep_id" resultType="int" order="BEFORE">
+			SELECT 	NVL(MAX(DEP_ID),0)+1
+			FROM 	PRD_DEP_BASES
+		</selectKey>
+		INSERT 	INTO PRD_DEP_BASES ( DEP_ID, DCLS_MONTH, FIN_CO_NO, FIN_PRDT_CD, 
+									 KOR_CO_NM, FIN_PRDT_NM, JOIN_WAY, MTRT_INT,
+									 SPCL_CND, JOIN_DENY, JOIN_MEMBER, ETC_NOTE, MAX_LIMIT )
+		VALUES	( #{dep_id}, #{dcls_month}, #{fin_co_no}, #{fin_prdt_cd}, 
+				  #{kor_co_nm}, #{fin_prdt_nm}, #{join_way}, #{mtrt_int},
+				  #{spcl_cnd}, #{join_deny}, #{join_member}, #{etc_note}, #{max_limit} )
+	</insert>
+	
+	<insert id="insertDepOpt" parameterType="DepositOptionVO">
+		<selectKey keyProperty="dep_id" resultType="int" order="BEFORE">
+			SELECT 	DEP_ID
+			FROM 	PRD_DEP_BASES
+			WHERE 	DCLS_MONTH = #{dcls_month}
+			AND 	FIN_CO_NO = #{fin_co_no}
+			AND 	FIN_PRDT_CD = #{fin_prdt_cd}
+		</selectKey>
+		INSERT	INTO PRD_DEP_OPTIONS ( DEP_ID, INTR_RATE_TYPE, INTR_RATE_TYPE_NM, 
+									   SAVE_TRM, INTR_RATE, INTR_RATE2 )
+		VALUES	( #{dep_id}, #{intr_rate_type}, #{intr_rate_type_nm}, 
+				  #{save_trm}, #{intr_rate}, #{intr_rate2} )
+	</insert>
+	
+	<delete id="deleteAllDepBase">
+		DELETE FROM PRD_DEP_BASES
+	</delete>
+	
+	<delete id="deleteAllDepOpt">
+		DELETE FROM PRD_DEP_OPTIONS
+	</delete>
+</mapper>

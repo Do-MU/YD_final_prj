@@ -4,6 +4,10 @@
 
 <script src="http://code.jquery.com/jquery-3.6.0.js"></script>
 
+<style>
+	.container>div>h1{margin-bottom: 50px;}
+</style>
+
 <section class="banner_area">
 	<div class="box_1620">
 		<div class="banner_inner d-flex align-items-center">
