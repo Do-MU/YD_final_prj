@@ -3,35 +3,20 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset='utf-8'>
-<meta http-equiv='X-UA-Compatible' content='IE=edge'>
-<title>Page Title</title>
-<meta name='viewport' content='width=device-width, initial-scale=1'>
+<meta charset="UTF-8">
+<title>Insert title here</title>
 
 <style>
 .banner_area_login {
-	position: relative;
-	z-index: 1;
-	min-height: 120px;
-	background-image: -moz-linear-gradient(0deg, #766dff 0%, #88f3ff 100%);
-	background-image: -webkit-linear-gradient(0deg, #766dff 0%, #88f3ff 100%);
-	background-image: -ms-linear-gradient(0deg, #766dff 0%, #88f3ff 100%);
-	margin-bottom: 80px;
-}
-
-* {
-	text-align: center;
-}
-
-#editor {
-	border: 1px solid;
-	width: 50%;
-	margin: 0 auto;
-}
+   position: relative;
+   z-index: 1;
+   min-height: 120px;
+   background-image: -moz-linear-gradient(0deg, #766dff 0%, #88f3ff 100%);
+   background-image: -webkit-linear-gradient(0deg, #766dff 0%, #88f3ff 100%);
+   background-image: -ms-linear-gradient(0deg, #766dff 0%, #88f3ff 100%);
+   margin-bottom: 80px;
+   }
 </style>
-
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.48.4/codemirror.min.css"/>
-<link rel="stylesheet" href="https://uicdn.toast.com/editor/latest/toastui-editor.min.css" />
 
 </head>
 <body>
