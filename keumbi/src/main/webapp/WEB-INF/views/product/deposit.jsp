@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -18,22 +19,31 @@
 			</div>
 		</div>
 	</section>
-	
-	<table>
-		<tr>
-			<td>우리은행</td>
-		</tr>
-		<tr>
-			<td>정기예금</td>
-		</tr>
-		<tr>
-			<td style="color: red">최고 연2.21%</td>
-		</tr>
-		<tr>
-			<td>인터넷|스마트폰|영업점</td>
-			<td>가입하러가기</td>
-			<td>상세보기</td>
-		</tr>
-	</table>
+	<c:forEach var="pd" items="${prdDepositList}">
+		<div id="bankName">${pd.kor_co_nm}</div>
+		<div id="depName">${pd.fin_prdt_nm}</div>
+		<div id="group" style="border-bottom: 1px solid; display: inline-block;">
+			${pd.join_way }
+			<input type="button" class="btn btn-join" value="가입하기">
+			<input type="button" class="btn btn-insert" onclick="openDiv()" value="상세보기">
+		</div>
+		
+		<c:forEach var="optpd" items="${prdDepositOpt}" varStatus="status">
+			<c:if test="${pd.dep_id eq optpd.dep_id }">
+				<div id="open_div">
+					<div>${pd.join_member}</div>
+					<div>${pd.spcl_cnd}</div>
+					<div>${optpd.intr_rate_type_nm}</div>
+					<div>${optpd.save_trm}</div>
+					<br>
+				</div>
+			</c:if> 
+		</c:forEach>
+	</c:forEach>
+	 <script>
+	 	function openDiv(){
+	 		document.getElementById('open_div').style.display = "block";
+	 	}
+	 </script>
 </body>
 </html>
