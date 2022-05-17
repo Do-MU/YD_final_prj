@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.keumbi.prj.account.mapper.AccountMapper">
+	
+	<select id="selectAll" resultType="AccountVO">
+		SELECT	FINTECH_USE_NUM, ACCOUNT_NUM_MASKED, ACCOUNT_ALIAS, BANK_NAME
+		FROM 	ACCOUNTS
+		WHERE 	USER_ID = #{id};
+	</select>
+	
+	<select id="selectOne"></select>
+	
+	<insert id="insertAccount" parameterType="AccountVO">
+		INSERT INTO ACCOUNTS ( FINTECH_USE_NUM, USER_ID, ACCOUNT_NUM_MASKED, ACCOUNT_ALIAS, BANK_CODE_STD, BANK_NAME )
+		VALUES ( #{fintech_use_num}, #{user_id}, #{account_num_masked}, #{account_alias}, #{bank_code_std}, #{bank_name} )
+	</insert>
+	
+	<update id="updateAccount"></update>
+	
+	<delete id="deleteAccount"></delete>
+</mapper>

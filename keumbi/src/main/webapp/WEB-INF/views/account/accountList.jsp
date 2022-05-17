@@ -16,7 +16,7 @@
 		<div class="banner_inner d-flex align-items-center">
 			<div class="container">
 				<div class="banner_content text-center">
-					<a onclick="getAuth">인증하러가기</a> <br/>
+					<a href="bankAuth">인증하러가기</a> <br/>
 					<button onclick="getAccount()">계좌목록불러오기</button>
 				</div>
 			</div>
@@ -26,14 +26,24 @@
 <section class="contact_area p_120">
 	<div class="container">
 		<div align="center">
-			<div id="list">
-				
+			<div>
+				<h1>계좌목록조회</h1>
+				<table id="list">
+<!-- 					<tr> -->
+<!-- 						<td>국민은행(입출금통장)</td> -->
+<!-- 						<td colspan="4"></td> -->
+<!-- 					</tr> -->
+<!-- 					<tr> -->
+<!-- 						<td colspan="2">010010010010</td> -->
+<!-- 						<td>잔액 500,000</td> -->
+<!-- 						<td><button>거래내역</button></td> -->
+<!-- 						<td><button>이체</button></td> -->
+<!-- 					</tr> -->
+				</table>
 			</div>
 		</div>
 	</div>
-</section>	
-	
-
+</section>
 
 <script type="text/javascript">
 	// 사용자 인증 버튼
@@ -41,8 +51,7 @@
 		$.ajax({
 			url : "bankAuth"
 		})
-		.done(function(datas){
-			
+		.done(function(datas){			
 		})
 	}
 	
@@ -53,15 +62,20 @@
 		})
 		.done(function(datas){
 			console.log(datas)
+			
+			let list = $("#list");
 			for(data of datas){
-				$("<div>").addClass("acc").data("usenum", data.fintechUseNum)
-				.append($("<p>").html(data.fintechUseNum))
-				.append($("<span>").html(data.bankName))
-				.append($("<span id='realName'>").html(data.accountNumMasked))
-				.append($("<input>").val(data.accountAlias))
-				.append($("<button>").html("수정").addClass("btnAlias"))
-				.append($("<button>").html("거래내역").addClass("btnTrans"))
-				.appendTo("#list")
+				let table = `<tr>
+								<td>\${data.bank_name} (\${data.account_alias})</td>
+								<td colspan="4"></td>
+							</tr>
+							<tr>
+								<td colspan="2">\${data.account_num_masked}</td>
+								<td>잔액 500,000</td>
+								<td><button>거래내역</button></td>
+								<td><button>이체</button></td>
+							</tr>`;
+				list.append(table);
 			}
 		})
 	}
