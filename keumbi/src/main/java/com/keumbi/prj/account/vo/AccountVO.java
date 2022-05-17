@@ -4,7 +4,6 @@ import lombok.Data;
 
 @Data
 public class AccountVO {
-
 	private String fintech_use_num;
 	private String user_id;
 	private String account_num_masked;
@@ -15,5 +14,4 @@ public class AccountVO {
 	private int balance_amt;
 	private String product_name;
 	private int prd_id;
-	
 }

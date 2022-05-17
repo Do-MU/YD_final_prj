@@ -1,9 +1,9 @@
-package com.keumbi.prj.kb.mapper;
+package com.keumbi.prj.kb.service;
 
 import java.util.List;
 
 import com.keumbi.prj.kb.vo.KeumbiVO;
 
-public interface KeumbiMapper {
+public interface KeumbiService {
 	List<KeumbiVO> selectTeamMember();
 }

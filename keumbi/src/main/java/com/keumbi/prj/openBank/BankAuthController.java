@@ -12,13 +12,13 @@ import com.keumbi.prj.user.mapper.UserMapper;
 import com.keumbi.prj.user.vo.UserVO;
 
 @Controller
-public class BankAuthorController {
+public class BankAuthController {
 	
 	@Autowired UserMapper mapper;
 	
 	// 사용자 인증요청
 	@RequestMapping("/bankAuth")
-	public String bankAuth(AuthorizeVO avo) throws Exception {
+	public String bankAuth(AuthVO avo) throws Exception {
 		// 최초 사용자 인증 유무 -> ?
 		 
 		String reqUrl = "https://testapi.openbanking.or.kr/oauth/2.0/authorize";

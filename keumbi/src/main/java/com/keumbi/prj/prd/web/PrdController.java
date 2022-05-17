@@ -1,10 +1,7 @@
 package com.keumbi.prj.prd.web;
 
-import java.util.List;
-
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.tiles.template.AddListAttributeModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,9 +10,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.keumbi.prj.prd.mapper.DepositMapper;
 import com.keumbi.prj.prd.mapper.LoanMapper;
 import com.keumbi.prj.prd.mapper.SavingMapper;
+import com.keumbi.prj.prd.service.DepositService;
 import com.keumbi.prj.prd.vo.DepositBaseVO;
 import com.keumbi.prj.prd.vo.DepositOptionVO;
 import com.keumbi.prj.prd.vo.DepositVO;
@@ -29,9 +26,9 @@ import com.keumbi.prj.prd.vo.SavingVO;
 @Controller
 public class PrdController {
 	
-	@Autowired DepositMapper depm;
-	@Autowired SavingMapper savm;
-	@Autowired LoanMapper loam;
+	@Autowired DepositService dep;
+	@Autowired SavingMapper sav;
+	@Autowired LoanMapper loa;
 	
 	@RequestMapping("admin/prdUpdate")
 	public String prdUpdate() {
@@ -52,16 +49,16 @@ public class PrdController {
 		
 		DepositVO deposits = PrdAPI.getDepositList();
 		
-		depm.deleteAllDepOpt();
-		depm.deleteAllDepBase();
+		dep.deleteAllDepOpt();
+		dep.deleteAllDepBase();
 		
 		for(DepositBaseVO vo : deposits.getBaseList()) {
-			depm.insertDepBase(vo);
+			dep.insertDepBase(vo);
 			baseCnt++;
 		}
 		
 		for(DepositOptionVO vo : deposits.getOptionList()) {
-			depm.insertDepOpt(vo);
+			dep.insertDepOpt(vo);
 			optCnt++;
 		}
 		
@@ -80,16 +77,16 @@ public class PrdController {
 		
 		SavingVO saving = PrdAPI.getSavingList();
 		
-		savm.deleteAllSavOpt();
-		savm.deleteAllSavBase();
+		sav.deleteAllSavOpt();
+		sav.deleteAllSavBase();
 		
 		for(SavingBaseVO vo : saving.getBaseList()) {
-			savm.insertSavBase(vo);
+			sav.insertSavBase(vo);
 			baseCnt++;
 		}
 		
 		for(SavingOptionVO vo : saving.getOptionList()) {
-			savm.insertSavOpt(vo);
+			sav.insertSavOpt(vo);
 			optCnt++;
 		}
 		
@@ -108,16 +105,16 @@ public class PrdController {
 		
 		LoanVO loan = PrdAPI.getLoanList();
 		
-		loam.deleteAllLoanOpt();
-		loam.deleteAllLoanBase();
+		loa.deleteAllLoanOpt();
+		loa.deleteAllLoanBase();
 		
 		for(LoanBaseVO vo : loan.getBaseList()) {
-			loam.insertLoanBase(vo);
+			loa.insertLoanBase(vo);
 			baseCnt++;
 		}
 		
 		for(LoanOptionVO vo : loan.getOptionList()) {
-			loam.insertLoanOpt(vo);
+			loa.insertLoanOpt(vo);
 			optCnt++;
 		}
 		
@@ -129,8 +126,8 @@ public class PrdController {
 	
 	@RequestMapping("/prdDepositList")
 	public String prdDepositList(Model model) {
-		model.addAttribute("prdDepositList", depm.allDeposit());
-		model.addAttribute("prdDepositOpt", depm.allDepositOpt());
+		model.addAttribute("prdDepBase", dep.selectAllDepBase());
+		model.addAttribute("prdDepOpt", dep.selectAllDepOpt());
 		
 		return "product/deposit";
 	}

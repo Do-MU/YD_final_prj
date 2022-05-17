@@ -6,15 +6,17 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.keumbi.prj.kb.mapper.KeumbiMapper;
+import com.keumbi.prj.kb.service.KeumbiService;
 
 @Controller
 public class KBController {
 
-	@Autowired KeumbiMapper mapper;
+	@Autowired KeumbiService svc;
 	
 	@RequestMapping("/teamKeumbi")
 	public String teamKeumbi(Model model) {
-		model.addAttribute("team", mapper.printTeamMember());
+		model.addAttribute("team", svc.selectTeamMember());
+		
 		return "kb/teamKeumbi";
 	}
 }

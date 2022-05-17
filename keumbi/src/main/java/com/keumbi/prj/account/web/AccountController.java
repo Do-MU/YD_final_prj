@@ -1,6 +1,5 @@
 package com.keumbi.prj.account.web;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -11,14 +10,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.keumbi.prj.account.mapper.AccountMapper;
+import com.keumbi.prj.account.service.AccountService;
 import com.keumbi.prj.account.vo.AccountVO;
 import com.keumbi.prj.openBank.BankAPI;
 import com.keumbi.prj.user.vo.UserVO;
 
 @Controller
 public class AccountController {
-	@Autowired AccountMapper mapper;
+	
+	@Autowired AccountService service;
 	
 	ObjectMapper om = new ObjectMapper();
 
@@ -40,9 +40,9 @@ public class AccountController {
 		//System.out.println("balres : " + balres);
 		
 		for(AccountVO i : listRes) {
-			mapper.insertAccount(i);
+			service.insertAccount(i);
 		}
 		
-		return mapper.selectAll();
+		return service.selectAll();
 	}
 }
