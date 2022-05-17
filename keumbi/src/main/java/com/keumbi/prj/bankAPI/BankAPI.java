@@ -1,5 +1,4 @@
-package com.keumbi.prj.common;
-
+package com.keumbi.prj.bankAPI;
 
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -11,6 +10,7 @@ import org.springframework.web.client.RestTemplate;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.keumbi.prj.authorize.AuthorizeVO;
 import com.keumbi.prj.user.vo.UserVO;
 
 public class BankAPI {
@@ -44,15 +44,21 @@ public class BankAPI {
 	}
 	
 	// 계좌목록조회
-	public static JsonNode getAccountList(UserVO uvo) {
+	public static JsonNode getAccountList(UserVO vo) {
 		String reqURL = "https://testapi.openbanking.or.kr/v2.0/account/list";
+		String seq = "1101005846";
+		String acc = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiIxMTAxMDA1ODQ2Iiwic2NvcGUiOlsiaW5xdWlyeSIsImxvZ2luIiwidHJhbnNmZXIiXSwiaXNzIjoiaHR0cHM6Ly93d3cub3BlbmJhbmtpbmcub3Iua3IiLCJleHAiOjE2NjA0NzY1MjYsImp0aSI6Ijg0YmVlY2E2LTQxOGItNGY3ZS04MTZjLTczYjJlMGQ1NGI3NSJ9.U68_BrWJgVLKwcza5Z3mnmm6-sJgJcWZ8Oa68JuwuKE";
+		//System.out.println(vo.getUser_seq_num());
+		//System.out.println(vo.getAccess_token());
 		
-		String param = "user_seq_no=" + uvo.getUser_seq_num();
+		
+		String param = "";
+		param += "user_seq_no=" + seq;
 		param += "&include_cancel_yn=Y";
 		param += "&sort_order=A";
 		
 		HttpHeaders headers = new HttpHeaders();
-		headers.set("Authorization","Bearer " + "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiIxMTAxMDA1ODQ2Iiwic2NvcGUiOlsiaW5xdWlyeSIsImxvZ2luIiwidHJhbnNmZXIiXSwiaXNzIjoiaHR0cHM6Ly93d3cub3BlbmJhbmtpbmcub3Iua3IiLCJleHAiOjE2NjA0NjQ2NjIsImp0aSI6IjMwZWRlYzE5LTY5N2UtNDBiOC04YjAxLTY5MTA3MGEzODE3MCJ9.Ylh52DBlp96UJyLeAeqykSfz7TRKA8W8cskYXr47Dt8");
+		headers.set("Authorization","Bearer " + acc);
 		
 		HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<MultiValueMap<String, String>>(null, headers);
 		
@@ -72,7 +78,6 @@ public class BankAPI {
 		System.out.println("jsonVal : " + jsonVal);
 		
 		return jsonVal;
+		
 	}
-	
-	// 
 }

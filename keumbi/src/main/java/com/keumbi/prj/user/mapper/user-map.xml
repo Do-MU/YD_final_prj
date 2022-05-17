@@ -37,4 +37,13 @@
 	<delete id="userDelete" parameterType="UserVO">
 	
 	</delete>
+	
+	<select id="selectToken"></select>
+	
+	<update id="UpdateToken" parameterType="UserVO">
+		UPDATE USERS
+		SET USER_SEQ_NUM = #{user_seq_num}, ACCESS_TOKEN = #{access_token}, REFRESH_TOKEN = #{refresh_token}
+		WHERE ID = #{id}
+		
+	</update>
 </mapper>

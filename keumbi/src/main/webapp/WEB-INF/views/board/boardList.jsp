@@ -20,31 +20,20 @@
  .btn {
  	text-align: center;
  	width:150px;
- 	align: right;
+ 	
  }
- 
- .pull-right {
- 	position: absolute;
- 	right: 365px;
- }
- 
- .form-control {
- 	right: 640px;
- }
- 
+   
  .btn-primary {
- 	position: absolute;
  	right: 365px;
- 	margin-top:150px
+ 	margin-top:10px;
+ 	float : right;
  }
  
  .form-control3 {
- 	height:40px;
+    width : 220px;
+ 	height : 38px;
  }
- 
- .btn-success {
- 	height:42px;
- }
+
    
 </style>
 
@@ -70,18 +59,15 @@
     <br>
 					
 	<div class="container">
-		<div class="row">
-			<form method="post" name="search" action="#">
-				<table class="pull-right">																				
-					<tr>
-						<td>
-							<select class="form-control" name="searchField">
+							<select class="form-control" name="searchField" style="float: left;">
 								<option value="0">10페이지</option>
 								<option value="0">20페이지</option>
 								<option value="0">30페이지</option>
 							</select>
-						</td>	
-																																			    			    
+		<div class="row" style="float: right;">
+			<form method="post" name="search" action="#">
+				<table class="pull-right">																				
+					<tr>																																		    			    
 						<td>
 							<select class="form-control2" name="searchField">						
 								<option value="">제목</option>
@@ -131,9 +117,9 @@
 					</c:forEach>
 				</tbody>
 			</table>
+		</div>
 			<!-- 글쓰기 버튼 생성 -->
 			<a href="boardInsertForm" class="btn btn-primary">게시글 작성</a>								
-		</div>
 		
 		<br>
         <br>

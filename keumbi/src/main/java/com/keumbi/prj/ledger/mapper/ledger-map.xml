@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.keumbi.prj.ledger.mapper.LedgerMapper">
+
+<select id="totalTrans" resultType="LedgerVO">  
+	select sum(amt) as title, to_char(tdate, 'yyyy-MM-dd') as "start", 
+			case when io_code='I1' then 'out' 
+			else 'in' 
+			end as "className"
+	from  total_trans
+	<!-- where user_id =  -->
+	group by tdate, io_code
+	order by tdate
+</select>
+
+</mapper>  
