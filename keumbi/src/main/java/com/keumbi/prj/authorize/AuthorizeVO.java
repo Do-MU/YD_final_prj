@@ -1,4 +1,4 @@
-package com.keumbi.prj.common;
+package com.keumbi.prj.authorize;
 
 import lombok.Data;
 
