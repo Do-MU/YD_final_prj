@@ -15,11 +15,15 @@
        	</if>
 	</select>
 	
-	<select id="userFind" resultType="UserVO">
+	<select id="userIdFind" resultType="UserVO">
 		SELECT	ID
 		FROM	USERS
 		WHERE	NAME = #{name}
 		AND		EMAIL = #{email}
+	</select>
+	
+	<select id="userPwFind" resultType="UserVO">
+		
 	</select>
 		
 	<insert id="userInsert" parameterType="UserVO">
