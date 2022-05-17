@@ -33,14 +33,16 @@ public class AccountController {
 	@ResponseBody
 	public List<AccountVO> accountList(HttpSession session) {
 		UserVO vo = (UserVO) session.getAttribute("loginUser");
+		String userId = vo.getId();
 		
 		List<AccountVO> listRes = BankAPI.getAccountList(vo);
 		System.out.println("listRes : " + listRes);
 		//JsonNode balres =  BankAPI.getBalance(vo);
 		//System.out.println("balres : " + balres);
 		
-		for(AccountVO i : listRes) {
-			service.insertAccount(i);
+		for(AccountVO accVO : listRes) {
+			accVO.setUser_id(userId);
+			service.insertAccount(accVO);
 		}
 		
 		return service.selectAll();

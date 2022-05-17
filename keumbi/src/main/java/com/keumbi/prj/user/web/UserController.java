@@ -15,16 +15,17 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.keumbi.prj.user.mapper.UserMapper;
+import com.keumbi.prj.user.service.UserService;
 import com.keumbi.prj.user.vo.UserVO;
 
 
 @Controller
 public class UserController {
-	@Autowired UserMapper mapper;
-	@Autowired
-    private JavaMailSender mailSender;
 	
+	@Autowired UserService service;
+	@Autowired private JavaMailSender mailSender;
+	
+	// 로그인 화면 출력
 	@RequestMapping("/userLoginForm")
 	public String userLoginForm(HttpSession session) {
 		if(session.getAttribute("loginUser") != null) {
@@ -33,9 +34,10 @@ public class UserController {
 		return "user/userLoginForm";
 	}
 	
+	// 로그인 처리
 	@RequestMapping("/userLogin")
 	public String userLogin(HttpSession session, UserVO userVO) {
-		UserVO loginUser = mapper.userSelect(userVO); 
+		UserVO loginUser = service.userSelect(userVO); 
 		
 		if(loginUser != null && loginUser.getPw().equals(userVO.getPw())) {
 			session.setAttribute("loginUser", loginUser);
@@ -45,16 +47,18 @@ public class UserController {
 		}		
 	}
 	
+	// 회원가입 화면 출력
 	@RequestMapping("/userJoinForm")
 	public String userJoinForm() {
 		
 		return "user/userJoinForm";
 	}
 	
+	// ID 중복체크
 	@RequestMapping(value="/idCheck", produces="application/text; charset=utf8")
 	@ResponseBody
 	public String idCheck(HttpServletResponse response, UserVO userVO) {
-		UserVO check = mapper.userSelect(userVO);
+		UserVO check = service.userSelect(userVO);
 		response.setContentType("text/html; charset=UTF-8");
 		if(check != null) {
 			return "이미 사용중인 아이디 입니다.";
@@ -63,7 +67,7 @@ public class UserController {
 		}
 	}
 	
-	/* 이메일 인증 */
+	// 이메일 인증
     @RequestMapping(value="/mailCheck", method=RequestMethod.GET)
     @ResponseBody
     public String mailCheckGET(String email) throws Exception{
@@ -106,13 +110,14 @@ public class UserController {
         return num;
     }
     
+    // 회원가입 처리
     @RequestMapping("/userJoin")
     public String userJoin(UserVO userVO,@RequestParam(required = false) String[] keyword) {
     	userVO.setGender_code("G"+ (Integer.parseInt(userVO.getGender_code())%2 == 0? "2":"1") );
-    	mapper.userInsert(userVO);
+    	service.userInsert(userVO);
     	if(keyword != null) {
     		for(String s : keyword) {
-    			mapper.userKwdInsert(userVO.getId(), s);
+    			service.userKwdInsert(userVO.getId(), s);
     		}    		
     	}
     
