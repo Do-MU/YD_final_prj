@@ -64,6 +64,9 @@
     	color : red;
 	}
 	
+	#addr{
+		display:none;
+	}
 </style>
 </head>
 <section class="banner_area">
@@ -71,13 +74,13 @@
 </section>
 
 <section class="Insert">
-    <form action="userJoin" name="userJoin" method="post">
+    <form action="userJoin" id="userJoin" name="userJoin" method="post">
     	<h1>금비 회원가입</h1>
         <table>
             <tr>
                 <td>아이디</td>
                 <td>
-                    <input type="text" id="id" name="id">
+                    <input type="text" id="id" name="id" required>
                     <input type="button" id="idCheck" value="아이디중복확인">
                 </td>
             </tr>
@@ -85,14 +88,14 @@
             <tr>
                 <td>비밀번호</td>
                 <td>
-                    <input type="password" id="password1" name="pw">
+                    <input type="password" id="password1" name="pw" required>
                 </td>
             </tr>
              
             <tr>
                 <td>비밀번호 확인</td>
                 <td>
-                    <input type="password" id="password2" name="pw">
+                    <input type="password" id="password2" required>
                 </td>
             </tr>
             <tr>
@@ -106,7 +109,7 @@
             <tr>
                 <td>이름</td>
                 <td>
-                    <input type="text" name="name">
+                    <input type="text" name="name" required>
                 </td>
             </tr>
                     
@@ -114,9 +117,9 @@
     	        <td>주민등록번호</td>
                 <td>
         	 	   <div>
-                   	   <input type="text" id="birth" name="birth" maxlength="6">
+                   	   <input type="text" id="birth" name="birth" maxlength="6" required>
                    	   <span>-</span>
-                       <input type="text" id="gender_code" name="gender_code" maxlength="1">
+                       <input type="text" id="gender_code" name="gender_code" maxlength="1" required>
                        <span>* * * * * *</span>
                     </div>
                 </td>
@@ -125,14 +128,14 @@
             <tr>
                 <td>이메일</td>
                 <td>
-                   <input class="mail_input" type="email" name="email" maxlength="30">
+                   <input class="mail_input" type="email" name="email" maxlength="30" required>
                    <input class="mail_check_btn" type="button" value="인증번호 전송"> 
                 </td>
             </tr>
             <tr>
             	<td>이메일 인증번호</td>
                 <td>
-                	<input class="mail_check_input" disabled="disabled" type="text" name="emailCheck">
+                	<input class="mail_check_input" disabled="disabled" type="text" name="emailCheck" maxlength="6">
                 	<input class="mail_check_btn_result" type="button" value="확인"><br>
                 	<label id="result" style="display:none"></label>
                 </td>
@@ -140,113 +143,115 @@
             <tr>
                 <td>전화번호</td>
                 <td>
-                    <input type="text" name="phone">
+                    <input type="text" name="phone" required>
                 </td>
             </tr>
             <tr>
                 <td>주소</td>
                 <td>
-                    <input type="text" id="addr_1" name="addr_1">
+                    <input type="text" id="addr_1" name="addr_1" required>
                     <input id="addrBtn" type="button" value="주소검색">
                 </td>
             </tr>
             <tr>
             	<td>상세주소</td>
             	<td>
-            		<input type="text" id="addr_2" name="addr_2">
+            		<input type="text" id="addr_2" name="addr_2" required>
+            		<input type="text" id="addr" name="addr">
             	</td>
             </tr>
             <tr>
             	<td>관심키워드</td>
             	<td>
             	    <table id="keyword">
+            	    
 	            		<tr>
 	            			<td>
-			            		<input type="checkbox">
+			            		<input type="checkbox" value="K001" name="keyword">
 			  					<label>차</label>
 			  				</td>
 			  				<td>
-			            		<input type="checkbox">
+			            		<input type="checkbox" value="K002" name="keyword">
 			  					<label>애완동물</label>
 			  				</td>
 			  				<td>
-			            		<input type="checkbox">
+			            		<input type="checkbox" value="K003" name="keyword">
 			  					<label>카페</label>
 			  				</td>
 			  				<td>
-			            		<input type="checkbox">
+			            		<input type="checkbox" value="K004" name="keyword">
 			  					<label>주식</label>
 			  				</td>
 			  			</tr>
 			  			<tr>
 							<td>
-			            		<input type="checkbox">
+			            		<input type="checkbox" value="K005" name="keyword">
 			  					<label>코인</label>
 			  				</td>
 			  				<td>
-			            		<input type="checkbox">
+			            		<input type="checkbox" value="K006" name="keyword">
 			  					<label>게임</label>
 			  				</td>
 			  				<td>
-			            		<input type="checkbox">
+			            		<input type="checkbox" value="K007" name="keyword">
 			  					<label>여행</label>
 			  				</td>
 			  				<td>
-			            		<input type="checkbox">
+			            		<input type="checkbox" value="K008" name="keyword">
 			  					<label>전자제품</label>
 			  				</td>
 			  			</tr>
 			  			<tr>
 			  				<td>
-			            		<input type="checkbox">
+			            		<input type="checkbox" value="K009" name="keyword">
 			  					<label>영화</label>
 			  				</td>
 			  				<td>
-			            		<input type="checkbox">
+			            		<input type="checkbox" value="K010" name="keyword">
 			  					<label>옷</label>
 			  				</td>
 			  				<td>
-			            		<input type="checkbox">
+			            		<input type="checkbox" value="K011" name="keyword">
 			  					<label>신발</label>
 			  				</td>
 			  				<td>
-			            		<input type="checkbox">
+			            		<input type="checkbox" value="K012" name="keyword">
 			  					<label>의약품</label>
 			  				</td>
 			  			</tr>
 			  			<tr>
 			  				<td>
-			            		<input type="checkbox">
+			            		<input type="checkbox" value="K013" name="keyword">
 			  					<label>SNS</label>
 			  				</td>
 			  				<td>
-			            		<input type="checkbox">
+			            		<input type="checkbox" value="K014" name="keyword">
 			  					<label>스포츠</label>
 			  				</td>
 			  				<td>
-			            		<input type="checkbox">
+			            		<input type="checkbox" value="K015" name="keyword">
 			  					<label>부동산</label>
 			  				</td>
 			  				<td>
-			            		<input type="checkbox">
+			            		<input type="checkbox" value="K016" name="keyword">
 			  					<label>문화생활</label>
 			  				</td>
 			  			</tr>	
 			  			<tr>
 			  				<td>
-			            		<input type="checkbox">
+			            		<input type="checkbox" value="K017" name="keyword">
 			  					<label>교육</label>
 			  				</td>
 			  				<td>
-			            		<input type="checkbox">
+			            		<input type="checkbox" value="K018" name="keyword">
 			  					<label>보험</label>
 			  				</td>
 			  				<td>
-			            		<input type="checkbox">
+			            		<input type="checkbox" value="K019" name="keyword">
 			  					<label>앤티크</label>
 			  				</td>
 			  				<td>
-			            		<input type="checkbox">
+			            		<input type="checkbox" value="K020" name="keyword">
 			  					<label>외식</label>
 			  				</td>
 			  			</tr>
@@ -273,13 +278,11 @@
         </table>
         <br>
 		<div id="btn_con">
-        	<input id="back" type="button" value="취소">  <input id="join" type="button" value="회원가입"/>
+        	<input id="back" type="button" value="취소">  <input type="button" id="join" value="회원가입"/>
 		</div>
     </form>
 </section>
 <script>
-	var code = "";                //이메일전송 인증번호 저장위한 코드
-
 	//비밀번호 확인
 	$(function(){ 
 		$("#success").hide();
@@ -329,7 +332,7 @@
 				alert(message);
 			}else{
 				$("#idCheck").attr("disabled", "disabled");
-				$("#id").attr("disabled", "disabled");
+				$("#id").attr("readonly", "readonly");
 				$("#password1").focus();
 				alert(message);
 			}
@@ -337,6 +340,7 @@
 	});
 	
 	//인증번호 메일 전송
+	var code = "";                //이메일전송 인증번호 저장위한 코드
 	$(".mail_check_btn").click(function(){
 		 var email = $(".mail_input").val();			// 입력한 이메일
 		 var cehckBox = $(".mail_check_input");        // 인증번호 입력란
@@ -345,7 +349,7 @@
 		        type:"GET",
 		        url:"mailCheck?email=" + email,
 		        success:function(data){
-		        	cehckBox.attr("disabled",false);
+		        	cehckBox.attr("disabled", false);
 		        	mailbtn.val("재전송");
 		        	code = data;
 		        }
@@ -365,11 +369,10 @@
 	    if(iCode == code){                            // 일치할 경우
 	    	checkResult.html("인증번호가 일치합니다.");
 	        checkResult.attr("class", "correct");
-	        inputCode.attr("disabled", "disabled");
+	        inputCode.attr("readonly", "readonly");
 	        codeBtn.attr("disabled", "disabled");
-	        resultCode.attr("disabled", "disabled");
+	        resultCode.attr("readonly", "readonly");
 	        resultBtn.attr("disabled", "disabled");
-	        
 	    } else {                                            // 일치하지 않을 경우
 	    	checkResult.html("인증번호를 다시 확인해주세요.");
 	        checkResult.attr("class", "incorrect");
@@ -394,16 +397,18 @@
 		history.back();
 	})
 	
+	
 	//회원가입버튼
 	$("#join").click(function(){
-		var idBtn = $("#idCheck").attr("disabled");
+		var idBtn = document.getElementById("idCheck").getAttribute("disabled");
 		var emailBtn = $(".mail_check_btn_result").attr("disabled");
-		var tCheck = $("#termsCheck").attr("disabled");
+		var tCheck = $("#termsCheck").prop('checked');
 		
-		if(idBtn == true){
-			if(emailBtn == true){
+		if(idBtn == 'disabled'){
+			if(emailBtn == 'disabled'){
 				if(tCheck == true){
-					document.getElementById("join").submit();
+					$("#addr").val($("#addr_1").val() + ', ' +$("#addr_2").val());  
+					document.getElementById("userJoin").submit();
 				}else{
 					alert("약관동의 체크를 해주세요.");
 				}
@@ -413,5 +418,6 @@
 		}else{
 			alert("아이디 중복체크를 해주세요.");
 		}
+		
 	})
 </script>
