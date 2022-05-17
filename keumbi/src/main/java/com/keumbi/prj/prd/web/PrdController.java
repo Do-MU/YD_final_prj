@@ -1,7 +1,10 @@
 package com.keumbi.prj.prd.web;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.tiles.template.AddListAttributeModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -125,8 +128,10 @@ public class PrdController {
 	}
 	
 	@RequestMapping("/prdDepositList")
-	public String prdDepositList(Model model, DepositVO depositVO) {
-		model.addAttribute("prdDepoistList", depm.allDeposit());
+	public String prdDepositList(Model model) {
+		model.addAttribute("prdDepositList", depm.allDeposit());
+		model.addAttribute("prdDepositOpt", depm.allDepositOpt());
+		
 		return "product/deposit";
 	}
 }
