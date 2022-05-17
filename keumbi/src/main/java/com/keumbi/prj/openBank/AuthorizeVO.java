@@ -1,4 +1,4 @@
-package com.keumbi.prj.authorize;
+package com.keumbi.prj.openBank;
 
 import lombok.Data;
 

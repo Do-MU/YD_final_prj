@@ -1,4 +1,4 @@
-package com.keumbi.prj.authorize;
+package com.keumbi.prj.openBank;
 
 
 import javax.servlet.http.HttpSession;
@@ -8,7 +8,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.keumbi.prj.bankAPI.BankAPI;
 import com.keumbi.prj.user.mapper.UserMapper;
 import com.keumbi.prj.user.vo.UserVO;
 
