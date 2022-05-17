@@ -1,10 +1,6 @@
 package com.keumbi.prj.common;
 
 
-
-
-import javax.servlet.http.HttpSession;
-
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -16,8 +12,6 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.keumbi.prj.user.vo.UserVO;
-
-
 
 public class BankAPI {
 	static ObjectMapper om = new ObjectMapper();
@@ -78,6 +72,7 @@ public class BankAPI {
 		System.out.println("jsonVal : " + jsonVal);
 		
 		return jsonVal;
-		
 	}
+	
+	// 
 }
