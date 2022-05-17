@@ -11,20 +11,20 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.keumbi.prj.ledger.mapper.LedgerMapper;
+import com.keumbi.prj.ledger.service.LedgerService;
 import com.keumbi.prj.ledger.vo.LedgerMonthVO;
 import com.keumbi.prj.ledger.vo.LedgerVO;
 
 @Controller
 public class LedgerController {
 
-	@Autowired
-	LedgerMapper mapper;
+	@Autowired LedgerService service;
 
 	//입출금액 데이터 호출
 	@RequestMapping("/totalTrans")
 	@ResponseBody
 	public List<LedgerMonthVO> totalTrans() {
-		return mapper.totalTrans();
+		return service.totalTrans();
 	}
 
 	//캘린더 월간 페이지 출력
@@ -37,15 +37,14 @@ public class LedgerController {
 	@RequestMapping("/dayView")
 	@ResponseBody
 	public List<LedgerVO> dayTrans(LedgerVO vo) {
-		return mapper.dayTrans(vo);
+		return service.dayTrans(vo);
 	}
 
 	//현금 입출금 내역 등록
 	@PostMapping("/cashInsert")
 	@ResponseBody
-	public LedgerVO cashInsert(LedgerVO vo) {
-		mapper.cashInsert(vo);
-		return vo;
+	public void cashInsert(LedgerVO vo) {
+		service.cashInsert(vo);
 	}
 
 }

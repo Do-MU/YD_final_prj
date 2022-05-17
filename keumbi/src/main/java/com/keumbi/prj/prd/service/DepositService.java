@@ -1,11 +1,11 @@
-package com.keumbi.prj.prd.mapper;
+package com.keumbi.prj.prd.service;
 
 import java.util.List;
 
 import com.keumbi.prj.prd.vo.DepositBaseVO;
 import com.keumbi.prj.prd.vo.DepositOptionVO;
 
-public interface DepositMapper {
+public interface DepositService {
 	List<DepositBaseVO> selectAllDepBase();
 	List<DepositOptionVO> selectAllDepOpt();
 	

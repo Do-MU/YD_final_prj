@@ -15,25 +15,26 @@ public class BoardController {
 	
 	@RequestMapping("/boardList")
 	public String boardList() {
-		return "board/boardList";
 		
+		return "board/boardList";
 	}
 	
 	@RequestMapping("/boardInsertForm")
 	public String boardInsert() {
-		return "board/boardInsertForm";	
-	
+		
+		return "board/boardInsertForm";
 	}
 	
 	@RequestMapping("/boardView")
 	public String boardView() {
-		return "board/boardView";
 		
+		return "board/boardView";
 	}
 
     @RequestMapping("/insertBoard")
     public String insertBoard(BoardVO vo) {
         service.boardInsert();
+        
         return "redirect:boardList";
     }
 		

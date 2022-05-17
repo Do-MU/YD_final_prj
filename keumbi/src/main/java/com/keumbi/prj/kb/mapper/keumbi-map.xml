@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.keumbi.prj.kb.mapper.KeumbiMapper">
 	
-	<select id="printTeamMember" resultType="KeumbiVO">
+	<select id="selectTeamMember" resultType="KeumbiVO">
 		SELECT *
 		FROM TEAM
 	</select>

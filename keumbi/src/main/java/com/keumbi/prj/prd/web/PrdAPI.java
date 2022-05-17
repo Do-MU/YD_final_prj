@@ -24,6 +24,7 @@ import com.keumbi.prj.prd.vo.SavingVO;
 public class PrdAPI {
 	static String auth = "bea3a34f13b85f708ea0654edd77638c";		// 금감원 API 인증키
 	
+	// 예금상품목록 출력 API
 	public static DepositVO getDepositList() {
 		DepositVO dep = new DepositVO();
 		ObjectMapper om = new ObjectMapper();
@@ -63,6 +64,7 @@ public class PrdAPI {
 		return dep;
 	}
 	
+	// 적금상품목록 출력 API
 	public static SavingVO getSavingList() {
 		SavingVO sav = new SavingVO();
 		ObjectMapper om = new ObjectMapper();
@@ -99,6 +101,7 @@ public class PrdAPI {
 		return sav;
 	}
 	
+	// 대출상품목록 출력 API
 	public static LoanVO getLoanList() {
 		LoanVO loan = new LoanVO();
 		ObjectMapper om = new ObjectMapper();

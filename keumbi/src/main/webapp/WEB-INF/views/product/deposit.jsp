@@ -19,7 +19,7 @@
 			</div>
 		</div>
 	</section>
-	<c:forEach var="pd" items="${prdDepositList}">
+	<c:forEach var="pd" items="${prdDepBase}">
 		<div id="bankName">${pd.kor_co_nm}</div>
 		<div id="depName">${pd.fin_prdt_nm}</div>
 		<div id="group" style="border-bottom: 1px solid; display: inline-block;">
@@ -28,7 +28,7 @@
 			<input type="button" class="btn btn-insert" onclick="openDiv()" value="상세보기">
 		</div>
 		
-		<c:forEach var="optpd" items="${prdDepositOpt}" varStatus="status">
+		<c:forEach var="optpd" items="${prdDepOpt}" varStatus="status">
 			<c:if test="${pd.dep_id eq optpd.dep_id }">
 				<div id="open_div">
 					<div>${pd.join_member}</div>

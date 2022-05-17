@@ -23,7 +23,7 @@ public class BankAPI {
 	// 토큰발급
 	public static JsonNode getToken(String code) {
 		String reqURL = "https://testapi.openbanking.or.kr/oauth/2.0/token";
-		AuthorizeVO avo = new AuthorizeVO();
+		AuthVO avo = new AuthVO();
 			
 		String param = "";
 		param += "code=" + code;

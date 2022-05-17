@@ -2,15 +2,13 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.keumbi.prj.board.mapper.BoardMapper">
 
-	<insert id="insertBoard" parameterType="BoardVO">
+	<insert id="boardInsert" parameterType="BoardVO">
 		<selectKey keyProperty="user_id" resultType="int" order="BEFORE">
 			SELECT NVL(MAX(USER_ID),0)+1
 			FROM BOARDS
 		</selectKey>
-		INSERT INTO BOARDS ( BOD_NUM, USER_ID, TITLE, CONTENTS, WDATE,
-								BOD_CODE, HIT)
-		VALUES (#{bod_num}, #{user_id}, #{title}, #{contents}, #{wDate},
-								#{bod_code}, #{hit})
+		INSERT INTO BOARDS ( BOD_NUM, USER_ID, TITLE, CONTENTS, WDATE, BOD_CODE, HIT)
+		VALUES ( #{bod_num}, #{user_id}, #{title}, #{contents}, #{wDate}, #{bod_code}, #{hit} )
 	</insert>
 	
 	<!-- <insert id="insertComAndCol">
