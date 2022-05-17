@@ -14,10 +14,11 @@ import lombok.Data;
 public class BoardVO {
 	private int bod_num;
 	private String user_id;
+	private String title;
 	private String contents;
 	
 	@JsonFormat(pattern="yyyy-MM-dd", timezone="Asia/Seoul")
-	private Date wdate;
+	private Date wDate;
 	private String bod_code;
 	private int hit;
 }

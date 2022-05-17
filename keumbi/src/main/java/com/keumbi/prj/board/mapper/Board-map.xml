@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.keumbi.prj.board.mapper.BoardMapper">
+
+	<insert id="insertBoard" parameterType="BoardVO">
+		<selectKey keyProperty="user_id" resultType="int" order="BEFORE">
+			SELECT NVL(MAX(USER_ID),0)+1
+			FROM BOARDS
+		</selectKey>
+		INSERT INTO BOARDS ( BOD_NUM, USER_ID, TITLE, CONTENTS, WDATE,
+								BOD_CODE, HIT)
+		VALUES (#{bod_num}, #{user_id}, #{title}, #{contents}, #{wDate},
+								#{bod_code}, #{hit})
+	</insert>
+	
+	<!-- <insert id="insertComAndCol">
+		INSERT INTO
+			BOARDS ( BOA_NO, MEMBER_NO, BOA_CATEGORY, BOA_TITLE,
+					 BOA_CONTENT, BOA_ENROLL_DATE,BOA_IMG_PATH)
+				VALUES
+				(seq_bno.nextval, #{mno}, #{category}, #{title},
+				#{content}, sysdate, #{imgPath})
+	
+	
+	</insert> -->
+
+</mapper>
