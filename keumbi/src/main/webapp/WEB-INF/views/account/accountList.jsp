@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -16,8 +17,10 @@
 		<div class="banner_inner d-flex align-items-center">
 			<div class="container">
 				<div class="banner_content text-center">
-					<a href="bankAuth">인증하러가기</a> <br/>
-					<button onclick="getAccount()">계좌목록불러오기</button>
+					<c:if test="${empty access_token }">
+						<a href="bankAuth">인증하러가기</a> <br/>
+						<button onclick="getAccount()">계좌목록불러오기</button>
+					</c:if>
 				</div>
 			</div>
 		</div>

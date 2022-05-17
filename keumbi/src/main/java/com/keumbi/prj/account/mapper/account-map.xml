@@ -5,7 +5,6 @@
 	<select id="selectAll" resultType="AccountVO">
 		SELECT	FINTECH_USE_NUM, ACCOUNT_NUM_MASKED, ACCOUNT_ALIAS, BANK_NAME
 		FROM 	ACCOUNTS
-		WHERE 	USER_ID = #{id};
 	</select>
 	
 	<select id="selectOne"></select>
