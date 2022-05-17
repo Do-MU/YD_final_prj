@@ -35,12 +35,14 @@ public class AccountController {
 	@ResponseBody
 	public String accountList(HttpSession session, Model model) {
 		UserVO vo = (UserVO) session.getAttribute("loginUser");
+		String userId = vo.getId();
 		List<AccountVO> listRes = BankAPI.getAccountList(vo);
 		System.out.println("listRes : " + listRes);
 		
 		// db 저장
-		for(AccountVO i : listRes) {
-			service.insertAccount(i);
+		for(AccountVO accVO : listRes) {
+			accVO.setUser_id(userId);
+			service.insertAccount(accVO);
 		}
 		
 		// 목록조회
