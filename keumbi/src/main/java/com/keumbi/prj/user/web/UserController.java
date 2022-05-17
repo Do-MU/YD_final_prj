@@ -106,4 +106,10 @@ public class UserController {
         
         return num;
     }
+    
+    @RequestMapping("/userJoin")
+    public String userJoin(UserVO userVO) {
+    	mapper.userInsert(userVO);
+    	return "";
+    }
 }

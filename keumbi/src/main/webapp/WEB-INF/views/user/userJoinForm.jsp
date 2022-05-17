@@ -3,6 +3,7 @@
 
 <head>
 <script src="http://code.jquery.com/jquery-3.6.0.js"></script>
+<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <style>
@@ -62,7 +63,7 @@
 	.incorrect{
     	color : red;
 	}
-
+	
 </style>
 </head>
 <section class="banner_area">
@@ -70,7 +71,7 @@
 </section>
 
 <section class="Insert">
-    <form>
+    <form action="userJoin" name="userJoin" method="post">
     	<h1>금비 회원가입</h1>
         <table>
             <tr>
@@ -133,7 +134,7 @@
                 <td>
                 	<input class="mail_check_input" disabled="disabled" type="text" name="emailCheck">
                 	<input class="mail_check_btn_result" type="button" value="확인"><br>
-                	<label id="result"></label>
+                	<label id="result" style="display:none"></label>
                 </td>
             </tr>
             <tr>
@@ -145,9 +146,15 @@
             <tr>
                 <td>주소</td>
                 <td>
-                    <input type="text" name="addr_1">
-                    <input type="button" value="주소검색">
+                    <input type="text" id="addr_1" name="addr_1">
+                    <input id="addrBtn" type="button" value="주소검색">
                 </td>
+            </tr>
+            <tr>
+            	<td>상세주소</td>
+            	<td>
+            		<input type="text" id="addr_2" name="addr_2">
+            	</td>
             </tr>
             <tr>
             	<td>관심키워드</td>
@@ -251,14 +258,22 @@
             	<td>
             		<textarea id="terms" name="terms">
         
+            		asdsadasddasdassadd
+            		asdsadasddasdassadd
+            		asdsadasddasdassadd
+            		asdsadasddasdassadd
+            		asdsadasddasdassadd
+            		asdsadasddasdassadd
+            		asdsadasddasdassadd
+            		asdsadasddasdassadd
             		</textarea><br>
-					<input type="checkbox"  id="termsCheck">
+					<input type="checkbox"  id="termsCheck" disabled>
 					<label>위 약관을 확인하였으며, 이에 동의합니다.</label>
 				</td>
         </table>
         <br>
 		<div id="btn_con">
-        	<input type="button" value="취소">  <input type="submit" value="회원가입"/>
+        	<input id="back" type="button" value="취소">  <input id="join" type="button" value="회원가입"/>
 		</div>
     </form>
 </section>
@@ -293,11 +308,14 @@
 	    var scrollTop = $(this).scrollTop();
 	    var innerHeight = $(this).innerHeight();
 	    var scrollHeight = $(this).prop('scrollHeight');
-	
-	    if (scrollTop + innerHeight >= scrollHeight) {
-	    	$("#termsCheck").attr('disabled', false);
-	    } else {
+	    
+	    console.log(scrollTop);
+	    console.log(innerHeight); 100
+	    console.log(scrollHeight); 134
+	    if (scrollTop + innerHeight+1 <= scrollHeight) {
 	    	$("#termsCheck").attr('disabled', true);
+	    } else {
+	    	$("#termsCheck").attr('disabled', false);
 	    }
 	});
 	
@@ -336,27 +354,64 @@
 	
 	/* 인증번호 비교 */
 	$('.mail_check_btn_result').click(function(){
-		var inputCode = $(".mail_input");        // 이메일 입력값   
+		var inputCode = $(".mail_input");        		// 이메일 입력값   
 		var iCode = $(".mail_check_input").val();        // 인증코드 값  
 	    var codeBtn = $(".mail_check_btn");				//인증번호 발송 버튼
 	    var checkResult = $("#result");    				// 인증번호 결과
 	    var resultCode = $(".mail_check_input");    		// 인증번호 입력란
 	    var resultBtn = $(".mail_check_btn_result");			// 인증번호 확인 버튼
+	    checkResult.css("display", "");
 	    
 	    if(iCode == code){                            // 일치할 경우
 	    	checkResult.html("인증번호가 일치합니다.");
 	        checkResult.attr("class", "correct");
-	        inputCode.attr("disable", "disable");
-	        codeBtn.attr("disable", "disable");
-	        resultCode.attr("disable", "disable");
-	        resultBtn.attr("disable", "disable");
+	        inputCode.attr("disabled", "disabled");
+	        codeBtn.attr("disabled", "disabled");
+	        resultCode.attr("disabled", "disabled");
+	        resultBtn.attr("disabled", "disabled");
 	        
 	    } else {                                            // 일치하지 않을 경우
 	    	checkResult.html("인증번호를 다시 확인해주세요.");
 	        checkResult.attr("class", "incorrect");
-	        resultCode.empty();
+	        resultCode.val('');
 	    }
 	});
-
 	
+	//주소api
+	window.onload = function(){
+		$("#addrBtn").click(function(){
+			new daum.Postcode({
+	            oncomplete: function(data) { //선택시 입력값 세팅
+	            	document.getElementById("addr_1").value = data.address; // 주소 넣기
+	                $("#addr_2").focus(); //상세입력 포커싱
+	            }
+	        }).open();
+		})
+	}
+	
+	//취소버튼(이전페이지)
+	$("#back").click(function(){
+		history.back();
+	})
+	
+	//회원가입버튼
+	$("#join").click(function(){
+		var idBtn = $("#idCheck").attr("disabled");
+		var emailBtn = $(".mail_check_btn_result").attr("disabled");
+		var tCheck = $("#termsCheck").attr("disabled");
+		
+		if(idBtn == true){
+			if(emailBtn == true){
+				if(tCheck == true){
+					document.getElementById("join").submit();
+				}else{
+					alert("약관동의 체크를 해주세요.");
+				}
+			}else{
+				alert("이메일 인증을 해주세요.");
+			}	
+		}else{
+			alert("아이디 중복체크를 해주세요.");
+		}
+	})
 </script>

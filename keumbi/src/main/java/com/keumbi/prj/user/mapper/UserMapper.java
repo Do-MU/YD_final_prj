@@ -7,7 +7,8 @@ import com.keumbi.prj.user.vo.UserVO;
 public interface UserMapper {
 	List<UserVO> userSelectList();
 	UserVO userSelect(UserVO vo);
-	UserVO userFind(UserVO vo);
+	UserVO userIdFind(UserVO vo);
+	UserVO userPwFind(UserVO vo);
 	int userInsert(UserVO vo);
 	int userUpdate(UserVO vo);
 	int userDelete(UserVO vo);
