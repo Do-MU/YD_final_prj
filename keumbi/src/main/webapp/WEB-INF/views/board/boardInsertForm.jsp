@@ -89,8 +89,8 @@ ul li.tag-item {
 						
 						<div class="container" style="margin:auto;">
 		<div class="row" >
-			<form method="post" action="#" style="width:1180px; text-align:center;">
-				<table class="table table-striped" style="text-align: center; border: 1px solid #dddddd">
+			<form id="frm" method="post" action="insertBoard" style="width:1180px; text-align:center;">
+				<table class="table table-striped" style="text-align: center; border: 1px solid #dddddd; ">
 					<!-- <thead>
 						<tr>
 							<th colspan="2" style="background-color: #eeeeee; text-align: center;">게시판 글쓰기</th>
@@ -101,16 +101,8 @@ ul li.tag-item {
 							<td><input type="text" class="form-control" placeholder="글 제목" name="boardTitle" maxlength="50" style="text-align: left;"></td>
 						</tr>
 						<tr>
-							<td><div id="editor" style="width:1150px; height: 100px;"></div> 
-							<div> <!-- class="content" -->
-								<!-- <div style="display: flex;">
-										<input type="text" id="tag" size="20" placeholder="태그입력" />
-								</div> -->
-
-								<ul id="tag-list" style="float:left;" >
-								</ul>
-
-							</div> </td>
+							<td><div id="editor" style="width:1150px; height: 100px;"></div>
+							<div><ul id="tag-list" style="float:left;" ></ul> </div></td>
 							
 						</tr>
 					</tbody>
@@ -149,7 +141,7 @@ ul li.tag-item {
 			<br>
 			<br>
 			<br>
-				<input type="submit" class="btn  pull-right" value="글쓰기" style="margin:auto; width:600px;">
+				<input type="submit" id="submit" class="btn  pull-right" onclick="location.href='boardList'" value="글쓰기" style="margin:auto; width:600px;">
 		</div>
 	</div>
 	<br>
@@ -162,7 +154,8 @@ const editor = new toastui.Editor({
 el: document.querySelector('#editor'),
 previewStyle: 'vertical',
 height: '500px',
-initialValue: ''
+initialValue: '',
+initialEditType: 'wysiwyg'
 });
 // !!여기!! editor.getHtml()을 사용해서 에디터 내용 받아오기
 /* document.querySelector('#contents').insertAdjacentHTML('afterbegin' ,editor.getHtml()); */
@@ -263,6 +256,24 @@ $(".hashtag").on("click", function (){
 })
 
 </script>
+
+<!-- <script>
+function submit(num) {
+	
+	let $title = $("#content-title").val()
+	let contents = editor.getHTML();
+	
+	// 등록하기
+	if (num==1){
+		
+		$("insertColumn").children().eq(2).attr("value",$title);
+		$("insertColumn").children().eq(3).attr("value",contents);
+		$("#insertColumn").attr("action","#").submit();
+	
+	}
+}
+
+</script> -->
 
 	
 </body>

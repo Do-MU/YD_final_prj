@@ -106,26 +106,15 @@
 					</tr>
 				</thead>
 				<tbody>
-					<c:forEach var="i" begin="1" end="10" items="${boardList}">
-						<%-- <tr>
+					<c:forEach var="i" begin="1" end="10">
+						<tr>
 							<!-- 테스트 코드 -->
 							<td>${i}</td>
 							<td>안녕하세요</td>
 							<td>22/05/13</td>
 							<td>홍길동</td>
-							<td>${i*100}</td>							
-						</tr> --%>
-						<tr>
-						<td><c:out value="${i.bod_num}"/></td>
-						<td>
-						<a href="/boardView=${i.bod_num}" >
-						<c:out value="${i.title}"/>
-						</a>
-						<td><c:out value="${i.contents}"/></td>
-						<td><c:out value="${i.wDate}"/></td>
-						<td><c:out value="${i.user_id}"/></td>
-						<td><c:out value="${i.hit}"/></td>
-						</tr>					
+							<td>${i*100}</td>
+						</tr>
 					</c:forEach>
 				</tbody>
 			</table>
@@ -172,13 +161,4 @@
 	<br>
 	<!-- 게시판 메인 페이지 영역 끝 -->
 </body>
-
-<script type="text/javascript">
-				function bod_num(i) {
-					frm.user_id.value = i;
-					frm.action = "boardView";
-					frm.submit();
-				}
-</script>
-
 </html>
