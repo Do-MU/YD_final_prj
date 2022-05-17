@@ -27,11 +27,17 @@
 	</select>
 		
 	<insert id="userInsert" parameterType="UserVO">
-		INSERT INTO USERS ( ID, PW, NAME, BIRTH, GENDER_CODE, ADDR, PHONE, USER_CODE )
+		INSERT INTO USERS ( ID, PW, NAME, BIRTH, GENDER_CODE, EMAIL, ADDR, PHONE, USER_CODE )
+		VALUES (#{id}, #{pw}, #{name}, #{birth}, #{gender_code}, #{email}, #{addr}, #{phone}, 'U1')
+	</insert>
+	
+	<insert id="userKwdInsert">
+		INSERT INTO USER_KWD (KWD_CODE, USER_ID)
+		VALUES (#{keyword}, #{id})
 	</insert>
 	
 	<update id="userUpdate" parameterType="UserVO">
-	
+		
 	</update>
 	
 	<delete id="userDelete" parameterType="UserVO">

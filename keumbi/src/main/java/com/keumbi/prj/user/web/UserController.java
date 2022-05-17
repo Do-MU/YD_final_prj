@@ -12,6 +12,7 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.keumbi.prj.user.mapper.UserMapper;
@@ -46,6 +47,7 @@ public class UserController {
 	
 	@RequestMapping("/userJoinForm")
 	public String userJoinForm() {
+		
 		return "user/userJoinForm";
 	}
 	
@@ -86,9 +88,8 @@ public class UserController {
                 "인증 번호는 " + checkNum + "입니다." + 
                 "<br>" + 
                 "해당 인증번호를 인증번호 확인란에 기입하여 주세요.";
-        
-        try {
-            
+
+        try {       
             MimeMessage message = mailSender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(message, true, "utf-8");
             helper.setFrom(setForm);
@@ -96,8 +97,6 @@ public class UserController {
             helper.setSubject(title);
             helper.setText(content,true);
             mailSender.send(message);
-            
-
         }catch(Exception e) {
             e.printStackTrace();
         }
@@ -108,8 +107,15 @@ public class UserController {
     }
     
     @RequestMapping("/userJoin")
-    public String userJoin(UserVO userVO) {
+    public String userJoin(UserVO userVO,@RequestParam(required = false) String[] keyword) {
+    	userVO.setGender_code("G"+ (Integer.parseInt(userVO.getGender_code())%2 == 0? "2":"1") );
     	mapper.userInsert(userVO);
-    	return "";
+    	if(keyword != null) {
+    		for(String s : keyword) {
+    			mapper.userKwdInsert(userVO.getId(), s);
+    		}    		
+    	}
+    
+    	return "redirect:home";
     }
 }
