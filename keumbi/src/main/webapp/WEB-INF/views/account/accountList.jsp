@@ -20,6 +20,7 @@
 					<c:if test="${empty access_token }">
 						<a href="bankAuth">인증하러가기</a> <br/>
 						<button onclick="getAccount()">계좌목록불러오기</button>
+						<button onclick="getAccount()">계좌목록불러오기</button>						
 					</c:if>
 				</div>
 			</div>
@@ -58,10 +59,17 @@
 		})
 	}
 	
+	//계좌목록 저장
+	function saveAccount(){
+		$.ajax({
+			url : "saveAccount"
+		})
+	}
+	
 	//계좌목록 불러오기
 	function getAccount(){
 		$.ajax({
-			url : "accountList"
+			url : "getAccount"
 		})
 		.done(function(datas){
 			console.log(datas)

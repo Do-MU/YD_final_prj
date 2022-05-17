@@ -49,4 +49,28 @@ public class AccountController {
 		
 		return "account/accountList";
 	}
+	
+	// 계좌목록 -> db저장
+		@RequestMapping("/saveAccount")
+		@ResponseBody
+		public String saveAccount(HttpSession session, Model model) {
+			UserVO vo = (UserVO) session.getAttribute("loginUser");
+			List<AccountVO> listRes = BankAPI.getAccountList(vo);
+			System.out.println("listRes : " + listRes);
+			
+			// db 저장
+			for(AccountVO i : listRes) {
+				service.insertAccount(i);
+			}
+			
+			return null;
+		}
+		
+		// 계좌목록 -> 조회
+		@RequestMapping("/getAccount")
+		@ResponseBody
+		public List<AccountVO> getAccount(HttpSession session) {
+			
+			return service.selectAll();
+		}
 }
