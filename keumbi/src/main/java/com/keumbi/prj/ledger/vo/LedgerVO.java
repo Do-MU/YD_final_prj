@@ -5,7 +5,12 @@ import lombok.Data;
 @Data
 public class LedgerVO {
 
-	private String start;
-	private int title;
-	private String className;
+	private String tdate;
+	private int num;
+	private String user_id;
+	private String io_code;
+	private String content;
+	private int amt;
+	private String cat_code;
+	
 }
