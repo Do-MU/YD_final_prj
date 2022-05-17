@@ -1,4 +1,4 @@
-package com.keumbi.prj.common;
+package com.keumbi.prj.authorize;
 
 
 import javax.servlet.http.HttpSession;
@@ -8,17 +8,20 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.keumbi.prj.bankAPI.BankAPI;
 import com.keumbi.prj.user.mapper.UserMapper;
 import com.keumbi.prj.user.vo.UserVO;
 
 @Controller
-public class BankAuthorCommon {
+public class BankAuthorController {
 	
 	@Autowired UserMapper mapper;
 	
 	// 사용자 인증요청
 	@RequestMapping("/bankAuth")
 	public String bankAuth(AuthorizeVO avo) throws Exception {
+		// 최초 사용자 인증 유무 -> ?
+		 
 		String reqUrl = "https://testapi.openbanking.or.kr/oauth/2.0/authorize";
 		String url = reqUrl
 			    +"?response_type=code"
@@ -39,22 +42,17 @@ public class BankAuthorCommon {
 		JsonNode res = BankAPI.getToken(code);
 		System.out.println("res : " + res);
 		
-		System.out.println("1 : " + res.get("access_token").asText());
-		System.out.println("2 : " + res.get("refresh_token").asText());
-		System.out.println("3 : " + res.get("user_seq_no").asText());
+		//System.out.println("1 : " + res.get("access_token").asText());
+		//System.out.println("2 : " + res.get("refresh_token").asText());
+		//System.out.println("3 : " + res.get("user_seq_no").asText());
 		
 		UserVO uvo = (UserVO) session.getAttribute("loginUser");
 		uvo.setAccess_token(res.get("access_token").asText());
 		uvo.setRefresh_token(res.get("refresh_token").asText());
 		uvo.setUser_seq_num(res.get("user_seq_no").asText());
-		int result = mapper.UpdateToken(uvo);
+		mapper.UpdateToken(uvo);
 		
-		String msg = null;
-		if(result != 0) {
-			msg = "인증 완료";
-		}
-		
-		return "account/accountList";
+		return "home/home";
 	}
 	
 }

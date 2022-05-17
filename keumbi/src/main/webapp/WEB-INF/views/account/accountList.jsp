@@ -11,15 +11,12 @@
 </style>
 </head>
 <body>
-<!-- 	<button id="getAuth">인증하러가기</button> cors 오류 -->
-	
-<!-- 	<a href="#" id="getAuth">인증하러가기</a> -->
 <section class="banner_area">
 	<div class="box_1620">
 		<div class="banner_inner d-flex align-items-center">
 			<div class="container">
 				<div class="banner_content text-center">
-					<a href="bankAuth">인증하러가기</a> <br/>
+					<a onclick="getAuth">인증하러가기</a> <br/>
 					<button onclick="getAccount()">계좌목록불러오기</button>
 				</div>
 			</div>
@@ -29,7 +26,9 @@
 <section class="contact_area p_120">
 	<div class="container">
 		<div align="center">
-			
+			<div id="list">
+				
+			</div>
 		</div>
 	</div>
 </section>	
@@ -38,22 +37,32 @@
 
 <script type="text/javascript">
 	// 사용자 인증 버튼
-	$("#getAuth").on('click', function(){
+	function getAuth(){
 		$.ajax({
 			url : "bankAuth"
 		})
-		.done(function(data){
-			alert(data);
+		.done(function(datas){
+			
 		})
-	});
+	}
 	
 	//계좌목록 불러오기
 	function getAccount(){
 		$.ajax({
 			url : "accountList"
 		})
-		.done(function(data){
-			console.log(data)
+		.done(function(datas){
+			console.log(datas)
+			for(data of datas){
+				$("<div>").addClass("acc").data("usenum", data.fintechUseNum)
+				.append($("<p>").html(data.fintechUseNum))
+				.append($("<span>").html(data.bankName))
+				.append($("<span id='realName'>").html(data.accountNumMasked))
+				.append($("<input>").val(data.accountAlias))
+				.append($("<button>").html("수정").addClass("btnAlias"))
+				.append($("<button>").html("거래내역").addClass("btnTrans"))
+				.appendTo("#list")
+			}
 		})
 	}
 </script>
