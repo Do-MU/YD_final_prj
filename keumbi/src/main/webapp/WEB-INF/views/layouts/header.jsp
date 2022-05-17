@@ -36,7 +36,7 @@
 								<li class="nav-item"><a class="nav-link" href="#">상품추천</a></li>
 							</ul>
 						</li>
-						<li class="nav-item"><a class="nav-link" href="#">가계부</a></li>
+						<li class="nav-item"><a class="nav-link" href="monthView">가계부</a></li>
 						<li class="nav-item"><a class="nav-link" href="boardList">커뮤니티</a></li>
 						<li class="nav-item"><a class="nav-link" href="#">팁</a></li>
 						<li class="nav-item"><a class="nav-link" href="#"></a></li>

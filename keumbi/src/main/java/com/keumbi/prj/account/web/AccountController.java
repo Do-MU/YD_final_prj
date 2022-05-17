@@ -31,48 +31,50 @@ public class AccountController {
 	}
 	
 	// 계좌목록
-	@RequestMapping("/accountList")
-	@ResponseBody
-	public String accountList(HttpSession session, Model model) {
-		UserVO vo = (UserVO) session.getAttribute("loginUser");
-		String userId = vo.getId();
-		List<AccountVO> listRes = BankAPI.getAccountList(vo);
-		System.out.println("listRes : " + listRes);
-		
-		// db 저장
-		for(AccountVO accVO : listRes) {
-			accVO.setUser_id(userId);
-			service.insertAccount(accVO);
-		}
-		
-		// 목록조회
-		model.addAttribute(service.selectAll());
-		System.out.println(model);
-		
-		return "account/accountList";
-	}
+//	@RequestMapping("/accountList")
+//	@ResponseBody
+//	public String accountList(HttpSession session, Model model) {
+//		UserVO vo = (UserVO) session.getAttribute("loginUser");
+//		String userId = vo.getId();
+//		List<AccountVO> listRes = BankAPI.getAccountList(vo);
+//		System.out.println("listRes : " + listRes);
+//		
+//		// db 저장
+//		for(AccountVO accVO : listRes) {
+//			accVO.setUser_id(userId);
+//			service.insertAccount(accVO);
+//		}
+//		
+//		// 목록조회
+//		model.addAttribute(service.selectAll());
+//		System.out.println(model);
+//		
+//		return "account/accountList";
+//	}
 	
-	// 계좌목록 -> db저장
+		// 계좌목록 -> DB저장
 		@RequestMapping("/saveAccount")
 		@ResponseBody
 		public String saveAccount(HttpSession session, Model model) {
 			UserVO vo = (UserVO) session.getAttribute("loginUser");
+			String userId = vo.getId();
 			List<AccountVO> listRes = BankAPI.getAccountList(vo);
 			System.out.println("listRes : " + listRes);
 			
-			// db 저장
-			for(AccountVO i : listRes) {
-				service.insertAccount(i);
+			// DB저장
+			for(AccountVO accVO : listRes) {
+				accVO.setUser_id(userId);
+				service.insertAccount(accVO);
 			}
 			
-			return null;
+			return userId;
 		}
 		
 		// 계좌목록 -> 조회
 		@RequestMapping("/getAccount")
 		@ResponseBody
 		public List<AccountVO> getAccount(HttpSession session) {
-			
-			return service.selectAll();
+			UserVO userVO = (UserVO) session.getAttribute("loginUser");
+			return service.selectAll(userVO.getId());
 		}
 }

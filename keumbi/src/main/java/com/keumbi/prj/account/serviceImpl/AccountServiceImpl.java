@@ -15,8 +15,8 @@ public class AccountServiceImpl implements AccountService {
 	@Autowired AccountMapper m;
 	
 	@Override
-	public List<AccountVO> selectAll() {
-		return m.selectAll();
+	public List<AccountVO> selectAll(String user_id) {
+		return m.selectAll(user_id);
 	}
 
 	@Override

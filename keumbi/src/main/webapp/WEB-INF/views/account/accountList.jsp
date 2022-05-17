@@ -16,12 +16,13 @@
 	<div class="box_1620">
 		<div class="banner_inner d-flex align-items-center">
 			<div class="container">
-				<div class="banner_content text-center">
-					<c:if test="${empty access_token }">
-						<a href="bankAuth">인증하러가기</a> <br/>
-						<button onclick="getAccount()">계좌목록불러오기</button>
-						<button onclick="getAccount()">계좌목록불러오기</button>						
+				<div class="banner_content text-center">			
+					<c:if test="${empty loginUser.access_token}">	
+						<h1>인증되지 않은 회원입니다.</h1>
 					</c:if>
+					<button type="button" class="btn btn-primary" onclick="location.href ='bankAuth'">인증하기</button><br><br>
+					<button class="btn btn-primary" onclick="saveAccount()">계좌목록 저장하기</button><br><br>
+					<button class="btn btn-primary" onclick="getAccount()">계좌목록불러오기</button><br><br>
 				</div>
 			</div>
 		</div>
@@ -49,21 +50,14 @@
 	</div>
 </section>
 
-<script type="text/javascript">
-	// 사용자 인증 버튼
-	function getAuth(){
-		$.ajax({
-			url : "bankAuth"
-		})
-		.done(function(datas){			
-		})
-	}
-	
+<script>
 	//계좌목록 저장
 	function saveAccount(){
 		$.ajax({
 			url : "saveAccount"
-		})
+		}).done(function(result) {
+			alert(result)
+		});
 	}
 	
 	//계좌목록 불러오기
