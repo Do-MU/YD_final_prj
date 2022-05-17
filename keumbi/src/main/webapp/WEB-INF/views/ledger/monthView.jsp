@@ -9,8 +9,7 @@
 <script
 	src="${pageContext.request.contextPath}/resources/ledger/main.js"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
-<link rel="stylesheet"
-	href="${pageContext.request.contextPath}/resources/ledger/main.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/ledger/main.css">
 <script>
 	document.addEventListener('DOMContentLoaded', function() {
 		var calendarEl = document.getElementById('calendar');
@@ -86,7 +85,9 @@ body {
 		<div class="box_1620">
 			<div class="banner_inner d-flex align-items-center">
 				<div class="container">
-					<div class="banner_content text-center">가계부</div>
+					<div class="banner_content text-center">
+						<h3>가계부</h3>
+					</div>
 				</div>
 			</div>
 		</div>

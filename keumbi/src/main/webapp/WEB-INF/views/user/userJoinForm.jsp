@@ -1,11 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 
-<head>
 <script src="http://code.jquery.com/jquery-3.6.0.js"></script>
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-<meta charset="UTF-8">
-<title>Insert title here</title>
 <style>
 	#btn_con{
 		text-align:center;
@@ -67,8 +64,14 @@
 	#addr{
 		display:none;
 	}
+	
+	footer {
+		width : 100%;
+		position : fixed;
+		bottom : 0;
+	}
 </style>
-</head>
+
 <section class="banner_area">
 
 </section>
@@ -278,7 +281,7 @@
         </table>
         <br>
 		<div id="btn_con">
-        	<input id="back" type="button" value="취소">  <input type="button" id="join" value="회원가입"/>
+        	<input id="back" type="button" value="취소">  <input class="btn-primary" type="button" id="join" value="회원가입"/>
 		</div>
     </form>
 </section>

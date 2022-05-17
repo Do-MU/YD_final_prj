@@ -5,9 +5,9 @@ import java.util.List;
 import com.keumbi.prj.account.vo.AccountVO;
 
 public interface AccountService {
-	public List<AccountVO> selectAll();
-	public AccountVO selectOne(AccountVO vo);
-	public int insertAccount(AccountVO vo);
-	public int updateAccount(AccountVO vo);
-	public int deleteAccount(AccountVO vo);
+	List<AccountVO> selectAll(String user_id);
+	AccountVO selectOne(AccountVO vo);
+	int insertAccount(AccountVO vo);
+	int updateAccount(AccountVO vo);
+	int deleteAccount(AccountVO vo);
 }
