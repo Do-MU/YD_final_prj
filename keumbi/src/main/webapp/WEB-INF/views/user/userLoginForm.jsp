@@ -15,7 +15,7 @@ input {
 	background-image: -moz-linear-gradient(0deg, #766dff 0%, #88f3ff 100%);
 	background-image: -webkit-linear-gradient(0deg, #766dff 0%, #88f3ff 100%);
 	background-image: -ms-linear-gradient(0deg, #766dff 0%, #88f3ff 100%);
-	margin-bottom: 150px;
+	margin-bottom: 200px;
 }
 
 #icon {
@@ -107,6 +107,8 @@ footer {
 			</div>
 		</div>
 	</form>
+	
+	
 	<div class="modal fade" id="findIDModal" tabindex="-1"
 		aria-labelledby="exampleModalLabel" aria-hidden="true">
 		<div class="modal-dialog">

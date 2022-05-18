@@ -1,5 +1,7 @@
 package com.keumbi.prj.prd.web;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -126,10 +128,23 @@ public class PrdController {
 	
 	@RequestMapping("/prdDepositList")
 	public String prdDepositList(Model model) {
-		model.addAttribute("prdDepBase", dep.selectAllDepBase());
-		model.addAttribute("prdDepOpt", dep.selectAllDepOpt());
+//		model.addAttribute("prdDepBase", dep.selectAllDepBase());
+//		model.addAttribute("prdDepOpt", dep.selectAllDepOpt());
 		
 		return "product/deposit";
+	}
+	
+	@RequestMapping("/prdDepBase")
+	@ResponseBody
+	public List<DepositBaseVO> prdDepBaseList(){
+		return dep.selectAllDepBase();
+	}
+	
+	@RequestMapping("/prdDepOpt")
+	@ResponseBody
+	public List<DepositOptionVO> prdDepOptList(int dep_id){
+		System.out.println(dep_id);
+		return dep.selectAllDepOpt(dep_id);
 	}
 }
 
