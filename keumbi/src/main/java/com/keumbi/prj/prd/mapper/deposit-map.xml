@@ -37,12 +37,12 @@
 		DELETE FROM PRD_DEP_OPTIONS
 	</delete>
 	
-	<select id="allDeposit" resultType="DepositBaseVO">
+	<select id="selectAllDepBase" resultType="DepositBaseVO">
 		SELECT *
 		FROM PRD_DEP_BASES
 	</select>
 	
-	<select id="allDepositOpt" resultType="DepositOptionVO">
+	<select id="selectAllDepOpt" resultType="DepositOptionVO">
 		SELECT *
 		FROM PRD_DEP_OPTIONS
 	</select>
