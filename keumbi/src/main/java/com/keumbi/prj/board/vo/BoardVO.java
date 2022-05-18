@@ -1,6 +1,10 @@
 package com.keumbi.prj.board.vo;
 
-import java.util.Date;
+
+
+
+
+import java.sql.Date;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
@@ -13,7 +17,7 @@ public class BoardVO {
 	private String title;
 	private String contents;
 	@JsonFormat(pattern="yyyy-MM-dd", timezone="Asia/Seoul")
-	private Date wDate;
+	private Date wdate;
 	private String bod_code;
 	private int hit;
 }
