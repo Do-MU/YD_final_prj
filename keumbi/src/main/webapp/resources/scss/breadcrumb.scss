@@ -151,10 +151,9 @@
 					margin-right: 32px;
 					position: relative;
 					&:before{
-						content: "\e87a";
+						content: "\003E";
 						font-family: 'Linearicons-Free';
 						position: absolute;
-						right: -25px;
 						top: 50%;
 						transform: translateY(-50%);
 					}

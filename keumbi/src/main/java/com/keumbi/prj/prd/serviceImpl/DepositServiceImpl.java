@@ -21,8 +21,8 @@ public class DepositServiceImpl implements DepositService{
 	}
 
 	@Override
-	public List<DepositOptionVO> selectAllDepOpt() {
-		return m.selectAllDepOpt();
+	public List<DepositOptionVO> selectAllDepOpt(int dep_id) {
+		return m.selectAllDepOpt(dep_id);
 	}
 
 	@Override
