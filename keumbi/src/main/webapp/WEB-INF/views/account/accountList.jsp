@@ -49,7 +49,12 @@
 <script>
 	function transList(){
 		let finNum = $("#fin").data("fin");
-		//console.log("===  " + finNum);
+		console.log("===  " + finNum);
+		
+		$.ajax({
+			url : "/transaction",
+			data : finNum
+		})
 		
 	}
 </script>

@@ -14,17 +14,21 @@
 				<div class="container">
 					<div class="banner_content text-center">
 						<h1>거래내역</h1>
+						<br/>
 						<div>
-							<p>조회 계좌
-								<select id="a">
-									<option></option>
-								</select>
-							</p>
-							<p>조회 기간
-								<input type="date"> - <input type="date">
-								<button>조회하기</button>
-							</p>
-							<button>이체하기</button>
+							<form>
+								<input type="hidden">
+								<label>조회 계좌</label>
+									<select name="">
+										<option value="">선택</option>
+									</select>
+									<br/>
+								<p>조회 기간
+									<input type="date"> - <input type="date">
+									<button>조회하기</button>
+								</p>
+								<button>이체하기</button>
+							</form>
 						</div>
 					</div>
 				</div>

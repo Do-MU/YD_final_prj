@@ -73,12 +73,11 @@ public class BankAPI {
 		try {
 			json = om.readTree(res.getBody());
 		} catch (JsonProcessingException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
 		JsonNode jsonVal = json.get("res_list");
-		System.out.println("jsonVal : " + jsonVal);
+		//System.out.println("jsonVal : " + jsonVal);
 		
 		for(JsonNode i : jsonVal) {
 			AccountVO avo = new AccountVO();
@@ -95,7 +94,7 @@ public class BankAPI {
 	
 	// 계좌잔액조회
 	 public static long getBalance(UserVO vo, String fintech_use_num) {
-		//System.out.println(fintech_use_num);
+		System.out.println(fintech_use_num);
 		long balance = 0;
 		String reqURL = "https://testapi.openbanking.or.kr/v2.0/account/balance/fin_num";
 		String param = "";
@@ -110,10 +109,10 @@ public class BankAPI {
 		
 		RestTemplate restTemplate = new RestTemplate();
 		ResponseEntity<Map> res = restTemplate.exchange(reqURL + "?" + param, HttpMethod.GET, request, Map.class);
-		System.out.println(res.getBody());
+		System.out.println("잔액Body  " + res.getBody());
 		
 		Map map = res.getBody();
-		balance = Long.valueOf((String) map.get("balance_amt")); 
+		balance = Long.valueOf((String) map.get("balance_amt"));
 		return balance;
 		
 	}
