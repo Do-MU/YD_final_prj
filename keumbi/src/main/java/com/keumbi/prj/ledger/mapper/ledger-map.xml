@@ -14,19 +14,34 @@
 	</select>
 	
 	<select id="dayTrans" resultType="LedgerVO">
-		SELECT *
-		FROM TOTAL_TRANS
-		WHERE USER_ID = #{user_id}
-		AND TDATE = #{tdate}
+		SELECT T.TDATE, T.NUM, T.USER_ID, T.CONTENT, T.AMT, T.IO_CODE, C.VAL
+		FROM TOTAL_TRANS T
+		JOIN COMMON_CODE C
+		ON   T.CAT_CODE  = C.CODE
+		WHERE T.USER_ID = #{user_id}
+		AND T.TDATE = #{tdate}
+	</select>
+	
+	<select id="monthTotalAmt">
+	
 	</select>
 	
 	<insert id="cashInsert" parameterType="LedgerVO">
 		<selectKey keyProperty="num" resultType="int" order="BEFORE">
 			SELECT 	NVL(MAX(NUM),0) + 1
 			FROM 	TOTAL_TRANS
+			WHERE   USER_ID = #{user_id}
+			AND     TDATE = #{tdate}
 		</selectKey>
 		INSERT INTO TOTAL_TRANS VALUES
 		(#{tdate}, #{num}, #{user_id}, #{io_code}, #{content}, #{amt}, #{cat_code})
 	</insert>
+	
+	<update id="ledUpdate" parameterType="LedgerVO">
+	
+	</update>
 
+	<delete id="ledDelete" parameterType="LedgerVO">
+	
+	</delete>
 </mapper>  
