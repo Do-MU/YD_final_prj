@@ -139,6 +139,8 @@ body {
 		</table>
 	</div>
 	<!-- 클릭한 날짜 입출금 내역 끝 -->
+	</div>
+	</section>
 
 	<!-- 현금 지출수입내역 입력 Modal -->
 	<div class="modal fade" id="myModal" tabindex="-1"
