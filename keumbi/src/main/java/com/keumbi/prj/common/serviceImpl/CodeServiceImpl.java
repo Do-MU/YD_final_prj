@@ -20,7 +20,7 @@ public class CodeServiceImpl implements CodeService {
 
 	@Override
 	public List<CodeVO> categoryCode() {
-		return null;
+		return m.categoryCode();
 	}
 
 }

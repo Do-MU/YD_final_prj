@@ -4,10 +4,12 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.keumbi.prj.common.service.CodeService;
 import com.keumbi.prj.ledger.service.LedgerService;
 import com.keumbi.prj.ledger.vo.LedgerMonthVO;
 import com.keumbi.prj.ledger.vo.LedgerVO;
@@ -16,10 +18,12 @@ import com.keumbi.prj.ledger.vo.LedgerVO;
 public class LedgerController {
 
 	@Autowired LedgerService service;
+	@Autowired CodeService code;
 
 	// 캘린더 월간 페이지 출력
 	@RequestMapping("/monthView")
-	public String monthView() {
+	public String monthView(Model model) {
+		model.addAttribute("code", code.categoryCode());
 		return "ledger/monthView";
 	}
 

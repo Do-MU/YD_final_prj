@@ -70,6 +70,10 @@
 		position : fixed;
 		bottom : 0;
 	}
+	
+	.col-3{
+		margin: auto;
+	}
 </style>
 
 <section class="banner_area">
@@ -166,9 +170,15 @@
             <tr>
             	<td>관심키워드</td>
             	<td>
-            	    <table id="keyword">	 
-            	    	
-            	    	
+            		<div class="row" style="width:40%;">
+            		<c:forEach var="c" items="${code}">
+            			<div class="col-3">
+            				<input type="checkbox" value="${c.code}" name="keyword">
+				  			<label>${c.val}</label>
+            			</div>
+            		</c:forEach>
+            		</div>
+            	    <!-- <table id="keyword">
 	            		<tr>
 	            			<td>
 			            		<input type="checkbox" value="K001" name="keyword">
@@ -259,7 +269,7 @@
 			  					<label>외식</label>
 			  				</td>
 			  			</tr>
-            		</table>
+            		</table> -->
             	</td>
             </tr>
             <tr>
@@ -427,14 +437,5 @@
 		
 	})
 	
-	//키워드 출력
-	var ktable = document.getElementById('keyword');
-	var row = ktable.insertRow();
-	var cell = row.insertCell();
-	var cd = cell.innerHTML =  `<input type="checkbox" value="${code}.code">`;
 	
-	
-	
-	
-	console.log("${code[3].val}")
 </script>
