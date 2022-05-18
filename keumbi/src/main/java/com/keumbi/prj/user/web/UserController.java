@@ -10,11 +10,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.keumbi.prj.common.service.CodeService;
+import com.keumbi.prj.common.vo.CodeVO;
 import com.keumbi.prj.user.service.UserService;
 import com.keumbi.prj.user.vo.UserVO;
 
@@ -24,6 +27,7 @@ public class UserController {
 	
 	@Autowired UserService service;
 	@Autowired private JavaMailSender mailSender;
+	@Autowired CodeService code;
 	
 	// 로그인 화면 출력
 	@RequestMapping("/userLoginForm")
@@ -49,8 +53,8 @@ public class UserController {
 	
 	// 회원가입 화면 출력
 	@RequestMapping("/userJoinForm")
-	public String userJoinForm() {
-		
+	public String userJoinForm(Model model) {
+		model.addAttribute("code", code.keywordCode());
 		return "user/userJoinForm";
 	}
 	
@@ -120,7 +124,31 @@ public class UserController {
     			service.userKwdInsert(userVO.getId(), s);
     		}    		
     	}
-    
     	return "redirect:home";
+    }
+    
+    // 아이디 찾기
+    @RequestMapping("/userIdFind")
+    @ResponseBody
+    public String userIdFind(UserVO userVO) {
+    	String id = service.userIdFind(userVO);
+    	return id;
+    }
+    
+    // 비밀번호 찾기
+    @RequestMapping("/userPwFind")
+    @ResponseBody
+    public String userPwFind(UserVO userVO) {
+    	String result = service.userPwFind(userVO);
+		return result;
+    }
+    
+    // 비밀번호 변경
+    @RequestMapping("/userPwUpdate")
+    @ResponseBody
+    public int userPwUpdate(UserVO userVO) {
+    	System.out.println(userVO);
+    	int result = service.userPwUpdate(userVO);
+    	return result;
     }
 }

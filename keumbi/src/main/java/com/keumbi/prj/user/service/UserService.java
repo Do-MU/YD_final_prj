@@ -8,8 +8,9 @@ public interface UserService {
 	List<UserVO> userSelectList();
 	UserVO userSelect(UserVO vo);
 	int userKwdInsert(String id, String keyword);
-	UserVO userIdFind(UserVO vo);
-	UserVO userPwFind(UserVO vo);
+	String userIdFind(UserVO vo);
+	String userPwFind(UserVO vo);
+	int userPwUpdate(UserVO vo);
 	int userInsert(UserVO vo);
 	int userUpdate(UserVO vo);
 	int userDelete(UserVO vo);
