@@ -40,7 +40,6 @@
 	<select id="selectAllDepBase" resultType="DepositBaseVO">
 		SELECT *
 		FROM PRD_DEP_BASES
-		ORDER BY dep_id ASC
 	</select>
 	
 	<select id="selectAllDepOpt" resultType="DepositOptionVO">
@@ -48,4 +47,6 @@
 		FROM 	PRD_DEP_OPTIONS
 		WHERE	DEP_ID = #{dep_id}
 	</select>
+	
+	
 </mapper>
