@@ -15,15 +15,20 @@
 		var calendarEl = document.getElementById('calendar');
 
 		var calendar = new FullCalendar.Calendar(calendarEl, {
-			editable : true,
+			//editable : true,
 			selectable : true,
-			businessHours : false,
-			dayMaxEvents : true, // allow "more" link when too many events
+			//businessHours : false,
+			dayMaxEvents : true, 
 			progressiveEventRendering : true,
 			events : "totalTrans",
 			dateClick : function(info) {
+				
+				$("#listHead").empty();
+				$("#listBody").empty();
+				
 				const date = info.dateStr;
-				alert(date);
+				$("#title").html(date)
+				
 				$.ajax({
 					type : 'GET',
 					url : "dayView",
@@ -31,14 +36,35 @@
 						tdate : date,
 						user_id : "${loginUser.id}"
 					}
-				}).done(function(res) {
-					console.log(res)
+				}).done(function(datas) {
+					console.log(datas)
 					
+					let tr1 = `<tr>
+							      <th scope="col">#</th>
+							      <th scope="col">분류</th>
+							      <th scope="col">내용</th>
+							      <th scope="col">금액</th>
+						       </tr>`;
+					
+					$('#listHead').append(tr1);
+					
+					for(data of datas) {
+						
+						let tr2 = `<tr>
+								      <th scope="row">1</th>
+								      <td>\${data.cat_code}</td>
+								      <td>\${data.content}</td>
+								      <td data-iocode=\${data.io_code}>\${data.amt}원</td>
+								     //<!-- <td><fmt:formatNumber value="${data.amt}" pattern="###,###,###"/>원</td> -->
+								   </tr>`;
+								   
+						$('#listBody').append(tr2);		
+					}	
 				});
 			},
 			customButtons : {
 				myCustomButton : {
-					text : '현금지출등록',
+					text : '현금내역등록',
 					click : function() {
 						$('#myModal').modal('show');
 					}
@@ -76,11 +102,18 @@ body {
 	max-width: 1100px;
 	margin: 0 auto;
 }
+[data-iocode="I1"] {
+	text-color : red;
+}
+[data-iocode="I2"] {
+	text-color : blue;
+}
 </style>
 
 </head>
 
 <body>
+
 	<section class="banner_area">
 		<div class="box_1620">
 			<div class="banner_inner d-flex align-items-center">
@@ -97,12 +130,17 @@ body {
 
 
 	<!-- 클릭한 날짜의 입출금 내역 출력 되는 곳 -->
-	<div id="dayAmt">
-	<table>
-	
-	</table>
+	<div id="dayView">
+		<p class="h2 text-center" id="title"></p>
+		<table class="table" id="table">
+	  		<thead class="thead-dark" id="listHead">   
+	  		</thead>
+			<tbody id="listBody">    
+			</tbody>
+		</table>
 	</div>
-
+	<!-- 클릭한 날짜 입출금 내역 끝 -->
+	
 
 	<!-- 현금 지출수입내역 입력 Modal -->
 	<div class="modal fade" id="myModal" tabindex="-1"
@@ -110,7 +148,7 @@ body {
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h5 class="modal-title" id="exampleModalLabel">현금자산 등록하기</h5>
+					<h5 class="modal-title" id="exampleModalLabel">현금거래 등록하기</h5>
 					<button type="button" class="close" data-dismiss="modal"
 						aria-label="Close">
 						<span aria-hidden="true">&times;</span>
@@ -121,8 +159,9 @@ body {
 						<input type="hidden" name="user_id" value="user1">
 						<div>
 							<input type="radio" id="choice1" name="io_code" value="I1">
-							<label for="choice1">지출</label> <input type="radio" id="choice2"
-								name="io_code" value="I2"> <label for="choice2">수입</label>
+							<label for="choice1">지출</label> 
+							<input type="radio" id="choice2" name="io_code" value="I2"> 
+							<label for="choice2">수입</label>
 						</div>
 						<label>날짜 </label> <input type="date" name="tdate"> <br>
 						<br> <label>분류 </label> <select name="cat_code">
@@ -171,6 +210,7 @@ body {
 			method : 'POST',
 			data : $("#cashInsertFrm").serialize()
 		}).done(function(result) {
+			//입력한 정보값이 달력에 출력 되도록 해야함....
 			console.log(result)
 		});
 	}
