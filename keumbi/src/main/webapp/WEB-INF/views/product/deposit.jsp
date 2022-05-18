@@ -6,6 +6,10 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<script src="http://code.jquery.com/jquery-3.6.0.js"></script>
+<style>
+
+</style>
 </head>
 <body>
 <section class="banner_area">
@@ -19,31 +23,41 @@
 			</div>
 		</div>
 	</section>
-	<c:forEach var="pd" items="${prdDepBase}">
-		<div id="bankName">${pd.kor_co_nm}</div>
-		<div id="depName">${pd.fin_prdt_nm}</div>
-		<div id="group" style="border-bottom: 1px solid; display: inline-block;">
-			${pd.join_way }
-			<input type="button" class="btn btn-join" value="가입하기">
-			<input type="button" class="btn btn-insert" onclick="openDiv()" value="상세보기">
+	<c:forEach var="pd" items="${prdDepBase}" varStatus="status">
+		<div class="depositList">
+			<div id="bankName">${pd.kor_co_nm}</div>
+			<div id="depName">${pd.fin_prdt_nm}</div>
+			<div id="group" style="border-bottom: 1px solid; display: inline-block;">
+				${pd.join_way }
+				<button type="button" class="btn btn-join">가입하기</button>
+				<button type="button" class="btn btn-select" data-toggle="modal" id="selModal">상세보기</button>
+				<input type="button" class="btn btn-select" data-toggle="modal" value="상세보기" class="selModal">	
+			</div>
 		</div>
+		<br>
 		
-		<c:forEach var="optpd" items="${prdDepOpt}" varStatus="status">
-			<c:if test="${pd.dep_id eq optpd.dep_id }">
-				<div id="open_div">
-					<div>${pd.join_member}</div>
-					<div>${pd.spcl_cnd}</div>
-					<div>${optpd.intr_rate_type_nm}</div>
-					<div>${optpd.save_trm}</div>
-					<br>
+		<div class="modal fade" id="modal" tabindex="-1"
+		 role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal-dialog modal-sm">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h3 class="modal-title">${pd.kor_co_nm}</h3>
+						<button type="button" class="close" data-dismiss="modal">&times;</button>
+					</div>
+					<div class="modal-body">
+						<div id="depositOpt"></div>
+						
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">가입하러가기</button>
+					</div>
 				</div>
-			</c:if> 
-		</c:forEach>
+			</div>
+  		</div>
 	</c:forEach>
-	 <script>
-	 	function openDiv(){
-	 		document.getElementById('open_div').style.display = "block";
-	 	}
-	 </script>
+	
+	<script>
+		
+	</script>
 </body>
 </html>
