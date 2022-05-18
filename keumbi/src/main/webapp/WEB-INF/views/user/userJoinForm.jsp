@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <script src="http://code.jquery.com/jquery-3.6.0.js"></script>
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <style>
@@ -166,8 +166,9 @@
             <tr>
             	<td>관심키워드</td>
             	<td>
-            	    <table id="keyword">
-            	    
+            	    <table id="keyword">	 
+            	    	
+            	    	
 	            		<tr>
 	            			<td>
 			            		<input type="checkbox" value="K001" name="keyword">
@@ -274,6 +275,7 @@
             		asdsadasddasdassadd
             		asdsadasddasdassadd
             		asdsadasddasdassadd
+            		
             		</textarea><br>
 					<input type="checkbox"  id="termsCheck" disabled>
 					<label>위 약관을 확인하였으며, 이에 동의합니다.</label>
@@ -285,6 +287,7 @@
 		</div>
     </form>
 </section>
+</html>
 <script>
 	//비밀번호 확인
 	$(function(){ 
@@ -423,4 +426,15 @@
 		}
 		
 	})
+	
+	//키워드 출력
+	var ktable = document.getElementById('keyword');
+	var row = ktable.insertRow();
+	var cell = row.insertCell();
+	var cd = cell.innerHTML =  `<input type="checkbox" value="${code}.code">`;
+	
+	
+	
+	
+	console.log("${code[3].val}")
 </script>

@@ -30,12 +30,12 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public UserVO userIdFind(UserVO vo) {
+	public String userIdFind(UserVO vo) {
 		return m.userIdFind(vo);
 	}
 
 	@Override
-	public UserVO userPwFind(UserVO vo) {
+	public String userPwFind(UserVO vo) {
 		return m.userPwFind(vo);
 	}
 
@@ -62,6 +62,11 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public int UpdateToken(UserVO vo) {
 		return m.UpdateToken(vo);
+	}
+
+	@Override
+	public int userPwUpdate(UserVO vo) {
+		return m.userPwUpdate(vo);
 	}
 
 }
