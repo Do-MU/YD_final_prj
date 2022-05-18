@@ -23,47 +23,28 @@
 
 <section class="contact_area p_120">
 	<div class="container">
-		<div id="list"></div>
+		<div id="list"></div><br>
 	</div>
-</section>
-
-<c:forEach var="pd" items="${prdDepBase}" varStatus="status">
-	<div class="depositList">
-		<div id="bankName">${pd.kor_co_nm}</div>
-		<div id="depName">${pd.fin_prdt_nm}</div>
-		<div id="group"
-			style="border-bottom: 1px solid; display: inline-block;">
-			${pd.join_way }
-			<button type="button" class="btn btn-join">가입하기</button>
-			<button type="button" class="btn btn-select" data-toggle="modal"
-				id="selModal">상세보기</button>
-			<input type="button" class="btn btn-select" data-toggle="modal"
-				value="상세보기" class="selModal">
-		</div>
-	</div>
-	<br>
-
-	<div class="modal fade" id="modal" tabindex="-1" role="dialog"
-		aria-labelledby="exampleModalLabel" aria-hidden="true">
+	
+	<div class="modal fade" id="modal" role="dialog">
 		<div class="modal-dialog modal-sm">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h3 class="modal-title">${pd.kor_co_nm}</h3>
+					<h3 class="modal-title" id="bankName"></h3>
 					<button type="button" class="close" data-dismiss="modal">&times;</button>
 				</div>
 				<div class="modal-body">
 					<div id="depositOpt"></div>
-
 				</div>
 				<div class="modal-footer">
-					<button type="button" class="btn btn-default" data-dismiss="modal">가입하러가기</button>
+					<button type="button" class="btn btn-default" data-dismiss="modal" onclick="location.href='depositJoinForm'">가입하러가기</button>
 				</div>
 			</div>
 		</div>
 	</div>
-</c:forEach>
-
+</section>
 <script>
+	// 리스트 목록 출력
 	$.ajax({
 		url:"prdDepBase"
 	}).done(function(result){
@@ -78,21 +59,33 @@
 		}
 	});
 	
+	//상세보기시 옵션 출력
 	$("#list").on("click",".depView",function(){
+		$("#bankName").html("");
+		$("#depositOpt").html("");
+		
 		var dep_id = $(this).parent().data("dep_id");
+		$("#modal").modal("show");
+		
+		$.ajax({
+			url: "prdDepBase",
+			data:{dep_id: dep_id}
+		}).done(function(result){
+				$("<div>").append($("<div>").html(dep.kor_co_nm))
+						  .appendTo($("#bankName"))
+		});
+		
 		$.ajax({
 			url:"prdDepOpt",
 			data:{dep_id:dep_id}
 		}).done(function(result){
-			console.log(result);
 			for(opt of result){
-				$("<div>").append( $("<div>").html("최소 " + opt.intr_rate + "%") )
+				$("<div>").append( $("<div>").html(opt.save_trm + "개월"))
+						  .append( $("<div>").html("최소 " + opt.intr_rate + "%") )
 						  .append( $("<div>").html("최대 " + opt.intr_rate2 + "%") )
-						  .append( $("<div>").html(opt.save_trm + "개월") )
-						  .appendTo($("#dep"+opt.dep_id))
+						  .appendTo($("#depositOpt"))
 			}
-			
-		})
-		
-	})
+		});
+	});
+	
 </script>

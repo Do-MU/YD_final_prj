@@ -8,7 +8,6 @@ import com.keumbi.prj.prd.vo.DepositOptionVO;
 public interface DepositMapper {
 	List<DepositBaseVO> selectAllDepBase();
 	List<DepositOptionVO> selectAllDepOpt(int dep_id);
-	
 	int insertDepBase(DepositBaseVO vo);
 	int insertDepOpt(DepositOptionVO vo);
 	int deleteAllDepBase();
