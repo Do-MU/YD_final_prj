@@ -3,19 +3,33 @@
 <mapper namespace="com.keumbi.prj.account.mapper.AccountMapper">
 	
 	<select id="selectAll" resultType="AccountVO">
-		SELECT	FINTECH_USE_NUM, ACCOUNT_NUM_MASKED, ACCOUNT_ALIAS, BANK_NAME
+		SELECT	*
 		FROM 	ACCOUNTS
 		WHERE	USER_ID = #{user_id}
 	</select>
 	
-	<select id="selectOne"></select>
+	<select id="selectAccount" parameterType="AccountVO" resultType="Integer">
+		SELECT	COUNT(*)
+		FROM 	ACCOUNTS
+		WHERE	FINTECH_USE_NUM = #{fintech_use_num}
+	</select>
+	
+	<select id="selectOne" parameterType="AccountVO" resultType="AccountVO">
+		SELECT 	*
+		FROM 	ACCOUNTS
+		WHERE 	FINTECH_USE_NUM = #{fintech_use_num}
+	</select>
 	
 	<insert id="insertAccount" parameterType="AccountVO">
-		INSERT INTO ACCOUNTS ( FINTECH_USE_NUM, USER_ID, ACCOUNT_NUM_MASKED, ACCOUNT_ALIAS, BANK_CODE_STD, BANK_NAME )
-		VALUES ( #{fintech_use_num}, #{user_id}, #{account_num_masked}, #{account_alias}, #{bank_code_std}, #{bank_name} )
+		INSERT INTO ACCOUNTS ( FINTECH_USE_NUM, USER_ID, ACCOUNT_NUM_MASKED, ACCOUNT_ALIAS, BANK_CODE_STD, BANK_NAME, BALANCE_AMT )
+		VALUES ( #{fintech_use_num}, #{user_id}, #{account_num_masked}, #{account_alias}, #{bank_code_std}, #{bank_name}, #{balance_amt} )
 	</insert>
 	
-	<update id="updateAccount"></update>
+	<update id="updateBalance">
+		UPDATE 	ACCOUNTS
+		SET 	BALANCE_AMT = #{balance_amt}
+		WHERE	FINTECH_USE_NUM = #{fintech_use_num}
+	</update>
 	
 	<delete id="deleteAccount"></delete>
 </mapper>

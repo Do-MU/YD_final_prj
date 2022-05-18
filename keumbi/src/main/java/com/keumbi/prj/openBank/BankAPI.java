@@ -1,12 +1,16 @@
 package com.keumbi.prj.openBank;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
@@ -74,7 +78,7 @@ public class BankAPI {
 		}
 		
 		JsonNode jsonVal = json.get("res_list");
-		System.out.println(json.get("res_list"));
+		System.out.println("jsonVal : " + jsonVal);
 		
 		for(JsonNode i : jsonVal) {
 			AccountVO avo = new AccountVO();
@@ -89,36 +93,50 @@ public class BankAPI {
 		return acclist;
 	}
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	// 계좌잔액조회
-	/* public static JsonNode getBalance(UserVO vo) {
-		JsonNode json = null;
-		
+	 public static long getBalance(UserVO vo, String fintech_use_num) {
+		//System.out.println(fintech_use_num);
+		long balance = 0;
 		String reqURL = "https://testapi.openbanking.or.kr/v2.0/account/balance/fin_num";
 		String param = "";
-		param += "bank_tran_id" + orgCode + "U" + getSequence();
+		param += "bank_tran_id=" + orgCode + "U" + getSequence();
 		param += "&tran_dtime=" + getDate();
-		param += "&fintech_use_num=";
+		param += "&fintech_use_num=" + fintech_use_num;
 		
-		return json;
+		HttpHeaders headers = new HttpHeaders();
+		headers.set("Authorization","Bearer " + vo.getAccess_token());
+		
+		HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<MultiValueMap<String, String>>(null, headers);
+		
+		RestTemplate restTemplate = new RestTemplate();
+		ResponseEntity<Map> res = restTemplate.exchange(reqURL + "?" + param, HttpMethod.GET, request, Map.class);
+		System.out.println(res.getBody());
+		
+		Map map = res.getBody();
+		balance = Long.valueOf((String) map.get("balance_amt")); 
+		return balance;
+		
 	}
+	 
+	 // 거래내역조회
+	 public static Map getTransaction(UserVO vo) {
+		 String reqURL = "https://testapi.openbanking.or.kr/v2.0/account/transaction_list/fin_num";
+		 
+		 MultiValueMap<String, String> map = new LinkedMultiValueMap<String, String>();
+			map.add("bank_tran_id", "M202200735U" + getSequence());
+			map.add("fintech_use_num", "");
+			map.add("inquiry_type", "A");
+			map.add("inquiry_base", "D");
+			map.add("from_date", "20190101");
+			map.add("to_date", "20190102");
+			map.add("sort_order", "D");
+			map.add("tran_dtime", "20220420105700");
+			
+			return null;
+	 }
+	 
+	 
 
-	
 	public static String getSequence() {
 		long curTime = System.currentTimeMillis();
 		String gs = String.valueOf(curTime).substring(4);
@@ -135,5 +153,5 @@ public class BankAPI {
 		gd = simpleDateFormat.format(nowDate);
 		//System.out.println("date : " + gd);
 		return gd;
-	} */
+	}
 }
