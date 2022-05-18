@@ -192,7 +192,7 @@ body {
 						<label>날짜 </label> <input type="date" name="tdate"> <br>
 						<br> <label>분류 </label> <select name="cat_code">
 							<option value="">선택</option>
-							<option value="D001">식비</option>
+							<!-- <option value="D001">식비</option>
 							<option value="D002">카페/간식</option>
 							<option value="D003">술/유흥</option>
 							<option value="D004">생활</option>
@@ -210,7 +210,10 @@ body {
 							<option value="D016">급여</option>
 							<option value="D017">이체</option>
 							<option value="D018">ATM출금</option>
-							<option value="D019">기타</option>
+							<option value="D019">기타</option> -->
+							<c:forEach var="c" items="${code}">
+								<option value="${c.code}">${c.val}</option>
+							</c:forEach>
 						</select> <br>
 						<br> <label>금액 </label> <input type="number" name="amt">
 						<br> <label>내용 </label> <input type="text" name="content">

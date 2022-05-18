@@ -6,4 +6,10 @@
 		FROM	COMMON_CODE
 		WHERE	PRE_CODE = 'K' 
 	</select>
+	
+	<select id="categoryCode" resultType="CodeVO">
+		SELECT	CODE, VAL
+		FROM	COMMON_CODE
+		WHERE	PRE_CODE = 'D' 
+	</select>
 </mapper>
