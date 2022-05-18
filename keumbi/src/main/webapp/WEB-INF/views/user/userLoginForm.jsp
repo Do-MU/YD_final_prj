@@ -15,7 +15,7 @@ input {
 	background-image: -moz-linear-gradient(0deg, #766dff 0%, #88f3ff 100%);
 	background-image: -webkit-linear-gradient(0deg, #766dff 0%, #88f3ff 100%);
 	background-image: -ms-linear-gradient(0deg, #766dff 0%, #88f3ff 100%);
-	margin-bottom: 300px;
+	margin-bottom: 200px;
 }
 
 #icon {
@@ -64,13 +64,15 @@ footer {
 			<div>
 				<input type="submit" value="로그인">
 			</div>
-			<hr width="17%" color="gray" noshade />
+			<hr width="300px" color="gray" noshade />
 			<div>
 				<span onclick="location.href='userJoinForm'" id="join">회원가입</span> <span
 					id="idFind">아이디 찾기</span> <span id="pwFind">비밀번호 찾기</span>
 			</div>
 		</div>
 	</form>
+	
+	
 	<div class="modal fade" id="findIDModal" tabindex="-1"
 		aria-labelledby="exampleModalLabel" aria-hidden="true">
 		<div class="modal-dialog">

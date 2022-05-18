@@ -66,7 +66,6 @@
 }
 
 body {
-	margin: 40px 10px;
 	padding: 0;
 	font-family: Arial, Helvetica Neue, Helvetica, sans-serif;
 	font-size: 14px;
@@ -92,16 +91,19 @@ body {
 			</div>
 		</div>
 	</section>
+	<section class="contact_area p_120">
+		<div class="container">
+			<div id='calendar'></div>
 
-	<div id='calendar'></div>
 
-
-	<!-- 클릭한 날짜의 입출금 내역 출력 되는 곳 -->
-	<div id="dayAmt">
-	<table>
-	
-	</table>
-	</div>
+			<!-- 클릭한 날짜의 입출금 내역 출력 되는 곳 -->
+			<div id="dayAmt">
+			<table>
+			
+			</table>
+			</div>
+		</div>
+	</section>
 
 
 	<!-- 현금 지출수입내역 입력 Modal -->

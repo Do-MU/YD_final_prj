@@ -13,7 +13,11 @@
 		<div class="banner_inner d-flex align-items-center">
 			<div class="container">
 				<div class="banner_content text-center">
-					<h1>TEAM KEUMBI</h1>
+					<h2>TEAM KEUMBI</h2>
+						<div class="page_link">
+							<a href="home">Home</a>
+							<a href="teamKeumbi">Team KEUMBI</a>
+						</div>
 				</div>
 			</div>
 		</div>
