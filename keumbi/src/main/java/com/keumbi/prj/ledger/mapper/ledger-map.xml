@@ -8,7 +8,7 @@
 				ELSE 'in' 
 				END AS "className"
 		FROM  TOTAL_TRANS
-		<!-- where user_id = #{user_id} -->
+		<!-- WHERE USER_ID = #{user_id} -->
 		GROUP BY TDATE, IO_CODE
 		ORDER BY TDATE
 	</select>
