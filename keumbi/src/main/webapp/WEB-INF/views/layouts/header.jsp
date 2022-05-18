@@ -20,7 +20,7 @@
 							<ul class="dropdown-menu">
 								<li class="nav-item"><a class="nav-link" href="accountView">내 계좌 목록</a></li>
 								<li class="nav-item"><a class="nav-link" href="#">송금</a></li>
-								<li class="nav-item"><a class="nav-link" href="#">상품추천</a></li>
+								<li class="nav-item"><a class="nav-link" href="prdDepositList">상품추천</a></li>
 							</ul>
 						</li>
 						<li class="nav-item submenu dropdown">

@@ -109,7 +109,6 @@
 }
 
 body {
-	margin: 40px 10px;
 	padding: 0;
 	font-family: Arial, Helvetica Neue, Helvetica, sans-serif;
 	font-size: 14px;
@@ -142,10 +141,11 @@ body {
 			</div>
 		</div>
 	</section>
-
-	<c:if test="${not empty loginUser.id}">
-	<div id='calendar'></div>
-	</c:if>
+	<section class="contact_area p_120">
+		<div class="container">
+			<c:if test="${not empty loginUser.id}">
+	      <div id='calendar'></div>
+	    </c:if>
 
 	<!-- 클릭한 날짜의 입출금 내역 출력 되는 곳 -->
 	<div id="dayView">
@@ -160,7 +160,8 @@ body {
 		<p class="h2 text-center" id="empty"></p>
 	</div>
 	<!-- 클릭한 날짜 입출금 내역 끝 -->
-	
+	</div>
+	</section>
 
 	<!-- 현금 지출수입내역 입력 Modal -->
 	<div class="modal fade" id="myModal" tabindex="-1"
