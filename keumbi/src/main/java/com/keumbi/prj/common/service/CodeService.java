@@ -6,4 +6,5 @@ import com.keumbi.prj.common.vo.CodeVO;
 
 public interface CodeService {
 	List<CodeVO> keywordCode();
+	List<CodeVO> categoryCode();
 }

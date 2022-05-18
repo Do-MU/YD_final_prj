@@ -15,4 +15,9 @@ public class CodeServiceImpl implements CodeService {
 		return null;
 	}
 
+	@Override
+	public List<CodeVO> categoryCode() {
+		return null;
+	}
+
 }
