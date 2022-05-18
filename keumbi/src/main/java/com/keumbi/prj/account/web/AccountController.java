@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.keumbi.prj.account.service.AccountService;
@@ -23,58 +24,52 @@ public class AccountController {
 	
 	ObjectMapper om = new ObjectMapper();
 	
-
-	// 계좌 view page
+	// 계좌 view page -> 목록출력
 	@RequestMapping("/accountView")
-	public String accountView() {
+	public String accountView(HttpSession session, Model model) {
+		UserVO vo = (UserVO) session.getAttribute("loginUser");
+		String userSeq = vo.getUser_seq_num();
+		if(userSeq != null && !userSeq.isEmpty()) {
+			model.addAttribute("acc", service.selectAll(session));
+		}
 		return "account/accountList";
 	}
 	
-	// 계좌목록
-//	@RequestMapping("/accountList")
-//	@ResponseBody
-//	public String accountList(HttpSession session, Model model) {
-//		UserVO vo = (UserVO) session.getAttribute("loginUser");
-//		String userId = vo.getId();
-//		List<AccountVO> listRes = BankAPI.getAccountList(vo);
-//		System.out.println("listRes : " + listRes);
-//		
-//		// db 저장
-//		for(AccountVO accVO : listRes) {
-//			accVO.setUser_id(userId);
-//			service.insertAccount(accVO);
-//		}
-//		
-//		// 목록조회
-//		model.addAttribute(service.selectAll());
-//		System.out.println(model);
-//		
-//		return "account/accountList";
-//	}
-	
-		// 계좌목록 -> DB저장
-		@RequestMapping("/saveAccount")
-		@ResponseBody
-		public String saveAccount(HttpSession session, Model model) {
-			UserVO vo = (UserVO) session.getAttribute("loginUser");
-			String userId = vo.getId();
-			List<AccountVO> listRes = BankAPI.getAccountList(vo);
-			System.out.println("listRes : " + listRes);
-			
-			// DB저장
-			for(AccountVO accVO : listRes) {
-				accVO.setUser_id(userId);
-				service.insertAccount(accVO);
-			}
-			
-			return userId;
+	// 사용자 인증 -> 계좌목록출력
+	@RequestMapping("/getAccount")
+	@ResponseBody
+	public ModelAndView saveAccount(HttpSession session) {
+		UserVO vo = (UserVO) session.getAttribute("loginUser");
+		
+		//계좌목록 조회 -> db 저장
+		List<AccountVO> acclist = BankAPI.getAccountList(vo);
+		//System.out.println("acclist : " + acclist);
+		
+		String userId = vo.getId();
+		for(AccountVO accVO : acclist) {
+			accVO.setUser_id(userId);
+			//잔액조회
+			long blist = BankAPI.getBalance(vo, accVO.getFintech_use_num());
+			//System.out.println("blist : " + blist);
+			accVO.setBalance_amt(blist);
+			//db저장
+			service.insertAccount(accVO);
 		}
 		
-		// 계좌목록 -> 조회
-		@RequestMapping("/getAccount")
-		@ResponseBody
-		public List<AccountVO> getAccount(HttpSession session) {
-			UserVO userVO = (UserVO) session.getAttribute("loginUser");
-			return service.selectAll(userVO.getId());
-		}
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("account/accountList");
+		mv.addObject("acc", service.selectAll(session));
+
+		return mv;
+	}
+	
+	// 거래내역출력
+	@RequestMapping("transaction")
+	@ResponseBody
+	public ModelAndView transaction() {
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("account/transList");
+		return mv;
+	}
+	
 }

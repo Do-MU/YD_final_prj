@@ -11,7 +11,7 @@ public class AccountVO {
 	private String bank_code_std;
 	private String bank_name;
 	private String account_code;
-	private int balance_amt;
+	private long balance_amt;
 	private String product_name;
 	private int prd_id;
 }

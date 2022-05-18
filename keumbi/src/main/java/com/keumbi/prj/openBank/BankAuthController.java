@@ -16,10 +16,9 @@ public class BankAuthController {
 	
 	@Autowired UserMapper mapper;
 	
-	// 사용자 인증요청
+//	// 사용자 인증요청
 	@RequestMapping("/bankAuth")
 	public String bankAuth(AuthVO avo) throws Exception {
-		// 최초 사용자 인증 유무 -> ?
 		 
 		String reqUrl = "https://testapi.openbanking.or.kr/oauth/2.0/authorize";
 		String url = reqUrl
@@ -39,7 +38,7 @@ public class BankAuthController {
 	public String bankCallback(String code, HttpSession session) { // 넘어오는 파라미터와 같은 값을 받아야함		
 		// 발급받은 토큰 DB에 저장
 		JsonNode res = BankAPI.getToken(code);
-		System.out.println("res : " + res);
+		//System.out.println("!!!res : " + res);
 		
 		//System.out.println("1 : " + res.get("access_token").asText());
 		//System.out.println("2 : " + res.get("refresh_token").asText());
@@ -49,9 +48,12 @@ public class BankAuthController {
 		uvo.setAccess_token(res.get("access_token").asText());
 		uvo.setRefresh_token(res.get("refresh_token").asText());
 		uvo.setUser_seq_num(res.get("user_seq_no").asText());
-		mapper.UpdateToken(uvo);
 		
-		return "home/home";
+		//System.out.println("uvo : " +  uvo);
+		
+		mapper.UpdateToken(uvo);
+
+		return "redirect:getAccount";
 	}
 	
 }
