@@ -18,4 +18,9 @@ public class CodeServiceImpl implements CodeService {
 		return m.keywordCode();
 	}
 
+	@Override
+	public List<CodeVO> categoryCode() {
+		return null;
+	}
+
 }

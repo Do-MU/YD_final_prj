@@ -11,6 +11,10 @@
 <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/ledger/main.css">
 <script>
+	if (!'${loginUser.id}') {
+		alert('로그인이 필요합니다.');
+		window.location = "userLoginForm";
+	}
 
 	function priceToString(price) {
 	    return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
@@ -26,7 +30,7 @@
 			dayMaxEvents : true, 
 			progressiveEventRendering : true,
 			events : "totalTrans",
-			eventColor: '#ffffff00',			
+			eventColor: '#ffffff00',
 			dateClick : function(info) {
 				
 				$("#listHead").empty();
@@ -65,6 +69,7 @@
 									      <td>\${data.content}</td>
 									      <td data-iocode=\${data.io_code}>\${price}원</td>
 									   </tr>`;
+							
 									   
 							$('#listBody').append(tr2);		
 							//$("#dayTotal").
@@ -144,8 +149,8 @@ body {
 	<section class="contact_area p_120">
 		<div class="container">
 			<c:if test="${not empty loginUser.id}">
-	      <div id='calendar'></div>
-	    </c:if>
+	      		<div id='calendar'></div>
+	    	</c:if>
 
 	<!-- 클릭한 날짜의 입출금 내역 출력 되는 곳 -->
 	<div id="dayView">
