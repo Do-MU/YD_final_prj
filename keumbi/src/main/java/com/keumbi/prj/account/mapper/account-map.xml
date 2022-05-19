@@ -30,4 +30,6 @@
 		SET 	BALANCE_AMT = #{balance_amt}
 		WHERE	FINTECH_USE_NUM = #{fintech_use_num}
 	</update>
+  
+	<delete id="deleteAccount"></delete>
 </mapper>

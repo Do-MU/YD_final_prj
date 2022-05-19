@@ -18,3 +18,4 @@ public class DepositBaseVO {
 	private String etc_note;
 	private String max_limit;
 }
+

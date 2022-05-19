@@ -7,4 +7,5 @@ import com.keumbi.prj.common.vo.CodeVO;
 public interface CodeMapper {
 	List<CodeVO> keywordCode();
 	List<CodeVO> categoryCode();
+	List<CodeVO> bankCode();
 }

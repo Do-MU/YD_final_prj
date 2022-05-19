@@ -12,4 +12,12 @@
 		FROM	COMMON_CODE
 		WHERE	PRE_CODE = 'D' 
 	</select>
+	
+	<select id="bankCode" resultType="CodeVO">
+		SELECT DISTINCT(SUBSTR(c.code,2,3)) AS code, val
+		FROM PRD_DEP_BASES b
+		JOIN COMMON_CODE c
+		ON B.KOR_CO_NM = C.VAL
+		WHERE B.KOR_CO_NM = ${kor_co_nm}
+	</select>
 </mapper>
