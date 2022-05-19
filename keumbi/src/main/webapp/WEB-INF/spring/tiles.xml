@@ -14,7 +14,17 @@
 		<put-attribute name="body" value="/WEB-INF/views/admin/{1}.jsp" />
 	</definition>
 	
+	<!-- login/join Form -->
+	<definition name="empty" template="/WEB-INF/views/layouts/empty.jsp">
+		<put-attribute name="title" value="금비"/>
+		<put-attribute name="body" value=""/>
+	</definition>
+
+	<definition name="*" extends="empty">
+		<put-attribute name="body" value="/WEB-INF/views/{1}.jsp" />
+	</definition>
 	
+	<!-- Defualt -->
 	<definition name="default" template="/WEB-INF/views/layouts/layout.jsp">
 		<put-attribute name="title" value="금비"/>
 		<put-attribute name="header" value="/WEB-INF/views/layouts/header.jsp"/>

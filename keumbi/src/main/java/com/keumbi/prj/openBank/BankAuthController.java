@@ -55,5 +55,4 @@ public class BankAuthController {
 
 		return "redirect:getAccount";
 	}
-	
 }
