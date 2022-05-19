@@ -42,10 +42,17 @@
 		FROM PRD_DEP_BASES
 	</select>
 	
+	<select id="selectOneDepBase" resultType="DepositBaseVO">
+		SELECT *
+		FROM PRD_DEP_BASES
+		WHERE	DEP_ID = #{dep_id}
+	</select>
+	
 	<select id="selectAllDepOpt" resultType="DepositOptionVO">
 		SELECT 	*
 		FROM 	PRD_DEP_OPTIONS
 		WHERE	DEP_ID = #{dep_id}
+		ORDER BY SAVE_TRM
 	</select>
 	
 	<select id="selectBankName" resultType="DepositBaseVO">

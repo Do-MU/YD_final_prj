@@ -7,12 +7,11 @@ import com.keumbi.prj.prd.vo.DepositOptionVO;
 
 public interface DepositService {
 	List<DepositBaseVO> selectAllDepBase();
+	DepositBaseVO selectOneDepBase(int dep_id);
 	List<DepositOptionVO> selectAllDepOpt(int dep_id);
 	
-	int insertDepBase(DepositBaseVO vo);
-	int insertDepOpt(DepositOptionVO vo);
-	int deleteAllDepBase();
-	int deleteAllDepOpt();
+	String insertAllDeposits();
+	void deleteAllDeposits();
+	
 	List<DepositBaseVO> selectBankName();
-	List<DepositBaseVO> selectAllDepBase(int dep_id);
 }

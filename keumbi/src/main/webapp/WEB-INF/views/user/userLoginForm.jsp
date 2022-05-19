@@ -93,7 +93,7 @@ footer {
 				</div>
 				<div>
 					<label> <span> <input type="password"
-							name="pw" placeholder="비밀번호는 8자 이상">
+							name="pw" placeholder="비밀번호를 입력하세요.">
 					</span>
 					</label>
 				</div>
@@ -109,63 +109,66 @@ footer {
 		</div>
 	</form>
 	
-	
-	<div class="modal fade" id="findIDModal" tabindex="-1"
-		aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<!-- 아이디 찾기 MODAL창 -->
+	<div class="modal fade" id="findIDModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
 		<div class="modal-dialog">
 			<div class="modal-content">
+			
 				<div class="modal-header">
 					<h5 class="modal-title" id="exampleModalLabel">ID 찾기</h5>
-					<button type="button" class="close" data-dismiss="modal"
-						aria-label="Close">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 						<span aria-hidden="true">&times;</span>
 					</button>
 				</div>
+				
 				<div class="modal-body">
-						<table>
-							<tr>
-								<td>이름</td>
-								<td><input id="namei" name="name"></td>
-							</tr>
-							<tr>
-								<td>이메일</td>
-								<td>
-									<input type="text" id="emaili" name="email" class="mail_input1">
-									<button class="mail_btn1">이메일인증</button>
-								</td>						
-							</tr>
-							<tr class="hidden1" style="display:none;">
-								<td><span>인증</span></td>
-								<td>
-									<input type="text" class="mail_check_input1">
-									<button class="mail_check_btn1">확인</button><br>
-									<label id="result1" style="display:none"></label>
-								</td>
-							</tr>
-							<tr id="find1" style="display:none;">
-								<td></td>
-								<td><label id="idf"></label></td>
-							</tr>
-						</table>
+					<table>
+						<tr>
+							<td>이름</td>
+							<td><input id="namei" name="name"></td>
+						</tr>
+						<tr>
+							<td>이메일</td>
+							<td>
+								<input type="text" id="emaili" name="email" class="mail_input1">
+								<button class="mail_btn1">이메일인증</button>
+							</td>						
+						</tr>
+						<tr class="hidden1" style="display:none;">
+							<td><span>인증</span></td>
+							<td>
+								<input type="text" class="mail_check_input1">
+								<button class="mail_check_btn1">확인</button><br>
+								<label id="result1" style="display:none"></label>
+							</td>
+						</tr>
+						<tr id="find1" style="display:none;">
+							<td></td>
+							<td><label id="idf"></label></td>
+						</tr>
+					</table>
 				</div>
+				
 				<div class="modal-footer">
 					<button type="button" id="iFind" class="btn btn-primary">ID찾기</button>
 				</div>
+				
 			</div>
 		</div>
 	</div>
 
-	<div class="modal fade" id="findPWModal" tabindex="-1"
-		aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<!-- 비밀번호 찾기 MODAL창 -->
+	<div class="modal fade" id="findPWModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
 		<div class="modal-dialog">
 			<div class="modal-content">
+			
 				<div class="modal-header">
 					<h5 class="modal-title" id="exampleModalLabel">PW 찾기</h5>
-					<button type="button" class="close" data-dismiss="modal"
-						aria-label="Close">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 						<span aria-hidden="true">&times;</span>
 					</button>
 				</div>
+				
 				<div class="modal-body">
 					<table>
 						<tr>
@@ -173,44 +176,47 @@ footer {
 							<td><input id="idp" name="id"></td>
 						</tr>
 						<tr>
-								<td>이름</td>
-								<td><input id="namep" name="name"></td>
-							</tr>
-							<tr>
-								<td>이메일</td>
-								<td>
-									<input type="text" id="emailp" name="email" class="mail_input2">
-									<button class="mail_btn2">이메일인증</button>
-								</td>						
-							</tr>
-							<tr class="hidden2" style="display:none;">
-								<td><span>인증</span></td>
-								<td>
-									<input type="text" class="mail_check_input2">
-									<button class="mail_check_btn2">확인</button><br>
-									<label id="result2" style="display:none"></label>
-								</td>
-							</tr>
+							<td>이름</td>
+							<td><input id="namep" name="name"></td>
+						</tr>
+						<tr>
+							<td>이메일</td>
+							<td>
+								<input type="text" id="emailp" name="email" class="mail_input2">
+								<button class="mail_btn2">이메일인증</button>
+							</td>						
+						</tr>
+						<tr class="hidden2" style="display:none;">
+							<td><span>인증</span></td>
+							<td>
+								<input type="text" class="mail_check_input2">
+								<button class="mail_check_btn2">확인</button><br>
+								<label id="result2" style="display:none"></label>
+							</td>
+						</tr>
 					</table>
 				</div>
+				
 				<div class="modal-footer">
 					<button type="button" id="pUpdate1" class="btn btn-primary">PW변경하기</button>
 				</div>
+				
 			</div>
 		</div>
 	</div>
 	
-	<div class="modal fade" id="updatePWModal" tabindex="-1"
-		aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<!-- 비밀번호 변경 MODAL창 -->
+	<div class="modal fade" id="updatePWModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
 		<div class="modal-dialog">
 			<div class="modal-content">
+			
 				<div class="modal-header">
 					<h5 class="modal-title" id="exampleModalLabel">PW 찾기</h5>
-					<button type="button" class="close" data-dismiss="modal"
-						aria-label="Close">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 						<span aria-hidden="true">&times;</span>
 					</button>
 				</div>
+				
 				<div class="modal-body">
 					<table>
 						<tr>
@@ -227,12 +233,15 @@ footer {
 						</tr>
 					</table>
 				</div>
+				
 				<div class="modal-footer">
 					<button type="button" id="pUpdate2" class="btn btn-primary">변경</button>
 				</div>
+				
 			</div>
 		</div>
 	</div>
+	
 </section>
 
 
@@ -248,7 +257,6 @@ footer {
 	$("#pwFind").click(function() {
 		$("#findPWModal").modal("show");
 	})
-
 	
 	//아이디 찾기 인증번호 메일 전송
 	var code = "";               						 //이메일전송 인증번호 저장위한 코드
@@ -267,22 +275,22 @@ footer {
 	/* 아이디 찾기 인증번호 비교 */
 	$('.mail_check_btn1').click(function(){
 		var inputCode = $(".mail_input1");        		// 이메일 입력값
-		var iCode = $(".mail_check_input1").val();        // 인증코드 값
-	    var codeBtn = $(".mail_btn1");				//인증번호 발송 버튼
+		var iCode = $(".mail_check_input1").val();      // 인증코드 값
+	    var codeBtn = $(".mail_btn1");					//인증번호 발송 버튼
 	    var checkResult = $("#result1");   				// 인증번호 결과
-	    var resultCode = $(".mail_check_input1");    		// 인증번호 입력란
+	    var resultCode = $(".mail_check_input1");    	// 인증번호 입력란
 	    var resultBtn = $(".mail_check_btn1");			// 인증번호 확인 버튼
 	    
 	    checkResult.css("display", "");
 	    
-	    if(iCode == code){                            // 일치할 경우
+	    if(iCode == code){                            	// 일치할 경우
 	    	checkResult.html("인증번호가 일치합니다.");
 	        checkResult.attr("class", "correct");
 	        inputCode.attr("readonly", "readonly");
 	        codeBtn.attr("disabled", "disabled");
 	        resultCode.attr("readonly", "readonly");
 	        resultBtn.attr("disabled", "disabled");
-	        $("#iFind").click(function(){					//아이디 찾기
+	        $("#iFind").click(function(){				//아이디 찾기
 				$.ajax({
 					url:"userIdFind",
 					data:{
@@ -294,7 +302,7 @@ footer {
 			        $("#idf").html('" '+data+' " '+'입니다.');
 				});
 	        });
-	    } else {                                            // 일치하지 않을 경우
+	    } else {                                       	// 일치하지 않을 경우
 	    	checkResult.html("인증번호를 다시 확인해주세요.");
 	        checkResult.attr("class", "incorrect");
 	        resultCode.val('');
@@ -302,7 +310,7 @@ footer {
 	});
 	
 	//비밀번호 찾기 인증번호 메일 전송
-              						 //이메일전송 인증번호 저장위한 코드
+              						 					// 이메일전송 인증번호 저장위한 코드
 	$(".mail_btn2").click(function(){
 		 var email = $(".mail_input2").val();			// 입력한 이메일
 		 $.ajax({
@@ -318,15 +326,15 @@ footer {
 	/* 비밀번호 찾기 인증번호 비교 */
 	$('.mail_check_btn2').click(function(){
 		var inputCode = $(".mail_input2");        		// 이메일 입력값
-		var iCode = $(".mail_check_input2").val();        // 인증코드 값
-	    var codeBtn = $(".mail_btn2");				//인증번호 발송 버튼
+		var iCode = $(".mail_check_input2").val();      // 인증코드 값
+	    var codeBtn = $(".mail_btn2");					//인증번호 발송 버튼
 	    var checkResult = $("#result2");   				// 인증번호 결과
-	    var resultCode = $(".mail_check_input2");    		// 인증번호 입력란
+	    var resultCode = $(".mail_check_input2");    	// 인증번호 입력란
 	    var resultBtn = $(".mail_check_btn2");			// 인증번호 확인 버튼
 	    
 	    checkResult.css("display", "");
 	    
-	    if(iCode == code){                            // 일치할 경우
+	    if(iCode == code){                            	// 일치할 경우
 	    	checkResult.html("인증번호가 일치합니다.");
 	        checkResult.attr("class", "correct");
 	        inputCode.attr("readonly", "readonly");
