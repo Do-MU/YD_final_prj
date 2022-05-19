@@ -12,4 +12,6 @@ public interface DepositMapper {
 	int insertDepOpt(DepositOptionVO vo);
 	int deleteAllDepBase();
 	int deleteAllDepOpt();
+	List<DepositBaseVO> selectBankName();
+	List<DepositBaseVO> selectAllDepBase(int dep_id);
 }

@@ -23,4 +23,11 @@ public class CodeServiceImpl implements CodeService {
 		return m.categoryCode();
 	}
 
+	@Override
+	public List<CodeVO> bankCode() {
+		// TODO Auto-generated method stub
+		return m.bankCode();
+	}
+
+
 }
