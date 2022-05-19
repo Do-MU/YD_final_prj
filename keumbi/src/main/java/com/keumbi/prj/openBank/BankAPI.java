@@ -1,5 +1,6 @@
 package com.keumbi.prj.openBank;
 
+import java.net.URI;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -13,10 +14,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.keumbi.prj.accTrans.vo.AccTransReqVO;
+import com.keumbi.prj.accTrans.vo.AccTransVO;
 import com.keumbi.prj.account.vo.AccountVO;
 import com.keumbi.prj.user.vo.UserVO;
 
@@ -94,7 +98,7 @@ public class BankAPI {
 	
 	// 계좌잔액조회
 	 public static long getBalance(UserVO vo, String fintech_use_num) {
-		System.out.println(fintech_use_num);
+		//System.out.println(fintech_use_num);
 		long balance = 0;
 		String reqURL = "https://testapi.openbanking.or.kr/v2.0/account/balance/fin_num";
 		String param = "";
@@ -109,7 +113,7 @@ public class BankAPI {
 		
 		RestTemplate restTemplate = new RestTemplate();
 		ResponseEntity<Map> res = restTemplate.exchange(reqURL + "?" + param, HttpMethod.GET, request, Map.class);
-		System.out.println("잔액Body  " + res.getBody());
+		//System.out.println("잔액Body  " + res.getBody());
 		
 		Map map = res.getBody();
 		balance = Long.valueOf((String) map.get("balance_amt"));
@@ -117,22 +121,74 @@ public class BankAPI {
 		
 	}
 	 
-	 // 거래내역조회
-	 public static Map getTransaction(UserVO vo) {
-		 String reqURL = "https://testapi.openbanking.or.kr/v2.0/account/transaction_list/fin_num";
-		 
-		 MultiValueMap<String, String> map = new LinkedMultiValueMap<String, String>();
-			map.add("bank_tran_id", "M202200735U" + getSequence());
-			map.add("fintech_use_num", "");
-			map.add("inquiry_type", "A");
-			map.add("inquiry_base", "D");
-			map.add("from_date", "20190101");
-			map.add("to_date", "20190102");
-			map.add("sort_order", "D");
-			map.add("tran_dtime", "20220420105700");
+	// 거래내역조회
+	public static List<AccTransVO> getTransaction(UserVO uservo, AccTransReqVO vo) {
+		String reqURL = "https://testapi.openbanking.or.kr/v2.0/account/transaction_list/fin_num";
+		
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+		String fd = sdf.format(vo.getFrom_date());
+		String td = sdf.format(vo.getTo_date());
+		
+		MultiValueMap<String, String> map = new LinkedMultiValueMap<String, String>();
+		map.add("bank_tran_id", orgCode + "U" + getSequence());
+		map.add("fintech_use_num", vo.getFintech_use_num());
+		map.add("inquiry_type", "A");
+		map.add("inquiry_base", "D");
+		map.add("from_date", fd);
+		map.add("to_date", td);
+		map.add("sort_order", "D");
+		map.add("tran_dtime", "20220519053800");
+		
+		// multi -> queryString 변경
+		URI uri = UriComponentsBuilder.fromUriString(reqURL)
+				.queryParams(map)
+				.build().encode().toUri();
+
+		HttpHeaders headers = new HttpHeaders();
+		headers.set("Authorization","Bearer " + uservo.getAccess_token());
+		
+		HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<MultiValueMap<String, String>>(map, headers);
+		
+		RestTemplate restTemplate = new RestTemplate();
+		ResponseEntity<String> res = restTemplate.exchange(uri, HttpMethod.GET, request, String.class);
+		
+		JsonNode resBody = null;
+		
+		try {
+			resBody = om.readTree(res.getBody());
+		} catch (JsonProcessingException e) {
+			e.printStackTrace();
+		}
+		//System.out.println("거래내역BODY : " + resBody);
+		
+		JsonNode resList = resBody.get("res_list");
+		System.out.println(resList);
+
+		//avo.setFintech_use_num(resBody.get("fintech_use_num").asText());
+		String finNum = resBody.get("fintech_use_num").asText();
+		
+		List<AccTransVO> list = new ArrayList<AccTransVO>();
+		for(int k=0; k<resBody.size(); k++) {
+			AccTransVO avo = new AccTransVO();
+			avo.setFintech_use_num(finNum);
 			
-			return null;
-	 }
+			for(JsonNode i : resList) {
+				avo.setTran_date(i.get("tran_date").asText());
+				avo.setTran_time(i.get("tran_time").asText());
+				avo.setInout_type(i.get("inout_type").asText());
+				avo.setTran_type(i.get("tran_type").asText());
+				avo.setPrint_content(i.get("print_content").asText());
+				avo.setTran_amt(i.get("tran_amt").asInt());
+				avo.setAfter_balance_amt(i.get("after_balance_amt").asInt());
+				avo.setBranch_name(i.get("branch_name").asText());
+			}
+			list.add(avo);
+		}
+		
+		System.out.println(list);
+		
+		return list;
+	}
 	 
 	 
 

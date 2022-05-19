@@ -27,12 +27,12 @@ public class AccountServiceImpl implements AccountService {
 		// 인증 회원 유무 
 		//-> 인증 완료된 유저일 경우
 		List<AccountVO> acclist = BankAPI.getAccountList(vo);
-		System.out.println("--- " + acclist);
+		//System.out.println("--- " + acclist);
 		if(userSeq != null) {
 			// 새로운 계좌, 잔액변동 유무 조회
 			for(AccountVO avo : acclist) {
 				if(m.selectAccount(avo.getFintech_use_num()) == 0 ) {
-					System.out.println("INSERT!!!!");
+					//System.out.println("INSERT!!!!");
 					avo.setUser_id(userId);
 					m.insertAccount(avo);
 				}
@@ -40,7 +40,7 @@ public class AccountServiceImpl implements AccountService {
 				long blist = BankAPI.getBalance(vo, avo.getFintech_use_num());
 				//System.out.println("blist : " + blist);
 				if(m.selectOne(avo.getFintech_use_num()).getBalance_amt() != blist) {
-					System.out.println("UPDATE!!!!");
+					//System.out.println("UPDATE!!!!");
 					avo.getFintech_use_num();
 					avo.setBalance_amt(blist);
 					m.updateBalance(avo);
@@ -77,11 +77,6 @@ public class AccountServiceImpl implements AccountService {
 	@Override
 	public int updateBalance(AccountVO vo) {
 		return m.updateBalance(vo);
-	}
-
-	@Override
-	public int deleteAccount(AccountVO vo) {
-		return m.deleteAccount(vo);
 	}
 
 	@Override
