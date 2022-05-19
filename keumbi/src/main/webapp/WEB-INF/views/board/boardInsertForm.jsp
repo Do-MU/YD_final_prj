@@ -97,7 +97,7 @@ ul li.tag-item {
 						
 						<div class="container" style="margin:auto;">
 		<div class="row" >
-			<form id="frm" name="frm" method="post" action="insertBoard" style="width:1180px; text-align:center;">
+			<form id="frm" name="frm" method="post" action="insertBoard" style="width:1180px; text-align:center;" onsubmit="call_submit()">
 				<table class="table table-striped" style="text-align: center; border: 1px solid #dddddd; ">
 					<!-- <thead>
 						<tr>
@@ -109,10 +109,11 @@ ul li.tag-item {
 							<td>
 							<input type="text" class="form-control" placeholder="글 제목" id="title" name="title" maxlength="50" style="float:left; width:900px; padding-right: 50em;">
 							<input type="date" class="form-control" id="wdate" name="wdate" required="required" maxlength="50" style="width:250px;"></td>
+							<input type="hidden" name="contents">
 						</tr>
 						<tr>
 							<td><div id="editor" style="width:1150px; height: 100px;"></div>
-							<div id="contents"></div>
+							
 							<div><ul id="tag-list" style="float:left;" ></ul> </div></td>
 							
 						</tr>
@@ -122,36 +123,36 @@ ul li.tag-item {
 				<br>
 				<!-- 글쓰기 버튼 생성 -->
 				<div class="row" id="tag-list" style="margin:auto;">
-				<input type="button" class="btn btn-primary pull-right hashtag" value="#차"  style="width:95px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-				<input type="button" class="btn btn-primary pull-right hashtag" value="#애완동물"  style="width:95px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-				<input type="button" class="btn btn-primary pull-right hashtag" value="#카페"  style="width:95px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-				<input type="button" class="btn btn-primary pull-right hashtag" value="주식"  style="width:95px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-				<input type="button" class="btn btn-primary pull-right hashtag" value="#코인"  style="width:95px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-				<input type="button" class="btn btn-primary pull-right hashtag" value="#게임"  style="width:95px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-				<input type="button" class="btn btn-primary pull-right hashtag" value="#여행"  style="width:95px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-				<input type="button" class="btn btn-primary pull-right hashtag" value="#전자제품"  style="width:95px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-				<input type="button" class="btn btn-primary pull-right hashtag" value="#영화"  style="width:95px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-				<input type="button" class="btn btn-primary pull-right hashtag" value="#옷"  style="width:95px;">
+				<input type="button" role="button" class="btn btn-outline-info pull-right hashtag" value="#차"  style="width:95px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				<input type="button" role="button" class="btn btn-outline-info pull-right hashtag" value="#애완동물"  style="width:95px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				<input type="button" role="button" class="btn btn-outline-info pull-right hashtag" value="#카페"  style="width:95px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				<input type="button" role="button" class="btn btn-outline-info pull-right hashtag" value="주식"  style="width:95px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				<input type="button" role="button" class="btn btn-outline-info pull-right hashtag" value="#코인"  style="width:95px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				<input type="button" role="button" class="btn btn-outline-info pull-right hashtag" value="#게임"  style="width:95px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				<input type="button" role="button" class="btn btn-outline-info pull-right hashtag" value="#여행"  style="width:95px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				<input type="button" role="button" class="btn btn-outline-info pull-right hashtag" value="#전자제품"  style="width:95px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				<input type="button" role="button" class="btn btn-outline-info pull-right hashtag" value="#영화"  style="width:95px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				<input type="button" role="button" class="btn btn-outline-info pull-right hashtag" value="#옷"  style="width:95px;">
 				</div>
 				<br>
 				<div class="row" style="margin:auto;">
-				<input type="button" class="btn btn-primary pull-right hashtag" value="#신발"  style="width:95px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-				<input type="button" class="btn btn-primary pull-right hashtag" value="#의약품"  style="width:95px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-				<input type="button" class="btn btn-primary pull-right hashtag" value="#SNS"  style="width:95px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-				<input type="button" class="btn btn-primary pull-right hashtag" value="#스포츠"  style="width:95px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-				<input type="button" class="btn btn-primary pull-right hashtag" value="#부동산"  style="width:95px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-				<input type="button" class="btn btn-primary pull-right hashtag" value="#문화생활"  style="width:95px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-				<input type="button" class="btn btn-primary pull-right hashtag" value="#교육"  style="width:95px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-				<input type="button" class="btn btn-primary pull-right hashtag" value="#보험"  style="width:95px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-				<input type="button" class="btn btn-primary pull-right hashtag" value="#앤티크"  style="width:95px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-				<input type="button" class="btn btn-primary pull-right hashtag" value="#외식"  style="width:95px;">
+				<input type="button" role="button" class="btn btn-outline-info pull-right hashtag" value="#신발"  style="width:95px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				<input type="button" role="button" class="btn btn-outline-info pull-right hashtag" value="#의약품"  style="width:95px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				<input type="button" role="button" class="btn btn-outline-info pull-right hashtag" value="#SNS"  style="width:95px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				<input type="button" role="button" class="btn btn-outline-info pull-right hashtag" value="#스포츠"  style="width:95px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				<input type="button" role="button" class="btn btn-outline-info pull-right hashtag" value="#부동산"  style="width:95px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				<input type="button" role="button" class="btn btn-outline-info pull-right hashtag" value="#문화생활"  style="width:95px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				<input type="button" role="button" class="btn btn-outline-info pull-right hashtag" value="#교육"  style="width:95px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				<input type="button" role="button" class="btn btn-outline-info pull-right hashtag" value="#보험"  style="width:95px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				<input type="button" role="button" class="btn btn-outline-info pull-right hashtag" value="#앤티크"  style="width:95px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				<input type="button" role="button" class="btn btn-outline-info pull-right hashtag" value="#외식"  style="width:95px;">
 				</div>
 			<br>
 			<br>
 			<br>
 			<br>
 			<br>
-			<input type="submit" id="submit" class="btn  pull-right" value="글쓰기" style="margin:auto; width:600px;">
+			<input type="submit" id="submit" class="btn " value="작성" style="text-align: center; width:600px; ">
 			</form>
 				<!--<input type="submit" id="submit" class="btn  pull-right" onclick="frm.submit();" value="글쓰기" style="margin:auto; width:600px;">-->
 		</div>
@@ -178,6 +179,8 @@ function submit(num){
 </script> -->
 
 <script>
+
+
 const editor = new toastui.Editor({
 el: document.querySelector('#editor'),
 previewStyle: 'vertical',
@@ -186,15 +189,22 @@ initialValue: '',
 initialEditType: 'wysiwyg'
 });
 // !!여기!! editor.getHtml()을 사용해서 에디터 내용 받아오기
-document.querySelector('#contents').insertAdjacentHTML('afterbegin' ,editor.getHtml()); 
-console.log(editor.getHtml()); 
+//document.querySelector('#contents').insertAdjacentHTML('afterbegin' ,editor.getHtml()); 
+
+
+
+function call_submit(){
+	//event.preventDefault();
+	frm.contents.value = editor.getHTML();
+	frm.submit();
+}
 </script>
 
 
 <script>
 
 $(document).ready(function () {
-
+	//console.log(editor.getHtml()); 
   var tag = {};
   var counter = 0;
 

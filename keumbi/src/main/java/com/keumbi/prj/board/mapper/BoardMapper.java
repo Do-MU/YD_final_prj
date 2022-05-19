@@ -7,6 +7,10 @@ import com.keumbi.prj.board.vo.BoardVO;
 public interface BoardMapper {
 	/* int boardInsert(); */
 	void insertBoard(BoardVO vo);
-	List<BoardVO> boardView(int bod_num);
+	void boardHit(int bod_num);
+	void update(BoardVO vo);
+	void delete(int bod_num);
+	BoardVO view(int bod_num);
 	List<BoardVO> selectBoardList();
+	
 }

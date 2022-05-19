@@ -27,10 +27,25 @@ public class BoardServiceImpl implements BoardService {
 		m.insertBoard(vo);
 	}
 	
-	public List<BoardVO> boardView(int bod_num) {
-		return m.boardView(bod_num);
+	@Override
+	public void boardHit(int bod_num) {
+		m.boardHit(bod_num);
 	}
 	
+	@Override
+	public void update(BoardVO vo) {
+		m.update(vo);
+	}
+	
+	@Override
+	public void delete(int bod_num) {
+		m.delete(bod_num);
+	}
+	
+	public BoardVO view(int bod_num) {
+		return m.view(bod_num);
+	}
+		
 	@Override
 	public List<BoardVO> selectBoardList() {
 		return m.selectBoardList();
