@@ -170,15 +170,7 @@
             <tr>
             	<td>관심키워드</td>
             	<td>
-            		<div class="row" style="width:40%;">
-            		<c:forEach var="c" items="${code}">
-            			<div class="col-3">
-            				<input type="checkbox" value="${c.code}" name="keyword">
-				  			<label>${c.val}</label>
-            			</div>
-            		</c:forEach>
-            		</div>
-            	    <!-- <table id="keyword">
+            		<table id="keyword">
 	            		<tr>
 	            			<td>
 			            		<input type="checkbox" value="K001" name="keyword">
@@ -269,7 +261,7 @@
 			  					<label>외식</label>
 			  				</td>
 			  			</tr>
-            		</table> -->
+            		</table>
             	</td>
             </tr>
             <tr>
