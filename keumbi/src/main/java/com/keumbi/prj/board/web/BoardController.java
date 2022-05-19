@@ -7,10 +7,10 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.keumbi.prj.board.service.BoardService;
 import com.keumbi.prj.board.vo.BoardVO;
@@ -41,19 +41,52 @@ public class BoardController {
 	public String insertBoard(BoardVO vo, HttpSession session){
 		UserVO uvo = (UserVO) session.getAttribute("loginUser");
 		vo.setUser_id(uvo.getId());
-		vo.getContents();
+		System.out.println(vo.getContents());
 		service.insertBoard(vo);
 		return "redirect:boardList";
 	}
 	
 	
-	  @RequestMapping(value = "/boardView", method=RequestMethod.GET) public String
-	  boardView(@ModelAttribute("vo") BoardVO vo, Model model) { 
-		  List<BoardVO> list = service.boardView(vo.getBod_num()); 
-		  model.addAttribute("view", list);
+	  @RequestMapping(value = "/boardView", method=RequestMethod.GET) 
+	  public String boardView(BoardVO vo, Model model, @RequestParam("bod_num") int bod_num) { 
+		BoardVO view = service.view(bod_num);		
+		service.boardHit(bod_num);
+		model.addAttribute("view", view);
+			 
 	  
 		  return "board/boardView"; 
 	}
+	  
+	  @RequestMapping(value = "/update", method = RequestMethod.GET)
+	  public String update(@RequestParam("bod_num") int bod_num, Model model) throws Exception {
+		  
+		  BoardVO up =  service.view(bod_num);
+		  model.addAttribute("up", up);	
+		  
+		  return "board/boardUpdate";
+		  
+	}
+	
+	  @RequestMapping(value = "/update", method = RequestMethod.POST)
+	  public String postUpdate(BoardVO vo){
+
+	   service.update(vo);
+	     
+	   return "redirect:boardView";
+	  
+	}
+	  
+	  
+	  
+	  @RequestMapping(value = "/delete", method = RequestMethod.GET)
+	  public String delete(@RequestParam("bod_num") int bod_num) {
+
+		  service.delete(bod_num);
+		
+		  return "redirect:/boardList";
+	}
+	  
+	  
 	 
 	
 	/*
