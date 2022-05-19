@@ -26,12 +26,15 @@ public class LedgerController {
 		model.addAttribute("code", code.categoryCode());
 		return "ledger/monthView";
 	}
+	
+	// 월지출 총액 출력
+	
 
 	// 입출금액 데이터 호출
 	@RequestMapping("/totalTrans")
 	@ResponseBody
-	public List<LedgerMonthVO> totalTrans() {
-		return service.totalTrans();
+	public List<LedgerMonthVO> totalTrans(LedgerMonthVO vo) {
+		return service.totalTrans(vo);
 	}
 
 	// 선택한 날짜의 입출금 내역 호출
@@ -40,12 +43,23 @@ public class LedgerController {
 	public List<LedgerVO> dayTrans(LedgerVO vo) {
 		return service.dayTrans(vo);
 	}
-
+	
+	// 일지출 총액 출력
+	@RequestMapping("/dayTotalAmt")
+	@ResponseBody
+	public List<LedgerVO> dayTotalAmt(LedgerVO vo) {
+		
+		return service.dayTotalAmt(vo);
+		
+	}
+	
 	// 현금 입출금 내역 등록
 	@PostMapping("/cashInsert")
 	@ResponseBody
 	public void cashInsert(LedgerVO vo) {
 		service.cashInsert(vo);
 	}
+	
+	
 
 }
