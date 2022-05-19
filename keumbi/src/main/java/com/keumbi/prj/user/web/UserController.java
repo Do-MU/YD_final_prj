@@ -151,4 +151,11 @@ public class UserController {
     	int result = service.userPwUpdate(userVO);
     	return result;
     }
+    
+    // 나의 챌린지
+    @RequestMapping("/userChallengeList")
+    public String userChallengeList() {
+		return "user/userChallengeList";
+    	
+    }
 }

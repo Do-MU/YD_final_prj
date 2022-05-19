@@ -15,6 +15,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.keumbi.prj.prd.mapper.ChallengeMapper;
 import com.keumbi.prj.account.service.AccountService;
 import com.keumbi.prj.account.vo.AccountVO;
 import com.keumbi.prj.common.service.CodeService;
@@ -22,6 +23,7 @@ import com.keumbi.prj.prd.mapper.LoanMapper;
 import com.keumbi.prj.prd.mapper.SavingMapper;
 import com.keumbi.prj.prd.service.DepositService;
 import com.keumbi.prj.prd.service.TermsService;
+import com.keumbi.prj.prd.vo.ChallengeVO;
 import com.keumbi.prj.prd.vo.DepositBaseVO;
 import com.keumbi.prj.prd.vo.DepositOptionVO;
 import com.keumbi.prj.prd.vo.DepositVO;
@@ -39,6 +41,7 @@ public class PrdController {
 	@Autowired DepositService dep;
 	@Autowired SavingMapper sav;
 	@Autowired LoanMapper loa;
+	@Autowired ChallengeMapper challenge;
 	
 	@Autowired TermsService term; //약관
 	
@@ -229,6 +232,13 @@ public class PrdController {
 		
 		accService.insertAccount(accountVO);
 		return "redirect:prdDepositList";
+	}
+	
+	@RequestMapping("/prdChallengeList")
+	public String challengeList(Model model){
+		model.addAttribute("prdChall", challenge.challengeList());
+		System.out.println(model.addAttribute("prdChall", challenge.challengeList()));
+		return "challenge/prdChallengeList";		
 	}
 	
 }
