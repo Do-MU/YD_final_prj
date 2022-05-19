@@ -8,7 +8,10 @@ public interface BoardService{
 	/* public void boardInsert(BoardVO vo) throws Exception; */
 	
 		void insertBoard(BoardVO vo);
-		List<BoardVO> boardView(int bod_num);
+		void boardHit(int bod_num); 
+		void update(BoardVO vo);
+		void delete(int bod_num);
+		BoardVO view(int bod_num);
 		List<BoardVO> selectBoardList();
 	
 }

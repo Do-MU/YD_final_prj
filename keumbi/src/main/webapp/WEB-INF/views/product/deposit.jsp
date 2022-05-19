@@ -71,8 +71,12 @@
 			url: "prdDepBase",
 			data:{dep_id: dep_id}
 		}).done(function(result){
+			for(dep of result){
+				if(dep.dep_id == dep_id){
 				$("<div>").append($("<div>").html(dep.kor_co_nm))
 						  .appendTo($("#bankName"))
+				}
+			}
 		});
 		
 		$.ajax({

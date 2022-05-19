@@ -12,15 +12,36 @@
 			SELECT NVL(MAX(BOD_NUM),0)+1
 			FROM BOARDS
 		</selectKey>
+		<!-- <selectKey keyProperty="bod_num" resultType="int" order="BEFORE">
+			SELECT BOARDS_SEQ.NEXTVAL FROM DUAL
+		</selectKey> -->
 		INSERT INTO BOARDS ( BOD_NUM, USER_ID, TITLE, CONTENTS, WDATE, BOD_CODE, HIT)
-		VALUES ( #{bod_num}, #{user_id}, #{title}, #{contents}, #{wDate}, #{bod_code}, #{hit} )
+		VALUES ( #{bod_num}, #{user_id}, #{title}, #{contents}, #{wdate}, #{bod_code}, #{hit} )
 	</insert>
 	
-	<select id="boardView" resultType="BoardVO" parameterType="int">
+	<select id="view" resultType="BoardVO" parameterType="java.lang.Integer">
 		SELECT *
 		FROM BOARDS	
-		WHERE BOD_NUM = (#{BOD_NUM})
-	</select>
+		WHERE BOD_NUM = #{bod_num}
+	</select>	
+	
+	<update id="boardHit">
+		UPDATE BOARDS SET
+		HIT = NVL(HIT,0)+1
+		WHERE BOD_NUM = #{bod_num}
+	</update>
+	
+	<update id="update" parameterType="BoardVO">
+	update BOARDS SET
+	TITLE = #{title},
+	CONTENTS = #{contents}
+	WHERE BOD_NUM = #{bod_num}
+    </update>
+	
+	<delete id="delete" parameterType="int">
+		DELETE FROM BOARDS 
+		WHERE BOD_NUM = #{bod_num}
+	</delete>
 	
 	
 	<!-- <insert id="insertComAndCol">

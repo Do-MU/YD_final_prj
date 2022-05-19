@@ -24,7 +24,7 @@
  	
  }
    
- .btn-primary {
+ .btn-outline-info {
  	right: 365px;
  	margin-top:10px;
  	float : right;
@@ -71,8 +71,8 @@
 					<tr>																																		    			    
 						<td>
 							<select class="form-control2" name="searchField">						
-								<option value="">제목</option>
-								<option value="0">내용</option>
+								<option value="title">제목</option>
+								<option value="contents">내용</option>
 								<option value="0">제목 + 내용</option>
 								<option value="0">태그</option>
 							</select>
@@ -105,7 +105,7 @@
 						<th style="background-color: #eeeeee; text-align: center;">조회수</th>
 					</tr>
 				</thead>
-				<tbody>
+				<tbody>					
 					<c:forEach var="i" items="${list}">
 						<%-- <tr>
 							<!-- 테스트 코드 -->
@@ -116,18 +116,18 @@
 							<td>${i*100}</td>							
 						</tr> --%>
 						<tr>
-						<td>${i.bod_num}</td>								
-						<td><a href="${path}/boardView?bod_num=${i.bod_num}">${i.title}</a></td>						
-						<td>${i.wdate}</td>
-						<td>${i.user_id}</td>
-						<td>${i.hit}</td>
+						<td><c:out value="${i.bod_num}" /></td>								
+						<td><a href="./boardView?bod_num=${i.bod_num}"><c:out value="${i.title}" /></a></td>						
+						<td><c:out value="${i.wdate}" /></td>
+						<td><c:out value="${i.user_id}" /></td>
+						<td><c:out value="${i.hit}" /></td>
 						</tr>					
-					</c:forEach>
+					</c:forEach>				
 				</tbody>
 			</table>
 		</div>
 			<!-- 글쓰기 버튼 생성 -->
-			<a href="boardInsertForm" class="btn btn-primary">게시글 작성</a>								
+			<a href="boardInsertForm" role="button" class="btn btn-outline-info">게시글 작성</a>								
 		
 		<br>
         <br>
@@ -167,7 +167,11 @@
 	</div>
 	<br>
 	<!-- 게시판 메인 페이지 영역 끝 -->
+	
+	
+	
 </body>
+
 
 
 </html>

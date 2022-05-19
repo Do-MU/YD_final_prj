@@ -6,6 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+
 <style>
 	.container>div>h1{margin-bottom: 50px;}
 </style>
@@ -21,23 +22,27 @@
 							<h1>인증되지 않은 회원입니다.</h1>
 							<button type="button" class="btn btn-primary" onclick="location.href ='bankAuth'">인증하기</button><br><br>
 						</c:when>
-						
 						<c:otherwise>
 							<h1>계좌목록</h1>
-							<table>
-								<c:forEach items="${acc }" var="acc">
-									<tr id="fin" data-fin="${acc.fintech_use_num }">
-										<td>${acc.bank_name }(${acc.account_alias })</td>
-										<td colspan="4"></td>
-									</tr>
-									<tr>
-										<td colspan="2">${acc.account_num_masked }</td>
-										<td>잔액		${acc.balance_amt }</td>
-										<td><button onclick="transList();">거래내역</button></td>
-										<td><button>이체</button></td>
-									</tr>
-								</c:forEach>
-							</table>
+							<form id="transForm" name="transForm">
+								<input id="inpTrans" name="inpTrans" type="hidden">
+							</form>
+							<div>
+								<table id="output">
+									<c:forEach items="${acc }" var="acc">
+										<tr id="fin" data-fin="${acc.fintech_use_num }">
+											<td>${acc.bank_name }(${acc.account_alias })</td>
+											<td colspan="4"></td>
+										</tr>
+										<tr>
+											<td colspan="2">${acc.account_num_masked }</td>
+											<td>잔액 ${acc.balance_amt }</td>
+											<td><button type="submit" class="trans">거래내역</button></td>
+											<td><button>이체</button></td>
+										</tr>
+									</c:forEach>
+								</table>
+							</div>
 						</c:otherwise>
 					</c:choose>			
 				</div>
@@ -46,16 +51,16 @@
 	</div>
 </section>
 </body>
+
 <script>
-	function transList(){
-		let finNum = $("#fin").data("fin");
-		console.log("===  " + finNum);
+	$(".trans").on("click", this, function(){
+		var finNum = $(this).parent().parent().prev().data("fin");
+		console.log(finNum);
 		
-		$.ajax({
-			url : "/transaction",
-			data : finNum
-		})
-		
-	}
+		$("#inpTrans").val(finNum);
+		transForm.action = "accTransView";
+		transForm.method = "post";
+		transForm.submit();
+	})
 </script>
 </html>

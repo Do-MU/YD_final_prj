@@ -48,5 +48,10 @@
 		WHERE	DEP_ID = #{dep_id}
 	</select>
 	
+	<select id="selectBankName" resultType="DepositBaseVO">
+		SELECT kor_co_nm
+		FROM PRD_DEP_BASES
+		WHERE DEP_ID = #{dep_id}
+	</select>
 	
 </mapper>

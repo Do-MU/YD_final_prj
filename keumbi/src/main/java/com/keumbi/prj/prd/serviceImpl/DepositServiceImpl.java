@@ -45,4 +45,16 @@ public class DepositServiceImpl implements DepositService{
 		return m.deleteAllDepOpt();
 	}
 
+	@Override
+	public List<DepositBaseVO> selectBankName() {
+		// TODO Auto-generated method stub
+		return m.selectBankName();
+	}
+
+	@Override
+	public List<DepositBaseVO> selectAllDepBase(int dep_id) {
+		// TODO Auto-generated method stub
+		return m.selectAllDepBase(dep_id);
+	}
+
 }

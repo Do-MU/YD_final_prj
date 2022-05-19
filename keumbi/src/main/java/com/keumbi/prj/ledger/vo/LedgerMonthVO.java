@@ -9,4 +9,5 @@ public class LedgerMonthVO {
 	private String start;
 	private int title;
 	private String className;
+	private String yearMonth;
 }

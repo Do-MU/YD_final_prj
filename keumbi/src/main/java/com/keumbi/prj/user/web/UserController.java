@@ -164,5 +164,10 @@ public class UserController {
     	joinTerm.setTerm_name("JOIN");
     	model.addAttribute("term", term.joinTerm());
     	return "joinForm";
+      
+    // 나의 챌린지
+    @RequestMapping("/userChallengeList")
+    public String userChallengeList() {
+		return "user/userChallengeList";
     }
 }
