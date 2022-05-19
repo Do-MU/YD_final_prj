@@ -16,8 +16,8 @@ public class LedgerServiceImpl implements LedgerService {
 	@Autowired LedgerMapper m;
 	
 	@Override
-	public List<LedgerMonthVO> totalTrans() {
-		return m.totalTrans();
+	public List<LedgerMonthVO> totalTrans(LedgerMonthVO vo) {
+		return m.totalTrans(vo);
 	}
 
 	@Override
@@ -28,6 +28,17 @@ public class LedgerServiceImpl implements LedgerService {
 	@Override
 	public int cashInsert(LedgerVO vo) {
 		return m.cashInsert(vo);
+	}
+
+	@Override
+	public String monthTotalAmt(LedgerMonthVO vo) {
+		return m.monthTotalAmt(vo);
+		
+	}
+
+	@Override
+	public List<LedgerVO> dayTotalAmt(LedgerVO vo) {
+		return m.dayTotalAmt(vo);
 	}
 
 }
