@@ -31,6 +31,14 @@
 	margin: 0 auto;
 }
 
+#contents {
+	border : 1px solid;
+ 	width: 50%;
+ 	margin : 0 auto;
+ 	
+
+}
+
 ul {
   padding: 16px 0;
 }
@@ -89,7 +97,7 @@ ul li.tag-item {
 						
 						<div class="container" style="margin:auto;">
 		<div class="row" >
-			<form id="frm" method="post" action="insertBoard" style="width:1180px; text-align:center;">
+			<form id="frm" name="frm" method="post" action="insertBoard" style="width:1180px; text-align:center;">
 				<table class="table table-striped" style="text-align: center; border: 1px solid #dddddd; ">
 					<!-- <thead>
 						<tr>
@@ -98,10 +106,13 @@ ul li.tag-item {
 					</thead> -->
 					<tbody>
 						<tr>
-							<td><input type="text" class="form-control" placeholder="글 제목" name="boardTitle" maxlength="50" style="text-align: left;"></td>
+							<td>
+							<input type="text" class="form-control" placeholder="글 제목" id="title" name="title" maxlength="50" style="float:left; width:900px; padding-right: 50em;">
+							<input type="date" class="form-control" id="wdate" name="wdate" required="required" maxlength="50" style="width:250px;"></td>
 						</tr>
 						<tr>
 							<td><div id="editor" style="width:1150px; height: 100px;"></div>
+							<div id="contents"></div>
 							<div><ul id="tag-list" style="float:left;" ></ul> </div></td>
 							
 						</tr>
@@ -135,13 +146,14 @@ ul li.tag-item {
 				<input type="button" class="btn btn-primary pull-right hashtag" value="#앤티크"  style="width:95px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 				<input type="button" class="btn btn-primary pull-right hashtag" value="#외식"  style="width:95px;">
 				</div>
+			<br>
+			<br>
+			<br>
+			<br>
+			<br>
+			<input type="submit" id="submit" class="btn  pull-right" value="글쓰기" style="margin:auto; width:600px;">
 			</form>
-			<br>
-			<br>
-			<br>
-			<br>
-			<br>
-				<input type="submit" id="submit" class="btn  pull-right" onclick="location.href='boardList'" value="글쓰기" style="margin:auto; width:600px;">
+				<!--<input type="submit" id="submit" class="btn  pull-right" onclick="frm.submit();" value="글쓰기" style="margin:auto; width:600px;">-->
 		</div>
 	</div>
 	<br>
@@ -149,6 +161,22 @@ ul li.tag-item {
 	<!-- 게시판 글쓰기 양식 영역 끝 -->
 <script src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js"></script>
 <!-- TOAST UI Editor 생성 JavaScript 코드 -->
+
+<!-- <script>
+
+function submit(num){
+	
+	let contents = editor.getHTML();
+	
+	if(num==1){
+		
+		$("#insertColumn").children(3).attr("value",contents);
+		$("insertColumn").attr("action","insertBoard").submit();
+	}
+}
+
+</script> -->
+
 <script>
 const editor = new toastui.Editor({
 el: document.querySelector('#editor'),
@@ -158,8 +186,8 @@ initialValue: '',
 initialEditType: 'wysiwyg'
 });
 // !!여기!! editor.getHtml()을 사용해서 에디터 내용 받아오기
-/* document.querySelector('#contents').insertAdjacentHTML('afterbegin' ,editor.getHtml()); */
-/* console.log(editor.getHtml()); */
+document.querySelector('#contents').insertAdjacentHTML('afterbegin' ,editor.getHtml()); 
+console.log(editor.getHtml()); 
 </script>
 
 

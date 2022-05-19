@@ -491,7 +491,7 @@ button:focus {
 }
 
 .banner_area .banner_inner .banner_content .page_link a:before {
-	content: "\e87a";
+	content: ">";
 	font-family: 'Linearicons-Free';
 	position: absolute;
 	right: -25px;

@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <script src="http://code.jquery.com/jquery-3.6.0.js"></script>
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <style>
@@ -69,6 +69,10 @@
 		width : 100%;
 		position : fixed;
 		bottom : 0;
+	}
+	
+	.col-3{
+		margin: auto;
 	}
 </style>
 
@@ -166,8 +170,15 @@
             <tr>
             	<td>관심키워드</td>
             	<td>
-            	    <table id="keyword">
-            	    
+            		<div class="row" style="width:40%;">
+            		<c:forEach var="c" items="${code}">
+            			<div class="col-3">
+            				<input type="checkbox" value="${c.code}" name="keyword">
+				  			<label>${c.val}</label>
+            			</div>
+            		</c:forEach>
+            		</div>
+            	    <!-- <table id="keyword">
 	            		<tr>
 	            			<td>
 			            		<input type="checkbox" value="K001" name="keyword">
@@ -258,7 +269,7 @@
 			  					<label>외식</label>
 			  				</td>
 			  			</tr>
-            		</table>
+            		</table> -->
             	</td>
             </tr>
             <tr>
@@ -274,6 +285,7 @@
             		asdsadasddasdassadd
             		asdsadasddasdassadd
             		asdsadasddasdassadd
+            		
             		</textarea><br>
 					<input type="checkbox"  id="termsCheck" disabled>
 					<label>위 약관을 확인하였으며, 이에 동의합니다.</label>
@@ -285,6 +297,7 @@
 		</div>
     </form>
 </section>
+</html>
 <script>
 	//비밀번호 확인
 	$(function(){ 
@@ -423,4 +436,6 @@
 		}
 		
 	})
+	
+	
 </script>

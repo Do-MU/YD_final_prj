@@ -1,5 +1,7 @@
 package com.keumbi.prj.prd.web;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.keumbi.prj.prd.mapper.LoanMapper;
 import com.keumbi.prj.prd.mapper.SavingMapper;
 import com.keumbi.prj.prd.service.DepositService;
+import com.keumbi.prj.prd.service.TermsService;
 import com.keumbi.prj.prd.vo.DepositBaseVO;
 import com.keumbi.prj.prd.vo.DepositOptionVO;
 import com.keumbi.prj.prd.vo.DepositVO;
@@ -22,6 +25,7 @@ import com.keumbi.prj.prd.vo.LoanVO;
 import com.keumbi.prj.prd.vo.SavingBaseVO;
 import com.keumbi.prj.prd.vo.SavingOptionVO;
 import com.keumbi.prj.prd.vo.SavingVO;
+import com.keumbi.prj.prd.vo.TermsVO;
 
 @Controller
 public class PrdController {
@@ -29,6 +33,8 @@ public class PrdController {
 	@Autowired DepositService dep;
 	@Autowired SavingMapper sav;
 	@Autowired LoanMapper loa;
+	
+	@Autowired TermsService term; //약관
 	
 	@RequestMapping("admin/prdUpdate")
 	public String prdUpdate() {
@@ -126,10 +132,29 @@ public class PrdController {
 	
 	@RequestMapping("/prdDepositList")
 	public String prdDepositList(Model model) {
-		model.addAttribute("prdDepBase", dep.selectAllDepBase());
-		model.addAttribute("prdDepOpt", dep.selectAllDepOpt());
+//		model.addAttribute("prdDepBase", dep.selectAllDepBase());
+//		model.addAttribute("prdDepOpt", dep.selectAllDepOpt());
 		
 		return "product/deposit";
 	}
+	
+	@RequestMapping("/prdDepBase")
+	@ResponseBody
+	public List<DepositBaseVO> prdDepBaseList(){
+		return dep.selectAllDepBase();
+	}
+	
+	@RequestMapping("/prdDepOpt")
+	@ResponseBody
+	public List<DepositOptionVO> prdDepOptList(int dep_id){
+		System.out.println(dep_id);
+		return dep.selectAllDepOpt(dep_id);
+	}
+	
+	@RequestMapping("/depositJoinForm")
+	public String depositJoin(Model model){
+		model.addAttribute("depTerms", term.selectAllTerms());
+		return "product/depositJoinForm";
+	}
+	
 }
-

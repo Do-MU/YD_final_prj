@@ -16,8 +16,8 @@ console.log($("#user_id").val());
 </script> 
 <div class="container">
 	<div class="row">
-	<form id="id" name="id" method="post">
-		<input type="hidden" id="user_id" name="user_id" value="${board.user_id }">
+	<form id="user_id" name="id" method="post">
+		<input type="hidden" id="user_id" name="user_id" value="${list}">
 		
 
 		
@@ -30,15 +30,15 @@ console.log($("#user_id").val());
 				<tbody>
 					<tr>
 						<td>작성일자</td>
-						<td colspan="2">${board.wDate }</td>
+						<td colspan="2">${list.wdate }</td>
 					</tr>
 					<tr>
 						<td style="width: 20%; ">글 제목</td>
-						<td colspan="2">${board.title }</td>
+						<td colspan="2">${list.title }</td>
 					</tr>
 					<tr>
 						<td>내용</td>
-						<td colspan="2" style="height: 200px; text-align: center;">${board.contents }</td>
+						<td colspan="2" style="height: 200px; text-align: center;">${list.contents }</td>
 					</tr>
 				</tbody>
 			</table>
@@ -47,7 +47,7 @@ console.log($("#user_id").val());
 				<!-- <a href="noticeUpdate.do" class="btn btn-primary">수정</a>
 				<a href="noticeDelete.do" type="submit" onclick="return confirm('정말로 삭제하시겠습니까?')"  class="btn btn-primary">삭제</a>  -->
 				<button type="button" class="btn btn-primary" onclick="goUp()">수정</button>
-				<button type="submit" onclick="return confirm('정말로 삭제하시겠습니까?')" formaction="boardDelete.do?id=${board.user_id }" class="btn btn-primary">삭제</button>
+				<button type="submit" onclick="return confirm('정말로 삭제하시겠습니까?')" formaction="boardDelete.do?id=${view.user_id }" class="btn btn-primary">삭제</button>
 			</c:if>
 	</form>
 	</div>

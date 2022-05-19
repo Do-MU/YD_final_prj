@@ -15,17 +15,27 @@
        	</if>
 	</select>
 	
-	<select id="userIdFind" resultType="UserVO">
+	<select id="userIdFind" resultType="String">
 		SELECT	ID
 		FROM	USERS
 		WHERE	NAME = #{name}
 		AND		EMAIL = #{email}
 	</select>
 	
-	<select id="userPwFind" resultType="UserVO">
-		
+	<select id="userPwFind" resultType="String">
+		SELECT	ID
+		FROM 	USERS
+		WHERE	ID = #{id}
+		AND		NAME = #{name}
+		AND		EMAIL = #{email}
 	</select>
-		
+	
+	<update id="userPwUpdate" parameterType="UserVO">
+		UPDATE	USERS
+		SET 	PW = #{pw}
+		WHERE	ID = #{id}
+	</update> 
+	
 	<insert id="userInsert" parameterType="UserVO">
 		INSERT INTO USERS ( ID, PW, NAME, BIRTH, GENDER_CODE, EMAIL, ADDR, PHONE, USER_CODE )
 		VALUES (#{id}, #{pw}, #{name}, #{birth}, #{gender_code}, #{email}, #{addr}, #{phone}, 'U1')
