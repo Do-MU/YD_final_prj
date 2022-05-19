@@ -10,5 +10,4 @@ public interface AccountMapper {
 	AccountVO selectOne(String fintech_use_num); // 계좌단건조회
 	int insertAccount(AccountVO vo);
 	int updateBalance(AccountVO vo); // 잔액수정
-	int deleteAccount(AccountVO vo);
 }
