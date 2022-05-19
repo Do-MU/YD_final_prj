@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.keumbi.prj.accTrans.mapper.AccTransMapper">
+
+	<select id="selectAccTransAll" resultType="AccTransVO">
+		SELECT 	*
+		FROM 	ACC_TRANS
+		WHERE 	FINTECH_USE_NUM = #{fintech_use_num}
+	</select>
+	
+	<insert id="insertAccTrans" parameterType="AccTransVO">
+		<selectKey keyProperty="seq" resultType="int" order="BEFORE">
+			SELECT	NVL( MAX(SEQ), 0 ) + 1
+			FROM	ACC_TRANS
+			WHERE	FINTECH_USE_NUM = #{fintech_use_num}
+		</selectKey>
+		INSERT INTO ACC_TRANS 
+		VALUES ( #{seq}, #{fintech_use_num}, #{tran_date}, #{tran_time}, #{inout_type}, #{tran_type}, #{print_content}, #{tran_amt}, #{after_balance_amt}, #{branch_name} )
+	</insert>
+
+</mapper>
