@@ -17,7 +17,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.keumbi.prj.common.service.CodeService;
-import com.keumbi.prj.common.vo.CodeVO;
+import com.keumbi.prj.common.service.TermService;
+import com.keumbi.prj.common.vo.TermVO;
 import com.keumbi.prj.user.service.UserService;
 import com.keumbi.prj.user.vo.UserVO;
 
@@ -28,6 +29,7 @@ public class UserController {
 	@Autowired UserService service;
 	@Autowired private JavaMailSender mailSender;
 	@Autowired CodeService code;
+	@Autowired TermService term;
 	
 	// 로그인 화면 출력
 	@RequestMapping("/userLoginForm")
@@ -63,12 +65,10 @@ public class UserController {
 	@ResponseBody
 	public String idCheck(HttpServletResponse response, UserVO userVO) {
 		UserVO check = service.userSelect(userVO);
-		response.setContentType("text/html; charset=UTF-8");
 		if(check != null) {
-			return "이미 사용중인 아이디 입니다.";
-		}else {
-			return "사용 가능한 아이디 입니다.";
+			return check.getId();
 		}
+		return null;
 	}
 	
 	// 이메일 인증
@@ -117,7 +117,12 @@ public class UserController {
     // 회원가입 처리
     @RequestMapping("/userJoin")
     public String userJoin(UserVO userVO,@RequestParam(required = false) String[] keyword) {
-    	userVO.setGender_code("G"+ (Integer.parseInt(userVO.getGender_code())%2 == 0? "2":"1") );
+    	String[] arrBirth = userVO.getBirth().split("-");
+    	String birth = "";
+    	for(String s : arrBirth) {
+    		birth += s;
+    	}
+    	userVO.setBirth(birth.substring(2));
     	service.userInsert(userVO);
     	if(keyword != null) {
     		for(String s : keyword) {
@@ -150,5 +155,14 @@ public class UserController {
     	System.out.println(userVO);
     	int result = service.userPwUpdate(userVO);
     	return result;
+    }
+    
+    @RequestMapping("/joinForm")
+    public String joinForm(Model model) {
+    	model.addAttribute("code", code.keywordCode());
+    	TermVO joinTerm = new TermVO();
+    	joinTerm.setTerm_name("JOIN");
+    	model.addAttribute("term", term.joinTerm());
+    	return "joinForm";
     }
 }

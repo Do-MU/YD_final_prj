@@ -102,7 +102,7 @@ footer {
 			</div>
 			<hr width="300px" color="gray" noshade />
 			<div>
-				<span onclick="location.href='userJoinForm'" id="join">회원가입</span> <span
+				<span onclick="location.href='joinForm'" id="join">회원가입</span> <span
 					id="idFind">아이디 찾기</span> <span id="pwFind">비밀번호 찾기</span>
 			</div>
 		</div>
