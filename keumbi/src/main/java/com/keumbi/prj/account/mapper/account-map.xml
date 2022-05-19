@@ -32,4 +32,5 @@
 	</update>
 	
 	<delete id="deleteAccount"></delete>
+	
 </mapper>
