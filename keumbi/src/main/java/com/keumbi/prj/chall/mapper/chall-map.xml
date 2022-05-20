@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.keumbi.prj.chall.mapper.ChallMapper">
-
+	<insert id="challInsert" parameterType="ChallVO">
+		INSERT INTO CHALLS
+		VALUES ((SELECT NVL(MAX(NUM), 0) + 1 FROM CHALLS)
+				, #{user_id}, TO_CHAR(SYSDATE, 'YYYY-MM-DD'), TO_CHAR(SYSDATE+30, 'YYYY-MM-DD'), #{goal}, 'CH1', #{chall_num})   
+	</insert>
 </mapper>
