@@ -93,7 +93,7 @@ footer {
 				</div>
 				<div>
 					<label> <span> <input type="password"
-							name="pw" placeholder="비밀번호를 입력하세요.">
+							name="pw" placeholder="비밀번호">
 					</span>
 					</label>
 				</div>
@@ -221,12 +221,12 @@ footer {
 					<table>
 						<tr>
 							<td>PW</td>
-							<td><input type="text" id="pw1" name="pw"></td>
+							<td><input type="password" id="pw1" name="pw" min="8" placeholder="8자이상 입력해주세요."></td>
 						</tr>
 						<tr>
 							<td>PW확인</td>
 							<td>
-								<input type="text" id="pw2"><br>
+								<input type="password" id="pw2" placeholder="8자이상 입력해주세요."><br>
 								<p style=color:red id="fail" style="display:none;">비밀번호가 일치하지 않습니다.</p>
                 				<p style=color:blue id="success" style="display:none;">비밀번호가 일치합니다.</p>
 							</td>
@@ -354,17 +354,23 @@ footer {
 						$("#findPWModal").modal("hide");		//비밀번호 찾기 모달창 닫기
 						$("#updatePWModal").modal("show");		//비밀번호 변경 모달 띄우기
 						$("#pUpdate2").click(function(){
-							$.ajax({
-								url:"userPwUpdate",
-								data:{
-									id : data,
-									pw : $("#pw1").val()
-								}
-							}).done(function(data){
-								if(data == 1){
-									$("#updatePWModal").modal("hide");									
-								}
-							})
+							var pwd1=$("#pw1").val();
+							var pwd2=$("#pw2").val();
+							if(pwd1 == pwd2 && pwd1.length >= 8){
+								$.ajax({
+									url:"userPwUpdate",
+									data:{
+										id : data,
+										pw : $("#pw1").val()
+									}
+								}).done(function(data){
+									if(data == 1){
+										$("#updatePWModal").modal("hide");									
+									}
+								})
+							}else{
+								alert("비밀번호가 일치하지 않거나 8자 이상이 아닙니다.");
+							}
 						})
 					}
 				});
@@ -378,7 +384,7 @@ footer {
 	
 	//비밀번호 확인
 	$(function(){ 
-		$("input").keyup(function(){
+		$("input").change(function(){
 			var pwd1=$("#pw1").val();
 			var pwd2=$("#pw2").val();
 			if(pwd1 != "" || pwd2 != ""){ 

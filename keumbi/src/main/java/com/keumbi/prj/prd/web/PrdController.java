@@ -15,10 +15,12 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.keumbi.prj.prd.mapper.ChallengeMapper;
 import com.keumbi.prj.account.service.AccountService;
 import com.keumbi.prj.account.vo.AccountVO;
+import com.keumbi.prj.chall.service.ChallService;
+import com.keumbi.prj.chall.vo.ChallVO;
 import com.keumbi.prj.common.service.CodeService;
+import com.keumbi.prj.prd.mapper.ChallengeMapper;
 import com.keumbi.prj.prd.mapper.LoanMapper;
 import com.keumbi.prj.prd.mapper.SavingMapper;
 import com.keumbi.prj.prd.service.DepositService;
@@ -46,6 +48,8 @@ public class PrdController {
 	@Autowired	AccountService accService;
 
 	@Autowired	CodeService codeService;
+	
+	@Autowired ChallService uchall;
 
 	/* 예금 */
 	// 예금상품 업데이트 처리 (관리자)
@@ -208,11 +212,23 @@ public class PrdController {
 	
 	
 	/* 챌린지 */
+	//챌린지 상품 리스트
 	@RequestMapping("/prdChallengeList")
 	public String challengeList(Model model) {
+
 		model.addAttribute("prdChall", challenge.challengeList());
 		System.out.println(model.addAttribute("prdChall", challenge.challengeList()));
 		return "challenge/prdChallengeList";
 	}
-
+	
+	@RequestMapping("/challInsert")
+	@ResponseBody
+	public String challInsert(Model model, HttpSession session, ChallVO challVO) {
+		UserVO vo = (UserVO) session.getAttribute("loginUser"); // 세션값 불러오기
+		String userId = vo.getId(); // 세션에 저장된 ID값
+		challVO.setUser_id(userId);
+		
+		uchall.challInsert(challVO);
+		return "challenge/prdChallengeList";
+	}
 }

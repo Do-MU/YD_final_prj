@@ -22,4 +22,9 @@ public class ChallServiceImpl implements ChallService {
 	public ChallVO challSelect(ChallVO vo) {
 		return m.challSelect(vo);
 	}
+
+	@Override
+	public int challInsert(ChallVO vo) {
+		return m.challInsert(vo);
+	}
 }
