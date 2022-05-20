@@ -126,9 +126,16 @@
 				</tbody>
 			</table>
 		</div>
+		<%-- <c:if test="${sessionScope.loginUser != null}">			
+			<script>
+				alert("로그인 하신 후에 글작성이 가능합니다!");
+				location.href = "user/userLoginForm";
+			</script>							
+</c:if>	 --%>	
 			<!-- 글쓰기 버튼 생성 -->
-			<a href="boardInsertForm" role="button" class="btn btn-outline-info">게시글 작성</a>								
-		
+			<c:if test="${sessionScope.loginUser != null}">
+				<a href="boardInsertForm" role="button" class="btn btn-outline-info">게시글 작성</a>	
+			</c:if>	
 		<br>
         <br>
         <br>
