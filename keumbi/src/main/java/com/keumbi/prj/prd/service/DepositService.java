@@ -13,5 +13,4 @@ public interface DepositService {
 	String insertAllDeposits();
 	void deleteAllDeposits();
 	
-	List<DepositBaseVO> selectBankName();
 }

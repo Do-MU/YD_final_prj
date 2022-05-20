@@ -45,8 +45,16 @@
 		text-align:center;
 		margin-bottom:50px;
 	}
+	
+	#bank_name,
+	#bank_code_std,
+	#product_name,
 	#bankCodeStd{
 		display: none;
+	}
+	#terms{
+		width:500px;
+		height:300px;
 	}
 </style>
 </head>
@@ -56,26 +64,33 @@
 <section class="insert">
 	<form action="depositJoin" id="depositJoin" name="depositJoin" method="post">
 		<h1>예금상품 약관</h1>
-		
 		<table>
 			<tr>
 				<td>
 					<c:forEach var="dt" items="${depTerms }">
-						<c:if test="${dt.term_name eq 'AD'}">
-							<textarea id="terms" name="terms">
-								${dt.term_contents}
+						<c:if test="${dt.term_name eq 'AD'}">	
+							<textarea id="terms" name="terms">이 예금거래기본약관(이하 '이 약관'이라 합니다)은 ${depBase.kor_co_nm}${dt.term_contents}
 							</textarea><br>
 						</c:if>
 					</c:forEach>
 					<input type="checkbox" id="termsCheck" disabled>
 					<label>위 약관을 확인하였으며, 이에 동의합니다.</label>
 				</td>
+				<td>
+					<input type="text" id="bank_name" name="bank_name" value="${depBase.kor_co_nm }">
+					<c:forEach var="code" items="${code}">
+						<c:if test="${code.val eq depBase.kor_co_nm}">
+							<input type="text" id="bank_code_std" name="bank_code_std" value="${code.code}">
+						</c:if>
+					</c:forEach>
+					<input type="text" id="product_name" name="product_name" value="${depBase.fin_prdt_nm }">
+				</td>
 			</tr>
 		</table>
 		<br>
 		<div id="btn_con">
-			<input id="back" type="button" value="취소">
-			<input class="btn-primary" type="button" id="join" value="상품가입"/>
+			<button type="button" id="back" type="button">취소</button>
+			<button type="button" class="btn-primary" id="join">상품가입</button>
 		</div>
 	</form>
 </section>
@@ -110,6 +125,7 @@
 		
 		if(tCheck == true){	
 				alert("가입이 완료되었습니다.");
+				
 				document.getElementById("depositJoin").submit();
 		}
 	})

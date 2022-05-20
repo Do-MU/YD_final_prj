@@ -24,10 +24,10 @@ public class CodeServiceImpl implements CodeService {
 	}
 
 	@Override
-	public List<CodeVO> bankCode() {
-		// TODO Auto-generated method stub
+	public List<CodeVO> bankCode(String val) {
 		return m.bankCode();
 	}
+
 
 
 }

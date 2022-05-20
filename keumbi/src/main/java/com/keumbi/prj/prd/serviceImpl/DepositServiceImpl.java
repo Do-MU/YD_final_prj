@@ -29,7 +29,7 @@ public class DepositServiceImpl implements DepositService{
 		return m.selectOneDepBase(dep_id);
 	}
 
-	@Override	// 예금의 옵션 목록 불러오기
+	@Override	// 단건 예금의 옵션 목록 불러오기
 	public List<DepositOptionVO> selectAllDepOpt(int dep_id) {
 		
 		return m.selectAllDepOpt(dep_id);
@@ -64,9 +64,4 @@ public class DepositServiceImpl implements DepositService{
 	}
 
 
-	@Override
-	public List<DepositBaseVO> selectBankName() {
-		// TODO Auto-generated method stub
-		return m.selectBankName();
-	}
 }

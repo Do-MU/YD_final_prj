@@ -8,5 +8,5 @@ public interface CodeService {
 	List<CodeVO> keywordCode();
 	List<CodeVO> categoryCode();
 	
-	List<CodeVO> bankCode();
+	List<CodeVO> bankCode(String val);
 }
