@@ -55,10 +55,12 @@
 		ORDER BY SAVE_TRM
 	</select>
 	
-	<select id="selectBankName" resultType="DepositBaseVO">
-		SELECT kor_co_nm
-		FROM PRD_DEP_BASES
-		WHERE DEP_ID = #{dep_id}
+	<select id="selectBankName" resultType="String">
+		SELECT 	VAL
+		FROM 	COMMON_CODE
+		WHERE 	CODE = ( 	SELECT	SUBSTR(CODE, 2)
+							FROM	COMMON_CODE
+							WHERE 	VAL = #{kor_co_nm}
+							AND		PRE_CODE = 'PB')
 	</select>
-	
 </mapper>

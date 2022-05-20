@@ -14,5 +14,5 @@ public interface DepositMapper {
 	DepositBaseVO selectOneDepBase(int dep_id);
 	List<DepositOptionVO> selectAllDepOpt(int dep_id);
 	
-	List<DepositBaseVO> selectBankName();
+	String selectBankName(String kor_co_nm);
 }

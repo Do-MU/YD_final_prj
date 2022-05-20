@@ -143,7 +143,13 @@
 		</div>
 	</div>
 </section>
+<input id="val" value="0">
+<input id="slider" type="range" min="0" max="100" step="1">
 <script>
 	document.getElementsByClassName("progress-var")[1].classList.add("bg-danger");
 	$(".bg-danger").html('40%');
+	
+	$("#slider").mousemove(function(){
+		$("#val").val($("#slider").val());
+	})
 </script>
