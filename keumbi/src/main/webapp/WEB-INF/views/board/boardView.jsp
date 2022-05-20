@@ -71,13 +71,16 @@ console.log($("#user_id").val());
 				</tbody>
 			</table>
 			<a href="boardList" role="button" class="btn btn-outline-info" style="float: right;">목록보기</a>
-			<%-- <c:if test="${author eq 'admin'}">	 --%>			
+			<%-- <c:if test="${author eq 'admin'}">	 --%>		
+			<%-- <c:if test="${sessionScope.loginUser == view.user_id}">	 --%>
+			<c:if test="${loginUser eq 'user_id'} ">
 				<!-- <a href="noticeUpdate.do" class="btn btn-primary">수정</a>
 				<a href="noticeDelete.do" type="submit" onclick="return confirm('정말로 삭제하시겠습니까?')"  class="btn btn-primary">삭제</a>  -->
 				<!-- <button role="button" class="btn btn-outline-info" onclick="goUp()" style="float: right;">수정</button> -->
-				<a href="./delete?bod_num=${view.bod_num}" role="button" class="btn btn-outline-info pull-right delete_btn"  onclick="return confirm('정말로 삭제하시겠습니까?')" style="float: right;">삭제</a>
-				<a href="./update?bod_num=${view.bod_num}" role="button" class="btn btn-outline-info" style="float: right;" onclick="return confirm('수정페이지로 이동하시겠습니까?')">수정</a>
+				<a href="delete?bod_num=${view.bod_num}" role="button" class="btn btn-outline-info pull-right delete_btn"  onclick="return confirm('정말로 삭제하시겠습니까?')" style="float: right;">삭제</a>
+				<a href="updateForm?bod_num=${view.bod_num}" role="button" class="btn btn-outline-info" style="float: right;" onclick="return confirm('수정페이지로 이동하시겠습니까?')">수정</a>
 				<%-- <button role="button" type="submit" onclick="return confirm('정말로 삭제하시겠습니까?')" formaction="./boardDelete?id=${view.user_id }" class="btn btn-outline-info pull-right delete_btn" style="float: right;">삭제</button> --%>
+			</c:if>
 			<%-- </c:if> --%>
 	</form>
 	</div>

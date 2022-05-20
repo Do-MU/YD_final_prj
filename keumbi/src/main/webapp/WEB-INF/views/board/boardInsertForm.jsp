@@ -186,7 +186,9 @@ el: document.querySelector('#editor'),
 previewStyle: 'vertical',
 height: '500px',
 initialValue: '',
-initialEditType: 'wysiwyg'
+initialEditType: 'wysiwyg',
+language : 'ko-KR',
+addImageBlobHook: 'onUploadImage'
 });
 // !!여기!! editor.getHtml()을 사용해서 에디터 내용 받아오기
 //document.querySelector('#contents').insertAdjacentHTML('afterbegin' ,editor.getHtml()); 
@@ -294,6 +296,7 @@ $(".hashtag").on("click", function (){
 })
 
 </script>
+
 
 <!-- <script>
 function submit(num) {
