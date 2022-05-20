@@ -4,7 +4,7 @@
 
 	<select id="totalTrans" resultType="LedgerMonthVO">  
 		SELECT   SUM(AMT) AS TITLE, TO_CHAR(TDATE, 'yyyy-MM-dd') AS "start", USER_ID,
-			     CASE WHEN IO_CODE='I1' THEN 'out' 
+			     CASE WHEN IO_CODE='I1' THEN 'out'  
 			   	 ELSE 'in' 
 			   	 END AS "className"
 		FROM   	 TOTAL_TRANS
@@ -35,6 +35,16 @@
 		WHERE  		USER_ID = #{user_id}
 		AND    		TDATE = #{tdate}
 		GROUP BY 	IO_CODE
+	</select>
+	
+	<select id="ledgerSearch" resultType="LedgerVO">
+		SELECT	 T.TDATE, T.NUM, T.USER_ID, T.CONTENT, T.AMT, T.IO_CODE, C.VAL, #{keyword} AS KEYWORD
+		FROM	 TOTAL_TRANS T
+		JOIN	 COMMON_CODE C
+		ON		 T.CAT_CODE = C.CODE
+		WHERE	 USER_ID = #{user_id}
+		AND		 UPPER(CONTENT) LIKE '%'||#{keyword}||'%'
+		ORDER BY TDATE DESC
 	</select>
 	
 	<insert id="cashInsert" parameterType="LedgerVO">

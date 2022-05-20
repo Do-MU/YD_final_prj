@@ -41,4 +41,9 @@ public class LedgerServiceImpl implements LedgerService {
 		return m.dayTotalAmt(vo);
 	}
 
+	@Override
+	public List<LedgerVO> ledgerSearch(LedgerVO vo) {
+		return m.ledgerSearch(vo);
+	}
+
 }

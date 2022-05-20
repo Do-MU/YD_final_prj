@@ -28,7 +28,12 @@ public class LedgerController {
 	}
 	
 	// 월지출 총액 출력
-	
+	/*
+	 * @RequestMapping("/monthTotalView")
+	 * 
+	 * @ResponseBody public LedgerMonthVO monthTotalAmt(LedgerMonthVO vo) { return
+	 * service.monthTotalAmt(vo); }
+	 */
 
 	// 입출금액 데이터 호출
 	@RequestMapping("/totalTrans")
@@ -48,7 +53,6 @@ public class LedgerController {
 	@RequestMapping("/dayTotalAmt")
 	@ResponseBody
 	public List<LedgerVO> dayTotalAmt(LedgerVO vo) {
-		
 		return service.dayTotalAmt(vo);
 		
 	}
@@ -60,6 +64,11 @@ public class LedgerController {
 		service.cashInsert(vo);
 	}
 	
-	
+	// 가계부 거래내역 키워드 검색
+	@RequestMapping("/ledgerSearch")
+	@ResponseBody
+	public List<LedgerVO> LedgerSearch(LedgerVO vo) {
+		return service.ledgerSearch(vo);
+	}
 
 }
