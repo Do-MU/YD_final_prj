@@ -29,19 +29,23 @@
 			<div align="center">
 				<div>
 					<form id="transFrm" name="transFrm">
-						<p>조회 계좌</p>
+						<p>조회 계좌
 							<select name="fintech_use_num">
 								<option value="">계좌를 선택해주세요.</option>
 								<c:forEach items="${acc }" var="acc">
 									<option value="${acc.fintech_use_num }">${acc.bank_name}	${acc.account_num_masked }</option>
 								</c:forEach>
 							</select>
+						</p>
 						<p>조회 기간
 							<input name="from_date" type="date"> - <input name="to_date" type="date">
 							<button type="submit" onclick="transCheck()">조회하기</button>
 						</p>
 						<button>이체하기</button>
 					</form>
+					<div id="output">
+						<!-- 이곳에 거래내역 출력 -->
+					</div>
 				</div>
 			</div>
 		</div>
@@ -58,8 +62,16 @@
 		})
 		.done(function(datas){
 			console.log(datas);
+			for(data of datas){
+				let table = `<table>
+								<tr>
+									<td>\${data.fintech_use_num}</td>
+								</tr>
+							</table>`;
+			}
+			
 		})
-	}
+	};
 
 </script>
 
