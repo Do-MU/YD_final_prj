@@ -44,6 +44,7 @@
 		ON		 T.CAT_CODE = C.CODE
 		WHERE	 USER_ID = #{user_id}
 		AND		 UPPER(CONTENT) LIKE '%'||#{keyword}||'%'
+		AND		 TDATE BETWEEN TO_DATE(ADD_MONTHS(SYSDATE, -1)) AND SYSDATE
 		ORDER BY TDATE DESC
 	</select>
 	
