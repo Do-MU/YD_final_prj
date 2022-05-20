@@ -11,4 +11,5 @@ public interface LedgerMapper {
 	List<LedgerVO> dayTrans(LedgerVO vo);
 	List<LedgerVO> dayTotalAmt(LedgerVO vo);
 	int cashInsert(LedgerVO vo);
+	List<LedgerVO> ledgerSearch(LedgerVO vo);
 }
