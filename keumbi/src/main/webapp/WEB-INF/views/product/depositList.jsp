@@ -93,7 +93,9 @@
 				</div>
 				
 				<div class="modal-footer">
-					<button type="button" class="btn btn-default" data-dismiss="modal" onclick="location.href='depositJoinForm'">가입하러가기</button>
+					<div id="depButton">
+						<button type="button" class="btn btn-default" data-dismiss="modal" id="joinButton">가입하러가기</button>
+					</div>
 				</div>
 				
 			</div>
@@ -120,6 +122,7 @@
 									+"<br><우대조건><br>" + dep.spcl_cnd
 									+"<br>가입대상 : " + dep.join_member
 									+"<br><유의사항><br>" + dep.etc_note)
+			$("#depButton").data("dep_id", dep.dep_id);
 			if(dep.max_limit != null){
 				$("#depositBase2").html("최고한도 : " + dep.max_limit+"원")
 			}
@@ -141,4 +144,9 @@
 		$("#modal").modal("show");
 	});
 	
+	$("#joinButton").on("click", function(){
+		$(this).parent().data("dep_id");
+		console.log($(this).parent().data("dep_id"))
+		window.location.href = "depositJoinForm?dep_id="+$(this).parent().data("dep_id");
+	})
 </script>

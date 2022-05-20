@@ -1,5 +1,6 @@
 package com.keumbi.prj.prd.web;
 
+import java.io.PrintWriter;
 import java.util.List;
 import java.util.Random;
 
@@ -81,14 +82,25 @@ public class PrdController {
 
 	// 예금 가입하기 화면 출력
 	@RequestMapping("/depositJoinForm")
-	public String depositJoinForm(Model model) {
-		model.addAttribute("depTerms", term.selectAllTerms());
-		model.addAttribute("bankNm", dep.selectAllDepBase());
-		model.addAttribute("bankCode", codeService.bankCode());
-
+	public String depositJoinForm(Model model, HttpSession session, HttpServletResponse response, int dep_id, String val) throws Exception {
+		// 로그인이 NULL일경우 로그인화면으로 넘겨보냄
+		if(session.getAttribute("loginUser") == null) {
+		response.setContentType("text/html; charset=UTF-8");
+		PrintWriter login = response.getWriter();
+		login.println("<script>alert('로그인이 필요합니다.');</script>");
+		login.flush();
 		return "user/userLoginForm";
+		}
+		
+		//로그인이 되어있을경우 가입폼 출력
+		model.addAttribute("depTerms", term.selectAllTerms());
+		model.addAttribute("depBase", dep.selectOneDepBase(dep_id));
+		model.addAttribute("code", codeService.bankCode(val));
+		
+		return "product/depositJoinForm";
 	}
-
+	
+	// 예금 가입하기 처리
 	@RequestMapping("/depositJoin")
 	public String depositJoin(AccountVO accountVO, HttpSession session, Model model) {
 		UserVO vo = (UserVO) session.getAttribute("loginUser"); // 세션값 불러오기
@@ -99,8 +111,8 @@ public class PrdController {
 		int createNum = 0;
 		String ranNum = "";
 
-		int finLetter = 24; // 핀테크코드 자리수
-		int accLetter = 7; // 계좌코드 자리수
+		int finLetter = 21; // 핀테크코드 자리수
+		int accLetter = 10; // 계좌코드 자리수
 
 		String resFinNum = "";
 		String resAccNum = "";
@@ -115,19 +127,13 @@ public class PrdController {
 			createNum = random.nextInt(9);
 			ranNum = Integer.toString(createNum);
 			resAccNum += ranNum;
-		}
+		} 
 		// 난수생성 종료
 
-		System.out.println(codeService.bankCode());
-		System.out.println(resFinNum);
-		System.out.println(userId);
-
-		accountVO.setFintech_use_num(resFinNum); // 핀테크번호
-		accountVO.setUser_id(userId); // 회원아이디
-		accountVO.setAccount_num_masked(resAccNum + "***"); // 계좌번호
-//			accountVO.setBank_code_std();				//개설기관코드
-		accountVO.setBalance_amt(0); // 잔액
-		// 상품명
+		accountVO.setFintech_use_num("dep" + resFinNum); 		// 핀테크번호(24자리)
+		accountVO.setUser_id(userId); 							// 회원아이디
+		accountVO.setAccount_num_masked(resAccNum + "***"); 	// 계좌번호(13자리)
+		accountVO.setBalance_amt(0); 							// 잔액
 
 		accService.insertAccount(accountVO);
 		return "redirect:prdDepositList";

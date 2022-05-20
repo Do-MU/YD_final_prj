@@ -14,8 +14,8 @@
 	</select>
 	
 	<select id="bankCode" resultType="CodeVO">
-		SELECT 	CODE, VAL
+		SELECT 	REPLACE(CODE,'B','') AS CODE, VAL
 		FROM 	COMMON_CODE
-		WHERE 	PRE_CODE = 'B'
+		WHERE	PRE_CODE='B'
 	</select>
 </mapper>
