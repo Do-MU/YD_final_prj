@@ -1,25 +1,26 @@
 package com.keumbi.prj.accTrans.web;
 
-import javax.servlet.http.HttpSession;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.keumbi.prj.accTrans.service.AccTransService;
 import com.keumbi.prj.accTrans.vo.AccTransReqVO;
+import com.keumbi.prj.accTrans.vo.AccTransVO;
 
 @Controller
 public class AccTransController {
 
 	@Autowired AccTransService accTransServiceImpl;
 	
+	// 거래내역 ajax -> db에서 불러옴
 	@RequestMapping("/accTransRes")
-	public String accTransRes(HttpSession session, Model model, AccTransReqVO vo) {
-		System.out.println("!!!" + vo);
-		model.addAttribute("accTrans", accTransServiceImpl.selectAccTransAll(session, vo));
+	@ResponseBody
+	public List<AccTransVO> accTransRes(AccTransReqVO vo) {
 		
-		return "account/transList";
+		return accTransServiceImpl.selectAccTrans(vo.getFintech_use_num());
 	}
 }

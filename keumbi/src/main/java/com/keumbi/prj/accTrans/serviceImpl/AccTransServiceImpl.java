@@ -25,17 +25,16 @@ public class AccTransServiceImpl implements AccTransService {
 		UserVO uservo = (UserVO) session.getAttribute("loginUser");
 		
 		// 불러온 결과 
-		List<AccTransVO> list = BankAPI.getTransaction(uservo, vo);
+		List<AccTransVO> list = BankAPI.getTransaction(uservo, vo.getFintech_use_num());
 		System.out.println("거래내역 리스트 : " + list);
-		// -> 인설트 작업
-		// -> 새로운 거래내역 비교
-		for(AccTransVO avo : list) {
-			mapper.insertAccTrans(avo);
-		}
 		
-		AccTransVO avo = new AccTransVO();
-		
-		return mapper.selectAccTransAll(avo.getFintech_use_num());
+		return mapper.selectAccTransAll(vo.getFintech_use_num());
+	}
+
+	// db에 저장된 거래내역 불러오기
+	@Override
+	public List<AccTransVO> selectAccTrans(String fintech_use_num) {
+		return mapper.selectAccTrans(fintech_use_num);
 	}
 
 }
