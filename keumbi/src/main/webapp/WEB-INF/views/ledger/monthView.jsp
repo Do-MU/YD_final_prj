@@ -30,15 +30,11 @@
 			//businessHours : false,
 			dayMaxEvents : true, 
 			//progressiveEventRendering : true,
-			locale : "ko",
+			locale: "ko",
 			eventColor: '#ffffff00',
-			height: 700,
-			headerToolbar: {
-				  start: 'title', // will normally be on the left. if RTL, will be on the right
-				  center: '',
-				  end: 'today prev,next' // will normally be on the right. if RTL, will be on the left
-				},
-			events : function(info, successCallback, failureCallback) {
+			height: 680,
+			header: { center : 'title'},
+			events: function(info, successCallback, failureCallback) {
 
 			    const startDate = info.start;
 			    
@@ -288,8 +284,8 @@
 		$.ajax({
 			url : "ledgerSearch",
 			data : $("#ledgerSearchFrm").serialize()
-		}).done(function(result) {
-			console.log(result)
+		}).done(function(datas) {
+			console.log(datas)
 		
 			$("#listHead").empty();
 			$("#listBody").empty();
@@ -299,12 +295,12 @@
 			$("#title").empty();
 			
 			
-		if(result.length != 0) {
+		if(datas.length != 0) {
 				
-			 	$("#title").html("\'" + result[0].keyword + "\' 검색결과");
+			 	$("#title").html("최근 한달 \'" + datas[0].keyword + "\' 검색결과");
 			 	
 				let tr1 = `<tr>
-						      <th scope="col">#</th>
+						      <th scope="col">날짜</th>
 						      <th scope="col">분류</th>
 						      <th scope="col">내용</th>
 						      <th scope="col">금액</th>
@@ -312,13 +308,14 @@
 				
 				$('#listHead').append(tr1);
 				
-				for(let i=0; i<result.length; i++) {
-					let price = priceToString(result[i].amt);
+				for(d of datas) {
+					let price = priceToString(d.amt);
+					let date = new Date(d.tdate).toISOString().substring(0,10);
 					let tr2 = `<tr>
-							      <th scope="row">\${i+1}</th>
-							      <td>\${result[i].val}</td>
-							      <td>\${result[i].content}</td>
-							      <td data-iocode=\${result[i].io_code}>\${price}원</td>
+							      <th scope="row">\${date}</th>
+							      <td>\${d.val}</td>
+							      <td>\${d.content}</td>
+							      <td data-iocode=\${d.io_code}>\${price}원</td>
 							   </tr>`;
 					   
 					$('#listBody').append(tr2);		
@@ -339,17 +336,14 @@
 .out {
 	color: red !important;
 }
-
 .in {
 	color: blue !important;
 }
-
 body {
 	padding: 0;
 	font-family: Arial, Helvetica Neue, Helvetica, sans-serif;
 	font-size: 14px;
 }
-
 #calendar {
 	max-width: 1100px;
 	margin: 0 auto;
@@ -360,8 +354,12 @@ body {
 [data-iocode="I2"] {
 	color : blue;
 }
+#calendar, #ledgerFooter {
+	width : 850px;
+	margin-left : auto;
+	margin-right : auto;
+}
 </style>
-
 </head>
 
 <body>
@@ -386,38 +384,41 @@ body {
 	    </div>
 	</section>
 
-	<!-- 가계부 검색창 -->
-	<div id="ledgerSearch">
-		<div class="row">
-			<form id="ledgerSearchFrm" name="searchForm">
-				<input type="hidden" name="user_id" value="${loginUser.id}">
-				<table class="pull-right">
-					<tr>
-						<td><input type="text" class="form-control" placeholder="검색어 입력" name="keyword" maxlength="100" id="keyInput"></td>
-						<td><button class="btn btn-success" onclick='btnSearch(event)'>검색</button></td>	
-					</tr>
-				</table>
-			</form>
+	<!-- 가계부 달력 하단 부분 시작 -->
+	<div id="ledgerFooter">
+		<!-- 가계부 검색창 -->
+		<div id="ledgerSearch">
+			<div class="row">
+				<form id="ledgerSearchFrm" name="searchForm">
+					<input type="hidden" name="user_id" value="${loginUser.id}">
+					<table class="pull-right">
+						<tr>
+							<td><input type="text" class="form-control" placeholder="검색어 입력" name="keyword" maxlength="100" id="keyInput"></td>
+							<td><button class="btn btn-dark" onclick='btnSearch(event)'>검색</button></td>	
+						</tr>
+					</table>
+				</form>
+			</div>
 		</div>
-	</div>
-	
-	<!-- 오늘날짜(디폴트)와 클릭한 날짜의 입출금 내역 출력 되는 곳 -->
-	<div id="dayView" class="container-fluid">
-		<p class="h2 text-center" id="title"></p>
-		<div id="dayTotal">
-			<p class="h4 text-center" id="dayOutTotal"></p>
-			<p class="h4 text-center" id="dayInTotal"></p>
+		
+		<!-- 오늘날짜(디폴트)와 클릭한 날짜의 입출금 내역 출력 되는 곳 -->
+		<div id="dayView" class="container-fluid">
+			<p class="h2 text-center" id="title"></p>
+			<div id="dayTotal">
+				<p class="h4 text-center" id="dayOutTotal"></p>
+				<p class="h4 text-center" id="dayInTotal"></p>
+			</div>
+			<table class="table" id="table">
+		  		<thead class="thead-dark" id="listHead">   
+		  		</thead>
+				<tbody id="listBody">    
+				</tbody>
+			</table>
+			<p class="h2 text-center" id="empty"></p>
 		</div>
-		<table class="table" id="table">
-	  		<thead class="thead-dark" id="listHead">   
-	  		</thead>
-			<tbody id="listBody">    
-			</tbody>
-		</table>
-		<p class="h2 text-center" id="empty"></p>
+		<!-- 클릭한 날짜 입출금 내역 끝 -->
 	</div>
-	<!-- 클릭한 날짜 입출금 내역 끝 -->
-	
+	<!-- 가계부 달력 하단 부분 끝 -->
 
 	<!-- 현금 지출수입내역 입력 Modal -->
 	<div class="modal fade" id="myModal" tabindex="-1"
