@@ -3,7 +3,7 @@ package com.keumbi.prj.prd.vo;
 import lombok.Data;
 
 @Data
-public class ChallengeVO {
+public class PrdChallengeVO {
 	private int num;
 	private String title;
 	private String content;

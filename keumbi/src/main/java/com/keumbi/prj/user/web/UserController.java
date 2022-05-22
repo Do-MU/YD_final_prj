@@ -23,9 +23,10 @@ import com.keumbi.prj.user.vo.UserVO;
 public class UserController {
 
 	@Autowired	UserService service;
-	@Autowired	private JavaMailSender mailSender;
 	@Autowired	CodeService code;
 	@Autowired	TermService term;
+	
+	@Autowired	private JavaMailSender mailSender;
 
 	// 로그인 화면 출력
 	@RequestMapping("/userLoginForm")
@@ -78,12 +79,6 @@ public class UserController {
 		return "redirect:home";
 	}
 
-	// 나의 챌린지
-	@RequestMapping("/userChallengeList")
-	public String userChallengeList() {
-		
-		return "user/userChallengeList";
-	}
 
 	
 	
