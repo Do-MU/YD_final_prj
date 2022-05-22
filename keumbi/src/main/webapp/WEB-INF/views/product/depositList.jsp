@@ -55,7 +55,7 @@
 		</div>
 	</div>
 </section>
-
+${intr}
 <section class="contact_area p_120">
 	<div class="container">
 		<div id="list">
@@ -65,6 +65,7 @@
 				<div class="div_exp">
 					<div class="div_banknm">${d.kor_co_nm}</div>
 					<div class="div_prdnm">${d.fin_prdt_nm}</div>
+					<div class="div_intr">${intr}</div>
 					<div class="div_joinway">${d.join_way}</div>
 				</div>
 				<div class="div_btn">
