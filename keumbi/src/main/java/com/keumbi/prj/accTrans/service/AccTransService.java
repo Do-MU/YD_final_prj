@@ -9,6 +9,6 @@ import com.keumbi.prj.accTrans.vo.AccTransVO;
 
 public interface AccTransService {
 
-	List<AccTransVO> selectAccTransAll(HttpSession session, AccTransReqVO vo); // 거래내역 전체 조회
-	List<AccTransVO> selectAccTrans(String fintech_use_num); // db에 저장된 거래내역 불러오기
+	List<AccTransVO> selectAccTransAll(String fintech_use_num); // 거래내역 전체 조회
+	List<AccTransVO> selectAccTransDate(AccTransReqVO vo); // 날짜 조건 거래내역 조회
 }

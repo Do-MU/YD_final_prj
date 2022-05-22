@@ -2,7 +2,6 @@ package com.keumbi.prj.account.mapper;
 
 import java.util.List;
 
-
 import com.keumbi.prj.account.vo.AccountVO;
 
 public interface AccountMapper {
@@ -12,4 +11,5 @@ public interface AccountMapper {
 	AccountVO selectOneAccount(String fintech_use_num); // 계좌단건조회
 	int insertAccount(AccountVO vo); // api불러운 계좌 저장
 	int updateBalance(AccountVO vo); // 잔액(최초1회)
+	int selectAccTotalSum(String userId); // 잔액 합산 출력
 }

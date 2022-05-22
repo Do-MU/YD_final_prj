@@ -1,6 +1,5 @@
 package com.keumbi.prj.accTrans.vo;
 
-
 import java.sql.Date;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -17,6 +16,4 @@ public class AccTransReqVO {
 	
 	@JsonFormat(pattern="yyyyMMdd", timezone="Asia/Seoul")
 	private Date to_date;
-
-	private String tran_dtime;
 }
