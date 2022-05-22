@@ -15,14 +15,16 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.keumbi.prj.prd.mapper.ChallengeMapper;
 import com.keumbi.prj.account.service.AccountService;
 import com.keumbi.prj.account.vo.AccountVO;
+import com.keumbi.prj.chall.service.ChallService;
+import com.keumbi.prj.chall.vo.ChallVO;
 import com.keumbi.prj.common.service.CodeService;
+import com.keumbi.prj.prd.mapper.PrdChallengeMapper;
 import com.keumbi.prj.prd.mapper.LoanMapper;
 import com.keumbi.prj.prd.mapper.SavingMapper;
 import com.keumbi.prj.prd.service.DepositService;
-import com.keumbi.prj.prd.service.TermsService;
+import com.keumbi.prj.prd.vo.PrdChallengeVO;
 import com.keumbi.prj.prd.vo.DepositBaseVO;
 import com.keumbi.prj.prd.vo.DepositOptionVO;
 import com.keumbi.prj.prd.vo.LoanBaseVO;
@@ -39,13 +41,13 @@ public class PrdController {
 	@Autowired	DepositService dep;
 	@Autowired	SavingMapper sav;
 	@Autowired	LoanMapper loa;
-	@Autowired	ChallengeMapper challenge;
-
-	@Autowired	TermsService term; // 약관
+	@Autowired	PrdChallengeMapper chal;
 
 	@Autowired	AccountService accService;
 
 	@Autowired	CodeService codeService;
+	
+	@Autowired ChallService uchall;
 
 	/* 예금 */
 	// 예금상품 업데이트 처리 (관리자)
@@ -93,7 +95,6 @@ public class PrdController {
 		}
 		
 		//로그인이 되어있을경우 가입폼 출력
-		model.addAttribute("depTerms", term.selectAllTerms());
 		model.addAttribute("depBase", dep.selectOneDepBase(dep_id));
 		model.addAttribute("code", codeService.bankCode(val));
 		
@@ -208,11 +209,30 @@ public class PrdController {
 	
 	
 	/* 챌린지 */
+	// 챌린지 리스트
 	@RequestMapping("/prdChallengeList")
-	public String challengeList(Model model) {
-		model.addAttribute("prdChall", challenge.challengeList());
-		System.out.println(model.addAttribute("prdChall", challenge.challengeList()));
-		return "challenge/prdChallengeList";
+	public String prdChallengeList(Model model) {
+		model.addAttribute("prdChall", chal.prdChallengeList());
+		
+		return "product/prdChallengeList";
 	}
-
+	
+	// 선택된 챌린지
+	@RequestMapping("/prdChall")
+	@ResponseBody
+	public PrdChallengeVO prdChall(PrdChallengeVO vo) {
+		
+		return chal.prdChallengeSelect(vo);
+	}
+	
+	@RequestMapping("/challInsert")
+	@ResponseBody
+	public String challInsert(Model model, HttpSession session, ChallVO challVO) {
+		UserVO vo = (UserVO) session.getAttribute("loginUser"); // 세션값 불러오기
+		String userId = vo.getId(); // 세션에 저장된 ID값
+		challVO.setUser_id(userId);
+		
+		uchall.challInsert(challVO);
+		return "prd/prdChallengeList";
+	}
 }

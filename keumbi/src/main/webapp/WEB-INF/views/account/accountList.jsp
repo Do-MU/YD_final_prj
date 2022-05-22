@@ -24,8 +24,9 @@
 						</c:when>
 						<c:otherwise>
 							<h1>계좌목록</h1>
+							<h3>${loginUser.name } 님의 총 보유 자산 	 ${accTotalSum }</h3>
 							<form id="transForm" name="transForm">
-								<input id="inpTrans" name="inpTrans" type="hidden">
+								<input id="fintech_use_num" name="fintech_use_num" type="hidden">
 							</form>
 							<div>
 								<table id="output">
@@ -57,9 +58,9 @@
 		var finNum = $(this).parent().parent().prev().data("fin");
 		console.log(finNum);
 		
-		$("#inpTrans").val(finNum);
+		$("#fintech_use_num").val(finNum);
 		transForm.action = "accTransView";
-		transForm.method = "post";
+		transForm.method = "get";
 		transForm.submit();
 	})
 </script>

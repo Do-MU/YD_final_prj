@@ -48,7 +48,8 @@
 				<div class="banner_content text-center">
 					<h2>예금상품추천</h2>
 					<div class="page_link">
-						<a href="home">Home</a> <a href="prdDepositList">예금상품추천</a>
+						<a href="home">Home</a>
+						<a href="prdDepositList">예금상품추천</a>
 					</div>
 				</div>
 			</div>

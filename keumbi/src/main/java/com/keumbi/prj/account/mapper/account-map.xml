@@ -2,7 +2,13 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.keumbi.prj.account.mapper.AccountMapper">
 	
-	<select id="selectAll" resultType="AccountVO">
+	<select id="selectfirstAccount" resultType="AccountVO">
+		SELECT	*
+		FROM 	ACCOUNTS
+		WHERE	USER_ID = #{user_id}
+	</select>
+	
+	<select id="selectAllAccount" resultType="AccountVO">
 		SELECT	*
 		FROM 	ACCOUNTS
 		WHERE	USER_ID = #{user_id}
@@ -14,10 +20,16 @@
 		WHERE	FINTECH_USE_NUM = #{fintech_use_num}
 	</select>
 	
-	<select id="selectOne" parameterType="AccountVO" resultType="AccountVO">
+	<select id="selectOneAccount" parameterType="AccountVO" resultType="AccountVO">
 		SELECT 	*
 		FROM 	ACCOUNTS
 		WHERE 	FINTECH_USE_NUM = #{fintech_use_num}
+	</select>
+	
+	<select id="selectAccTotalSum" resultType="Integer">
+		SELECT	SUM(BALANCE_AMT)
+		FROM	ACCOUNTS
+		WHERE 	USER_ID = #{user_id}
 	</select>
 	
 	<insert id="insertAccount" parameterType="AccountVO">
@@ -25,11 +37,10 @@
 		VALUES ( #{fintech_use_num}, #{user_id}, #{account_num_masked}, #{account_alias}, #{bank_code_std}, #{bank_name}, #{balance_amt} )
 	</insert>
 	
-	<update id="updateBalance">
+	<update id="updateBalance" parameterType="AccountVO">
 		UPDATE 	ACCOUNTS
-		SET 	BALANCE_AMT = #{balance_amt}
+		SET 	BALANCE_AMT = #{balance_amt}, PRODUCT_NAME = #{product_name}
 		WHERE	FINTECH_USE_NUM = #{fintech_use_num}
 	</update>
   
-	<delete id="deleteAccount"></delete>
 </mapper>

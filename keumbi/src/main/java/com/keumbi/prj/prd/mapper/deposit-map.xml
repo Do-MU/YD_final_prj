@@ -55,4 +55,12 @@
 		ORDER BY SAVE_TRM
 	</select>
 	
+	<select id="selectBankName" resultType="String">
+		SELECT 	VAL
+		FROM 	COMMON_CODE
+		WHERE 	CODE = ( 	SELECT	SUBSTR(CODE, 2)
+							FROM	COMMON_CODE
+							WHERE 	VAL = #{kor_co_nm}
+							AND		PRE_CODE = 'PB')
+	</select>
 </mapper>

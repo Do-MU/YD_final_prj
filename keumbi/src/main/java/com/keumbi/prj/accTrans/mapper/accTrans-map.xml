@@ -3,19 +3,33 @@
 <mapper namespace="com.keumbi.prj.accTrans.mapper.AccTransMapper">
 
 	<select id="selectAccTransAll" resultType="AccTransVO">
-		SELECT 	*
-		FROM 	ACC_TRANS
-		WHERE 	FINTECH_USE_NUM = #{fintech_use_num}
+		SELECT 		*
+		FROM 		ACC_TRANS
+		WHERE 		FINTECH_USE_NUM = #{fintech_use_num}
+		ORDER BY    TRAN_DATE DESC, TRAN_TIME DESC
 	</select>
 	
 	<insert id="insertAccTrans" parameterType="AccTransVO">
 		<selectKey keyProperty="seq" resultType="int" order="BEFORE">
 			SELECT	NVL( MAX(SEQ), 0 ) + 1
 			FROM	ACC_TRANS
-			WHERE	FINTECH_USE_NUM = #{fintech_use_num}
+			<!-- WHERE	FINTECH_USE_NUM = #{fintech_use_num} -->
 		</selectKey>
 		INSERT INTO ACC_TRANS 
 		VALUES ( #{seq}, #{fintech_use_num}, #{tran_date}, #{tran_time}, #{inout_type}, #{tran_type}, #{print_content}, #{tran_amt}, #{after_balance_amt}, #{branch_name} )
 	</insert>
+	
+	<select id="selectAccTransOne" parameterType="AccTransVO" resultType="Integer">
+		SELECT	COUNT(*)
+		FROM	ACC_TRANS
+		WHERE	FINTECH_USE_NUM = #{fintech_use_num}
+	</select>
+	
+	<select id="selectAccTransDate" parameterType="AccTransReqVO" resultType="AccTransVO">
+		SELECT  *
+		FROM    ACC_TRANS
+		WHERE   TRAN_DATE  BETWEEN #{from_date} AND #{to_date}
+				AND FINTECH_USE_NUM = #{fintech_use_num}
+	</select>
 
 </mapper>

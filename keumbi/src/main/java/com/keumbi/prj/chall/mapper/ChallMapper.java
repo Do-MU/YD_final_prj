@@ -7,4 +7,5 @@ import com.keumbi.prj.chall.vo.ChallVO;
 public interface ChallMapper {
 	List<ChallVO> challList();
 	ChallVO challSelect(ChallVO vo);
+	int challInsert(ChallVO vo);
 }

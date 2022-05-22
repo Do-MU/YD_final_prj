@@ -28,12 +28,12 @@
 
 <div class="container">
 	<div class="row">
-		<form method="post" action="boardView" style="width:1180px; text-align:center;">
+		<form method="post" action="update?bod_num=${up.bod_num}" style="width:1180px; text-align:center;">
 			<input type="hidden" id="user_id" name="user_id" value="${up.user_id}">
 			<%-- <input type="hidden" id="nid" name="nid" value="${notice.NId }"> --%>
 
 
-
+			
 			<table class="table table-striped"
 				style="text-align: center; border: 1px solid #dddddd">
 				<thead>
@@ -60,10 +60,11 @@
 					</tr>
 				</tbody>
 			</table>
-
+			<input name="bod_num" type="hidden" value="${up.bod_num}">
+			
 			<a href="boardList" role="button" class="btn btn-outline-info" style="float: right;">목록보기</a>
 			<a href="boardView?bod_num=${up.bod_num}" role="button" class="btn btn-outline-info" style="float: right;" onclick="return confirm('수정을 취소하시겠습니까?')">취소</a>
-			<button type="submit" class="btn btn-outline-info" style="float: right;">수정완료</button>
+			<button type="submit" class="btn btn-outline-info" onclick="return confirm('수정을 완료하시겠습니까?')" style="float: right;">수정완료</button>
 
 		</form>
 	</div>

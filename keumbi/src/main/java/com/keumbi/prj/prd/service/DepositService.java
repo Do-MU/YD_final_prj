@@ -12,5 +12,4 @@ public interface DepositService {
 	
 	String insertAllDeposits();
 	void deleteAllDeposits();
-	
 }

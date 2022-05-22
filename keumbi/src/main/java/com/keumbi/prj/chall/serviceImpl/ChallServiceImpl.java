@@ -1,4 +1,4 @@
-package com.keumbi.prj.chall.serviceImpl.web;
+package com.keumbi.prj.chall.serviceImpl;
 
 import java.util.List;
 
@@ -21,5 +21,10 @@ public class ChallServiceImpl implements ChallService {
 	@Override
 	public ChallVO challSelect(ChallVO vo) {
 		return m.challSelect(vo);
+	}
+
+	@Override
+	public int challInsert(ChallVO vo) {
+		return m.challInsert(vo);
 	}
 }

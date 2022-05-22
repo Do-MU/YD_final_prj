@@ -7,4 +7,5 @@ import com.keumbi.prj.chall.vo.ChallVO;
 public interface ChallService {
 	List<ChallVO> challList();			//전체조회
 	ChallVO challSelect(ChallVO vo);		//단건조회
+	int challInsert(ChallVO vo);		//등록
 }

@@ -4,7 +4,7 @@
 
 	<select id="totalTrans" resultType="LedgerMonthVO">  
 		SELECT   SUM(AMT) AS TITLE, TO_CHAR(TDATE, 'yyyy-MM-dd') AS "start", USER_ID,
-			     CASE WHEN IO_CODE='I1' THEN 'out' 
+			     CASE WHEN IO_CODE='I1' THEN 'out'  
 			   	 ELSE 'in' 
 			   	 END AS "className"
 		FROM   	 TOTAL_TRANS
@@ -37,6 +37,17 @@
 		GROUP BY 	IO_CODE
 	</select>
 	
+	<select id="ledgerSearch" resultType="LedgerVO">
+		SELECT	 T.TDATE, T.NUM, T.USER_ID, T.CONTENT, T.AMT, T.IO_CODE, C.VAL, #{keyword} AS KEYWORD
+		FROM	 TOTAL_TRANS T
+		JOIN	 COMMON_CODE C
+		ON		 T.CAT_CODE = C.CODE
+		WHERE	 USER_ID = #{user_id}
+		AND		 UPPER(CONTENT) LIKE '%'||#{keyword}||'%'
+		AND		 TDATE BETWEEN TO_DATE(ADD_MONTHS(SYSDATE, -1)) AND SYSDATE
+		ORDER BY TDATE DESC
+	</select>
+	
 	<insert id="cashInsert" parameterType="LedgerVO">
 		<selectKey keyProperty="num" resultType="int" order="BEFORE">
 			SELECT 	NVL(MAX(NUM),0) + 1
@@ -55,4 +66,16 @@
 	<delete id="ledDelete" parameterType="LedgerVO">
 	
 	</delete>
+	
+	<insert id="transInsert" parameterType="LedgerVO">
+		<selectKey keyProperty="num" resultType="int" order="BEFORE">
+			SELECT 	NVL(MAX(NUM),0) + 1
+			FROM 	TOTAL_TRANS
+			WHERE   USER_ID = #{user_id}
+			AND     TDATE = #{tdate}
+		</selectKey>
+		INSERT INTO TOTAL_TRANS( TDATE, NUM, USER_ID, IO_CODE, CONTENT, AMT )
+		VALUES ( #{tdate}, #{num}, #{user_id}, 
+    			(SELECT CODE FROM COMMON_CODE WHERE VAL = #{io_code}), #{content}, #{amt})
+	</insert>
 </mapper>  
