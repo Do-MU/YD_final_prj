@@ -1,4 +1,4 @@
-package com.keumbi.prj.chall.serviceImpl.web;
+package com.keumbi.prj.chall.serviceImpl;
 
 import java.util.List;
 

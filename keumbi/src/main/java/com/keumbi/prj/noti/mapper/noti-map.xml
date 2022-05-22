@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.keumbi.prj.noti.mapper.NotiMapper">
+	<select id="notiSelect" parameterType="UserVO" resultType="NotiVO">
+		SELECT	*
+		FROM	NOTIFICATIONS
+		WHERE	USER_ID = #{id}
+	</select>
+	
+	<!-- <insert id="notiInsert">
+	
+	</insert>
+	
+	<update id="notiReadUpdate">
+	
+	</update>
+	
+	<delete id="notiDelete">
+	
+	</delete> -->
+</mapper>

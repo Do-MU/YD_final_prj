@@ -14,10 +14,10 @@
 			<div class="container">
 				<div class="banner_content text-center">
 					<h2>TEAM KEUMBI</h2>
-						<div class="page_link">
-							<a href="home">Home</a>
-							<a href="teamKeumbi">Team KEUMBI</a>
-						</div>
+					<div class="page_link">
+						<a href="home">Home</a>
+						<a href="teamKeumbi">Team KEUMBI</a>
+					</div>
 				</div>
 			</div>
 		</div>
