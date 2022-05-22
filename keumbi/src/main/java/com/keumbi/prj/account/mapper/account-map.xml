@@ -26,6 +26,12 @@
 		WHERE 	FINTECH_USE_NUM = #{fintech_use_num}
 	</select>
 	
+	<select id="selectAccTotalSum" resultType="Integer">
+		SELECT	SUM(BALANCE_AMT)
+		FROM	ACCOUNTS
+		WHERE 	USER_ID = #{user_id}
+	</select>
+	
 	<insert id="insertAccount" parameterType="AccountVO">
 		INSERT INTO ACCOUNTS ( FINTECH_USE_NUM, USER_ID, ACCOUNT_NUM_MASKED, ACCOUNT_ALIAS, BANK_CODE_STD, BANK_NAME, BALANCE_AMT )
 		VALUES ( #{fintech_use_num}, #{user_id}, #{account_num_masked}, #{account_alias}, #{bank_code_std}, #{bank_name}, #{balance_amt} )

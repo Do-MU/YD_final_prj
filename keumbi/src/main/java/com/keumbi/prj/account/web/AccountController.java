@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.keumbi.prj.accTrans.service.AccTransService;
 import com.keumbi.prj.accTrans.vo.AccTransReqVO;
 import com.keumbi.prj.account.service.AccountService;
 import com.keumbi.prj.account.vo.AccountVO;
@@ -17,6 +18,7 @@ import com.keumbi.prj.user.vo.UserVO;
 public class AccountController {
 	
 	@Autowired AccountService accountServiceImpl;
+	@Autowired AccTransService accTransServiceImpl;
 	
 	ObjectMapper om = new ObjectMapper();
 	
@@ -33,6 +35,7 @@ public class AccountController {
 		 String userSeq = vo.getUser_seq_num();
 		if(userSeq != null && !userSeq.isEmpty()) {
 			model.addAttribute("acc", accountServiceImpl.selectfirstAccount(session)); //
+			model.addAttribute("accTotalSum", accountServiceImpl.selectAccTotalSum(session)); // 잔액 합산 출력
 		}
 		return "account/accountList";
 	}
@@ -41,15 +44,7 @@ public class AccountController {
 	@RequestMapping("/getAccount")
 	public String saveAccount(HttpSession session, Model model) {
 		model.addAttribute("acc", accountServiceImpl.selectfirstAccount(session)); // 최로 조회로
-
+		model.addAttribute("accTotalSum", accountServiceImpl.selectAccTotalSum(session)); // 잔액 합산 출력
 		return "account/accountList";
-	}
-	
-	// 계좌 -> 거래내역 페이지 넘어가는곳
-	@RequestMapping("/accTransView")
-	public String transaction(HttpSession session, Model model, String inpTrans){
-		System.out.println("inpTrans :  " + inpTrans); 
-		model.addAttribute("accTrnas", accountServiceImpl.selectAllAccount(session));
-		return "account/transList";
 	}
 }

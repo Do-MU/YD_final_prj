@@ -2,25 +2,43 @@ package com.keumbi.prj.accTrans.web;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.keumbi.prj.accTrans.service.AccTransService;
 import com.keumbi.prj.accTrans.vo.AccTransReqVO;
 import com.keumbi.prj.accTrans.vo.AccTransVO;
+import com.keumbi.prj.account.service.AccountService;
 
 @Controller
 public class AccTransController {
-
-	@Autowired AccTransService accTransServiceImpl;
 	
-	// 거래내역 ajax -> db에서 불러옴
+	@Autowired AccountService accountServiceImpl;
+	@Autowired AccTransService accTransServiceImpl;
+
+	// 계좌 -> 거래내역 페이지 넘어가는곳
+	@RequestMapping("/accTransView")
+	public String accTransView(HttpSession session, Model model, String fintech_use_num){
+		System.out.println("fintech_use_num :  " + fintech_use_num);
+		model.addAttribute("accList", accountServiceImpl.selectAllAccount(session)); // 계좌목록 호출
+		model.addAttribute("accTrans",accTransServiceImpl.selectAccTransAll(fintech_use_num)); // 거래내역 호출
+		return "account/transList";
+	}
+	
+	// 선택일자 거래내역 ajax
 	@RequestMapping("/accTransRes")
 	@ResponseBody
 	public List<AccTransVO> accTransRes(AccTransReqVO vo) {
+		//System.out.println(vo.getFintech_use_num());
+		//System.out.println(vo.getFrom_date());
+		//System.out.println(vo.getTo_date());
+		//System.out.println("----" + accTransServiceImpl.selectAccTransDate(vo));		
 		
-		return accTransServiceImpl.selectAccTrans(vo.getFintech_use_num());
+		return accTransServiceImpl.selectAccTransDate(vo);
 	}
 }

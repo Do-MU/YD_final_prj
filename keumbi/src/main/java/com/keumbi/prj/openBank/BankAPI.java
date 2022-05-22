@@ -1,25 +1,20 @@
 package com.keumbi.prj.openBank;
 
-import java.net.URI;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
-import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
-import org.springframework.web.util.UriComponentsBuilder;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.keumbi.prj.accTrans.vo.AccTransReqVO;
 import com.keumbi.prj.accTrans.vo.AccTransVO;
 import com.keumbi.prj.account.vo.AccountVO;
 import com.keumbi.prj.user.vo.UserVO;
@@ -98,7 +93,7 @@ public class BankAPI {
 	
 	// 계좌잔액조회
 	 public static AccountVO getBalance(UserVO vo, String fintech_use_num) {
-		System.out.println(fintech_use_num);
+		//System.out.println(fintech_use_num);
 		String reqURL = "https://testapi.openbanking.or.kr/v2.0/account/balance/fin_num";
 		String param = "";
 		param += "bank_tran_id=" + orgCode + "U" + getSequence();
@@ -120,7 +115,7 @@ public class BankAPI {
 		} catch (JsonProcessingException e) {
 			e.printStackTrace();
 		}
-		System.out.println("잔액잔액잔액 : " + json);
+		//System.out.println("잔액잔액잔액 : " + json);
 		AccountVO avo = new AccountVO();
 		avo.setFintech_use_num(json.get("fintech_use_num").asText());
 		avo.setBalance_amt(json.get("balance_amt").asLong());
@@ -132,7 +127,7 @@ public class BankAPI {
 	 
 	// 거래내역조회
 	public static List<AccTransVO> getTransaction(UserVO uservo, String fintech_use_num) {
-		System.out.println("거래내역api 핀넘버  :    " + fintech_use_num);
+		//System.out.println("거래내역api 핀넘버  :    " + fintech_use_num);
 		String reqURL = "https://testapi.openbanking.or.kr/v2.0/account/transaction_list/fin_num";
 		
 		Date nowDate = new Date();
@@ -176,7 +171,7 @@ public class BankAPI {
 		RestTemplate restTemplate = new RestTemplate();
 		ResponseEntity<String> res = restTemplate.exchange(reqURL + "?" + param, HttpMethod.GET, request, String.class);
 		
-		System.out.println("거래내역 res     : " + res);
+		//System.out.println("거래내역 res     : " + res);
 		
 		JsonNode resBody = null;
 		
@@ -185,34 +180,15 @@ public class BankAPI {
 		} catch (JsonProcessingException e) {
 			e.printStackTrace();
 		}
-		System.out.println("거래내역BODY : " + resBody);
 		
 		JsonNode resList = resBody.get("res_list");
-		System.out.println("오잉? :   " + resList);
+		//System.out.println("오잉? :   " + resList);
 
 		//avo.setFintech_use_num(resBody.get("fintech_use_num").asText());
 		String finNum = resBody.get("fintech_use_num").asText();
-		System.out.println("finNum  :  " + finNum);
+		//System.out.println("finNum  :  " + finNum);
 		
-		List<AccTransVO> list = new ArrayList<AccTransVO>();
-		/* for(int k=0; k<resBody.size(); k++) {
-			AccTransVO avo = new AccTransVO();
-			avo.setFintech_use_num(finNum);
-			list.add(avo);
-			
-			for(JsonNode i : resList) {
-				avo.setTran_date(i.get("tran_date").asText());
-				avo.setTran_time(i.get("tran_time").asText());
-				avo.setInout_type(i.get("inout_type").asText());
-				avo.setTran_type(i.get("tran_type").asText());
-				avo.setPrint_content(i.get("print_content").asText());
-				avo.setTran_amt(i.get("tran_amt").asInt());
-				avo.setAfter_balance_amt(i.get("after_balance_amt").asInt());
-				avo.setBranch_name(i.get("branch_name").asText());
-				list.add(avo);
-			}
-		} */
-		
+		List<AccTransVO> list = new ArrayList<AccTransVO>();		
 		
 		for(JsonNode i : resList) {
 			AccTransVO avo = new AccTransVO();
@@ -228,13 +204,15 @@ public class BankAPI {
 			list.add(avo);
 		}
 		
-		System.out.println("거래내역 list : " + list);
+		//System.out.println("거래내역 list : " + list);
 		
 		return list;
 	}
 	 
-	 
-
+	// 카드목록
+//	public List<CardVO> getCardList(){
+//		
+//	}
 	
 	
 	
