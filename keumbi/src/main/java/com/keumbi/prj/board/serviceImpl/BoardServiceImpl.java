@@ -51,6 +51,18 @@ public class BoardServiceImpl implements BoardService {
 		return m.selectBoardList();
 		
 	}
+	
+	@Override
+	public List<BoardVO> boardSearchList(String key, String val) {
+		return m.boardSearchList(key, val);
+	}
+
+	@Override
+	public List<BoardVO> boardSelectList(int page) {
+		return m.boardSelectList(page);
+	}
+	
+	
 		
 	
 

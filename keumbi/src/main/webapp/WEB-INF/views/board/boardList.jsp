@@ -66,22 +66,22 @@
 								<option value="0">30페이지</option>
 							</select>
 		<div class="row" style="float: right;">
-			<form method="post" name="search" action="#">
+			<form method="post" name="search" action="boardSearch">
 				<table class="pull-right">																				
 					<tr>																																		    			    
 						<td>
-							<select class="form-control2" name="searchField">						
-								<option value="title">제목</option>
-								<option value="contents">내용</option>
-								<option value="0">제목 + 내용</option>
+							<select class="form-control2" name="key" id="searchKey">						
+								<option value="제목">제목</option>
+								<option value="내용">내용</option>
+								<option value="제목내용">제목 + 내용</option>
 								<option value="0">태그</option>
 							</select>
 						</td>
 						<td>
-							<input type="text" class="form-control3" placeholder="검색어 입력" name="searchText" maxlength="100">
+							<input type="text" class="form-control3" placeholder="검색어 입력" id="searchVal" name="val" maxlength="100">
 						</td>
 						<td>
-							<button type="submit" class="btn btn-success">검색</button>
+							<input type="submit"  value="검색" class="btn btn-primary">
 						</td>
 					</tr>
 				</table>
@@ -97,7 +97,7 @@
 		<div class="row">
 			<table class="table table-striped" style="text-align: center; border: 1px solid #dddddd">
 				<thead>
-					<tr>
+					<tr>						
 						<th style="background-color: #eeeeee; text-align: center;">번호</th>
 						<th style="background-color: #eeeeee; text-align: center;">제목</th>
 						<th style="background-color: #eeeeee; text-align: center;">날짜</th>
@@ -142,10 +142,10 @@
         <br>
         
         
-        <div class="num">
-        	<span>${(empty param.p)? 1 : param.p }</span> /  pages &nbsp;&nbsp;
+        <div class="num" id="page">
+        	<span>${(empty select.p)? 1 : select.p }</span> /  pages &nbsp;&nbsp;
         	
-            <c:set var = "page" value = "${(param.p==null)? 1: param.p}"/>
+            <c:set var = "page" value = "${(select.p==null)? 1: select.p}"/>
             <c:set var ="startNum" value = "${page-(page-1)%5}"/>    
             <c:set var ="lastNum" value = "23"/>    
             
@@ -158,7 +158,7 @@
                             
             <span>
                 <c:forEach var = "i" begin= "0" end = "4">
-                    <a  class = "${((page) == (startNum+i)) ?'text-orange' : '' } text-bold" href="?p=${startNum+i}&f=${param.f}&q=${param.q}" >${startNum+i}</a>
+                    <a  class = "${((page) == (startNum+i)) ?'text-orange' : '' } text-bold" href="?p=${startNum+i}&f=${select.f}&q=${select.q}" >${startNum+i}</a>
                 </c:forEach>
             </span>    
             
@@ -175,7 +175,28 @@
 	<br>
 	<!-- 게시판 메인 페이지 영역 끝 -->
 	
+	<script type="text/javascript">
 	
+	function searchList() {
+		event.preventDefault();
+		/* console.log('sssss') */
+		$.ajax({
+			url: "boardSearch",
+			type: "post",
+			data: { "key": $("#searchKey").val(), "val": $("#searchVal").val() },
+			dataType: "json",
+			success: function (result) {
+				if (result.length > 0) {
+					/* console.log(result); */
+					//searchResult(result); // json data를 html로 변환해서 화면에 뿌려주는 메소드 
+				} else {
+					alert("검색한 결과 존재하지 않습니다.");
+				}
+			}
+		});
+	}
+	
+	</script>
 	
 </body>
 

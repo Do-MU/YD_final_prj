@@ -66,14 +66,18 @@ console.log($("#user_id").val());
 					</tr>
 					<tr>
 						<td>내용</td>
-						<td colspan="2" style="height: 200px; text-align: center;">${view.contents }</td>
+						<td colspan="2" style="height: 200px; text-align: center;">${view.contents }</td>						
+					</tr>
+					<tr>
+						<td>해시태그</td>
+						<td colspan="2" style="text-align: center;" id="Hash"></td>
 					</tr>
 				</tbody>
 			</table>
 			<a href="boardList" role="button" class="btn btn-outline-info" style="float: right;">목록보기</a>
 			<%-- <c:if test="${author eq 'admin'}">	 --%>		
 			<%-- <c:if test="${sessionScope.loginUser == view.user_id}">	 --%>
-			<c:if test="${loginUser eq 'user_id'} ">
+			<c:if test="${loginUser.id eq view.user_id}">
 				<!-- <a href="noticeUpdate.do" class="btn btn-primary">수정</a>
 				<a href="noticeDelete.do" type="submit" onclick="return confirm('정말로 삭제하시겠습니까?')"  class="btn btn-primary">삭제</a>  -->
 				<!-- <button role="button" class="btn btn-outline-info" onclick="goUp()" style="float: right;">수정</button> -->
@@ -88,6 +92,12 @@ console.log($("#user_id").val());
 	
 	<br>
 	<br>
+	
+	<script type="text/javascript">
+	
+	var code = document.getElementById('Hash').dataset.code;
+	
+	</script>
 	
 	<!-- <script type="text/javascript">
 		$(document).ready(function(){
