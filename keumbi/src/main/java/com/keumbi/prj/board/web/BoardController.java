@@ -27,14 +27,13 @@ public class BoardController {
 	public String boardList(BoardVO vo, Model model) {
 
 		List<BoardVO> list = service.selectBoardList();
-		model.addAttribute("list", list);
+		model.addAttribute("list", list);		
 
 		return "board/boardList";
 	}
 
 	@RequestMapping("/boardInsertForm")
 	public String boardInsertForm() throws Exception {
-
 		return "board/boardInsertForm";
 	}
 
@@ -81,6 +80,23 @@ public class BoardController {
 		service.delete(bod_num);
 
 		return "redirect:/boardList";
+	}
+	
+	@RequestMapping(value = "/boardSearch", method = RequestMethod.POST)
+	public String boardSearchList(@RequestParam(required = false) String key, @RequestParam(required = false) String val, Model model) {
+		List<BoardVO> list = service.boardSearchList(key, val);
+		model.addAttribute("list", list);
+
+		return "board/boardList";
+
+	}
+	
+	@RequestMapping(value = "/boardSelectList", method = RequestMethod.POST)
+	public String boardSelectList(@RequestParam int page, Model model) {
+		List<BoardVO> select = service.boardSelectList(page);
+		model.addAttribute("select", select);
+		
+		return "board/boardList";
 	}
 
 	/*

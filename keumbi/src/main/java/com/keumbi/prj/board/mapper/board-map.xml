@@ -1,12 +1,50 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.keumbi.prj.board.mapper.BoardMapper">
-
+	<!-- <resultMap type="com.keumbi.prj.board.vo.BoardVO" id="boardMap">
+		<id property="bod_num" column="bod_num" />
+		<result property="title" column="title" />
+		<result property="user_id" column="user_id" />
+		<result property="contents" column="contents" />
+		<result property="wdate" column="wdate" />
+		<result property="bod_code" column="bod_code" />
+		<result property="hit" column="hit" />
+	</resultMap> -->	
+	
 	<select id="selectBoardList" resultType="BoardVO">
 		SELECT *
 		FROM BOARDS	
 	</select>
 
+	
+	<select id="view" resultType="BoardVO" parameterType="java.lang.Integer">
+		SELECT *
+		FROM BOARDS	
+		WHERE BOD_NUM = #{bod_num}
+	</select>	
+	
+	<select id="boardSelectList" resultType="BoardVO">
+		<![CDATA[
+			SELECT *
+			FROM (
+				SELECT ROWNUM AS BOD_NUM, T.*
+				FROM BOARDS T
+				WHERE ROWNUM <= (SELECT COUNT(*) FROM BOARDS) - ((#{page} - 1) * 10)
+				ORDER BY BOD_NUM ASC
+			)
+			WHERE (SELECT COUNT(*) FROM BOARDS) - (#{page} * 10) + 1 <= BOD_NUM
+		]]>
+	</select>
+	
+	<select id="boardSearchList" resultType="BoardVO">
+         SELECT * FROM BOARDS
+         WHERE    
+         <if test="key == '제목'">TITLE LIKE '%' || #{val } || '%'</if>
+         <if test="key == '내용'">CONTENTS LIKE '%' || #{val } || '%'</if>   
+         <if test="key == '제목내용'">TITLE LIKE '%' || #{val } || '%' OR CONTENTS LIKE '%' || #{val } || '%'</if>  
+         ORDER BY BOD_NUM ASC 
+   </select>      
+	
 	<insert id="insertBoard" parameterType="BoardVO">
 		<selectKey keyProperty="bod_num" resultType="int" order="BEFORE">
 			SELECT NVL(MAX(BOD_NUM),0)+1
@@ -18,12 +56,6 @@
 		INSERT INTO BOARDS ( BOD_NUM, USER_ID, TITLE, CONTENTS, WDATE, BOD_CODE, HIT)
 		VALUES ( #{bod_num}, #{user_id}, #{title}, #{contents}, #{wdate}, #{bod_code}, #{hit} )
 	</insert>
-	
-	<select id="view" resultType="BoardVO" parameterType="java.lang.Integer">
-		SELECT *
-		FROM BOARDS	
-		WHERE BOD_NUM = #{bod_num}
-	</select>	
 	
 	<update id="boardHit">
 		UPDATE BOARDS SET
