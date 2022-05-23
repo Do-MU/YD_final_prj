@@ -23,4 +23,16 @@ public class NotiController {
 	public List<NotiVO> notiSelect(HttpSession session){
 		return svc.notiSelect((UserVO) session.getAttribute("loginUser"));
 	}
+	
+	@RequestMapping("/notiReadAll")
+	@ResponseBody
+	public void notiReadAll(UserVO loginUser){
+		svc.notiReadUpdateAll(loginUser);
+	}
+	
+	@RequestMapping("/notiReadDel")
+	@ResponseBody
+	public void notiReadDel(UserVO loginUser) {
+		svc.notiReadDelete(loginUser);
+	}
 }

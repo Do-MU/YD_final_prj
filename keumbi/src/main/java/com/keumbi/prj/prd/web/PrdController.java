@@ -1,8 +1,6 @@
 package com.keumbi.prj.prd.web;
 
-import java.io.PrintWriter;
 import java.util.List;
-import java.util.Random;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -16,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.keumbi.prj.account.service.AccountService;
-import com.keumbi.prj.account.vo.AccountVO;
 import com.keumbi.prj.chall.service.ChallService;
 import com.keumbi.prj.chall.vo.ChallVO;
 import com.keumbi.prj.common.service.CodeService;
@@ -37,7 +34,7 @@ import com.keumbi.prj.user.vo.UserVO;
 
 @Controller
 public class PrdController {
-
+	
 	@Autowired	DepositService dep;
 	@Autowired	SavingMapper sav;
 	@Autowired	LoanMapper loa;
@@ -82,67 +79,7 @@ public class PrdController {
 		return dep.selectAllDepOpt(dep_id);
 	}
 
-	// 예금 가입하기 화면 출력
-	@RequestMapping("/depositJoinForm")
-	public String depositJoinForm(Model model, HttpSession session, HttpServletResponse response, int dep_id, String val) throws Exception {
-		// 로그인이 NULL일경우 로그인화면으로 넘겨보냄
-		if(session.getAttribute("loginUser") == null) {
-		response.setContentType("text/html; charset=UTF-8");
-		PrintWriter login = response.getWriter();
-		login.println("<script>alert('로그인이 필요합니다.');</script>");
-		login.flush();
-		return "user/userLoginForm";
-		}
-		
-		//로그인이 되어있을경우 가입폼 출력
-		model.addAttribute("depBase", dep.selectOneDepBase(dep_id));
-		model.addAttribute("code", codeService.bankCode(val));
-		
-		return "product/depositJoinForm";
-	}
-	
-	// 예금 가입하기 처리
-	@RequestMapping("/depositJoin")
-	public String depositJoin(AccountVO accountVO, HttpSession session, Model model) {
-		UserVO vo = (UserVO) session.getAttribute("loginUser"); // 세션값 불러오기
-		String userId = vo.getId(); // 세션에 저장된 ID값
 
-		// fintech_use_num 난수생성
-		Random random = new Random();
-		int createNum = 0;
-		String ranNum = "";
-
-		int finLetter = 21; // 핀테크코드 자리수
-		int accLetter = 10; // 계좌코드 자리수
-
-		String resFinNum = "";
-		String resAccNum = "";
-
-		for (int i = 0; i < finLetter; i++) {
-			createNum = random.nextInt(9);
-			ranNum = Integer.toString(createNum);
-			resFinNum += ranNum;
-		}
-
-		for (int i = 0; i < accLetter; i++) {
-			createNum = random.nextInt(9);
-			ranNum = Integer.toString(createNum);
-			resAccNum += ranNum;
-		} 
-		// 난수생성 종료
-
-		accountVO.setFintech_use_num("dep" + resFinNum); 		// 핀테크번호(24자리)
-		accountVO.setUser_id(userId); 							// 회원아이디
-		accountVO.setAccount_num_masked(resAccNum + "***"); 	// 계좌번호(13자리)
-		accountVO.setBalance_amt(0); 							// 잔액
-
-		accService.insertAccount(accountVO);
-		return "redirect:prdDepositList";
-	}
-
-	
-	
-	
 	/* 적금 */
 	// 적금상품 업데이트처리
 	@RequestMapping(value = "admin/savUpdate", produces = "application/text; charset=utf8")

@@ -50,19 +50,28 @@ body {
 }
 .modal{
 	position: fixed;
-	top: 6%;
-	left: 26%;
+    transform: translate(33%, 7%);
 }
 .modal-content{
-	height: 800px;
+	width: 400px;
+	height: 500px;
 }
 #mod_btns{
 	display:flex;
 	padding: 0 50px;
 }
-#mod_readDel, #mod_readAll{
-	flex:1;
-	padding: 0 10px;
+#mod_readAll{
+	flex:2;
+	text-align:right;
+	margin-right:5px;
+}
+#mod_readDel{
+	flex:3;
+	margin-left:5px;
+}
+#mod_readAll:hover,
+#mod_readDel:hover{
+	cursor:pointer;
 }
 #mod_btns p{
 	margin:0 auto;
@@ -78,8 +87,10 @@ body {
 	flex:4;
 }
 .mod_title{
-	font-size: 1.3em;
 	color:black;
+}
+.mod_contents{
+	font-size:0.8em;
 }
 .mod_status{
 	text-align: center;
@@ -183,14 +194,20 @@ body {
 		}).done(function(notis){
 			if(notis.length != 0){
 				$("#noti").css("color", "red");
+				
 			}
-			console.log(notis)
 		});
 	}
 	$("#noti").click(function(){
 		$("#modal_noti").modal("show");
 	});
 
+	$("#mod_readAll").on('click',function(){
+		console.log($(this));
+	})
+	$("#mod_readDel").on('click',function(){
+		console.log($(this));
+	})
 </script>
 
 
