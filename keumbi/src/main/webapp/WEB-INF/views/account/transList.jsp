@@ -6,8 +6,6 @@
 <head>
 <meta charset="UTF-8">
 <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css" integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn" crossorigin="anonymous">
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-fQybjgWLrvvRgtW6bFlB7jaZrFsaBXjsOMm/tB9LTS58ONXgqbR9W8oWht/amnpF" crossorigin="anonymous"></script>
 <style type="text/css">
 	.container>div>h1{margin-bottom: 50px;}
 </style>
@@ -55,16 +53,16 @@
 							<h3 id="noData">거래내역이 없습니다.</h3>
 						</c:when>
 						<c:otherwise>
-							<table>
+							<table class="table">
 								<thead class="thead-dark">
 									<tr>
-										<th>TRAN_DATE</th>
-										<th>TRAN_TIME</th>
-										<th>INOUT_TYPE</th>
-										<th>PRINT_CONTENT</th>
-										<th>TRAN_AMT</th>
-										<th>AFTER_BALANCE_AMT</th>
-										<th>BRANCH_NAME</th>
+										<th scope="col">TRAN_DATE</th>
+										<th scope="col">TRAN_TIME</th>
+										<th scope="col">INOUT_TYPE</th>
+										<th scope="col">PRINT_CONTENT</th>
+										<th scope="col">TRAN_AMT</th>
+										<th scope="col">AFTER_BALANCE_AMT</th>
+										<th scope="col">BRANCH_NAME</th>
 									</tr>
 								</thead>
 								<tbody id="result">

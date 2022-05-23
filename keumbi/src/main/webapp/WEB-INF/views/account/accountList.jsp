@@ -10,6 +10,7 @@
 <style>
 	.container>div>h1{margin-bottom: 50px;}
 </style>
+
 </head>
 <body>
 <section class="banner_area">
@@ -39,7 +40,7 @@
 											<td colspan="2">${acc.account_num_masked }</td>
 											<td>잔액 ${acc.balance_amt }</td>
 											<td><button type="submit" class="trans">거래내역</button></td>
-											<td><button>이체</button></td>
+											<td><button>이체하기</button></td>
 										</tr>
 									</c:forEach>
 								</table>
@@ -54,10 +55,17 @@
 </body>
 
 <script>
-	$(".trans").on("click", this, function(){
+
+	//비회원 접근시
+	if (!"${loginUser.id}") {
+		alert('로그인이 필요합니다.');
+		window.location = "userLoginForm";
+	}
+	
+	$(".trans").on("click", this, function() {
 		var finNum = $(this).parent().parent().prev().data("fin");
 		console.log(finNum);
-		
+
 		$("#fintech_use_num").val(finNum);
 		transForm.action = "accTransView";
 		transForm.method = "get";
