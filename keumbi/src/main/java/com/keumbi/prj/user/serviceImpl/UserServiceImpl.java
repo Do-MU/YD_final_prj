@@ -14,6 +14,8 @@ public class UserServiceImpl implements UserService {
 
 	@Autowired UserMapper m;
 	
+	private static int seq = 1;
+	
 	@Override
 	public List<UserVO> userSelectList() {
 		
@@ -86,4 +88,28 @@ public class UserServiceImpl implements UserService {
 		return m.userPwUpdate(vo);
 	}
 
+	@Override
+	public int insertRandUser() {
+		UserVO vo = new UserVO();
+		String test = "test";
+		String t = "테스트";
+		int i = (int) (Math.floor(Math.random()*2)+1);
+		String s = ""+seq;
+		if(seq<10) {
+			s = "000"+seq;
+		}else if(seq<100) {
+			s = "00"+seq;
+		}else if(seq<1000) {
+			s = "0"+seq;
+		}
+		
+		vo.setId(test+s);
+		vo.setPw(test+s);
+		vo.setName(t+s);
+		vo.setBirth("570101");
+		vo.setGender_code("G"+i);
+		vo.setEmail(test+s+"@abc.com");
+		seq++;
+		return m.userInsert(vo);
+	}	
 }

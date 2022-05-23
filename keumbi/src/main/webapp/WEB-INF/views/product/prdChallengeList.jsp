@@ -54,9 +54,6 @@
 	/* MODAL style */
 	.modal{
 		position: fixed;
-	  	top: 50%;
-	  	left: 50%;
-	  	transform: translate(-50%, -30%);
 	}
 	.modal-body{
 		padding: 50px;
