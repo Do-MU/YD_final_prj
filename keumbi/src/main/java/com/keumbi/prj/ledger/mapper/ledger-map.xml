@@ -14,7 +14,7 @@
 	</select>
 	
 	<select id="dayTrans" resultType="LedgerVO">
-		SELECT 	T.TDATE, T.NUM, T.USER_ID, T.CONTENT, T.AMT, T.IO_CODE, C.VAL
+		SELECT 	T.TDATE, T.NUM, T.USER_ID, T.CONTENT, T.AMT, T.IO_CODE, T.CAT_CODE, C.VAL
 		FROM  	TOTAL_TRANS T
 		JOIN   	COMMON_CODE C
 		ON     	T.CAT_CODE  = C.CODE
@@ -38,7 +38,7 @@
 	</select>
 	
 	<select id="ledgerSearch" resultType="LedgerVO">
-		SELECT	 T.TDATE, T.NUM, T.USER_ID, T.CONTENT, T.AMT, T.IO_CODE, C.VAL, #{keyword} AS KEYWORD
+		SELECT	 T.TDATE, T.NUM, T.USER_ID, T.CONTENT, T.AMT, T.IO_CODE, T.CAT_CODE, C.VAL, #{keyword} AS KEYWORD
 		FROM	 TOTAL_TRANS T
 		JOIN	 COMMON_CODE C
 		ON		 T.CAT_CODE = C.CODE
@@ -59,12 +59,29 @@
 		(#{tdate}, #{num}, #{user_id}, #{io_code}, #{content}, #{amt}, #{cat_code})
 	</insert>
 	
-	<update id="ledUpdate" parameterType="LedgerVO">
+	<select id="ledEditModal" parameterType="LedgerVO">
+		SELECT 	*
+		FROM 	TOTAL_TRANS
+		WHERE 	USER_ID = #{user_id}
+		AND 	TDATE = #{tdate}
+		AND 	NUM = #{num}
+	</select>
 	
+	<update id="ledgerUpdate" parameterType="LedgerVO">
+		UPDATE 	TOTAL_TRANS
+		<set>
+			<if test="amt != null">AMT = #{amt},</if>
+			<if test="content != null">CONTENT = #{content},</if>
+			<if test="io_code != null">IO_CODE = #{io_code},</if>
+			<if test="cat_code != null">CAT_CODE = #{cat_code},</if>
+		</set>       
+		WHERE 	USER_ID = #{user_id}
+		AND 	TDATE = #{tdate}
+		AND 	NUM = #{num}
 	</update>
 
-	<delete id="ledDelete" parameterType="LedgerVO">
-	
+	<delete id="ledgerDelete" parameterType="LedgerVO">
+		
 	</delete>
 	
 	<insert id="transInsert" parameterType="LedgerVO">
