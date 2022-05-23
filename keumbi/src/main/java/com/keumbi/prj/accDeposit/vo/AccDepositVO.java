@@ -5,15 +5,15 @@ import lombok.Data;
 @Data
 public class AccDepositVO {
 
-	private int seq;
-	private String fintech_use_num;
-	private String tran_date;
-	private String tran_time;
-	private String inout_type;
-	private String tran_type;
-	private String print_content;
-	private int tran_amt;
-	private int after_balance_amt;
-	private String branch_name;
+	private int dep_seq;
+	private String dep_fintech_use_num;
+	private String dep_tran_date;
+	private String dep_tran_time;
+	private String dep_inout_type;
+	private String dep_tran_type;
+	private String dep_print_content;
+	private int dep_tran_amt;
+	private int dep_after_balance_amt;
+	private String dep_branch_name;
 	
 }
