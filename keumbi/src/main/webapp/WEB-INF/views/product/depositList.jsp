@@ -22,7 +22,12 @@
 }
 .div_prdnm{
 	font-size:2em;
-	margin-bottom: 40px;
+	margin-bottom: 30px;
+}
+.div_intr{
+	color: red;
+	font-size: 1.5em;
+	margin-bottom: 20px;
 }
 .div_joinway{
 	font-size:1.5em;
@@ -39,12 +44,8 @@
 	margin-top: 40px;
 	font-size: 20px;
 }
-.div_intr{
-	color: red;
-	font-size: 1.5em;
-}
 
-#modal{
+#modal .modal-body{
 	max-height: 500px;
 	overflow: auto;
 }
@@ -70,16 +71,17 @@
 	<div class="container">
 		<div id="list">
 			<c:forEach var="d" items="${depList}">
-			<div class="prds" data-dep_id="${d.dep_id}">
-				<div class="div_img"><img src="${pageContext.request.contextPath}/resources/img/bank_logo/${d.kor_co_nm}.jpg" width="150px" height="150px"></div>
-				<div class="div_exp">
-					<div class="div_banknm">${d.kor_co_nm}</div>
-					<div class="div_prdnm">${d.fin_prdt_nm}</div>
+				<div class="prds" data-dep_id="${d.dep_id}">
+					<div class="div_img"><img src="${pageContext.request.contextPath}/resources/img/bank_logo/${d.kor_co_nm}.jpg" width="150px" height="150px"></div>
+					<div class="div_exp">
+						<div class="div_banknm">${d.kor_co_nm}</div>
+						<div class="div_prdnm">${d.fin_prdt_nm}</div>
 						<div class="div_intr"></div>
-					<div class="div_joinway">${d.join_way}</div>
-				</div>
-				<div class="div_btn">
-					<button class="depView">자세히 보기</button>
+						<div class="div_joinway">${d.join_way}</div>
+					</div>
+					<div class="div_btn">
+						<button class="depView">자세히 보기</button>
+					</div>
 				</div>
 				<hr>
 			</c:forEach>

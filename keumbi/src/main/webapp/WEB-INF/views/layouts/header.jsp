@@ -26,6 +26,7 @@
 	width: 400px;
 }
 #mod_notiList{
+	min-height: 100px;
 	max-height: 500px;
 	overflow: auto;
 }
@@ -201,7 +202,7 @@
 					
 				}
 			}else{
-				$("<div>").html("알림이 없습니다.").css("text-align","center").appendTo($("#mod_notiList"));
+				$("<div>").html("알림이 없습니다.").css("text-align","center").css("line-height","100px").appendTo($("#mod_notiList"));
 			}
 		});
 	}
