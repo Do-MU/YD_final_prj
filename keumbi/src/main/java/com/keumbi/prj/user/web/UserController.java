@@ -62,13 +62,13 @@ public class UserController {
 	}
 
 	// 회원가입 화면 출력
-	/*
+	
 	@RequestMapping("/userJoinForm")
 	public String userJoinForm(Model model) {
 	model.addAttribute("code", code.keywordCode());
 	return "user/userJoinForm";
 	}
-	*/
+	
 	@RequestMapping("/joinForm")
 	public String joinForm(Model model) {
 		model.addAttribute("code", code.keywordCode());

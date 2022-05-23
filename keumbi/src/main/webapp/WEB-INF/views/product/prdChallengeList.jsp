@@ -52,67 +52,67 @@
 	
 	
 	/* MODAL style */
-	.modal{
+	#challengeJoin_modal {
 		position: fixed;
 	}
-	.modal-body{
+	#challengeJoin_modal .modal-body{
 		padding: 50px;
 	}
 	
 	/* back btn */
-	.close{
+	#challengeJoin_modal .close{
 		float:none;
 	}
-	#mod_back_btn{
+	#challengeJoin_modal #mod_back_btn{
 		font-size: 10px;
 		margin-bottom:50px;
 	}
 	
 	
-	#mod_body_top{
+	#challengeJoin_modal #mod_body_top{
 		display:flex;
 	}
-	#mod_chal_title{
+	#challengeJoin_modal #mod_chal_title{
 		flex:3;
 		font-size: 30px;
 	}
-	#mod_chal_cont{
+	#challengeJoin_modal #mod_chal_cont{
 		margin-bottom: 10px;
 		font-size:1.2em;
 	}
-	#mod_chal_top3{
+	#challengeJoin_modal #mod_chal_top3{
 		margin-top:30px;
 	}
-	#mod_goalTitle{
+	#challengeJoin_modal #mod_goalTitle{
 		margin-top:30px;	
 	}
-	#mod_goal{		
+	#challengeJoin_modal #mod_goal{		
 		text-align:center;
 	}
 	
 	/* Slider */
-	#slider{
+	#challengeJoin_modal #slider{
 		width:50%;
 	}
-	#goal_price{
+	#challengeJoin_modal #goal_price{
 		width:50%;
 		display:flex;
 		margin:0 auto;
 	}
-	#goal_min{
+	#challengeJoin_modal #goal_min{
 		flex:1;
 		text-align:left;
 	}
-	#goal_now{
+	#challengeJoin_modal #goal_now{
 		flex:1;
 	}
-	#goal_max{
+	#challengeJoin_modal #goal_max{
 		flex:1;
 		text-align:right;
 	}
 	
 	
-	#challengeJoinBtn{
+	#challengeJoin_modal #challengeJoinBtn{
 		width:100%;
 	}
 	

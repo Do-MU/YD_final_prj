@@ -7,7 +7,8 @@ import com.keumbi.prj.user.vo.UserVO;
 
 public interface NotiService {
 	List<NotiVO> notiSelect(UserVO vo);
+	void notiReadUpdateAll(UserVO vo);
 	int notiInsert(NotiVO VO);
 	int notiReadUpdate(NotiVO vo);
-	int notiDelete(NotiVO vo);
+	void notiReadDelete(UserVO vo);
 }

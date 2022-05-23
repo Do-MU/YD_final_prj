@@ -9,5 +9,5 @@ public interface NotiMapper {
 	List<NotiVO> notiSelect(UserVO vo);
 	int notiInsert(NotiVO VO);
 	int notiReadUpdate(NotiVO vo);
-	int notiDelete(NotiVO vo);
+	int notiDelete(UserVO vo);
 }

@@ -3,16 +3,81 @@
 
 <script src="http://code.jquery.com/jquery-3.6.0.js"></script>
 <style>
-#li_name{
+#li_name {
+	margin-right: 5px;
+}
+
+#li_noti {
+	width: 30px;
+	text-align: center;
+}
+
+#noti:hover {
+	font-size: 1.5em;
+	cursor: pointer;
+}
+#modal_noti{
+	position: fixed;
+	top:0%;
+	right:0%;
+    transform: translate(33%, 7%);
+}
+#modal_noti .modal-content{
+	width: 400px;
+}
+#mod_notiList{
+	max-height: 500px;
+	overflow: auto;
+}
+#modal_noti #mod_btns{
+	display:flex;
+	padding: 0 50px 10px;
+}
+#modal_noti #mod_readAll{
+	flex:2;
+	text-align:right;
 	margin-right:5px;
 }
-#li_noti{
-	width: 30px;
-	text-align:center;
+#modal_noti #mod_readDel{
+	flex:3;
+	margin-left:5px;
 }
-#noti:hover {
-	font-size:1.5em;
+#modal_noti #mod_readAll:hover,
+#modal_noti #mod_readDel:hover{
 	cursor:pointer;
+	color:#585858;
+}
+#modal_noti #mod_btns p{
+	margin:0 auto;
+	text-align: center;
+}
+#modal_noti .mod_notis{
+	padding: 10px 20px;
+}
+.mod_notis_read{
+	background-color: #DCDCDC;
+}
+#modal_noti .mod_data{
+	line-height : 30px;
+}
+#modal_noti .mod_title{
+	color:black;
+}
+#modal_noti .mod_contents{
+	font-size:0.8em;
+}
+#modal_noti:after {
+	 border-top:0px solid transparent;
+	 border-left: 10px solid transparent;
+	 border-right: 10px solid transparent;
+	 border-bottom: 10px solid white;
+	 content:"";
+	 position:absolute;
+	 right:50%;
+	 top:20px;
+}
+#modal_noti hr {
+	margin : 0;
 }
 </style>
 <header class="header_area">
@@ -91,16 +156,82 @@
 		</nav>
 	</div>
 </header>
+
+<!-- NOTI MODAL -->
+<div class="modal fade" id="modal_noti" tabindex="-1"
+	aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-md">
+		<div class="modal-content">
+
+			<div class="modal-body">
+				<div id="mod_btns">
+					<p id="mod_readAll">전체 읽음</p>
+					<p>|</p>
+					<p id="mod_readDel">읽은 알림 지우기</p>
+				</div>
+				<hr>
+				<div id="mod_notiList"></div>
+			</div>
+
+			<div class="modal-footer">
+			</div>
+
+		</div>
+	</div>
+</div>
+
+
 <script>
-	if(${loginUser!=null}){
+	function notiSelect(){
 		$.ajax({
 			url:"notiSelect"
 		}).done(function(notis){
 			if(notis.length != 0){
-				$("#noti").css("color", "red");
+				for(n of notis){
+					if(n.noti_read_code == 'AR0'){
+						$("#noti").css("color", "red");
+						let html = '<div class="mod_data"><div class="mod_title">'+n.noti_code+'</div><div class="mod_contents">'+n.noti_contents+'</div></div>';
+						$("<div>").html(html).addClass("mod_notis").appendTo($("#mod_notiList"));
+						$("#mod_notiList").append($("<hr>"));
+					}else{
+						let html = '<div class="mod_data"><div class="mod_title">'+n.noti_code+'</div><div class="mod_contents">'+n.noti_contents+'</div></div>';
+						$("<div>").html(html).addClass("mod_notis mod_notis_read").appendTo($("#mod_notiList"));
+						$("#mod_notiList").append($("<hr>"));
+					}
+					
+				}
+			}else{
+				$("<div>").html("알림이 없습니다.").css("text-align","center").appendTo($("#mod_notiList"));
 			}
-			console.log(notis)
 		});
 	}
 
+	if(${loginUser!=null}){
+		notiSelect();
+	}
+	
+	$("#noti").click(function(){
+		$("#modal_noti").modal("show");
+	});
+
+	$("#mod_readAll").on('click',function(){
+		$("#mod_notiList").html("");
+		$.ajax({
+			url:"notiReadAll",
+			data:{id:"${loginUser.id}"}
+		}).done(function(){
+			notiSelect();
+			$("#noti").css("color", "white");
+		});
+	});
+	
+	$("#mod_readDel").on('click',function(){
+		$("#mod_notiList").html("");
+		$.ajax({
+			url:"notiReadDel",
+			data:{id:"${loginUser.id}"}
+		}).done(function(){
+			notiSelect();
+		});
+	})
 </script>
