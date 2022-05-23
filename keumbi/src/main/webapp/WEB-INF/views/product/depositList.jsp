@@ -70,18 +70,16 @@
 	<div class="container">
 		<div id="list">
 			<c:forEach var="d" items="${depList}">
-				<div class="prds" data-dep_id="${d.dep_id}">
-					<div class="div_img"><img src="${pageContext.request.contextPath}/resources/img/favicon.png" width="150px" height="150px"></div>
-					<div class="div_exp">
-						<div class="div_banknm">${d.kor_co_nm}</div>
-						<div class="div_prdnm">${d.fin_prdt_nm}</div>
+			<div class="prds" data-dep_id="${d.dep_id}">
+				<div class="div_img"><img src="${pageContext.request.contextPath}/resources/img/bank_logo/${d.kor_co_nm}.jpg" width="150px" height="150px"></div>
+				<div class="div_exp">
+					<div class="div_banknm">${d.kor_co_nm}</div>
+					<div class="div_prdnm">${d.fin_prdt_nm}</div>
 						<div class="div_intr"></div>
-						<div class="div_joinway">${d.join_way}</div>
-					</div>
-					
-					<div class="div_btn">
-						<button class="depView">자세히 보기</button>
-					</div>
+					<div class="div_joinway">${d.join_way}</div>
+				</div>
+				<div class="div_btn">
+					<button class="depView">자세히 보기</button>
 				</div>
 				<hr>
 			</c:forEach>

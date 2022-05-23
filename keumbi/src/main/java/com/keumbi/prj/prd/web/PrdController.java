@@ -1,8 +1,6 @@
 package com.keumbi.prj.prd.web;
 
-import java.io.PrintWriter;
 import java.util.List;
-import java.util.Random;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -16,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.keumbi.prj.account.service.AccountService;
-import com.keumbi.prj.account.vo.AccountVO;
 import com.keumbi.prj.chall.service.ChallService;
 import com.keumbi.prj.chall.vo.ChallVO;
 import com.keumbi.prj.common.service.CodeService;
@@ -37,7 +34,7 @@ import com.keumbi.prj.user.vo.UserVO;
 
 @Controller
 public class PrdController {
-
+	
 	@Autowired	DepositService dep;
 	@Autowired	SavingMapper sav;
 	@Autowired	LoanMapper loa;
@@ -81,9 +78,7 @@ public class PrdController {
 		
 		return dep.selectAllDepOpt(dep_id);
 	}
-	
-	
-	
+  
 	/* 적금 */
 	// 적금상품 업데이트처리
 	@RequestMapping(value = "admin/savUpdate", produces = "application/text; charset=utf8")

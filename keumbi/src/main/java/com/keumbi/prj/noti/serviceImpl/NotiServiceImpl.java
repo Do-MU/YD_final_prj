@@ -22,6 +22,14 @@ public class NotiServiceImpl implements NotiService {
 	}
 
 	@Override
+	public void notiReadUpdateAll(UserVO vo) {
+		List<NotiVO> notis = m.notiSelect(vo);
+		for(NotiVO n : notis) {
+			m.notiReadUpdate(n);
+		}
+	}
+
+	@Override
 	public int notiInsert(NotiVO VO) {
 		return m.notiInsert(VO);
 	}
@@ -32,8 +40,7 @@ public class NotiServiceImpl implements NotiService {
 	}
 
 	@Override
-	public int notiDelete(NotiVO vo) {
-		return m.notiDelete(vo);
+	public void notiReadDelete(UserVO vo) {
+		m.notiDelete(vo);
 	}
-
 }
