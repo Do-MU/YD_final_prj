@@ -123,7 +123,7 @@
 							<li class="nav-item submenu dropdown" id="li_name">
 								<a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">${loginUser.name} 님</a>
 								<ul class="dropdown-menu">
-									<li class="nav-item"><a class="nav-link" href="#">나의 정보</a></li>
+									<li class="nav-item"><a class="nav-link" href="userUpdateForm">나의 정보</a></li>
 									<li class="nav-item"><a class="nav-link" href="challengeList">나의 챌린지</a></li>
 									<li class="nav-item"><a class="nav-link" href="#">지출분석</a></li>
 									<li class="nav-item"><a class="nav-link" href="#">고객센터</a></li>
@@ -131,6 +131,24 @@
 							</li>
 							<li class="nav-item" id="li_noti"><i id="noti" class="nav-link bi bi-bell-fill"></i></li>
 							<li class="nav-item"><a class="nav-link" href="userLoginForm">로그아웃</a></li>
+							
+							<div class="modal" id="userInfoModal" tabindex="-1">
+								  <div class="modal-dialog">
+								    <div class="modal-content">
+								      <div class="modal-header">
+								        <h5 class="modal-title">Modal title</h5>
+								        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+								      </div>
+								      <div class="modal-body">
+								        <p>Modal body text goes here.</p>
+								      </div>
+								      <div class="modal-footer">
+								        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+								        <button type="button" class="btn btn-primary">Save changes</button>
+								      </div>
+								    </div>
+								  </div>
+							</div>
 						</c:if>
 					</ul>
 				</div> 

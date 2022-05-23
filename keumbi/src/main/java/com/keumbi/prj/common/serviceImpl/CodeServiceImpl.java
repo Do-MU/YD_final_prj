@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.keumbi.prj.common.mapper.CodeMapper;
 import com.keumbi.prj.common.service.CodeService;
 import com.keumbi.prj.common.vo.CodeVO;
+import com.keumbi.prj.user.vo.UserVO;
 
 @Service
 public class CodeServiceImpl implements CodeService {
@@ -26,6 +27,11 @@ public class CodeServiceImpl implements CodeService {
 	@Override
 	public List<CodeVO> bankCode(String val) {
 		return m.bankCode();
+	}
+
+	@Override
+	public List<CodeVO> selectUserKwdCode(String id) {
+		return m.selectUserKwdCode(id);
 	}
 
 
