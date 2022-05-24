@@ -193,92 +193,6 @@ public class BankAPI {
 
 		return list;
 	}
-
-	// 입금이체
-	public static void accDeposit(UserVO vo, String fintech_use_num) {
-		String reqURL = "https://testapi.openbanking.or.kr/v2.0/transfer/withdraw/fin_num";
-
-		HttpHeaders headers = new HttpHeaders();
-		headers.set("Authorization", "Bearer " + vo.getAccess_token());
-		headers.set("Content-Type", "application/json; charset=UTF-8");
-
-		Map<String, String> param = new HashMap<String, String>();
-		param.put("bank_tran_id", orgCode +"U" + getSequence());
-		param.put("cntr_account_type", "N");
-		param.put("cntr_account_num", "1111111111111111");
-		param.put("dps_print_content", "이");
-		param.put("fintech_use_num", "120220073488941057621371");
-		param.put("tran_amt", "50000");
-		param.put("tran_dtime", getDate());
-		param.put("req_client_name", "윤희철");
-		param.put("req_client_bank_code", "007");
-		param.put("req_client_account_num", "1111111111111111");
-		param.put("req_client_num", "1101005855");
-		param.put("recv_client_bank_code", "031");
-		param.put("recv_client_name", "윤희철");
-		param.put("recv_client_account_num", "8888888888888888");
-		param.put("transfer_purpose", "TR");
-
-		HttpEntity<Map<String, String>> request = new HttpEntity<Map<String, String>>(param, headers);
-
-		RestTemplate restTemplate = new RestTemplate();
-
-		Map response = restTemplate.postForObject(reqURL, request, Map.class);
-
-		//System.out.println(response);
-	}
-
-	// 카드목록
-	public static List<CardVO> getCardList() {
-		String reqURL = "https://testapi.openbanking.or.kr/v2.0/cards";
-		
-		String t = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiIxMTAxMDA1MzY1Iiwic2NvcGUiOlsiaW5xdWlyeSIsImxvZ2luIiwidHJhbnNmZXIiXSwiaXNzIjoiaHR0cHM6Ly93d3cub3BlbmJhbmtpbmcub3Iua3IiLCJleHAiOjE2NjA3ODE2NjAsImp0aSI6Ijc5YzhhZGNhLTJhNjctNDQ0YS04OWQ2LTFjYmM2NzMxMDdmYyJ9.RnyV03hFDLL7dSSt_Ig9_G5nmpRBR6jJ56i_4BSzyl4";
-
-		HttpHeaders headers = new HttpHeaders();
-		headers.set("Authorization", "Bearer " + t);
-
-		String param = "";
-		param += "bank_tran_id=" + orgCode + "U" + getSequence();
-		param += "&user_seq_no=" + "1101005365";
-		param += "&bank_code_std=399";
-		param += "&member_bank_code=399";
-		// param += "&bank_code_std" + cvo.getBank_code_std();
-		// param += "&member_bank_code" + cvo.getMember_bank_code();
-
-		HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<MultiValueMap<String, String>>(null, headers);
-
-		RestTemplate restTemplate = new RestTemplate();
-		ResponseEntity<String> res = restTemplate.exchange(reqURL + "?" + param, HttpMethod.GET, request, String.class);
-
-		System.out.println("카드목록 res : " + res);
-
-		JsonNode json = null;
-		try {
-			json = om.readTree(res.getBody());
-		} catch (JsonProcessingException e) {
-			e.printStackTrace();
-		}
-
-		JsonNode jsonVal = json.get("card_list");
-		System.out.println("카드목록 결과 : " + jsonVal);
-
-		List<CardVO> cardList = new ArrayList<CardVO>();
-		for (JsonNode i : jsonVal) {
-			CardVO vo = new CardVO();
-			// vo.setUser_id(uvo.getId());
-			vo.setCard_num_masked(i.get("card_num_masked").asText());
-			vo.setCard_name(i.get("card_name").asText());
-			vo.setMember_bank_code(i.get("card_member_type").asText());
-			cardList.add(vo);
-		}
-		return cardList;
-	}
-
-	
-	
-	
-	
-	
 	
 	public static String getSequence() {
 		long curTime = System.currentTimeMillis();
@@ -286,7 +200,6 @@ public class BankAPI {
 		return gs;
 
 	}
-	
 
 	public static String getDate() {
 		String gd;

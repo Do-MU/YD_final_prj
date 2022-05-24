@@ -103,7 +103,6 @@
 				
 				<c:otherwise>
 					<div id="div_accList">
-					
 						<c:forEach items="${acc}" var="acc">
 							<div class="div_acc div_view" data-fin="${acc.fintech_use_num}">
 								<div class="div_img">
@@ -114,12 +113,10 @@
 									<div class="div_num">${acc.account_num_masked}</div>
 								</div>
 								<div class="div_data2">
-									
 									<div class="div_amt">${acc.balance_amt}</div>
 								</div>
 							</div>
 						</c:forEach>
-						
 					</div>
 				</c:otherwise>
 				
@@ -133,8 +130,7 @@
 		if (!"${loginUser.id}") {
 			alert('로그인이 필요합니다.');
 			window.location = "userLoginForm";
-		}
-		
+		}	
 		// 천단위 콤마
 		for(amt of $(".div_amt")){
 			amt.innerHTML = amt.innerHTML.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",") + " 원";
