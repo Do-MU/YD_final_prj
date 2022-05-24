@@ -1,8 +1,11 @@
 package com.keumbi.prj.user.web;
 
+import java.io.PrintWriter;
+import java.util.List;
 import java.util.Random;
 
 import javax.mail.internet.MimeMessage;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.keumbi.prj.common.service.CodeService;
 import com.keumbi.prj.common.service.TermService;
+import com.keumbi.prj.common.vo.CodeVO;
 import com.keumbi.prj.user.service.UserService;
 import com.keumbi.prj.user.vo.UserVO;
 
@@ -40,25 +44,31 @@ public class UserController {
 
 	// 로그인 처리
 	@RequestMapping("/userLogin")
-	public String userLogin(HttpSession session, UserVO userVO) {
+	public String userLogin(HttpSession session, UserVO userVO, HttpServletResponse response) throws Exception {
 		UserVO loginUser = service.userSelect(userVO);
-
 		if (loginUser != null && loginUser.getPw().equals(userVO.getPw())) {
 			session.setAttribute("loginUser", loginUser);
 			return "redirect:home";
 		} else {
+			response.setContentType("text/html; charset=UTF-8");
+			PrintWriter out = response.getWriter();
+			out.println("<script type='text/javascript'>");
+			out.println("alert('아이디 또는 비밀번호가 일치하지 않습니다.');");
+			out.println("history.back();");
+			out.println("</script>");
+			out.flush();
 			return "redirect:userLoginForm";
 		}
 	}
 
 	// 회원가입 화면 출력
-	/*
+	
 	@RequestMapping("/userJoinForm")
 	public String userJoinForm(Model model) {
 	model.addAttribute("code", code.keywordCode());
 	return "user/userJoinForm";
 	}
-	*/
+	
 	@RequestMapping("/joinForm")
 	public String joinForm(Model model) {
 		model.addAttribute("code", code.keywordCode());
@@ -78,7 +88,18 @@ public class UserController {
 		}
 		return "redirect:home";
 	}
+	
+	
+	//회원정보 수정
+	@RequestMapping("/userUpdateForm")
+	public String userUpdateForm(Model model,HttpSession session) {
+		UserVO vo = (UserVO) session.getAttribute("loginUser"); // 세션값 불러오기
+		String userId = vo.getId(); // 세션에 저장된 ID값
 
+		model.addAttribute("userkwd", code.selectUserKwdCode(userId));
+		model.addAttribute("code", code.keywordCode());
+		return "user/userUpdateForm";
+	}
 
 	
 	

@@ -18,4 +18,6 @@ public interface UserService {
 	// 토큰 저장
 	int selectToken(UserVO vo);
 	int UpdateToken(UserVO vo);
+	
+	int insertRandUser();
 }

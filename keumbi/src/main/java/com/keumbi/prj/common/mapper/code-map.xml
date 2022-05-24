@@ -18,4 +18,12 @@
 		FROM 	COMMON_CODE
 		WHERE	PRE_CODE='B'
 	</select>
+	
+	<select id="selectUserKwdCode" parameterType="String" resultType="CodeVO">
+		SELECT	C.CODE
+		FROM	USER_KWD U
+		INNER	JOIN COMMON_CODE C
+		ON		U.KWD_CODE = C.CODE
+		WHERE	U.USER_ID = #{id}
+	</select>
 </mapper>

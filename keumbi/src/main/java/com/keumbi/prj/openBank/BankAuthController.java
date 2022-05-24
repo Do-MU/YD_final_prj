@@ -25,7 +25,7 @@ public class BankAuthController {
 			    +"?response_type=code"
 	            +"&client_id=" + avo.getClient_id()
 			    +"&redirect_uri=" + avo.getRedirect_uri()
-			    +"&scope=inquiry transfer login"
+			    +"&scope=" + avo.getScope()
 			    +"&state=12345678901234567890123456789012"
 			    +"&auth_type=0";
 		
@@ -35,7 +35,8 @@ public class BankAuthController {
 	// 사용자 인증을 받아 인증코드를 받는 CallBackUrl
 	// 			>> 인증코드를 통해 AccessToken을 받아와 DB에 저장한다.
 	@RequestMapping("/bankCallback")
-	public String bankCallback(String code, HttpSession session) { // 넘어오는 파라미터와 같은 값을 받아야함		
+	public String bankCallback(String code, HttpSession session) { // 넘어오는 파라미터와 같은 값을 받아야함	
+		System.out.println(code);
 		// 발급받은 토큰 DB에 저장
 		JsonNode res = BankAPI.getToken(code);
 		//System.out.println("!!!res : " + res);

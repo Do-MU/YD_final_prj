@@ -2,20 +2,26 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.keumbi.prj.noti.mapper.NotiMapper">
 	<select id="notiSelect" parameterType="UserVO" resultType="NotiVO">
-		SELECT	*
-		FROM	NOTIFICATIONS
-		WHERE	USER_ID = #{id}
+		SELECT	N.NUM, N.USER_ID, CN.VAL AS "noti_code", N.NOTI_CONTENTS, N.NOTI_READ_CODE
+		FROM	NOTIFICATIONS N, COMMON_CODE CN, COMMON_CODE CR
+		WHERE	N.USER_ID = #{id} 
+		AND     N.NOTI_CODE = CN.CODE
+		AND		N.NOTI_READ_CODE = CR.CODE
 	</select>
 	
-	<!-- <insert id="notiInsert">
+	<update id="notiReadUpdate" parameterType="NotiVO">
+		UPDATE	NOTIFICATIONS
+		SET		NOTI_READ_CODE = 'AR1'
+		WHERE	NUM = #{num}
+	</update>
+	
+	<insert id="notiInsert">
 	
 	</insert>
 	
-	<update id="notiReadUpdate">
-	
-	</update>
-	
-	<delete id="notiDelete">
-	
-	</delete> -->
+	<delete id="notiDelete" parameterType="UserVO">
+		DELETE	NOTIFICATIONS
+		WHERE	USER_ID = #{id}
+		AND		NOTI_READ_CODE = 'AR1'
+	</delete>
 </mapper>
