@@ -2,8 +2,6 @@ package com.keumbi.prj.accTrans.service;
 
 import java.util.List;
 
-import javax.servlet.http.HttpSession;
-
 import com.keumbi.prj.accTrans.vo.AccTransReqVO;
 import com.keumbi.prj.accTrans.vo.AccTransVO;
 

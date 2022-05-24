@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 import com.keumbi.prj.common.mapper.CodeMapper;
 import com.keumbi.prj.common.service.CodeService;
 import com.keumbi.prj.common.vo.CodeVO;
-import com.keumbi.prj.user.vo.UserVO;
 
 @Service
 public class CodeServiceImpl implements CodeService {

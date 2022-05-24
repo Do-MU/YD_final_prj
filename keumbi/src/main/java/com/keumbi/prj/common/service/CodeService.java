@@ -3,7 +3,6 @@ package com.keumbi.prj.common.service;
 import java.util.List;
 
 import com.keumbi.prj.common.vo.CodeVO;
-import com.keumbi.prj.user.vo.UserVO;
 
 public interface CodeService {
 	List<CodeVO> keywordCode();

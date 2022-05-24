@@ -26,8 +26,8 @@
 		WHERE 	FINTECH_USE_NUM = #{fintech_use_num}
 	</select>
 	
-	<select id="selectAccTotalSum" resultType="Integer">
-		SELECT	SUM(BALANCE_AMT)
+	<select id="selectAccTotalSum" resultType="int">
+		SELECT	NVL( SUM( NVL( BALANCE_AMT, 0 ) ), 0 )
 		FROM	ACCOUNTS
 		WHERE 	USER_ID = #{user_id}
 	</select>

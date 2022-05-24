@@ -91,9 +91,9 @@ public class AccountServiceImpl implements AccountService {
 	@Override
 	public int selectAccTotalSum(HttpSession session) {
 		UserVO vo = (UserVO) session.getAttribute("loginUser");
-		String userId = vo.getId();
+		int amt = accMapper.selectAccTotalSum(vo.getId());
 		
-		return accMapper.selectAccTotalSum(userId);
+		return amt;
 	}
 	
 }
