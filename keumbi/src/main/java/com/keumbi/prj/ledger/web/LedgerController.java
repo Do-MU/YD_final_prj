@@ -28,20 +28,19 @@ public class LedgerController {
 	}
 	
 	// 월지출 총액 출력
-	/*
-	 * @RequestMapping("/monthTotalView")
-	 * 
-	 * @ResponseBody public LedgerMonthVO monthTotalAmt(LedgerMonthVO vo) { return
-	 * service.monthTotalAmt(vo); }
-	 */
-
+	@RequestMapping("/monthTotalAmt")
+	@ResponseBody
+	public int monthTotalAmt(LedgerMonthVO vo) {
+		return service.monthTotalAmt(vo);
+	}
+	
 	// 입출금액 데이터 호출
 	@RequestMapping("/totalTrans")
 	@ResponseBody
 	public List<LedgerMonthVO> totalTrans(LedgerMonthVO vo) {
 		return service.totalTrans(vo);
 	}
-
+	
 	// 선택한 날짜의 입출금 내역 호출
 	@RequestMapping("/dayView")
 	@ResponseBody
@@ -54,7 +53,6 @@ public class LedgerController {
 	@ResponseBody
 	public List<LedgerVO> dayTotalAmt(LedgerVO vo) {
 		return service.dayTotalAmt(vo);
-		
 	}
 	
 	// 현금 입출금 내역 등록
@@ -77,5 +75,11 @@ public class LedgerController {
 	public void ledgerUpdate(LedgerVO vo) {
 		service.ledgerUpdate(vo); 
 	}
-
+	
+	// 가계부 거래내역 삭제
+	@RequestMapping("/ledgerDelete")
+	@ResponseBody
+	public void ledgerDelete(LedgerVO vo) {
+		service.ledgerDelete(vo);
+	}
 }
