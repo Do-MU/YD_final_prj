@@ -16,7 +16,7 @@ public class ReplyServiceImpl implements ReplyService {
 	
 	@Override
 	public void replyCount(int re_num) {
-		m.replyCount(re_num);
+		m.replyCount();
 
 	}
 
