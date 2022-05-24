@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.keumbi.prj.reply.mapper.ReplyMapper">
+
+	<select id="replyCount" resultType="int">        
+		SELECT            
+			COUNT(*)        
+		FROM REPLIES   
+	</select>        
+	
+	<select id="replyList" resultType="com.keumbi.prj.reply.vo.ReplyVO">       
+		SELECT           
+			 *        
+		FROM REPLIES     
+	</select>           
+	
+	 <insert id="replyInsert" parameterType="com.keumbi.prj.reply.vo.ReplyVO">        
+		INSERT INTO        
+		REPLIES  (RE_NUM, USER_ID, BOD_NUM, PRE_RE_NUM, RE_CONTENTS, RE_DATE, RE_CODE)        
+		VALUES(#{re_num},#{user_id},#{bod_num},#{pre_re_num},#{re_contents},#{re_date},#{re_code})     
+	</insert>        
+	
+	<update id="replyUpdate" parameterType="com.keumbi.prj.reply.vo.ReplyVO">        
+		UPDATE REPLIES             
+			SET            
+			RE_CONTENTS = #{re_contents}        
+		WHERE RE_NUM = #{re_num}    
+	</update>        
+	
+	<delete id="replyDelete" parameterType="int">        
+		DELETE FROM REPLIES  WHERE RE_NUM = #{re_num}    
+	</delete>
+
+
+</mapper>
