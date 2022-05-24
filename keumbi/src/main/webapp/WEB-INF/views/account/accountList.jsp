@@ -42,7 +42,7 @@
 				</c:when>
 				<c:otherwise>
 					<h3>${loginUser.name }님의 총 보유 자산 ${accTotalSum }</h3>
-					<form id="transForm" name="transForm">
+					<form id="transFrm" name="transFrm">
 						<input id="fintech_use_num" name="fintech_use_num" type="hidden">
 					</form>
 					<div>
@@ -56,7 +56,6 @@
 									<td colspan="2">${acc.account_num_masked }</td>
 									<td>잔액 ${acc.balance_amt }</td>
 									<td><button type="submit" class="trans">거래내역</button></td>
-									<td><button>이체하기</button></td>
 								</tr>
 							</c:forEach>
 						</table>
@@ -73,14 +72,15 @@
 			window.location = "userLoginForm";
 		}
 
+		//거래내역
 		$(".trans").on("click", this, function() {
 			var finNum = $(this).parent().parent().prev().data("fin");
 			console.log(finNum);
 
 			$("#fintech_use_num").val(finNum);
-			transForm.action = "accTransView";
-			transForm.method = "get";
-			transForm.submit();
-		})
+			transFrm.action = "accTransView";
+			transFrm.method = "get";
+			transFrm.submit();
+		})		
 	</script>
 </html>

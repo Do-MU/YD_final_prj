@@ -45,6 +45,10 @@ public class BankAuthController {
 		//System.out.println("2 : " + res.get("refresh_token").asText());
 		//System.out.println("3 : " + res.get("user_seq_no").asText());
 		
+		
+		// select -> user1 시퀀스 넘으로 -> 체크
+		
+		
 		UserVO uvo = (UserVO) session.getAttribute("loginUser");
 		uvo.setAccess_token(res.get("access_token").asText());
 		uvo.setRefresh_token(res.get("refresh_token").asText());
