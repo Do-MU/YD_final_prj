@@ -95,7 +95,7 @@
 		//console.log(finNum);
 		//console.log(sel);
 		
-		for(let i=0; i<sel.length; i++){
+		for(var i=0; i<sel.length; i++){
 			if(finNum == sel[i].value){
 				//console.log(finNum);
 				//console.log(sel[i].value);
@@ -120,8 +120,8 @@
 			$("#output").empty();
 			
 			if(datas.length != 0) {
-				let table = $('<table class="table">');
-				let thead = `<thead class="thead-dark">
+				var table = $('<table class="table">');
+				var thead = `<thead class="thead-dark">
 								<tr>
 									<th scope="col">TRAN_DATE</th>
 									<th scope="col">TRAN_TIME</th>
@@ -132,11 +132,11 @@
 									<th scope="col">BRANCH_NAME</th>
 								</tr>
 							</thead>`;
-				let tbody = $('<tbody id="result">');
+				var tbody = $('<tbody id="result">');
 				$("#output").append(table);
 				table.append(thead, tbody);
 				for(data of datas){
-					let tr = `<tr>
+					var tr = `<tr>
 								<td>\${data.tran_date}</td>
 								<td>\${data.tran_time}</td>
 								<td>\${data.inout_type}</td>
@@ -161,7 +161,7 @@
 		$("input[name=from_date]").val(null);
 		$("input[name=to_date]").val(null);
 		
-		let selVal = $("select option:selected").val();
+		var selVal = $("select option:selected").val();
 		console.log(selVal)
 		
 		$.ajax({
@@ -177,8 +177,8 @@
 			$("#output").empty();
 			
 			if(datas.length != 0) {
-				let table = $('<table class="table">');
-				let thead = `<thead class="thead-dark">
+				var table = $('<table class="table">');
+				var thead = `<thead class="thead-dark">
 								<tr>
 									<th scope="col">TRAN_DATE</th>
 									<th scope="col">TRAN_TIME</th>
@@ -189,12 +189,12 @@
 									<th scope="col">BRANCH_NAME</th>
 								</tr>
 							</thead>`;
-				let tbody = $('<tbody id="result">');
+				var tbody = $('<tbody id="result">');
 				$("#output").append(table);
 				table.append(thead, tbody);
 				
 				for(data of datas){
-					let tr = `<tr>
+					var tr = `<tr>
 								<td>\${data.tran_date}</td>
 								<td>\${data.tran_time}</td>
 								<td>\${data.inout_type}</td>

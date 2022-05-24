@@ -30,7 +30,7 @@
 						<tr>
 							<th scope="col">출금계좌번호</th>
 							<td colspan="3">
-								<select name="wit_fintech_use_num">
+								<select name="wit_fintech_use_num" onchange="witSelect()">
 									<option value="">계좌를 선택해주세요.</option>
 									<c:forEach items="${accList }" var="list">
 										<option value="${list.fintech_use_num }">${list.bank_name}		${list.account_num_masked }</option>				
@@ -125,14 +125,44 @@
 </body>
 
 <script type="text/javascript">
+
+	var result = '${result}';
+	console.log(result.size)
+	
+	function witSelect(){
+		//console.log(datas);
+		var finNum = $("select[name=wit_fintech_use_num]").val();
+		/* for(data of datas){
+			if(i.fintech_use_num == finNum){
+				console.log("fin : " + data.fintech_use_num)
+				var bn = data.bank_name;
+				var anm = data.account_num_masked;
+				console.log("===");
+			}
+		} */
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	}
 	
 	// 이체확인 모달
 	function depositFun(){
-		let wit_fun = $("select[name=wit_fintech_use_num]").val();
-		let wit_ta = $("input[name=wit_tran_amt]").val();
-		let wit_pc = $("input[name=wit_print_content]").val();
-		let dep_fun = $("select[name=dep_fintech_use_num]").val();
-		let dep_pc = $("input[name=dep_print_content]").val();
+		var wit_fun = $("select[name=wit_fintech_use_num]").val();
+		var wit_ta = $("input[name=wit_tran_amt]").val();
+		var wit_pc = $("input[name=wit_print_content]").val();
+		var dep_fun = $("select[name=dep_fintech_use_num]").val();
+		var dep_pc = $("input[name=dep_print_content]").val();
 		
 		/* console.log(wit_fun);
 		console.log(wit_ta);
@@ -158,14 +188,6 @@
 		depositFrm.action = "accTranProcess";
 		depositFrm.method = "post";
 		depositFrm.submit();
-	}
-	
-	
-	
-	
-	// 폼태그안에 dep wit 받을 id 설정 -> 폼태크 controller로 넘기기
-	
-	
-	
+	}	
 </script>
 </html>

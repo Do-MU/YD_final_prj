@@ -1,5 +1,6 @@
 package com.keumbi.prj.accTrans.web;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -10,12 +11,13 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.google.gson.Gson;
 import com.keumbi.prj.accTrans.service.AccTransService;
-import com.keumbi.prj.accTrans.vo.AccDepositVO;
 import com.keumbi.prj.accTrans.vo.AccTransReqVO;
 import com.keumbi.prj.accTrans.vo.AccTransVO;
-import com.keumbi.prj.accTrans.vo.AccWithdrawVO;
+import com.keumbi.prj.accTrans.vo.RemitVO;
 import com.keumbi.prj.account.service.AccountService;
+import com.keumbi.prj.account.vo.AccountVO;
 
 @Controller
 public class AccTransController {
@@ -56,6 +58,12 @@ public class AccTransController {
 	@RequestMapping("/accDepositView")
 	public String accDepositView(HttpSession session, Model model, String fintech_use_num) {
 		//System.out.println(fintech_use_num);
+		List<AccountVO> list = new ArrayList<AccountVO>();
+		list = accountServiceImpl.selectAllAccount(session);
+		//Gson jsonParser = new Gson();
+		//String jsonVal = jsonParser.toJson(list);
+		
+		//model.addAttribute("result", jsonVal);
 		model.addAttribute("accList", accountServiceImpl.selectAllAccount(session)); // 계좌목록 호출
 		
 		return "account/accDeposit";
@@ -63,13 +71,12 @@ public class AccTransController {
 	
 	// view -> 각 vo로 받기 -> service 호출
 	@RequestMapping("accTranProcess")
-	public String accTranProcess(AccWithdrawVO wvo, AccDepositVO dvo) {
+	public String accTranProcess(RemitVO vo) {
 		System.out.println("accTranProcess");
-		System.out.println(wvo);
-		System.out.println(dvo);
+		System.out.println(vo);
 		return "";
 	}
-	//	-> wit / dep 핀테크 이용 번호 있는지 확인하고 없으면 알람창
 	//	-> insert 두번 입금 출금
 	//	-> insert 가계부
+	// 	-> 잔액 수정
 }
