@@ -136,7 +136,7 @@ public class PrdController {
 		accountVO.setAccount_num_masked(resAccNum + "***"); 	// 계좌번호(13자리)
 		accountVO.setBalance_amt(0); 							// 잔액
 
-		accService.insertAccount(accountVO);
+//		accService.insertAccount(accountVO);
 		return "redirect:prdDepositList";
 	}
 

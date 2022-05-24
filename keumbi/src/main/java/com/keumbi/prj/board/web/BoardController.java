@@ -27,7 +27,7 @@ public class BoardController {
 	public String boardList(BoardVO vo, Model model) {
 
 		List<BoardVO> list = service.selectBoardList();
-		model.addAttribute("list", list);		
+		model.addAttribute("list", list);
 
 		return "board/boardList";
 	}
@@ -81,31 +81,25 @@ public class BoardController {
 
 		return "redirect:/boardList";
 	}
-	
+
 	@RequestMapping(value = "/boardSearch", method = RequestMethod.POST)
-	public String boardSearchList(@RequestParam(required = false) String key, @RequestParam(required = false) String val, Model model) {
+	public String boardSearchList(@RequestParam(required = false) String key,
+			@RequestParam(required = false) String val, Model model) {
 		List<BoardVO> list = service.boardSearchList(key, val);
 		model.addAttribute("list", list);
 
 		return "board/boardList";
 
 	}
-	
+
 	@RequestMapping(value = "/boardSelectList", method = RequestMethod.POST)
 	public String boardSelectList(@RequestParam int page, Model model) {
 		List<BoardVO> select = service.boardSelectList(page);
 		model.addAttribute("select", select);
-		
+
 		return "board/boardList";
 	}
-
-	/*
-	 * @RequestMapping(value="/boardView", method=RequestMethod.GET) public String
-	 * boardView(BoardVO vo, Model model) {
-	 * 
-	 * List<BoardVO> list = service.boardView(0); model.addAttribute("list", list);
-	 * 
-	 * return "board/boardView"; }
-	 */
+	
+	
 
 }
