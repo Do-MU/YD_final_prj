@@ -15,6 +15,11 @@
 		window.location = "userLoginForm";
 	} 
 	
+	// 월 지출 총액 호출하는 함수
+	function monthTotalAmt() {
+		
+	}
+	
 	function priceToString(price) {
 	    return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 	}
@@ -74,27 +79,9 @@
 				$('#empty').empty();
 				
 				const date = info.dateStr;
-				$("#datTitle").html(date)
+				$("#dayTitle").html(date)
 				
-				$.ajax({
-					url : "dayTotalAmt",
-					data : {
-						tdate : date,
-						user_id : "${loginUser.id}"
-					}
-				}).done(function(data) {
-					
-					for(d of data) {
-						if(d.io_code=='I1') {
-							var dayOutTotal = priceToString(d.amt);
-							$("#dayOutTotal").html('총 지출: ' + dayOutTotal + '원');
-						} else {
-							var dayInTotal = priceToString(d.amt);
-							$("#dayInTotal").html('총 수입: ' + dayInTotal + '원');
-						}
-					}
-				});
-				
+				// 입출금 내역 
 				$.ajax({
 					type : 'GET',
 					url : "dayView",
@@ -105,6 +92,28 @@
 				}).done(function(datas) {
 					dayDrawList(datas, "해당 날짜에 거래내역이 없습니다.")
 				});
+				
+				//입출금 총액 출력
+				$.ajax({
+					url : "dayTotalAmt",
+					data : {
+						tdate : date,
+						user_id : "${loginUser.id}"
+					}
+				}).done(function(data) {
+					console.log(data);
+					for(d of data) {
+						if(d.io_code=='I1') {
+							var outTotal = priceToString(d.amt);
+							$("#dayOutTotal").html(outTotal + '원');
+						} else {
+							var inTotal = priceToString(d.amt);
+							$("#dayInTotal").html(inTotal + '원');
+						}
+					}
+				});
+				
+				
 			},
 			customButtons : {
 				cashInsertButton : {
@@ -119,6 +128,7 @@
 				center : 'title',
 				right : 'cashInsertButton'
 			},
+			
 			/* eventSources: [{ //현금 내역 등록
 				events: function btnInsert(info, successCallback, failureCallback) {
 					$.ajax({
@@ -136,11 +146,40 @@
 				}
 			}] */
 		});
-
+	
 		calendar.render();
-
 		
+		$(".fc-prev-button").on("click", function() {
+			var prevMonth = calendar.getDate().getFullYear()+'-'+("0"+(calendar.getDate().getMonth()+1)).slice(-2);
+			$.ajax({
+				url : "monthTotalAmt",
+				data : {
+					user_id : "${loginUser.id}",
+					yearMonth : prevMonth
+				},
+				success : function(result) {
+					console.log("결과값======>" +result)
+					$("#monthTotalAmt").html("이번달 총 지출 "+result+"원");
+				}
+			})
+		})
+		
+		$(".fc-next-button").on("click", function() {
+			var nextMonth = calendar.getDate().getFullYear()+'-'+("0"+(calendar.getDate().getMonth()+1)).slice(-2);
+			$.ajax({
+				url : "monthTotalAmt",
+				data : {
+					user_id : "${loginUser.id}",
+					yearMonth : nextMonth
+				},
+				success : function(result) {
+					console.log("결과값======>" +result)
+					$("#monthTotalAmt").html("이번달 총 지출 "+result+"원");
+				}
+			})
+		})
 	}); 
+	
 	
 	//현금 입출금 입력 처리
 	function btnInsert() {
@@ -186,8 +225,23 @@
 	
 	//오늘날짜 거래내역 자동출력
 	window.addEventListener('DOMContentLoaded', function todayView() {
-		var curDate = new Date().toISOString().substring(0,10);
 		
+		var dt = new Date();
+		var curMonth = dt.getFullYear()+'-'+("0"+(dt.getMonth()+1)).slice(-2);
+		console.log(curMonth);
+		$.ajax({
+			url : "monthTotalAmt",
+			data : {
+				user_id : "${loginUser.id}",
+				yearMonth : curMonth
+			},
+			success : function(result) {
+				console.log("결과값======>" +result)
+				$("#monthTotalAmt").html("이번달 총 지출 "+result+"원");
+			}
+		})
+		
+		var curDate = new Date().toISOString().substring(0,10);
 		$("#dayTitle").html(curDate);
 		
 		$.ajax({
@@ -201,11 +255,12 @@
 			for(d of data) {
 				if(d.io_code=='I1') {
 					var dayOutTotal = priceToString(d.amt);
-					$("#dayOutTotal").html('총 지출: ' + dayOutTotal + '원');
+					$("#dayOutTotal").html(dayOutTotal + '원');
 				} else {
 					var dayInTotal = priceToString(d.amt);
-					$("#dayInTotal").html('총 수입: ' + dayInTotal + '원');
+					$("#dayInTotal").html(dayInTotal + '원');
 				}
+				console.log(d)
 			}
 		});
 		
@@ -217,22 +272,12 @@
 				user_id : "${loginUser.id}"
 			}
 		}).done(function(datas) {
-			dayDrawList(datas,"아직 거래 내역이 없습니다.")
-			
-		});
-		
-		
+			dayDrawList(datas,"거래 내역이 없습니다.")
+		});	
 	});
 	
 	// 달력 하단 거래내역 데이터 호출 함수
 	function dayDrawList(datas, msg) {
-		
-		$("#listHead").empty();
-		$("#listBody").empty();
-		$("#dayOutTotal").empty();
-		$("#dayInTotal").empty();
-		$('#empty').empty();
-		$("#title").empty();
 		
 		if(datas.length != 0) {
 			let tr1 = `<tr>
@@ -319,25 +364,44 @@
 		})
 	});
 	
+	// 거래내역 수정 처리
 	function ledUpdate() {
-	
-		$.ajax({
-			url : "ledgerUpdate",
-			method : 'POST',
-			data : $("#ledUpdateFrm").serialize(),
-			success : function(result) {
-				console.log("결과를 보여주세요!! -> " + result)
-				$('#editModal').modal('hide');
-				$('#editModal').on('hidden.bs.modal', function (e) { 
-					document.forms['updateModalForm'].reset(); 
-					alert("수정이 완료되었습니다.");
-				})
-			}
-		})
+		if (confirm("내용을 변경하시겠습니까??") == true){    //확인
+			$.ajax({
+				url : "ledgerUpdate",
+				method : 'POST',
+				data : $("#ledUpdateFrm").serialize(),
+				success : function(result) {
+					$('#editModal').modal('hide');
+					$('#editModal').on('hidden.bs.modal', function (e) { 
+						document.forms['updateModalForm'].reset(); 
+						alert("변경이 완료되었습니다.");
+					})
+				}
+			})
+		 }else{ 
+		     return false;
+		 }	
 	}
 	
+	// 거래내역 삭제 처리
 	function ledDelete() {
-		alert("정말로 삭제하시겠습니까");
+		 
+		if (confirm("정말 삭제하시겠습니까??") == true) {
+			$.ajax({
+				url : "ledgerDelete",
+				data : $("#ledUpdateFrm").serialize(),
+				success : function(result) {
+					$('#editModal').modal('hide');
+					$('#editModal').on('hidden.bs.modal', function (e) { 
+						document.forms['updateModalForm'].reset(); 
+						alert("삭제가 완료되었습니다.");
+					})
+				} 
+			})
+		 }else{
+		     return false;
+		 }
 	}
 	
 </script>
@@ -369,6 +433,26 @@ body {
 	margin-left : auto;
 	margin-right : auto;
 }
+.pull-right {
+	margin-left : 30px;
+}
+#dayTotal {
+	float: right;
+}
+#dayOutTotal, #dayInTotal {
+	padding-right : 5px;
+	padding-left : 5px;
+}
+#dayInTotal {
+	color : blue;
+}
+#dayOutTotal {
+	color : red;
+}
+#monthTotalAmt {
+	text-align : center;
+}
+
 </style>
 <body>
 	<section class="banner_area">
@@ -386,6 +470,7 @@ body {
 	<section class="contact_area p_120">
 		<div class="container">
 			<c:if test="${not empty loginUser.id}">
+				<div><p id="monthTotalAmt"></p></div>
 	      		<div id='calendar'></div>
 	    	</c:if>
 	    </div>
@@ -412,8 +497,12 @@ body {
 		<div id="dayView" class="container-fluid">
 			<p class="h2 text-center" id="dayTitle"></p>
 			<div id="dayTotal">
-				<p class="h4 text-center" id="dayOutTotal"></p>
-				<p class="h4 text-center" id="dayInTotal"></p>
+				<table>
+					<tr>
+						<td id="dayInTotal"></td>
+						<td id="dayOutTotal"></td>
+					</tr>
+				</table>
 			</div>
 			<table class="table" id="dayTable">
 		  		<thead class="thead-dark" id="listHead">   
@@ -484,7 +573,7 @@ body {
 	        <form id="ledUpdateFrm" name="updateModalForm">
 						<input type="hidden" name="user_id" value="${loginUser.id}">
 						<input type="hidden" name="num" id="number">
-						<input type="text" name="tdate" id="tdate">
+						<input type="hidden" name="tdate" id="tdate">
 						<div>
 							<input type="radio" id="choice1" name="io_code" value="I1">
 							<label for="choice1">지출</label> 
@@ -505,7 +594,7 @@ body {
 	      </div>
 	      <div class="modal-footer">
 	        <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
-	        <button type="button" class="btn btn-primary" onclick="ledUpdate()">수정</button>
+	        <button type="button" class="btn btn-primary" onclick="ledUpdate()">변경</button>
 	        <button type="button" class="btn btn-danger" onclick="ledDelete()">삭제</button>
 	      </div>
 	    </div>

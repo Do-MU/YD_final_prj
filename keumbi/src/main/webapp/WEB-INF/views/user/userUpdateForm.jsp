@@ -1,29 +1,39 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+	pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <script src="http://code.jquery.com/jquery-3.6.0.js"></script>
-
+<script
+	src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <style>
-.banner_area{
-	padding-bottom:100px;
+.banner_area {
+	padding-bottom: 100px;
 }
 
-table{
-	margin-left:auto;
-	margin-right:auto;
+table {
+	margin-left: auto;
+	margin-right: auto;
 }
 
-#div_kwd{
-	width:25%;
-	margin:0 auto;
+#div_kwd {
+	width: 25%;
+	margin: 0 auto;
+	padding-bottom: 50px;
 }
 
-#correct{
-  	color : blue;
+#correct {
+	color: blue;
 }
-	
-#incorrect{
-  	color : red;
+
+#incorrect {
+	color: red;
+}
+
+#btn_div {
+	text-align: center;
+}
+
+.btn_label {
+	padding: 30px;
 }
 </style>
 
@@ -34,8 +44,7 @@ table{
 				<div class="banner_content text-center">
 					<h2>회원정보 수정</h2>
 					<div class="page_link">
-						<a href="home">Home</a>
-						<a href="userUpdateForm">회원정보 수정</a>
+						<a href="home">Home</a> <a href="userUpdateForm">회원정보 수정</a>
 					</div>
 				</div>
 			</div>
@@ -43,112 +52,124 @@ table{
 	</div>
 </section>
 <section>
-        <table>
-            <tr>
-                <td width="151px">아이디</td>
-                <td>
-                    <input type="text" id="id" name="id" value="${loginUser.id}" readonly="true">
-                </td>
-            </tr>
-                        
-            <tr>
-                <td>비밀번호</td>
-                <td>
-                    <input type="password" id="password1" name="pw" readonly="true" value="${loginUser.pw}">
-                    <input type="button" id="pwUpdate" value="비밀번호 변경">
-                </td>
-            </tr>
-             
-            <tr id="pw2" style="display:none;">
-                <td>비밀번호 확인</td>
-                <td>
-                    <input type="password" id="password2">
-                </td>
-            </tr>
-            <tr>
-            	<td>
-            	</td>
-            	<td>
-					<p style=color:red id="fail">비밀번호가 일치하지 않습니다.</p>
-                	<p style=color:blue id="success">비밀번호가 일치합니다.</p>
-            	</td>
-            </tr>    
-            <tr>
-                <td>이름</td>
-                <td>
-                    <input type="text" name="name" readonly="true" value="${loginUser.name}">
-                </td>
-            </tr>
-                    
-            <tr>
-    	        <td>주민등록번호</td>
-                <td>
-        	 	   <div>
-                   	   <input type="text" id="birth" name="birth" readonly="true" value="${loginUser.birth}">
-                   </div>
-                </td>
-            </tr>
-                    
-            <tr>
-                <td>이메일</td>
-                <td>
-                   <input class="mail_input" type="email" name="email" maxlength="30" readonly="true" value="${loginUser.email}">
-                   <input class="mail_check_btn" type="button" value="이메일 변경"> 
-                </td>
-            </tr>
-            <tr id="mail_check" style="display:none;">
-            	<td>이메일 인증번호</td>
-                <td>
-                	<input class="mail_check_input" disabled="disabled" type="text" name="emailCheck" maxlength="6">
-                	<input class="mail_check_btn_result" type="button" value="확인"><br>
-                	<label id="result" style="display:none"></label>
-                </td>
-            </tr>
-            <tr>
-                <td>전화번호</td>
-                <td>
-                    <input type="text" name="phone" value="${loginUser.phone}">
-                </td>
-            </tr>
-            <tr>
-                <td>주소</td>
-                <td>
-                    <input type="text" id="addr_1" name="addr_1">
-                    <input id="addrBtn" type="button" value="주소검색">
-                </td>
-            </tr>
-            <tr>
-            	<td>상세주소</td>
-            	<td>
-            		<input type="text" id="addr_2" name="addr_2" required>
-            	</td>
-            </tr>
-            <tr>
-            	<td>관심키워드</td>
-       		</tr>
-       </table>
-       <!-- 관심 키워드 -->
-			<div class="wrapper" id="div_kwd">
-				<hr>
-				<div class="row">
-					<c:forEach var="c" items="${code}">
-		            	<div class="col-md-3" style="width:25%; text-align:left;">
-		            		<input type="checkbox" value="${c.code}" name="keyword">
-						  	<label>${c.val}</label>
-		            	</div>
-		            </c:forEach>
-				</div>
+	<form id="userFrm" action="userUpdate" method="post">
+		<table>
+			<tr>
+				<td width="151px">아이디</td>
+				<td><input type="text" id="id" name="id"
+					value="${loginUser.id}" readonly="true"></td>
+			</tr>
+
+			<tr>
+				<td>비밀번호</td>
+				<td><input type="password" id="password1" name="pw"
+					readonly="true" value="${loginUser.pw}"> <input
+					type="button" id="pwUpdate" value="비밀번호 변경"></td>
+			</tr>
+
+			<tr id="pw2" style="display: none;">
+				<td>비밀번호 확인</td>
+				<td><input type="password" id="password2"></td>
+			</tr>
+			<tr>
+				<td></td>
+				<td>
+					<p style="color: red" id="fail">비밀번호가 일치하지 않습니다.</p>
+					<p style="color: blue" id="success">비밀번호가 일치합니다.</p>
+				</td>
+			</tr>
+			<tr>
+				<td>이름</td>
+				<td><input type="text" name="name" readonly="true"
+					value="${loginUser.name}"></td>
+			</tr>
+
+			<tr>
+				<td>주민등록번호</td>
+				<td>
+					<div>
+						<input type="text" id="birth" name="birth" readonly="true"
+							value="${loginUser.birth}">
+					</div>
+				</td>
+			</tr>
+
+			<tr>
+				<td>이메일</td>
+				<td><input class="mail_input" type="email" id="email"
+					name="email" maxlength="30" readonly="true"
+					value="${loginUser.email}"> <input class="mail_check_btn"
+					type="button" value="이메일 변경"></td>
+			</tr>
+			<tr id="mail_check" style="display: none;">
+				<td>이메일 인증번호</td>
+				<td><input class="mail_check_input" disabled="disabled"
+					type="text" name="emailCheck" maxlength="6"> <input
+					class="mail_check_btn_result" type="button" value="확인"><br>
+					<label id="result" style="display: none"></label></td>
+			</tr>
+			<tr>
+				<td>전화번호</td>
+				<td><input type="text" id="phone" name="phone"
+					value="${loginUser.phone}"></td>
+			</tr>
+			<tr>
+				<td>주소</td>
+				<td><input type="text" id="addr_1" name="addr_1"> <input
+					id="addrBtn" type="button" value="주소검색"></td>
+			</tr>
+			<tr>
+				<td>상세주소</td>
+				<td><input type="text" id="addr_2" name="addr_2" required>
+					<input type="hidden" id="addr" name="addr"></td>
+			</tr>
+			<tr>
+				<td>관심키워드</td>
+			</tr>
+		</table>
+		<!-- 관심 키워드 -->
+		<div class="wrapper" id="div_kwd">
+			<hr>
+			<div class="row">
+				<c:forEach var="c" items="${code}">
+					<div class="col-md-3" style="width: 25%; text-align: left;">
+						<input type="checkbox" value="${c.code}" name="keyword"
+							class="keyword"> <label>${c.val}</label>
+					</div>
+				</c:forEach>
 			</div>
+		</div>
+	</form>
+	<div id="btn_div">
+		<label class="btn_label">
+			<button type="button" class="btn btn-primary" id="userUpdateBtn">수정</button>
+		</label> <label class="btn_label">
+			<button type="button" class="btn btn-danger" id="userDelete">회원탈퇴</button>
+		</label>
+	</div>
 </section>
+
 <script>
-//비밀번호 확인
-$(function(){ 
+	//비밀번호 변경
 	$("#success").hide();
 	$("#fail").hide();
-	$("#password1").keyup(function(){
+	$("#pwUpdate").click(function(){
+		$("#pw2").css("display", "");
+		$("#password1").removeAttr("readonly");
+		$("#password1").val("");
+		$("#password1").focus();
+		$("#password2").keyup(function(){
+			pwCheck();
+		})
+		$("#password1").keyup(function(){
+			pwCheck();
+		})
+	});
+
+	function pwCheck(){
 		var pwd1=$("#password1").val();
 		var pwd2=$("#password2").val();
-		if(pwd1 != "" || pwd2 != ""){ 
+		if(pwd2 != ""){ 
 			if(pwd1 == pwd2){ 
 				$("#success").show();
 				$("#fail").hide();
@@ -160,16 +181,8 @@ $(function(){
 			$("#fail").hide();
 			$("#success").hide();
 		}
-	});
-});
-
-//비밀번호 변경
-$("#pwUpdate").click(function(){
-	$("#pw2").css("display", "");
-	$("#password1").removeAttr("readonly");
-})
-
-
+	}
+//이메일 체크버튼
 $(".mail_check_btn").click(function(){
 	$(".mail_input").removeAttr("readonly");
 	$(".mail_check_btn").val("인증번호 발송");
@@ -224,6 +237,42 @@ var addr1 = addr.split(", ");
 $("#addr_1").val(addr1[0]); 
 $("#addr_2").val(addr1[1]); 
 
-// 코드
+//주소api
+window.onload = function(){
+	$("#addrBtn").click(function(){
+		new daum.Postcode({
+            oncomplete: function(data) { //선택시 입력값 세팅
+            	document.getElementById("addr_1").value = data.address; // 주소 넣기
+                $("#addr_2").focus(); //상세입력 포커싱
+            }
+        }).open();
+	})
+}
+
+// 유저 키워드
+$.ajax({
+	type:"GET",
+	url:"selectUserKwdCode",
+}).done(function(data){
+	for(d of data){
+		for(k of $(".keyword")){
+			if(d.code == k.value){
+				k.setAttribute("checked", true);
+			}
+		}
+	}
+})
+
+//회원정보 수정
+$("#userUpdateBtn").click(function(){
+	document.getElementById("addr").value = $("#addr_1").val() + ', ' + $("#addr_2").val(); 
+	document.getElementById("userFrm").submit();
+})
+
+//회원탈퇴
+$("#userDelete").click(function(){
+	confirm("정말 탈퇴하시겠습니까?");
+	
+})
 
 </script>

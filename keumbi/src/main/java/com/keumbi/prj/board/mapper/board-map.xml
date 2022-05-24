@@ -27,12 +27,12 @@
 		<![CDATA[
 			SELECT *
 			FROM (
-				SELECT ROWNUM AS BOD_NUM, T.*
+				SELECT BOD_NUM AS BNUM, T.*
 				FROM BOARDS T
-				WHERE ROWNUM <= (SELECT COUNT(*) FROM BOARDS) - ((#{page} - 1) * 10)
+				WHERE BOD_NUM <= (SELECT COUNT(*) FROM BOARDS) - ((#{page} - 1) * 10)
 				ORDER BY BOD_NUM ASC
 			)
-			WHERE (SELECT COUNT(*) FROM BOARDS) - (#{page} * 10) + 1 <= BOD_NUM
+			WHERE (SELECT COUNT(*) FROM BOARDS) - (#{page} * 10) + 1 <= BNUM
 		]]>
 	</select>
 	

@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.Model;
 
 import com.keumbi.prj.ledger.mapper.LedgerMapper;
 import com.keumbi.prj.ledger.service.LedgerService;
@@ -31,8 +32,8 @@ public class LedgerServiceImpl implements LedgerService {
 	}
 
 	@Override
-	public String monthTotalAmt(LedgerMonthVO vo) {
-		return m.monthTotalAmt(vo);
+	public int monthTotalAmt(LedgerMonthVO vo) {
+		return m.monthTotalAmt(vo).getTitle();
 		
 	}
 
@@ -49,6 +50,11 @@ public class LedgerServiceImpl implements LedgerService {
 	@Override
 	public int ledgerUpdate(LedgerVO vo) {
 		return m.ledgerUpdate(vo);
+	}
+
+	@Override
+	public int ledgerDelete(LedgerVO vo) {
+		return m.ledgerDelete(vo);
 	}
 
 }

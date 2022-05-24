@@ -46,8 +46,15 @@
 		VALUES (#{keyword}, #{id})
 	</insert>
 	
+	<delete id="userKwdDelete">
+		DELETE	USER_KWD
+		WHERE	USER_ID = #{id}
+	</delete>
+	
 	<update id="userUpdate" parameterType="UserVO">
-		
+		UPDATE	USERS
+		SET		PW = #{pw}, EMAIL = #{email}, PHONE = #{phone}, ADDR = #{addr}
+		WHERE	ID = #{id}
 	</update>
 	
 	<delete id="userDelete" parameterType="UserVO">

@@ -49,7 +49,40 @@
 	max-height: 500px;
 	overflow: auto;
 }
+
+.modal-footer>:not(:first-child){
+	text-align: right;
+}
+
+
+#total{	
+	color: red;
+}
+#totalText{
+	text-align: center;
+	font-size: 30px;
+	margin-top: 5px;
+	margin-bottom: 10px;
+}
+
+#cal{
+    font-weight: bold;
+    font-size: large;
+    color: black;
+    padding-top: 10px;
+}
+
+#depMoney{
+	background-color: white;
+  	color: black;
+  	border: 2px solid #e7e7e7;
+  	padding: 6px;
+  	border-radius: 5px;
+  	text-align: right;
+}
+
 </style>
+
 
 <section class="banner_area">
 	<div class="container box_1620">
@@ -66,7 +99,6 @@
 		</div>
 	</div>
 </section>
-
 <section class="contact_area p_120">
 	<div class="container">
 		<div id="list">
@@ -103,15 +135,16 @@
 					<div id="depositOpt"></div>
 				</div>
 				
-				<div class="modal-footer">
-					<select name="date">
-						<option value="">선택</option>
-						<option value="3">dddddd</option>
-					</select><br>
-						<input type="text" id="depMoney" name="depMoney" placeholder="금액을 입력해주세요" onchange="depCalculator()">
-						<div id="total"></div>
+				<div class="modal-footer" style="display: inline;">
+					<div id="cal" style="float: left;">금리 계산기</div>
+					<div class="depOpt" style="float: right">
+						<select id="date">
+							<option value="1" selected>선택</option>
+						</select>
+						<input type="text" id="depMoney" name="depMoney" placeholder="숫자만 입력해주세요">원
+					</div>
 				</div>
-				
+				<div id="totalText"></div>
 			</div>
 		</div>
 	</div>
@@ -122,6 +155,7 @@
 <script>	
 	//상세보기시 옵션 출력
 	$(".prds").on("click", ".depView", function(){
+		$("#modal").modal("show");
 		$("#depositOpt").html("");
 	
 		var bank_name = $(this).parent().prev().children().eq(0).html();
@@ -160,30 +194,40 @@
 			}
 		});
 		
-		$(".list").append("<option value=\"\"> + 선택 + </option>");
-		$(".list > option").remove();
+		$(".list > li").remove(); // select개월수 초기화
+		$("#date > option").remove(); // select개월수 초기화
+		//$(".list > li").val("선택").attr("selected", "selected");
+		$("#totalText").html(""); // 만기금액 초기화
+		$(".depOpt > #depMoney").val(""); // 입력금액 초기화
 		
 		$.ajax({
 			url:"prdDepOpt",
 			data:{dep_id : dep_id}
 		}).done(function(result){
+			$(".list").append(`<li class="option" selected data-value="1"> 선택 </li>`);
+			$("#date").append(`<option value="1" selected>선택</option>`);
 			var dateOption = "";
 			for(opt of result){
-				dateOption = `<li class="option" data-value="\${opt.save_trm}"> \${opt.save_trm}개월</option>`;
-				$(".list").append(dateOption);
+				dateOption = `<li class="option" data-value="\${opt.intr_rate2}"> \${opt.save_trm}개월</li>`;
+				dateOption1 = `<option value="\${opt.intr_rate2}"> \${opt.save_trm}개월</option>`;
+				
+				$(".list").append(dateOption); 
+				$("#date").append(dateOption1);
 			}
 		});
 		
+		//$("#date option").prop("selected", false);
+		//$(".list").html("선택").attr("selected", "selected");
+		$('#date option:eq(0)').attr('selected', 'selected');
+		//$('#date').find('option:first').attr('selected', 'selected');
 		
-		$("#modal").modal("show");
+				
 	});
 		
 	
 	// 상품리스트 최고금리 출력
 	for(prd of $("#list").find(".prds")){
 		var dep_id = prd.getAttribute("data-dep_id");
-		
-		//console.log(dep_id);
 		
 		$.ajax({
 			url:"prdDepOpt",
@@ -198,11 +242,19 @@
 		});
 	};
 	
-	// 예금 계산
-	function depCalculator(){
-		const money = document.getElementById("depMoney").value;
-		
-		document.getElementById("total").innerText = money;
-	}
 	
+	// 예금 계산기
+	$(".depOpt").keyup(function() {
+		var intr = $("#date option:selected").val();
+		var deposit = document.getElementById("depMoney").value;
+		
+		var num2 = Number(intr);
+		var num1 = Number(deposit);
+		
+		var money = num1 * (intr/100);
+		var tax = money * (15.4 / 100);
+		var total = num1 + (money - tax);
+		
+		document.getElementById("totalText").innerHTML = "<div id='totalText'>만기수령액은 <span id='total'>" + total + "원 </span>입니다.</div>";
+	})
 </script>

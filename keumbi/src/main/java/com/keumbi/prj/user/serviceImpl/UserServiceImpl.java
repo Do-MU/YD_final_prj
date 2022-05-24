@@ -111,5 +111,11 @@ public class UserServiceImpl implements UserService {
 		vo.setEmail(test+s+"@abc.com");
 		seq++;
 		return m.userInsert(vo);
+	}
+
+	@Override
+	public int userKwdDelete(String id, String keyword) {
+		
+		return m.userKwdDelete(id, keyword);
 	}	
 }
