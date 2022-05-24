@@ -79,7 +79,7 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public int UpdateToken(UserVO vo) {
 		
-		return m.UpdateToken(vo);
+		return m.updateToken(vo);
 	}
 
 	@Override

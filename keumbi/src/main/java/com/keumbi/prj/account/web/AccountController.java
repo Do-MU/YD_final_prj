@@ -15,34 +15,26 @@ import com.keumbi.prj.user.vo.UserVO;
 @Controller
 public class AccountController {
 	
-	@Autowired AccountService accountServiceImpl;
+	@Autowired AccountService acc;
 	@Autowired AccTransService accTransServiceImpl;
 	
 	ObjectMapper om = new ObjectMapper();
 	
-	// 계좌 view page -> 목록출력
-	@RequestMapping("/accountView")
+	// 계좌목록 view page
+	// 인증되지 않은 회원 : accountList > [내 계좌불러오기] > bankAuth > bankCallBack > accountList
+	@RequestMapping("/accountList")
 	public String accountView(HttpSession session, Model model) {
 		UserVO vo = (UserVO) session.getAttribute("loginUser");
 		
-		// 비로그인시 -> 메세지???????????????????????
-		 if(vo == null) {
-			return "user/userLoginForm";
-		 }
-		 
-		 String userSeq = vo.getUser_seq_num();
-		 model.addAttribute("accTotalSum", accountServiceImpl.selectAccTotalSum(session)); // 잔액 합산 출력
-		if(userSeq != null && !userSeq.isEmpty()) {
-			model.addAttribute("acc", accountServiceImpl.selectfirstAccount(session)); //
+		// 로그인 시
+		if(vo != null) {
+			// 인증된 회원일 시
+			if(vo.getUser_seq_num() != null && !vo.getUser_seq_num().isEmpty()) {
+				model.addAttribute("acc", acc.selectfirstAccount(session));
+			}
+			// 잔액 합산 출력
+			model.addAttribute("accTotalSum", acc.selectAccTotalSum(vo.getId()));
 		}
-		return "account/accountList";
-	}
-	
-	// 사용자 인증 -> 계좌목록출력
-	@RequestMapping("/getAccount")
-	public String saveAccount(HttpSession session, Model model) {
-		model.addAttribute("acc", accountServiceImpl.selectfirstAccount(session)); // 최로 조회로
-		model.addAttribute("accTotalSum", accountServiceImpl.selectAccTotalSum(session)); // 잔액 합산 출력
 		return "account/accountList";
 	}
 }

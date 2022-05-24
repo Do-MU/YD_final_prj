@@ -93,7 +93,7 @@
 						<li class="nav-item submenu dropdown">
 							<a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">계좌</a>
 							<ul class="dropdown-menu">
-								<li class="nav-item"><a class="nav-link" href="accountView">내 계좌 목록</a></li>
+								<li class="nav-item"><a class="nav-link" href="accountList">내 계좌 목록</a></li>
 								<li class="nav-item"><a class="nav-link" href="#">송금</a></li>
 								<li class="nav-item"><a class="nav-link" href="prdDepositList">상품추천</a></li>
 							</ul>

@@ -61,11 +61,15 @@
 	
 	</delete>
 	
-	<select id="selectToken"></select>
+	<select id="selectToken" parameterType="UserVO" resultType="int">
+		SELECT	COUNT(*)
+		FROM	USERS
+		WHERE	USER_SEQ_NUM = #{user_seq_num}
+	</select>
 	
-	<update id="UpdateToken" parameterType="UserVO">
-		UPDATE USERS
-		SET USER_SEQ_NUM = #{user_seq_num}, ACCESS_TOKEN = #{access_token}, REFRESH_TOKEN = #{refresh_token}
-		WHERE ID = #{id}
+	<update id="updateToken" parameterType="UserVO">
+		UPDATE 	USERS
+		SET 	USER_SEQ_NUM = #{user_seq_num}, ACCESS_TOKEN = #{access_token}, REFRESH_TOKEN = #{refresh_token}
+		WHERE 	ID = #{id}
 	</update>
 </mapper>

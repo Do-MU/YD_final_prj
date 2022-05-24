@@ -19,6 +19,7 @@
 		VALUES ( #{seq}, #{fintech_use_num}, #{tran_date}, #{tran_time}, #{inout_type}, #{tran_type}, #{print_content}, #{tran_amt}, #{after_balance_amt}, #{branch_name} )
 	</insert>
 	
+	<!-- 해당 계좌의 계좌 거래 내역이 존재하는 지 확인 -->
 	<select id="selectAccTransOne" parameterType="AccTransVO" resultType="Integer">
 		SELECT	COUNT(*)
 		FROM	ACC_TRANS

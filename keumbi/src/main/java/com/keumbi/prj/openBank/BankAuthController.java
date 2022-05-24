@@ -14,9 +14,9 @@ import com.keumbi.prj.user.vo.UserVO;
 @Controller
 public class BankAuthController {
 	
-	@Autowired UserMapper mapper;
+	@Autowired UserMapper userMapper;
 	
-//	// 사용자 인증요청
+	// 사용자 인증요청
 	@RequestMapping("/bankAuth")
 	public String bankAuth(AuthVO avo) throws Exception {
 		 
@@ -37,27 +37,27 @@ public class BankAuthController {
 	@RequestMapping("/bankCallback")
 	public String bankCallback(String code, HttpSession session) { // 넘어오는 파라미터와 같은 값을 받아야함	
 		System.out.println(code);
-		// 발급받은 토큰 DB에 저장
+		// 넘어온 code값을 통해 토큰을 발급받음
 		JsonNode res = BankAPI.getToken(code);
-		//System.out.println("!!!res : " + res);
 		
+		//System.out.println("!!!res : " + res);
 		//System.out.println("1 : " + res.get("access_token").asText());
 		//System.out.println("2 : " + res.get("refresh_token").asText());
 		//System.out.println("3 : " + res.get("user_seq_no").asText());
 		
-		
-		// select -> user1 시퀀스 넘으로 -> 체크
-		
-		
+		// 발급 받은 토큰과 사용자일련번호를 DB에 저장
 		UserVO uvo = (UserVO) session.getAttribute("loginUser");
 		uvo.setAccess_token(res.get("access_token").asText());
 		uvo.setRefresh_token(res.get("refresh_token").asText());
 		uvo.setUser_seq_num(res.get("user_seq_no").asText());
 		
-		//System.out.println("uvo : " +  uvo);
-		
-		mapper.UpdateToken(uvo);
+		if(userMapper.selectToken(uvo) == 0) {
+			userMapper.updateToken(uvo);
+			
+			// 로그인한 사용자를 사용자일련번호와 액세스 토큰을 가진 객체로 교체
+			session.setAttribute("loginUser", uvo);
+		}
 
-		return "redirect:getAccount";
+		return "redirect:accountList";
 	}
 }
