@@ -13,6 +13,14 @@
 		ORDER BY TDATE
 	</select>
 	
+	<select id="monthTotalAmt" resultType="LedgerMonthVO">
+		SELECT NVL(SUM(AMT),0) AS TITLE
+		FROM   TOTAL_TRANS
+		WHERE  USER_ID = #{user_id}
+		AND    IO_CODE = 'I1'
+		AND    TO_CHAR(TDATE, 'yyyy-MM') = #{yearMonth}
+	</select>
+	
 	<select id="dayTrans" resultType="LedgerVO">
 		SELECT 	T.TDATE, T.NUM, T.USER_ID, T.CONTENT, T.AMT, T.IO_CODE, T.CAT_CODE, C.VAL
 		FROM  	TOTAL_TRANS T
@@ -20,13 +28,6 @@
 		ON     	T.CAT_CODE  = C.CODE
 		WHERE  	T.USER_ID = #{user_id}
 		AND    	T.TDATE = #{tdate}
-	</select>
-	
-	<select id="monthTotalAmt" >
-		SELECT SUM(AMT) AS TITLE
-		FROM   TOTAL_TRANS
-		WHERE  USER_ID = #{user_id}
-		and    TO_CHAR(TDATE, 'yyyy-MM') = #{yearMonth}
 	</select>
 	
 	<select id="dayTotalAmt" resultType="LedgerVO">
@@ -73,7 +74,10 @@
 	</update>
 
 	<delete id="ledgerDelete" parameterType="LedgerVO">
-		
+		DELETE FROM TOTAL_TRANS
+		WHERE USER_ID = #{user_id}
+		AND TDATE = #{tdate}
+		AND NUM = #{num}
 	</delete>
 	
 	<insert id="transInsert" parameterType="LedgerVO">
