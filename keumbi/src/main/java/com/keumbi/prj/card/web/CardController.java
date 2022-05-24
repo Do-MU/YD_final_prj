@@ -15,10 +15,10 @@ public class CardController {
 		return "card/cardList";
 	}
 	
-	@RequestMapping("getCardList")
-	public String getCardList(HttpSession session) {
-		
-		BankAPI.getCardList();
-		return "card/cardList";
-	}
+//	@RequestMapping("getCardList")
+//	public String getCardList(HttpSession session) {
+//		
+//		BankAPI.getCardList();
+//		return "card/cardList";
+//	}
 }
