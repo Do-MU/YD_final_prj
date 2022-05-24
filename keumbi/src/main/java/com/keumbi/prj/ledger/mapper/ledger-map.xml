@@ -59,14 +59,6 @@
 		(#{tdate}, #{num}, #{user_id}, #{io_code}, #{content}, #{amt}, #{cat_code})
 	</insert>
 	
-	<select id="ledEditModal" parameterType="LedgerVO">
-		SELECT 	*
-		FROM 	TOTAL_TRANS
-		WHERE 	USER_ID = #{user_id}
-		AND 	TDATE = #{tdate}
-		AND 	NUM = #{num}
-	</select>
-	
 	<update id="ledgerUpdate" parameterType="LedgerVO">
 		UPDATE 	TOTAL_TRANS
 		<set>
