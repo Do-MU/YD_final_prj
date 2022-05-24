@@ -66,7 +66,13 @@
 	display:none;
 }
 </style>
-
+<script>
+	// 비회원 접근시
+	if (!"${loginUser.id}") {
+		alert('로그인이 필요합니다.');
+		window.location = "userLoginForm";
+	}
+</script>
 </head>
 <body>
 	<section class="banner_area">
@@ -129,12 +135,6 @@
 	</section>
 
 	<script>
-		// 비회원 접근시
-		if (!"${loginUser.id}") {
-			alert('로그인이 필요합니다.');
-			window.location = "userLoginForm";
-		}
-		
 		// 천단위 콤마
 		for(amt of $(".div_amt")){
 			amt.innerHTML = amt.innerHTML.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",") + " 원";
