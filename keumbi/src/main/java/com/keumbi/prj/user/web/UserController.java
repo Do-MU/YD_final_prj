@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpRequest;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Controller;
@@ -78,11 +79,11 @@ public class UserController {
 
 	// 회원가입 처리
 	@RequestMapping("/userJoin")
-	public String userJoin(UserVO userVO, @RequestParam(required = false) String[] keywords) {
+	public String userJoin(UserVO userVO, @RequestParam(required = false) String[] keyword) {
 		service.userInsert(userVO);
 		
-		if (keywords != null) {
-			for (String kwd : keywords) {
+		if (keyword != null) {
+			for (String kwd : keyword) {
 				service.userKwdInsert(userVO.getId(), kwd);
 			}
 		}
@@ -90,20 +91,36 @@ public class UserController {
 	}
 	
 	
-	//회원정보 수정
+	//회원정보 수정 폼
 	@RequestMapping("/userUpdateForm")
 	public String userUpdateForm(Model model,HttpSession session) {
 		UserVO vo = (UserVO) session.getAttribute("loginUser"); // 세션값 불러오기
 		String userId = vo.getId(); // 세션에 저장된 ID값
 
-		model.addAttribute("userkwd", code.selectUserKwdCode(userId));
 		model.addAttribute("code", code.keywordCode());
 		return "user/userUpdateForm";
 	}
 
+	//회원 정보 수정
+		@RequestMapping("/userUpdate")
+		public String userUpdate(UserVO userVO, @RequestParam(required = false) String[] keyword,HttpSession session) {
+			service.userUpdate(userVO);
+			
+			for(String kwd : keyword) {
+				service.userKwdDelete(userVO.getId(), kwd);
+			}
+			
+			for(String kwd : keyword) {
+				service.userKwdInsert(userVO.getId(), kwd);
+			}
+			
+			UserVO loginUser = service.userSelect(userVO);
+			session.setAttribute("loginUser", loginUser);
+			
+			return "redirect:userUpdateForm";
+		}
 	
-	
-	
+		
 	// aJax----------------------------------------------------------------------------------------
 	// ID 중복체크
 	@RequestMapping("/idCheck")
@@ -178,4 +195,15 @@ public class UserController {
 		
 		return service.userPwUpdate(userVO);
 	}
+	
+	// 코드
+	@RequestMapping("/selectUserKwdCode")
+	@ResponseBody
+	public List<CodeVO> selectUserKwdCode(HttpSession session) {
+		UserVO vo = (UserVO) session.getAttribute("loginUser"); // 세션값 불러오기
+		String userId = vo.getId(); // 세션에 저장된 ID값	
+		return code.selectUserKwdCode(userId);
+	}
+	
+	
 }
