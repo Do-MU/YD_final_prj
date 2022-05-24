@@ -1,7 +1,6 @@
 package com.keumbi.prj.user.web;
 
 import java.io.PrintWriter;
-import java.util.List;
 import java.util.Random;
 
 import javax.mail.internet.MimeMessage;
@@ -19,7 +18,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.keumbi.prj.common.service.CodeService;
 import com.keumbi.prj.common.service.TermService;
-import com.keumbi.prj.common.vo.CodeVO;
 import com.keumbi.prj.user.service.UserService;
 import com.keumbi.prj.user.vo.UserVO;
 

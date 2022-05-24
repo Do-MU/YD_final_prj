@@ -9,9 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.keumbi.prj.accTrans.service.AccTransService;
-import com.keumbi.prj.accTrans.vo.AccTransReqVO;
 import com.keumbi.prj.account.service.AccountService;
-import com.keumbi.prj.account.vo.AccountVO;
 import com.keumbi.prj.user.vo.UserVO;
 
 @Controller
@@ -33,9 +31,9 @@ public class AccountController {
 		 }
 		 
 		 String userSeq = vo.getUser_seq_num();
+		 model.addAttribute("accTotalSum", accountServiceImpl.selectAccTotalSum(session)); // 잔액 합산 출력
 		if(userSeq != null && !userSeq.isEmpty()) {
 			model.addAttribute("acc", accountServiceImpl.selectfirstAccount(session)); //
-			model.addAttribute("accTotalSum", accountServiceImpl.selectAccTotalSum(session)); // 잔액 합산 출력
 		}
 		return "account/accountList";
 	}
