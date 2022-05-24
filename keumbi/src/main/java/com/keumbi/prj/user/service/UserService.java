@@ -8,6 +8,7 @@ public interface UserService {
 	List<UserVO> userSelectList();
 	UserVO userSelect(UserVO vo);
 	int userKwdInsert(String id, String keyword);
+	int userKwdDelete(String id, String keyword);
 	String userIdFind(UserVO vo);
 	String userPwFind(UserVO vo);
 	int userPwUpdate(UserVO vo);
@@ -18,4 +19,6 @@ public interface UserService {
 	// 토큰 저장
 	int selectToken(UserVO vo);
 	int UpdateToken(UserVO vo);
+	
+	int insertRandUser();
 }

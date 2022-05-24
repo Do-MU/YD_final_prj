@@ -1,11 +1,14 @@
 package com.keumbi.prj.user.web;
 
+import java.io.PrintWriter;
 import java.util.Random;
 
 import javax.mail.internet.MimeMessage;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpRequest;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Controller;
@@ -40,25 +43,31 @@ public class UserController {
 
 	// 로그인 처리
 	@RequestMapping("/userLogin")
-	public String userLogin(HttpSession session, UserVO userVO) {
+	public String userLogin(HttpSession session, UserVO userVO, HttpServletResponse response) throws Exception {
 		UserVO loginUser = service.userSelect(userVO);
-
 		if (loginUser != null && loginUser.getPw().equals(userVO.getPw())) {
 			session.setAttribute("loginUser", loginUser);
 			return "redirect:home";
 		} else {
+			response.setContentType("text/html; charset=UTF-8");
+			PrintWriter out = response.getWriter();
+			out.println("<script type='text/javascript'>");
+			out.println("alert('아이디 또는 비밀번호가 일치하지 않습니다.');");
+			out.println("history.back();");
+			out.println("</script>");
+			out.flush();
 			return "redirect:userLoginForm";
 		}
 	}
 
 	// 회원가입 화면 출력
-	/*
+	
 	@RequestMapping("/userJoinForm")
 	public String userJoinForm(Model model) {
 	model.addAttribute("code", code.keywordCode());
 	return "user/userJoinForm";
 	}
-	*/
+	
 	@RequestMapping("/joinForm")
 	public String joinForm(Model model) {
 		model.addAttribute("code", code.keywordCode());
@@ -68,21 +77,48 @@ public class UserController {
 
 	// 회원가입 처리
 	@RequestMapping("/userJoin")
-	public String userJoin(UserVO userVO, @RequestParam(required = false) String[] keywords) {
+	public String userJoin(UserVO userVO, @RequestParam(required = false) String[] keyword) {
 		service.userInsert(userVO);
 		
-		if (keywords != null) {
-			for (String kwd : keywords) {
+		if (keyword != null) {
+			for (String kwd : keyword) {
 				service.userKwdInsert(userVO.getId(), kwd);
 			}
 		}
 		return "redirect:home";
 	}
+	
+	
+	//회원정보 수정 폼
+	@RequestMapping("/userUpdateForm")
+	public String userUpdateForm(Model model,HttpSession session) {
+		UserVO vo = (UserVO) session.getAttribute("loginUser"); // 세션값 불러오기
+		String userId = vo.getId(); // 세션에 저장된 ID값
 
+		model.addAttribute("code", code.keywordCode());
+		return "user/userUpdateForm";
+	}
 
+	//회원 정보 수정
+		@RequestMapping("/userUpdate")
+		public String userUpdate(UserVO userVO, @RequestParam(required = false) String[] keyword,HttpSession session) {
+			service.userUpdate(userVO);
+			
+			for(String kwd : keyword) {
+				service.userKwdDelete(userVO.getId(), kwd);
+			}
+			
+			for(String kwd : keyword) {
+				service.userKwdInsert(userVO.getId(), kwd);
+			}
+			
+			UserVO loginUser = service.userSelect(userVO);
+			session.setAttribute("loginUser", loginUser);
+			
+			return "redirect:userUpdateForm";
+		}
 	
-	
-	
+		
 	// aJax----------------------------------------------------------------------------------------
 	// ID 중복체크
 	@RequestMapping("/idCheck")
@@ -157,4 +193,15 @@ public class UserController {
 		
 		return service.userPwUpdate(userVO);
 	}
+	
+	// 코드
+	@RequestMapping("/selectUserKwdCode")
+	@ResponseBody
+	public List<CodeVO> selectUserKwdCode(HttpSession session) {
+		UserVO vo = (UserVO) session.getAttribute("loginUser"); // 세션값 불러오기
+		String userId = vo.getId(); // 세션에 저장된 ID값	
+		return code.selectUserKwdCode(userId);
+	}
+	
+	
 }

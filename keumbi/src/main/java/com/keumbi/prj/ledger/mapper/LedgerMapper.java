@@ -13,4 +13,5 @@ public interface LedgerMapper {
 	int cashInsert(LedgerVO vo);
 	List<LedgerVO> ledgerSearch(LedgerVO vo);
 	int transInsert(LedgerVO vo); // 거래내역 입력(최초1회)
+	int ledgerUpdate(LedgerVO vo); // 가계부 거래내역 수정 처리 
 }

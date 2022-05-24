@@ -28,6 +28,11 @@ public class CodeServiceImpl implements CodeService {
 		return m.bankCode();
 	}
 
+	@Override
+	public List<CodeVO> selectUserKwdCode(String id) {
+		return m.selectUserKwdCode(id);
+	}
+
 
 
 }

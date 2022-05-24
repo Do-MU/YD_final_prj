@@ -22,7 +22,12 @@
 }
 .div_prdnm{
 	font-size:2em;
-	margin-bottom: 40px;
+	margin-bottom: 30px;
+}
+.div_intr{
+	color: red;
+	font-size: 1.5em;
+	margin-bottom: 20px;
 }
 .div_joinway{
 	font-size:1.5em;
@@ -38,6 +43,11 @@
 #depositBase3{
 	margin-top: 40px;
 	font-size: 20px;
+}
+
+#modal .modal-body{
+	max-height: 500px;
+	overflow: auto;
 }
 </style>
 
@@ -61,18 +71,19 @@
 	<div class="container">
 		<div id="list">
 			<c:forEach var="d" items="${depList}">
-			<div class="prds" data-dep_id="${d.dep_id}">
-				<div class="div_img"><img src="${pageContext.request.contextPath}/resources/img/favicon.png" width="150px" height="150px"></div>
-				<div class="div_exp">
-					<div class="div_banknm">${d.kor_co_nm}</div>
-					<div class="div_prdnm">${d.fin_prdt_nm}</div>
-					<div class="div_joinway">${d.join_way}</div>
+				<div class="prds" data-dep_id="${d.dep_id}">
+					<div class="div_img"><img src="${pageContext.request.contextPath}/resources/img/bank_logo/${d.kor_co_nm}.jpg" width="150px" height="150px"></div>
+					<div class="div_exp">
+						<div class="div_banknm">${d.kor_co_nm}</div>
+						<div class="div_prdnm">${d.fin_prdt_nm}</div>
+						<div class="div_intr"></div>
+						<div class="div_joinway">${d.join_way}</div>
+					</div>
+					<div class="div_btn">
+						<button class="depView">자세히 보기</button>
+					</div>
 				</div>
-				<div class="div_btn">
-					<button class="depView">자세히 보기</button>
-				</div>
-			</div>
-			<hr>
+				<hr>
 			</c:forEach>
 		</div><br>
 	</div>
@@ -80,7 +91,6 @@
 	<div class="modal fade" id="modal" role="dialog">
 		<div class="modal-dialog modal-lg">
 			<div class="modal-content">
-			
 				<div class="modal-header">
 					<h3 class="modal-title" id="bankName"></h3>
 					<button type="button" class="close" data-dismiss="modal">&times;</button>
@@ -94,15 +104,20 @@
 				</div>
 				
 				<div class="modal-footer">
-					<div id="depButton">
-						<button type="button" class="btn btn-default" data-dismiss="modal" id="joinButton">가입하러가기</button>
-					</div>
+					<select name="date">
+						<option value="">선택</option>
+						<option value="3">dddddd</option>
+					</select><br>
+						<input type="text" id="depMoney" name="depMoney" placeholder="금액을 입력해주세요" onchange="depCalculator()">
+						<div id="total"></div>
 				</div>
 				
 			</div>
 		</div>
 	</div>
 </section>
+
+
 
 <script>	
 	//상세보기시 옵션 출력
@@ -113,6 +128,7 @@
 		$("#bankName").html(bank_name);
 			
 		var dep_id = $(this).parent().parent().data("dep_id");
+		
 		$.ajax({
 			url:"prdDepBase",
 			data:{ dep_id : dep_id }
@@ -129,25 +145,64 @@
 			}
 			
 		});
+		
 		$.ajax({
 			url:"prdDepOpt",
 			data:{ dep_id : dep_id }
 		}).done(function(result){
+			console.log(result);
 			for(opt of result){
 				$("<div>").append( $("<hr>") )
 						  .append( $("<div>").html("저축기간 : " + opt.save_trm + "개월"))
 						  .append( $("<div>").html("최소 " + opt.intr_rate + "%") )
 						  .append( $("<div>").html("최대 " + opt.intr_rate2 + "%") )
-						  .appendTo($("#depositOpt")) 
+						  .appendTo($("#depositOpt"));
 			}
 		});
 		
+		$(".list").append("<option value=\"\"> + 선택 + </option>");
+		$(".list > option").remove();
+		
+		$.ajax({
+			url:"prdDepOpt",
+			data:{dep_id : dep_id}
+		}).done(function(result){
+			var dateOption = "";
+			for(opt of result){
+				dateOption = `<li class="option" data-value="\${opt.save_trm}"> \${opt.save_trm}개월</option>`;
+				$(".list").append(dateOption);
+			}
+		});
+		
+		
 		$("#modal").modal("show");
 	});
+		
 	
-	$("#joinButton").on("click", function(){
-		$(this).parent().data("dep_id");
-		console.log($(this).parent().data("dep_id"))
-		window.location.href = "depositJoinForm?dep_id="+$(this).parent().data("dep_id");
-	})
+	// 상품리스트 최고금리 출력
+	for(prd of $("#list").find(".prds")){
+		var dep_id = prd.getAttribute("data-dep_id");
+		
+		//console.log(dep_id);
+		
+		$.ajax({
+			url:"prdDepOpt",
+			data:{dep_id : dep_id},
+			async: false
+		}).done(function(result){
+			for(opt of result){
+				if(dep_id == opt.dep_id){
+					prd.children[1].children[2].innerText = "최고금리 " + opt.intr_rate2 + "%";
+				}
+			}
+		});
+	};
+	
+	// 예금 계산
+	function depCalculator(){
+		const money = document.getElementById("depMoney").value;
+		
+		document.getElementById("total").innerText = money;
+	}
+	
 </script>

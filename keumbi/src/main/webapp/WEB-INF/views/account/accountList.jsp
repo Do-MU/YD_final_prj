@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -8,60 +8,142 @@
 <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
 
 <style>
-	.container>div>h1{margin-bottom: 50px;}
+#div_noAcc{
+	text-align:center;
+}
+#div_noAcc h1{
+	margin-bottom:50px;
+}
+.div_view{
+	border-radius: 15px;
+	padding: 40px;
+	background-color: #E0F8F7;
+	margin-bottom: 50px;
+    box-shadow: 3px 3px 3px 3px #dadce0;
+    color:black;
+}
+.div_acc{
+	display:flex;
+	margin-bottom: 30px;
+	background-color: #CEECF5;
+}
+
+.div_acc:nth-child(2n){
+	background-color: #E0ECF8;
+}
+.div_acc:hover{
+	cursor:pointer;
+}
+.div_acc .div_img{
+	margin-right: 30px;
+	width:100px;
+	height:100px;
+	background-color:white;
+	border-radius:50%;
+}
+.div_acc .div_img img{
+	margin: 15px;
+}
+.div_data1{
+	flex-grow: 1;
+}
+.div_acc .div_data1 .div_title{
+	font-size: 30px;
+	margin: 20px 0;
+}
+.div_acc .div_data1 .div_num{
+	font-size: 24px;
+	margin: 20px 0;
+}
+.div_acc .div_data2{
+	text-align: right;
+}
+.div_acc .div_data2 .div_amt{
+	font-size: 36px;
+	margin-top: 80px;
+}
+.div_submenu{
+	display:none;
+}
 </style>
+
 </head>
 <body>
-<section class="banner_area">
-	<div class="box_1620">
-		<div class="banner_inner d-flex align-items-center">
-			<div class="container">
-				<div class="banner_content text-center">
-					<c:choose>
-						<c:when test="${empty loginUser.access_token}">
-							<h1>인증되지 않은 회원입니다.</h1>
-							<button type="button" class="btn btn-primary" onclick="location.href ='bankAuth'">인증하기</button><br><br>
-						</c:when>
-						<c:otherwise>
-							<h1>계좌목록</h1>
-							<h3>${loginUser.name } 님의 총 보유 자산 	 ${accTotalSum }</h3>
-							<form id="transForm" name="transForm">
-								<input id="fintech_use_num" name="fintech_use_num" type="hidden">
-							</form>
-							<div>
-								<table id="output">
-									<c:forEach items="${acc }" var="acc">
-										<tr id="fin" data-fin="${acc.fintech_use_num }">
-											<td>${acc.bank_name }(${acc.account_alias })</td>
-											<td colspan="4"></td>
-										</tr>
-										<tr>
-											<td colspan="2">${acc.account_num_masked }</td>
-											<td>잔액 ${acc.balance_amt }</td>
-											<td><button type="submit" class="trans">거래내역</button></td>
-											<td><button>이체</button></td>
-										</tr>
-									</c:forEach>
-								</table>
-							</div>
-						</c:otherwise>
-					</c:choose>			
+	<section class="banner_area">
+		<div class="box_1620">
+			<div class="banner_inner d-flex align-items-center">
+				<div class="container">
+					<div class="banner_content text-center">
+						<h2>내 계좌 목록</h2>
+						<div class="page_link">
+							<a href="home">Home</a>
+							<a href="accountView">내 계좌 목록</a>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>
-	</div>
-</section>
-</body>
+	</section>
+	<section class="contact_area p_120">
+		<div class="container">
+			<div id="div_totalAcc" class="div_view">
+				<h3>총 계좌 잔액</h3>
+				<h1>${accTotalSum} 원</h1>
+			</div>
+			
+			<c:choose>
+			
+				<c:when test="${empty loginUser.access_token}">
+					<div id="div_noAcc">
+						<h1>불러올 계좌가 없어요...</h1>
+						<button type="button" class="btn btn-primary"
+							onclick="location.href ='bankAuth'">내 계좌 불러오기</button>
+					</div>
+				</c:when>
+				
+				<c:otherwise>
+					<div id="div_accList">
+						<c:forEach items="${acc}" var="acc">
+							<div class="div_acc div_view" data-fin="${acc.fintech_use_num}">
+								<div class="div_img">
+									<img src="${pageContext.request.contextPath}/resources/img/bank_logo/${acc.bank_name}.jpg" width="70px" height="70px">
+								</div>
+								<div class="div_data1">
+									<div class="div_title">${acc.bank_name}<c:if test="${not empty acc.account_alias}"> (${acc.account_alias })</c:if></div>
+									<div class="div_num">${acc.account_num_masked}</div>
+								</div>
+								<div class="div_data2">
+									<div class="div_amt">${acc.balance_amt}</div>
+								</div>
+							</div>
+						</c:forEach>
+					</div>
+				</c:otherwise>
+				
+			</c:choose>
+			
+		</div>
+	</section>
 
-<script>
-	$(".trans").on("click", this, function(){
-		var finNum = $(this).parent().parent().prev().data("fin");
-		console.log(finNum);
+	<script>
+		// 비회원 접근시
+		if (!"${loginUser.id}") {
+			alert('로그인이 필요합니다.');
+			window.location = "userLoginForm";
+		}	
+		// 천단위 콤마
+		for(amt of $(".div_amt")){
+			amt.innerHTML = amt.innerHTML.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",") + " 원";
+		}
+		$("#div_totalAcc").html($("#div_totalAcc").html().toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ","));
 		
-		$("#fintech_use_num").val(finNum);
-		transForm.action = "accTransView";
-		transForm.method = "get";
-		transForm.submit();
-	})
-</script>
+		// 계좌 클릭시 계좌 거래내역으로 이동
+		$(".div_acc").not($(".bi-justify")).on("click", function(){
+			$(".div_acc").css("box-shadow","3px 3px 3px 3px #dadce0 inset")
+			location.href = "accTransView?fintech_use_num=" + $(this).data("fin");
+		});
+		$(".div_btn").on("click",this,function(){
+			$(this).children(2).css("display","block");
+		})
+	</script>
 </html>

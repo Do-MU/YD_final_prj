@@ -12,4 +12,5 @@ public interface LedgerService {
 	List<LedgerVO> dayTotalAmt(LedgerVO vo);
 	int cashInsert(LedgerVO vo);
 	List<LedgerVO> ledgerSearch(LedgerVO vo);
+	int ledgerUpdate(LedgerVO vo); // 가계부 거래내역 수정 처리 
 }

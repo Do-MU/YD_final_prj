@@ -70,5 +70,12 @@ public class LedgerController {
 	public List<LedgerVO> LedgerSearch(LedgerVO vo) {
 		return service.ledgerSearch(vo);
 	}
+	
+	// 가계부 거래내역 수정
+	@PostMapping("/ledgerUpdate")
+	@ResponseBody
+	public void ledgerUpdate(LedgerVO vo) {
+		service.ledgerUpdate(vo); 
+	}
 
 }

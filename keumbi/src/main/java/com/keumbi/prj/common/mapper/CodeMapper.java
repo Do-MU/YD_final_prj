@@ -8,4 +8,5 @@ public interface CodeMapper {
 	List<CodeVO> keywordCode();
 	List<CodeVO> categoryCode();
 	List<CodeVO> bankCode();
+	List<CodeVO> selectUserKwdCode(String id);
 }

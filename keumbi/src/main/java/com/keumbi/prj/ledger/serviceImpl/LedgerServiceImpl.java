@@ -46,4 +46,9 @@ public class LedgerServiceImpl implements LedgerService {
 		return m.ledgerSearch(vo);
 	}
 
+	@Override
+	public int ledgerUpdate(LedgerVO vo) {
+		return m.ledgerUpdate(vo);
+	}
+
 }
