@@ -47,11 +47,6 @@ public class LedgerServiceImpl implements LedgerService {
 	}
 
 	@Override
-	public List<LedgerVO> ledEditModal(LedgerVO vo) {
-		return m.ledEditModal(vo);
-	}
-
-	@Override
 	public int ledgerUpdate(LedgerVO vo) {
 		return m.ledgerUpdate(vo);
 	}

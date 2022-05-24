@@ -71,10 +71,11 @@ public class LedgerController {
 		return service.ledgerSearch(vo);
 	}
 	
-	// 가계부 편집 모달창에 수정 또는 삭제할 데이터 출력
-	@RequestMapping("/ledEditModal")
-	public List<LedgerVO> LedEditModal(LedgerVO vo) {
-		return service.ledEditModal(vo);
+	// 가계부 거래내역 수정
+	@PostMapping("/ledgerUpdate")
+	@ResponseBody
+	public void ledgerUpdate(LedgerVO vo) {
+		service.ledgerUpdate(vo); 
 	}
 
 }

@@ -62,12 +62,12 @@
 	/* back btn */
 	#challengeJoin_modal .close{
 		float:none;
+		font-weight: 500;
 	}
 	#challengeJoin_modal #mod_back_btn{
 		font-size: 10px;
 		margin-bottom:50px;
 	}
-	
 	
 	#challengeJoin_modal #mod_body_top{
 		display:flex;
