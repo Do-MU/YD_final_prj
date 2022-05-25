@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.keumbi.prj.analysis.mapper.AnalysisMapper">
+
+	<select id="monthlyAnalysis" resultType="AnalysisVO">
+		SELECT   SUM(AMT) AS AMT, C.VAL, TO_CHAR(T.TDATE, 'YYYY-MM') AS yearMonth
+		FROM     TOTAL_TRANS T
+		JOIN     COMMON_CODE C
+		ON       T.CAT_CODE = C.CODE
+		WHERE    USER_ID = #{user_id}
+		AND      IO_CODE = 'I1'
+		AND 	 TO_CHAR(T.TDATE, 'YYYY-MM') = #{yearMonth}
+		GROUP BY TO_CHAR(T.TDATE, 'YYYY-MM'), C.VAL
+		ORDER BY 1 DESC
+	</select>
+	
+</mapper>

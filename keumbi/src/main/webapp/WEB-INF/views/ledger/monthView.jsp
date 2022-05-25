@@ -153,6 +153,56 @@
 				}
 			})
 		})
+		
+		// '오늘' 버튼 기능
+		$(".fc-today-button").on("click", function() {
+			var dt = new Date();
+			var curMonth = dt.getFullYear()+'-'+("0"+(dt.getMonth()+1)).slice(-2);
+			$.ajax({
+				url : "monthTotalAmt",
+				data : {
+					user_id : "${loginUser.id}",
+					yearMonth : curMonth
+				},
+				success : function(result) {
+					var totalAmt = priceToString(result)
+					$("#monthTotalAmt").html("이번달 총 지출 "+totalAmt+"원");
+				}
+			})
+			
+			var curDate = new Date().toISOString().substring(0,10);
+			$("#dayTitle").html(curDate);
+			
+			$.ajax({
+				url : "dayTotalAmt",
+				data : {
+					tdate : curDate,
+					user_id : "${loginUser.id}"
+				}
+			}).done(function(data) {
+				for(d of data) {
+					if(d.io_code=='I1') {
+						var dayOutTotal = priceToString(d.amt);
+						$("#dayOutTotal").html(dayOutTotal + '원');
+					} else {
+						var dayInTotal = priceToString(d.amt);
+						$("#dayInTotal").html(dayInTotal + '원');
+					}
+					console.log(d)
+				}
+			});
+			
+			$.ajax({
+				type : 'GET',
+				url : "dayView",
+				data : {
+					tdate : curDate,
+					user_id : "${loginUser.id}"
+				}
+			}).done(function(datas) {
+				dayDrawList(datas,"거래 내역이 없습니다.")
+			});	
+		})
 	}); 
 	
 	// 현금 거래 입력 오늘날짜 함수
@@ -164,7 +214,6 @@
 	
 	//현금 거래 입력 처리
 	function btnInsert() {
-		
 		
 		var form = document.modalForm;
 		
@@ -424,17 +473,24 @@ body {
 	margin-left : 30px;
 }
 #dayTotal {
-	float: right;
+	width:100%;
+	height: 30px;
+	position: relative;
 }
 #dayOutTotal, #dayInTotal {
 	padding-right : 5px;
 	padding-left : 5px;
+	position
 }
 #dayInTotal {
 	color : blue;
+	position: absolute;
+	right: 100px;
 }
 #dayOutTotal {
 	color : red;
+	position: absolute;
+	right: 0;
 }
 #monthTotalAmt {
 	text-align : center;
@@ -442,6 +498,7 @@ body {
 	font-weight : bold;
 	color : #e2703a;
 }
+
 
 </style>
 <body>
@@ -487,12 +544,14 @@ body {
 		<div id="dayView" class="container-fluid">
 			<p class="h2 text-center" id="dayTitle"></p>
 			<div id="dayTotal">
-				<table>
+				<span id="dayInTotal"></span>
+				<span id="dayOutTotal"></span>
+<!-- 				<table>
 					<tr>
-						<td id="dayInTotal"></td>
-						<td id="dayOutTotal"></td>
+						<td ></td>
+						<td id=""></td>
 					</tr>
-				</table>
+				</table> -->
 			</div>
 			<table class="table" id="dayTable">
 		  		<thead class="thead-dark" id="listHead">   
