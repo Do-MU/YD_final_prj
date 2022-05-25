@@ -1,6 +1,5 @@
 package com.keumbi.prj.accTrans.web;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -57,24 +56,29 @@ public class AccTransController {
 	@RequestMapping("/accDepositView")
 	public String accDepositView(HttpSession session, Model model, String fintech_use_num) {
 		//System.out.println(fintech_use_num);
-		List<AccountVO> list = new ArrayList<AccountVO>();
-		list = accountServiceImpl.selectAllAccount(session);
-		//Gson jsonParser = new Gson();
-		//String jsonVal = jsonParser.toJson(list);
 		
-		//model.addAttribute("result", jsonVal);
 		model.addAttribute("accList", accountServiceImpl.selectAllAccount(session)); // 계좌목록 호출
-		
+		model.addAttribute("finBal", accountServiceImpl.selectOneAccount(fintech_use_num)); //단건 계좌 정보
 		return "account/accDeposit";
+	}
+	
+	// 잔액 ajax
+	@RequestMapping("getAccInfo")
+	@ResponseBody
+	public AccountVO getAccInfo(String fintech_use_num) {
+		System.out.println(fintech_use_num);
+		
+		return accountServiceImpl.selectOneAccount(fintech_use_num);
+		
 	}
 	
 	// view -> 각 vo로 받기 -> service 호출
 	@RequestMapping("accTranProcess")
-	public String accTranProcess(RemitVO vo, Model model) {
+	public String accTranProcess(HttpSession session, RemitVO vo, Model model) {
 		System.out.println("accTranProcess");
 		System.out.println(vo);
 		
-		int result = accTransServiceImpl.insertRemit(vo);
+		int result = accTransServiceImpl.insertRemit(session, vo);
 		if(result != 0) {
 			model.addAttribute("msg", "이체가 완료되었습니다.");
 		} else {
@@ -82,6 +86,4 @@ public class AccTransController {
 		}
 		return "account/accDeposit";
 	}
-	//	-> update 가계부
-	// 	-> 잔액 수정
 }

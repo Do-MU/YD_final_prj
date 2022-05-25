@@ -13,4 +13,5 @@ public interface AccTransMapper {
 	int selectAccTransOne(String fintech_use_num); // fin_num -> 거래 내역 중복여부
 	List<AccTransVO> selectAccTransDate(AccTransReqVO vo); // 날짜 조건 거래내역 조회
 	int insertRemit(RemitVO vo); // 송금 -> 거래내역 insert
+	
 }

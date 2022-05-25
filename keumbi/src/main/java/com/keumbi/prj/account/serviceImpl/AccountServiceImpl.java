@@ -96,5 +96,12 @@ public class AccountServiceImpl implements AccountService {
 		
 		return amt;
 	}
+
+	// 계좌단건조회
+	@Override
+	public AccountVO selectOneAccount(String fintech_use_num) {
+		
+		return accMapper.selectOneAccount(fintech_use_num);
+	}
 	
 }
