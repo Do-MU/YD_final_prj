@@ -132,7 +132,8 @@
 		</div>
 
 		<!-- 챌린지 출력 -->
-		<div class="challs">
+		<c:forEach var="mychall" items="${mychall}">
+		<div class="challs" data-chall_num="${mychall.chall_num}">
 			<div class="div_img">
 				<img src="resources/img/favicon.png"
 					style="height: 180px; width: 180px;"><br>
@@ -142,18 +143,18 @@
 			</div>
 
 			<div class="div_detail">
-				<div class="div_title">챌린지 제목<span class="chal_pro chal_pro_i">진행중</span></div>
+				<div class="div_title"><span class="chal_pro chal_pro_i">진행중</span></div>
 				<div class="div_contents">챌린지 내용 챌린지 내용 챌린지 내용 챌린지 내용 챌린지 내용
 					챌린지 내용 챌린지 내용 챌린지 내용 챌린지 내용 챌린지</div>
 
 				<div class="progress">
 					<div class="progress-var bg-info" style="width: 50%;">50%</div>
 				</div>
-				<div class="div_per">목표금액 100,000원</div>
+				<div class="div_per">목표금액 ${mychall.goal}원</div>
 			</div>
 		</div>
 		<hr>
-		
+		</c:forEach>
 		<div class="challs">
 			<div class="div_img">
 				<img src="resources/img/favicon.png"
@@ -162,7 +163,7 @@
 					<h3>D-30</h3>
 				</div>
 			</div>
-
+			
 			<div class="div_detail">
 				<div class="div_title">챌린지 제목<span class="chal_pro chal_pro_s">성공</span></div>
 				<div class="div_contents">챌린지 내용 챌린지 내용 챌린지 내용 챌린지 내용 챌린지 내용
@@ -198,7 +199,24 @@
 		</div>
 		<hr>
 		
+		
 	</div>
 </section>
 <script>
+
+console.log("${loginUser.id}");
+//챌린지 정보 가져오기
+$(".challs").each(function(){
+	$.ajax({
+		type:"GET",
+		url:"prdChall",
+		data:{num: $(this).data("chall_num")}
+	}).done(function(data){
+		console.log(data.title);
+		$(".div_title").html(data.title);
+		//$(".div_title").append($(`<span class='chal_pro chal_pro_i'></span>`));
+		$(".div_contents").html(data.content);		
+	})
+}) 
+
 </script>
