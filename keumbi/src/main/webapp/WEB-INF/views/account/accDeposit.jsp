@@ -40,7 +40,7 @@
 						</tr>
 						<tr>
 							<th scope="col">이체금액</th>
-							<td><input name="wit_tran_amt">원</td>
+							<td><input name="tran_amt">원</td>
 							<td>이체가능금액</td>
 							<td>123321321</td>
 						</tr>
@@ -92,25 +92,25 @@
         <table>
         	<tr>
         		<th>출금계좌</th>
-        		<td>국민은행</td>
-        		<td id="a"></td>
+        		<td>출금은행이름</td>
+        		<td id="witbn"></td>
         	</tr>
         	<tr>
         		<th>입금계좌</th>
-        		<td>우리은행</td>
-        		<td id="b"></td>
+        		<td>입금은행이름</td>
+        		<td id="depbn"></td>
         	</tr>
         	<tr>
         		<th>이체금액</th>
-        		<td colspan="2" id="c"></td>
-        	</tr>
-        	<tr>
-        		<th>받는 분 통장표시내용</th>
-        		<td colspan="2" id="d"></td>
+        		<td colspan="2" id="wit_ta"></td>
         	</tr>
         	<tr>
         		<th>내 통장표시내용</th>
-        		<td colspan="2" id="e"></td>
+        		<td colspan="2" id="wit_pc"></td>
+        	</tr>
+        	<tr>
+        		<th>받는 분 통장표시내용</th>
+        		<td colspan="2" id="dep_pc"></td>
         	</tr>
         </table>
       </div>
@@ -144,21 +144,11 @@
 		
 		
 		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
 	}
 	
 	// 이체확인 모달
 	function depositFun(){
-		var wit_fun = $("select[name=wit_fintech_use_num]").val();
+		//var wit_fun = $("select[name=wit_fintech_use_num]").val();
 		var wit_ta = $("input[name=wit_tran_amt]").val();
 		var wit_pc = $("input[name=wit_print_content]").val();
 		var dep_fun = $("select[name=dep_fintech_use_num]").val();
@@ -170,11 +160,11 @@
 		console.log(dep_fun);
 		console.log(dep_pc); */
 		
-		$("#a").text(wit_fun);
-		$("#b").text(wit_ta);
-		$("#c").text(wit_pc);
-		$("#d").text(dep_fun);
-		$("#e").text(dep_pc);
+		//$("#witbn").text(wit_fun);
+		//$("#depbn").text(wit_ta);
+		$("#wit_ta").text(wit_ta);
+		$("#wit_pc").text(wit_pc);
+		$("#dep_pc").text(dep_pc);
 		
 		
 		// 입력값 검증

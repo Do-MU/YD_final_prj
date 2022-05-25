@@ -13,7 +13,6 @@
 		<selectKey keyProperty="seq" resultType="int" order="BEFORE">
 			SELECT	NVL( MAX(SEQ), 0 ) + 1
 			FROM	ACC_TRANS
-			<!-- WHERE	FINTECH_USE_NUM = #{fintech_use_num} -->
 		</selectKey>
 		INSERT INTO ACC_TRANS 
 		VALUES ( #{seq}, #{fintech_use_num}, #{tran_date}, #{tran_time}, #{inout_type}, #{tran_type}, #{print_content}, #{tran_amt}, #{after_balance_amt}, #{branch_name} )
@@ -32,5 +31,20 @@
 		WHERE   TRAN_DATE  BETWEEN #{from_date} AND #{to_date}
 				AND FINTECH_USE_NUM = #{fintech_use_num}
 	</select>
+	
+	<insert id="insertRemit" parameterType="RemitVO">
+		<!-- 출금 -->
+		<selectKey keyProperty="seq" resultType="int" order="BEFORE">
+			SELECT	NVL( MAX(SEQ), 0 ) + 1
+			FROM	ACC_TRANS
+		</selectKey>
+		
+		INSERT ALL
+			INTO ACC_TRANS( SEQ, FINTECH_USE_NUM, TRAN_DATE, tran_time, inout_type, tran_type, print_content, tran_amt, branch_name )
+			VALUES( #{seq}, #{wit_fintech_use_num}, #{tran_date}, #{tran_time}, #{wit_inout_type}, #{tran_type}, #{wit_print_content}, #{tran_amt}, #{branch_name} )
+			INTO ACC_TRANS( SEQ, FINTECH_USE_NUM, TRAN_DATE, tran_time, inout_type, tran_type, print_content, tran_amt, branch_name )
+			VALUES( #{seq} + 1, #{dep_fintech_use_num}, #{tran_date}, #{tran_time}, #{dep_inout_type}, #{tran_type}, #{dep_print_content}, #{tran_amt}, #{branch_name} )
+		SELECT * FROM dual
+	</insert>
 
 </mapper>

@@ -11,7 +11,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.google.gson.Gson;
 import com.keumbi.prj.accTrans.service.AccTransService;
 import com.keumbi.prj.accTrans.vo.AccTransReqVO;
 import com.keumbi.prj.accTrans.vo.AccTransVO;
@@ -71,12 +70,18 @@ public class AccTransController {
 	
 	// view -> 각 vo로 받기 -> service 호출
 	@RequestMapping("accTranProcess")
-	public String accTranProcess(RemitVO vo) {
+	public String accTranProcess(RemitVO vo, Model model) {
 		System.out.println("accTranProcess");
 		System.out.println(vo);
-		return "";
+		
+		int result = accTransServiceImpl.insertRemit(vo);
+		if(result != 0) {
+			model.addAttribute("msg", "이체가 완료되었습니다.");
+		} else {
+			model.addAttribute("msg", "잠시 후 다시 시도해주세요.");
+		}
+		return "account/accDeposit";
 	}
-	//	-> insert 두번 입금 출금
-	//	-> insert 가계부
+	//	-> update 가계부
 	// 	-> 잔액 수정
 }
