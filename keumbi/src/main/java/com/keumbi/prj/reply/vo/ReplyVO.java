@@ -14,7 +14,7 @@ public class ReplyVO {
 	private int bod_num;
 	private int pre_re_num;
 	private String re_contents;
-	@JsonFormat(pattern="yyyy-MM-dd", timezone="Asia/Seoul")
+	@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss", timezone="Asia/Seoul")
 	private Date re_date;
 	private String re_code;
 }
