@@ -52,7 +52,7 @@ console.log($("#user_id").val());
 			<table class="table table-striped" style="text-align: center; border: 1px solid #dddddd ">
 				<thead>
 					<tr>
-						<th colspan="2" style="background-color: #eeeeee; text-align: center; height: 50px;"><strong>${view.user_id}</strong>님의 &nbsp 게시글</th>
+						<th colspan="2" style="background-color: #eeeeee; text-align: center; height: 50px;"><strong>${view.user_id}</strong>님의 &nbsp; 게시글</th>
 					</tr>
 				</thead>
 				<tbody>

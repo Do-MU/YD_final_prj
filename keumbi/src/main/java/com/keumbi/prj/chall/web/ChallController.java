@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.keumbi.prj.chall.service.ChallService;
 import com.keumbi.prj.chall.vo.ChallVO;
@@ -21,10 +22,20 @@ public class ChallController {
 	@RequestMapping("/challengeList")
 	public String userChallengeList(Model model, ChallVO challVO, HttpSession session) {
 		UserVO vo = (UserVO) session.getAttribute("loginUser"); // 세션값 불러오기
-		String userId = vo.getId(); // 세션에 저장된 ID값
+		model.addAttribute("mychall", mychall.challList(vo.getId()));
 		
-		model.addAttribute("mychall", mychall.challList(userId));
 		return "challenge/challengeList";
 	}
 	
+	// 챌린지 가입
+	@RequestMapping("/challInsert")
+	@ResponseBody
+	public int challInsert(HttpSession session, ChallVO challVO) {
+		
+		if(mychall.challSelect(challVO) == 0) {
+			return mychall.challInsert(challVO);
+		}
+		
+		return 0;
+	}
 }

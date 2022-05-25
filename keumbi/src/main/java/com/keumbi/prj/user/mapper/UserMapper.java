@@ -10,7 +10,7 @@ public interface UserMapper {
 	List<UserVO> userSelectList();
 	UserVO userSelect(UserVO vo);
 	int userKwdInsert(@Param("id")String id, @Param("keyword")String keyword);
-	int userKwdDelete(@Param("id")String id, @Param("keyword")String keyword);
+	int userKwdDelete(String id);
 	String userIdFind(UserVO vo);
 	String userPwFind(UserVO vo);
 	int userPwUpdate(UserVO vo);

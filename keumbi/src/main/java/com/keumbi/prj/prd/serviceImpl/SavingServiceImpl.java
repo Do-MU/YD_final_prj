@@ -42,13 +42,13 @@ public class SavingServiceImpl implements SavingService {
 		deleteAllSavings();
 
 		for (SavingBaseVO Svo : saving.getBaseList()) {
-			s.insertSavBase(Svo);
-			baseCnt++;
+			
+			baseCnt += s.insertSavBase(Svo);
 		}
 
 		for (SavingOptionVO Svo : saving.getOptionList()) {
-			s.insertSavOpt(Svo);
-			optCnt++;
+			
+			optCnt += s.insertSavOpt(Svo);
 		}
 		
 		return "적금상품 : " + baseCnt + "건\n적금상품옵션 : " + optCnt + "건\n업데이트 완료";

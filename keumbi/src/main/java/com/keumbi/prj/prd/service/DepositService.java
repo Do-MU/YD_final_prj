@@ -9,7 +9,6 @@ public interface DepositService {
 	List<DepositBaseVO> selectAllDepBase();
 	DepositBaseVO selectOneDepBase(int dep_id);
 	List<DepositOptionVO> selectAllDepOpt(int dep_id);
-	
 	String insertAllDeposits();
 	void deleteAllDeposits();
 }

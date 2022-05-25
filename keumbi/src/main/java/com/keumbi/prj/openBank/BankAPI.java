@@ -3,9 +3,7 @@ package com.keumbi.prj.openBank;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -19,7 +17,6 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.keumbi.prj.accTrans.vo.AccTransVO;
 import com.keumbi.prj.account.vo.AccountVO;
-import com.keumbi.prj.card.vo.CardVO;
 import com.keumbi.prj.user.vo.UserVO;
 
 public class BankAPI {

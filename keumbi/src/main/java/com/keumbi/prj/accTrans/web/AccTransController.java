@@ -16,6 +16,7 @@ import com.keumbi.prj.accTrans.vo.AccTransVO;
 import com.keumbi.prj.accTrans.vo.RemitVO;
 import com.keumbi.prj.account.service.AccountService;
 import com.keumbi.prj.account.vo.AccountVO;
+import com.keumbi.prj.user.vo.UserVO;
 
 @Controller
 public class AccTransController {
@@ -26,8 +27,10 @@ public class AccTransController {
 	// 계좌 -> 거래내역 페이지 넘어가는곳
 	@RequestMapping("/accTransView")
 	public String accTransView(HttpSession session, Model model, String fintech_use_num){
+		UserVO vo = (UserVO) session.getAttribute("loginUser");
+		
 		//System.out.println("fintech_use_num :  " + fintech_use_num);
-		model.addAttribute("accList", accountServiceImpl.selectAllAccount(session)); // 계좌목록 호출
+		model.addAttribute("accList", accountServiceImpl.selectAllAccount(vo)); // 계좌목록 호출
 		model.addAttribute("accTrans",accTransServiceImpl.selectAccTransAll(fintech_use_num)); // 거래내역 호출
 		return "account/transList";
 	}
@@ -55,9 +58,10 @@ public class AccTransController {
 	// 송금 view
 	@RequestMapping("/accDepositView")
 	public String accDepositView(HttpSession session, Model model, String fintech_use_num) {
+		UserVO vo = (UserVO) session.getAttribute("loginUser");
 		//System.out.println(fintech_use_num);
 		
-		model.addAttribute("accList", accountServiceImpl.selectAllAccount(session)); // 계좌목록 호출
+		model.addAttribute("accList", accountServiceImpl.selectAllAccount(vo)); // 계좌목록 호출
 		model.addAttribute("finBal", accountServiceImpl.selectOneAccount(fintech_use_num)); //단건 계좌 정보
 		return "account/accDeposit";
 	}
