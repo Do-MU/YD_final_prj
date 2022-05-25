@@ -92,11 +92,9 @@ public class UserController {
 	
 	//회원정보 수정 폼
 	@RequestMapping("/userUpdateForm")
-	public String userUpdateForm(Model model,HttpSession session) {
-		UserVO vo = (UserVO) session.getAttribute("loginUser"); // 세션값 불러오기
-		String userId = vo.getId(); // 세션에 저장된 ID값
-
+	public String userUpdateForm(Model model) {
 		model.addAttribute("code", code.keywordCode());
+		
 		return "user/userUpdateForm";
 	}
 
@@ -195,7 +193,7 @@ public class UserController {
 		return service.userPwUpdate(userVO);
 	}
 	
-	// 코드
+	// 회원 관심 키워드 select
 	@RequestMapping("/selectUserKwdCode")
 	@ResponseBody
 	public List<CodeVO> selectUserKwdCode(HttpSession session) {

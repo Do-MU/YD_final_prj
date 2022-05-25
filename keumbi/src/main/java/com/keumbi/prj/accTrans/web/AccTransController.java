@@ -11,7 +11,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.google.gson.Gson;
 import com.keumbi.prj.accTrans.service.AccTransService;
 import com.keumbi.prj.accTrans.vo.AccTransReqVO;
 import com.keumbi.prj.accTrans.vo.AccTransVO;
