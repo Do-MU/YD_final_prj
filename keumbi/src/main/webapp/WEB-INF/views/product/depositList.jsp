@@ -139,7 +139,7 @@
 					<div id="cal" style="float: left;">금리 계산기</div>
 					<div class="depOpt" style="float: right">
 						<select id="date">
-							<option value="1" selected>선택</option>
+							<option value="" selected>선택</option>
 						</select>
 						<input type="text" id="depMoney" name="depMoney" placeholder="숫자만 입력해주세요">원
 					</div>
@@ -194,34 +194,20 @@
 			}
 		});
 		
-		$(".list > li").remove(); // select개월수 초기화
-		$("#date > option").remove(); // select개월수 초기화
-		//$(".list > li").val("선택").attr("selected", "selected");
 		$("#totalText").html(""); // 만기금액 초기화
 		$(".depOpt > #depMoney").val(""); // 입력금액 초기화
-		
 		$.ajax({
 			url:"prdDepOpt",
 			data:{dep_id : dep_id}
 		}).done(function(result){
-			$(".list").append(`<li class="option" selected data-value="1"> 선택 </li>`);
-			$("#date").append(`<option value="1" selected>선택</option>`);
-			var dateOption = "";
+			$('#date').empty();
+			let opthtml = '<option value="">선택</option>';
 			for(opt of result){
-				dateOption = `<li class="option" data-value="\${opt.intr_rate2}"> \${opt.save_trm}개월</li>`;
-				dateOption1 = `<option value="\${opt.intr_rate2}"> \${opt.save_trm}개월</option>`;
-				
-				$(".list").append(dateOption); 
-				$("#date").append(dateOption1);
+				opthtml += "<option value='"+opt.intr_rate2+"'>"+opt.save_trm+"개월</option>"
 			}
+			$("#date").html(opthtml);
+			$("#date").niceSelect("update");
 		});
-		
-		//$("#date option").prop("selected", false);
-		//$(".list").html("선택").attr("selected", "selected");
-		$('#date option:eq(0)').attr('selected', 'selected');
-		//$('#date').find('option:first').attr('selected', 'selected');
-		
-				
 	});
 		
 	
