@@ -99,17 +99,29 @@ console.log($("#user_id").val());
 	<div class="row">
 		<h5 class="card-header" style="height: 150px;">댓글</h5>
 		<div class="card-body">
-			<form name=replyInsertForm action="/replyInsert" method="post" autocomplete="off">
+			<form name=replyInsertForm action="/boardView/replyInsert" method="post">
 				<div class="form-group">
-					<input type="hidden" name="bod_num" />
+					<input type="hidden" name="bod_num"  value='${view.bod_num}' />
 					<textarea name=re_contents class="form-control" rows="3"></textarea>
 				</div>
-				<button type="submit" class="btn btn-primary" name=replyInsertBtn style="float: right;">등록</button>
+				<button type="button" class="btn btn-primary" name=replyInsertBtn style="float: right;" onclick="return confirm('댓글을 등록하시겠습니까?')">등록</button>
 			</form>
 		</div>
 	</div>
 	
-	<div class="replyList"></div>
+	<br>
+	<br>
+	
+	<div class="container">
+	<div class="row">
+	<form>
+	<hr>
+	<div class="replyList" id="replyList" ></div>
+	<hr>
+	<!-- <button type="button" class="btn btn-primary" id="replyUpdate" stlye="float: right;">수정</button> -->
+	</form>
+	</div>
+	</div>
 	
 	</div>
 		
@@ -120,11 +132,11 @@ console.log($("#user_id").val());
 	<br>
 	<br>
 	
-	<script type="text/javascript">
+	<!-- <script type="text/javascript">
 	
 	var code = document.getElementById('tag-list').dataset.code;
 	
-	</script>
+	</script> -->
 	
 	<script>
 	
@@ -132,25 +144,28 @@ console.log($("#user_id").val());
 	$('[name=replyInsertBtn]').click(function(){ //댓글 등록 버튼 클릭시     
 		var insertData = $('[name=replyInsertForm]').serialize(); //commentInsertForm의 내용을 가져옴    
 		replyInsert(insertData); //Insert 함수호출(아래)});
+	})
 	
 	//댓글 목록 
 	function replyList(){
 	    $.ajax({
-	        url : '/boardView/replyList,       
+	        url : 'replyList',       
 			type : 'get',        
-			data : {'re_num':re_num},       
+			data : {'bod_num' : bod_num},       
 			success : function(data){            
 				var a ='';             
 				$.each(data, function(key, value){
 	                 a += '<div class="commentArea" style="border-bottom:1px solid darkgray; margin-bottom: 15px;">';                
-					 a += '<div class="commentInfo'+value.re_num+'">'+'댓글번호 : '+value.re_num+' / 작성자 : '+value.user_id;                
-					 a += '<a onclick="commentUpdate('+value.re_num+',\''+value.re_contents+'\');"> 수정 </a>';                
-					 a += '<a onclick="commentDelete('+value.re_num+');"> 삭제 </a> </div>';               
-					 a += '<div class="commentContent'+value.re_num+'"> <p> 내용 : '+value.re_contents +'</p>';                
-					 a += '</div></div>';           
-				 });                        
+					 a += '<div class="commentInfo'+value.re_num+'">'+ '  작성자 : '+value.user_id+ '&nbsp;  날짜 : '+value.re_date; 					                
+					 a += '&nbsp; <c:if test="${loginUser.id eq view.user_id}"> <button class="btn btn-primary" onclick="replyUpdate('+value.re_num+',\''+value.re_contents+'\');"> 수정 </button>';                
+					 a += '<button class="btn btn-primary" onclick="replyDelete('+value.re_num+');"> 삭제 </button> </c:if></div> ';					               
+					 a += '<div class="re_contents'+value.re_num+'"> <p> ↳ &nbsp '+value.re_contents +'</p>';                
+					 a += '</div></div>'; 					          
+				 }); 
+				                       
 				
-				 $(".replyList").html(a);        
+				 $(".replyList").html(a); 
+				        
 			}    
 		});
 	}
@@ -158,16 +173,17 @@ console.log($("#user_id").val());
 	//댓글 등록
 	function replyInsert(insertData){
 	    $.ajax({
-	        url : '/boardView/replyInsert',       
+	        url : 'replyInsert',       
 			type : 'post',        
 			data : insertData,        
 			success : function(data){            
 				if(data == 1) {                
 					replyList(); //댓글 작성 후 댓글 목록 reload                
-					$('[name=re_contents]').val('');            
-					}        
-				}    
-			});
+					$('[name=re_contents]').val('');
+					
+				}        
+			}    
+		});
 	}
 
 	//댓글 수정 - 댓글 내용 출력을 input 폼으로 변경 
@@ -184,11 +200,11 @@ console.log($("#user_id").val());
 	}
 	
 	//댓글 수정
-	function commentUpdateProc(cno){    
+	function replyUpdate(re_num){    
 		var updateContent = $('[name=re_contents_'+re_num+']').val();        
 		
 		$.ajax({
-	        url : '/boardView/replyUpdate',        
+	        url : 'replyUpdate',        
 			type : 'post',        
 			data : {'re_contents' : updateContent, 're_num' : re_num},        
 			success : function(data){
@@ -200,7 +216,7 @@ console.log($("#user_id").val());
 	//댓글 삭제 
 	function replyDelete(re_num){
 		 $.ajax({
-	        url : '/boardView/replyDelete/'+re_num,        
+	        url : 'replyDelete?re_num='+re_num,        
 			type : 'post',        
 			success : function(data){            
 				if(data == 1) replyList(re_num); //댓글 삭제후 목록 출력         

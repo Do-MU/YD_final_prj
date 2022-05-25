@@ -109,13 +109,14 @@ ul li.tag-item {
 						<tr>
 							<td><input type="text" class="form-control"
 								placeholder="글 제목" id="title" name="title" maxlength="50"
-								style="float: left; width: 900px; padding-right: 50em;">
-								<input type="date" class="form-control" id="wdate" name="wdate"
-								required="required" maxlength="50" style="width: 250px;">
+								style="text-align: left; width: 1150px; padding-right: 50em;">
+								<!-- <input type="date" class="form-control" id="wdate" name="wdate"
+								required="required" maxlength="50" style="width: 250px;"> -->
+							<!-- <input type="hidden" name="wdate"> -->
 							<input type="hidden" name="contents"></td>
 						</tr>
 						<tr>
-							<td><div id="editor" style="width: 1150px; height: 100px;"></div>
+							<td><div id="editor" style="width: 1150px; height: 100px; text-align: left;"></div>
 
 								<div>
 									<ul id="tag-list" style="float: left;"></ul>

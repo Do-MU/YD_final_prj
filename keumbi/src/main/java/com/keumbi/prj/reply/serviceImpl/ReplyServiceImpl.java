@@ -26,9 +26,8 @@ public class ReplyServiceImpl implements ReplyService {
 	}
 
 	@Override
-	public void replyInsert(ReplyVO vo) {
-		m.replyInsert(vo);
-
+	public int replyInsert(ReplyVO vo) {
+		return m.replyInsert(vo);
 	}
 
 	@Override
@@ -38,8 +37,8 @@ public class ReplyServiceImpl implements ReplyService {
 	}
 
 	@Override
-	public void replyDelete(int re_num) {
-		m.replyDelete(re_num);
+	public int replyDelete(int re_num) {
+		return m.replyDelete(re_num);
 
 	}
 
