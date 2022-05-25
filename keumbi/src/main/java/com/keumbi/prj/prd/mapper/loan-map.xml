@@ -17,7 +17,7 @@
 	<insert id="insertLoanOpt" parameterType="LoanOptionVO">
 		<selectKey keyProperty="loan_id" resultType="int" order="BEFORE">
 			SELECT 	LOAN_ID
-			FROM P	RD_LOAN_BASES
+			FROM 	PRD_LOAN_BASES
 			WHERE 	DCLS_MONTH = #{dcls_month}
 			AND 	FIN_CO_NO = #{fin_co_no}
 			AND 	FIN_PRDT_CD = #{fin_prdt_cd}
