@@ -19,7 +19,7 @@ public class TipController {
 	
 	@RequestMapping("/tips")
 	@ResponseBody
-	public Elements webCrawling(@RequestParam("tip") String tip) throws IOException {
+	public String webCrawling(@RequestParam("tip") String tip) throws IOException {
 		String[] tips = {"tip1","tip2","tip3","tip4","tip5","tip6"};
 		String[] q = {"자산관리","주식","부동산","대출","신용점수","보험"};
 		System.out.println(q[Arrays.asList(tips).indexOf(tip)]);
@@ -27,7 +27,7 @@ public class TipController {
 		Document doc = Jsoup.connect(url).get();
 //		System.out.println(doc.select("ul._list_base").text());
 		System.out.println(doc.select("ul._list_base"));
-		return doc.select("ul._list_base");
+		return doc.select("ul._list_base").text();
 	}
 	
 	@RequestMapping("/webCrawling")
