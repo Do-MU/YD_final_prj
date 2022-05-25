@@ -63,13 +63,13 @@ table {
 			<tr>
 				<td>비밀번호</td>
 				<td><input type="password" id="password1" name="pw"
-					readonly="true" value="${loginUser.pw}"> <input
+					readonly="true" value="${loginUser.pw}" min="8"> <input
 					type="button" id="pwUpdate" value="비밀번호 변경"></td>
 			</tr>
 
 			<tr id="pw2" style="display: none;">
 				<td>비밀번호 확인</td>
-				<td><input type="password" id="password2"></td>
+				<td><input type="password" id="password2" min="8"></td>
 			</tr>
 			<tr>
 				<td></td>
@@ -265,14 +265,32 @@ $.ajax({
 
 //회원정보 수정
 $("#userUpdateBtn").click(function(){
-	document.getElementById("addr").value = $("#addr_1").val() + ', ' + $("#addr_2").val(); 
-	document.getElementById("userFrm").submit();
+	$("#addr").val($("#addr_1").val() + ', ' + $("#addr_2").val());
+	var pwd1=document.getElementById("password1").value;
+	var pwd2=$("#password2").val();
+	var pwdMin=$("#password1").val().length;
+	if(pwd2 != ''){
+		if(pwd1 == pwd2){
+			if(pwdMin >= 8){
+				document.getElementById("userFrm").submit();
+				alert("회원정보 수정완료");
+			}else{
+				alert("비밀번호는 8자 이상 입력해주세요.");
+			}
+		}else{
+			alert("비밀번호가 일치하지않습니다.");
+		}
+	}else{
+		document.getElementById("userFrm").submit();
+		alert("회원정보 수정완료");
+	}
 })
 
 //회원탈퇴
 $("#userDelete").click(function(){
 	confirm("정말 탈퇴하시겠습니까?");
-	
+	$("#userFrm").attr("action", "userDelete");
+	$("#userFrm").submit();
 })
 
 </script>

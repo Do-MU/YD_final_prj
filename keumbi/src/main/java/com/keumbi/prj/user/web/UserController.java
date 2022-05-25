@@ -101,24 +101,32 @@ public class UserController {
 	}
 
 	//회원 정보 수정
-		@RequestMapping("/userUpdate")
-		public String userUpdate(UserVO userVO, @RequestParam(required = false) String[] keyword,HttpSession session) {
-			service.userUpdate(userVO);
+	@RequestMapping("/userUpdate")
+	public String userUpdate(UserVO userVO, @RequestParam(required = false) String[] keyword,HttpSession session) {
+		service.userUpdate(userVO);
 			
-			for(String kwd : keyword) {
-				service.userKwdDelete(userVO.getId(), kwd);
-			}
-			
-			for(String kwd : keyword) {
-				service.userKwdInsert(userVO.getId(), kwd);
-			}
-			
-			UserVO loginUser = service.userSelect(userVO);
-			session.setAttribute("loginUser", loginUser);
-			
-			return "redirect:userUpdateForm";
+		for(String kwd : keyword) {
+			service.userKwdDelete(userVO.getId(), kwd);
 		}
+		
+		for(String kwd : keyword) {
+			service.userKwdInsert(userVO.getId(), kwd);
+		}
+			
+		UserVO loginUser = service.userSelect(userVO);
+		session.setAttribute("loginUser", loginUser);
+			
+		return "redirect:userUpdateForm";
+	}
 	
+	//회원 탈퇴
+	@RequestMapping("/userDelete")
+	public String userDelete(HttpSession session) {
+		UserVO vo = (UserVO) session.getAttribute("loginUser"); // 세션값 불러오기
+		service.userDelete(vo);
+		session.invalidate();
+		return "home/home";
+	}
 		
 	// aJax----------------------------------------------------------------------------------------
 	// ID 중복체크
