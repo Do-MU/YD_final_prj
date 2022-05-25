@@ -39,7 +39,7 @@
 	</delete>
 	
 	<select id="selectAllSavBase" resultType="SavingBaseVO">
-		SELECT *
-		FROM PRD_SAV_BASES
+		SELECT 	*
+		FROM 	PRD_SAV_BASES
 	</select>
 </mapper>
