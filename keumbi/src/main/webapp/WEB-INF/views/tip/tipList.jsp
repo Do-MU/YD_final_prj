@@ -115,10 +115,10 @@ mark{
 			<div class="banner_inner d-flex align-items-center">
 				<div class="container">
 					<div class="banner_content text-center">
-						<h2>HONEY TIP</h2>
+						<h2>오늘의 머니팁</h2>
 						<div class="page_link">
 							<a href="home">Home</a>
-							<a href=webCrawling>HONEY TIP</a>
+							<a href="tips">팁</a>
 						</div>
 					</div>
 				</div>
@@ -151,7 +151,7 @@ mark{
 			url = url.substr(1, url.length);
 			console.log(url);
 			$.ajax({
-				url:"tips",
+				url:"webCrawling",
 				data: {tip:url}
 			}).done(function(contents){
 				$("#div_crawling").html(contents)

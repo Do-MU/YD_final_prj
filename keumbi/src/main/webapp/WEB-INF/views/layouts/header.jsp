@@ -113,7 +113,7 @@
 						</li>
 						<li class="nav-item"><a class="nav-link" href="monthView">가계부</a></li>
 						<li class="nav-item"><a class="nav-link" href="boardList">커뮤니티</a></li>
-						<li class="nav-item"><a class="nav-link" href="webCrawling">팁</a></li>
+						<li class="nav-item"><a class="nav-link" href="tips">팁</a></li>
 						<li class="nav-item"><a class="nav-link" href="prdChallengeList">챌린지</a></li>
 						<li class="nav-item"><a class="nav-link" href="#"></a></li>
 						<c:if test="${empty loginUser}">
