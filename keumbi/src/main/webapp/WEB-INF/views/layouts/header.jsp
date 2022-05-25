@@ -126,7 +126,7 @@
 								<ul class="dropdown-menu">
 									<li class="nav-item"><a class="nav-link" href="userUpdateForm">나의 정보</a></li>
 									<li class="nav-item"><a class="nav-link" href="challengeList">나의 챌린지</a></li>
-									<li class="nav-item"><a class="nav-link" href="#">지출분석</a></li>
+									<li class="nav-item"><a class="nav-link" href="expendAnal">지출분석</a></li>
 									<li class="nav-item"><a class="nav-link" href="#">고객센터</a></li>
 								</ul>
 							</li>

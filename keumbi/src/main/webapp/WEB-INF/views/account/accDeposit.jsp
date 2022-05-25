@@ -25,8 +25,12 @@
 		<div align="center">
 			<div>
 				<form id="depositFrm">
-					<h4>출금계좌정보</h4>
-					<table border="1">
+					<input type="hidden" name="wit_bank_name">
+					<input type="hidden" name="dep_bank_name">
+					<c:if test="${not empty finBal}">
+						<h4 id="fin" data-fin="${finBal.fintech_use_num }">출금계좌정보</h4>
+					</c:if>
+					<table>
 						<tr>
 							<th scope="col">출금계좌번호</th>
 							<td colspan="3">
@@ -40,9 +44,9 @@
 						</tr>
 						<tr>
 							<th scope="col">이체금액</th>
-							<td><input name="wit_tran_amt">원</td>
+							<td><input name="tran_amt" type="number">원</td>
 							<td>이체가능금액</td>
-							<td>123321321</td>
+							<td><input name="wit_amt" readonly="readonly" value="${finBal.balance_amt }"></td>
 						</tr>
 						<tr>
 							<th scope="col">출금통장 표시내용</th>
@@ -51,11 +55,11 @@
 					</table>
 					<hr/>
 					<h4>입금계좌정보</h4>
-					<table border="1">
+					<table>
 						<tr>
 							<th scope="col">입금계좌번호</th>
-							<td colspan="3">
-								<select name="dep_fintech_use_num">
+							<td colspan="2">
+								<select name="dep_fintech_use_num" onchange="depSelect()">
 									<option value="">계좌를 선택해주세요.</option>
 									<c:forEach items="${accList }" var="list">
 										<option value="${list.fintech_use_num }">${list.bank_name}		${list.account_num_masked }</option>				
@@ -65,11 +69,13 @@
 						</tr>
 						<tr>
 							<th scope="col">입금통장 표시내용</th>
-							<td colspan="2"><input name="dep_print_content"></td>
+							<td><input name="dep_print_content"></td>
+							<td><input type="hidden" name="dep_amt"></td>
 						</tr>
 					</table>
 				</form>
 			</div>
+			<br/>
 			<div>
 				<button>입력취소</button>
 				<button onclick="depositFun()">이체하기</button>
@@ -92,25 +98,25 @@
         <table>
         	<tr>
         		<th>출금계좌</th>
-        		<td>국민은행</td>
-        		<td id="a"></td>
+        		<td id="wit_bn"></td>
+        		<td id="wit_acc"></td>
         	</tr>
         	<tr>
         		<th>입금계좌</th>
-        		<td>우리은행</td>
-        		<td id="b"></td>
+        		<td id="dep_bn"></td>
+        		<td id="dep_acc"></td>
         	</tr>
         	<tr>
         		<th>이체금액</th>
-        		<td colspan="2" id="c"></td>
-        	</tr>
-        	<tr>
-        		<th>받는 분 통장표시내용</th>
-        		<td colspan="2" id="d"></td>
+        		<td colspan="2" id="wit_ta"></td>
         	</tr>
         	<tr>
         		<th>내 통장표시내용</th>
-        		<td colspan="2" id="e"></td>
+        		<td colspan="2" id="wit_pc"></td>
+        	</tr>
+        	<tr>
+        		<th>받는 분 통장표시내용</th>
+        		<td colspan="2" id="dep_pc"></td>
         	</tr>
         </table>
       </div>
@@ -125,43 +131,88 @@
 </body>
 
 <script type="text/javascript">
-
-	var result = '${result}';
-	console.log(result.size)
-	
-	function witSelect(){
-		//console.log(datas);
-		var finNum = $("select[name=wit_fintech_use_num]").val();
-		/* for(data of datas){
-			if(i.fintech_use_num == finNum){
-				console.log("fin : " + data.fintech_use_num)
-				var bn = data.bank_name;
-				var anm = data.account_num_masked;
-				console.log("===");
+	//페이지 로드시 
+	document.addEventListener("DOMContentLoaded", function(){
+		// -> selectBox 계좌번호 고정
+		var finNum = $("#fin").data("fin");
+		var sel = $("option");
+		//console.log(finNum);
+		//console.log(sel);
+		
+		for(var i=0; i<sel.length; i++){
+			if(finNum == sel[i].value){
+				//console.log(finNum);
+				//console.log(sel[i].value);
+				sel[i].selected = true;
+				$('select[name=wit_fintech_use_num]').niceSelect('update');
 			}
-		} */
+		}
+	})
+	
+	var wit_bn;
+	var wit_acc;
+	var dep_bn;
+	var dep_acc;
+	
+	// 출금 Select Event
+	function witSelect(){
+		// 입금가능금액 input 초기화
+		$('input[name=wit_amt]').empty();
 		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
+		var finNum = $("select[name=wit_fintech_use_num]").val();
+		//console.log(finNum);
+		$.ajax({
+			url : "getAccInfo",
+			data : { fintech_use_num : finNum }
+		})
+		.done(function(data){
+			//console.log(data);
+			$("input[name=wit_amt]").val(data.balance_amt);
+			wit_bn = data.bank_name;
+			wit_acc = data.account_num_masked;
+			//console.log(wit_bn + wit_acc);
+			$('input[name=wit_amt]').text(data.balance_amt);
+			$('input[name=wit_bank_name]').val(data.bank_name);
+		})	
+	}
+	
+	// 입금 Select Event
+	function depSelect(){
+		var finNum = $("select[name=dep_fintech_use_num]").val();
+		console.log(finNum);
+		$.ajax({
+			url : "getAccInfo",
+			data : { fintech_use_num : finNum }
+		})
+		.done(function(data){
+			//console.log(data);
+			$("input[name=dep_amt]").val(data.balance_amt);
+			dep_bn = data.bank_name;
+			dep_acc = data.account_num_masked;
+			//console.log(dep_bn + dep_acc);
+			$('input[name=dep_bank_name]').val(data.bank_name);
+		})
 	}
 	
 	// 이체확인 모달
 	function depositFun(){
-		var wit_fun = $("select[name=wit_fintech_use_num]").val();
-		var wit_ta = $("input[name=wit_tran_amt]").val();
+		if(!$('input[name=tran_amt]').val()){
+			alert("이체 할 금액을 입력하세요.");
+			$('input[name=tran_amt]').focus();
+			return false;
+		}
+		
+		// 안먹힘 다시 확인
+		if(!$("select[name=dep_fintech_use_num]").val()){
+			alert("은행을 선택해 주세요.");
+			$('select[name=dep_fintech_use_num]').focus();
+			return false;
+		}
+		// 출금 은행 변경없이 이체 할 경우
+		
+		
+		var wit_ta = $("input[name=tran_amt]").val();
 		var wit_pc = $("input[name=wit_print_content]").val();
-		var dep_fun = $("select[name=dep_fintech_use_num]").val();
 		var dep_pc = $("input[name=dep_print_content]").val();
 		
 		/* console.log(wit_fun);
@@ -170,12 +221,22 @@
 		console.log(dep_fun);
 		console.log(dep_pc); */
 		
-		$("#a").text(wit_fun);
-		$("#b").text(wit_ta);
-		$("#c").text(wit_pc);
-		$("#d").text(dep_fun);
-		$("#e").text(dep_pc);
+		$("#wit_ta").text(wit_ta);
 		
+		if(!wit_pc){
+			$("#wit_pc").text(dep_bn + '${loginUser.name}');
+		}
+		
+		$("#wit_pc").text(wit_pc);
+		if(!dep_pc){
+			$("#dep_pc").text(wit_pc + '${loginUser.name}');
+		}
+		
+		$("#dep_pc").text(dep_pc);
+		$("#wit_bn").text(wit_bn);
+		$("#wit_acc").text(wit_acc);
+		$("#dep_bn").text(dep_bn);
+		$("#dep_acc").text(dep_acc);
 		
 		// 입력값 검증
 		//	-> 이체금액이 이체가능 금액보다 클 경우
