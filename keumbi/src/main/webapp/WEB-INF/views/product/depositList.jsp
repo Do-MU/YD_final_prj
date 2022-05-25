@@ -145,7 +145,7 @@
 					<div id="cal" style="float: left;">금리 계산기<br><p id="tax">일반세율 <span id="total">15.4%</span>가 적용됩니다.</p></div>
 					<div class="depOpt" style="float: right" onchange="depMoney()">
 						<select id="date">
-							<option value="1" selected>선택</option>
+							<option value="" selected>선택</option>
 						</select>
 						<input type="text" id="depMoney" name="depMoney" placeholder="숫자만 입력해주세요">원
 					</div>
