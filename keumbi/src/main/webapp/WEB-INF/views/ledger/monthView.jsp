@@ -15,11 +15,6 @@
 		window.location = "userLoginForm";
 	} 
 	
-	// 월 지출 총액 호출하는 함수
-	function monthTotalAmt() {
-		
-	}
-	
 	function priceToString(price) {
 	    return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 	}
@@ -71,9 +66,7 @@
 			
 			// 날짜 클릭 후 해당날짜 거래내역 출력
 			dateClick : function(info) {
-				
-				$("#listHead").empty();
-				$("#listBody").empty();
+								
 				$("#dayOutTotal").empty();
 				$("#dayInTotal").empty();
 				$('#empty').empty();
@@ -101,7 +94,6 @@
 						user_id : "${loginUser.id}"
 					}
 				}).done(function(data) {
-					console.log(data);
 					for(d of data) {
 						if(d.io_code=='I1') {
 							var outTotal = priceToString(d.amt);
@@ -127,28 +119,12 @@
 				left : 'prev,next today',
 				center : 'title',
 				right : 'cashInsertButton'
-			},
-			
-			/* eventSources: [{ //현금 내역 등록
-				events: function btnInsert(info, successCallback, failureCallback) {
-					$.ajax({
-						url: "cashInsert",
-						method: 'POST',
-						data : $("#cashInsertFrm").serialize(),
-						success: function(data) {
-							successCallback(data);
-							$('#myModal').modal('hide');
-							$('#myModal').on('hidden.bs.modal', function (e) { 
-								document.forms['modalForm'].reset(); 
-							})
-						}
-					});
-				}
-			}] */
+			}
 		});
 	
 		calendar.render();
 		
+		// 이전달 버튼 기능
 		$(".fc-prev-button").on("click", function() {
 			var prevMonth = calendar.getDate().getFullYear()+'-'+("0"+(calendar.getDate().getMonth()+1)).slice(-2);
 			$.ajax({
@@ -158,12 +134,12 @@
 					yearMonth : prevMonth
 				},
 				success : function(result) {
-					console.log("결과값======>" +result)
-					$("#monthTotalAmt").html("이번달 총 지출 "+result+"원");
+					$("#monthTotalAmt").html("이번달 총 지출 "+priceToString(result)+"원");
 				}
 			})
 		})
 		
+		// 다음달 버튼 기능
 		$(".fc-next-button").on("click", function() {
 			var nextMonth = calendar.getDate().getFullYear()+'-'+("0"+(calendar.getDate().getMonth()+1)).slice(-2);
 			$.ajax({
@@ -173,16 +149,22 @@
 					yearMonth : nextMonth
 				},
 				success : function(result) {
-					console.log("결과값======>" +result)
-					$("#monthTotalAmt").html("이번달 총 지출 "+result+"원");
+					$("#monthTotalAmt").html("이번달 총 지출 "+priceToString(result)+"원");
 				}
 			})
 		})
 	}); 
 	
+	// 현금 거래 입력 오늘날짜 함수
+	window.onload = function() {
+		today = new Date().toISOString().slice(0, 10);
+		bir = document.getElementById("cashModalDate");
+		bir.value = today;
+		}
 	
-	//현금 입출금 입력 처리
+	//현금 거래 입력 처리
 	function btnInsert() {
+		
 		
 		var form = document.modalForm;
 		
@@ -223,12 +205,11 @@
 		});
 	}
 	
-	//오늘날짜 거래내역 자동출력
+	// 가계부 기본자동출력
 	window.addEventListener('DOMContentLoaded', function todayView() {
 		
 		var dt = new Date();
 		var curMonth = dt.getFullYear()+'-'+("0"+(dt.getMonth()+1)).slice(-2);
-		console.log(curMonth);
 		$.ajax({
 			url : "monthTotalAmt",
 			data : {
@@ -236,8 +217,8 @@
 				yearMonth : curMonth
 			},
 			success : function(result) {
-				console.log("결과값======>" +result)
-				$("#monthTotalAmt").html("이번달 총 지출 "+result+"원");
+				var totalAmt = priceToString(result)
+				$("#monthTotalAmt").html("이번달 총 지출 "+totalAmt+"원");
 			}
 		})
 		
@@ -251,7 +232,6 @@
 				user_id : "${loginUser.id}"
 			}
 		}).done(function(data) {
-			console.log(data)
 			for(d of data) {
 				if(d.io_code=='I1') {
 					var dayOutTotal = priceToString(d.amt);
@@ -278,6 +258,10 @@
 	
 	// 달력 하단 거래내역 데이터 호출 함수
 	function dayDrawList(datas, msg) {
+		
+		$("#listHead").empty();
+		$("#listBody").empty();
+		$('#empty').empty();
 		
 		if(datas.length != 0) {
 			let tr1 = `<tr>
@@ -307,25 +291,28 @@
 		} else {
 				$('#empty').html(msg);
 			}
-			document.getElementById("ledgerSearchFrm").reset();
-			$("#keyInput").focus();
 	}
 	
 	function btnSearch(e) {
 		e.preventDefault();
-		
 		var form = document.searchForm;
 		if (!form.keyword.value) {
 	        alert("검색어를 입력해주세요.");
 	        return;
 	    }
-		
+		$("#dayTitle").empty();
 		$.ajax({
 			url : "ledgerSearch",
 			data : $("#ledgerSearchFrm").serialize()
 		}).done(function(datas) {
-			$("#dayTitle").html("최근 한달 \'" + datas[0].keyword + "\' 검색결과");
-			dayDrawList(datas,"거래 내역이 없습니다.");
+			if(datas.length != 0) {
+				$("#dayTitle").html("최근 한달 \'" + datas[0].keyword + "\' 거래 내역");
+				dayDrawList(datas);
+			} else {
+				dayDrawList(datas, "검색 결과가 없습니다.");
+			}
+			document.getElementById("ledgerSearchFrm").reset();
+			$("#keyInput").focus();
 		})
 	}
 	
@@ -451,6 +438,9 @@ body {
 }
 #monthTotalAmt {
 	text-align : center;
+	font-size : large;
+	font-weight : bold;
+	color : #e2703a;
 }
 
 </style>
@@ -537,7 +527,7 @@ body {
 							<label for="choice2">수입</label>
 						</div>
 						<label>날짜 </label> 
-						<input type="date" name="tdate"> <br><br> 
+						<input type="date" name="tdate" id="cashModalDate"> <br><br> 
 						<label>분류 </label> 
 						<select name="cat_code">
 							<option value="">선택</option>
@@ -545,8 +535,8 @@ body {
 								<option value="${c.code}">${c.val}</option>
 							</c:forEach>
 						</select> <br>
-						<br> <label>금액 </label> <input type="number" name="amt" >
-						<br> <label>내용 </label> <input type="text" name="content" value="testtss">
+						<br> <label>금액 </label> <input type="number" name="amt">
+						<br> <label>내용 </label> <input type="text" name="content">
 						<br>
 					</form>
 				</div>

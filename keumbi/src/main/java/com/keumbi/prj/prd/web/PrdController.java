@@ -162,6 +162,7 @@ public class PrdController {
 		return chal.prdChallengeSelect(vo);
 	}
 	
+	// 챌린지 생성
 	@RequestMapping("/challInsert")
 	@ResponseBody
 	public String challInsert(Model model, HttpSession session, ChallVO challVO) {

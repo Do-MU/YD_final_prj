@@ -92,33 +92,39 @@ public class UserController {
 	
 	//회원정보 수정 폼
 	@RequestMapping("/userUpdateForm")
-	public String userUpdateForm(Model model,HttpSession session) {
-		UserVO vo = (UserVO) session.getAttribute("loginUser"); // 세션값 불러오기
-		String userId = vo.getId(); // 세션에 저장된 ID값
-
+	public String userUpdateForm(Model model) {
 		model.addAttribute("code", code.keywordCode());
+		
 		return "user/userUpdateForm";
 	}
 
 	//회원 정보 수정
-		@RequestMapping("/userUpdate")
-		public String userUpdate(UserVO userVO, @RequestParam(required = false) String[] keyword,HttpSession session) {
-			service.userUpdate(userVO);
+	@RequestMapping("/userUpdate")
+	public String userUpdate(UserVO userVO, @RequestParam(required = false) String[] keyword,HttpSession session) {
+		service.userUpdate(userVO);
 			
-			for(String kwd : keyword) {
-				service.userKwdDelete(userVO.getId(), kwd);
-			}
-			
-			for(String kwd : keyword) {
-				service.userKwdInsert(userVO.getId(), kwd);
-			}
-			
-			UserVO loginUser = service.userSelect(userVO);
-			session.setAttribute("loginUser", loginUser);
-			
-			return "redirect:userUpdateForm";
+		for(String kwd : keyword) {
+			service.userKwdDelete(userVO.getId(), kwd);
 		}
+		
+		for(String kwd : keyword) {
+			service.userKwdInsert(userVO.getId(), kwd);
+		}
+			
+		UserVO loginUser = service.userSelect(userVO);
+		session.setAttribute("loginUser", loginUser);
+			
+		return "redirect:userUpdateForm";
+	}
 	
+	//회원 탈퇴
+	@RequestMapping("/userDelete")
+	public String userDelete(HttpSession session) {
+		UserVO vo = (UserVO) session.getAttribute("loginUser"); // 세션값 불러오기
+		service.userDelete(vo);
+		session.invalidate();
+		return "home/home";
+	}
 		
 	// aJax----------------------------------------------------------------------------------------
 	// ID 중복체크
@@ -195,7 +201,7 @@ public class UserController {
 		return service.userPwUpdate(userVO);
 	}
 	
-	// 코드
+	// 회원 관심 키워드 select
 	@RequestMapping("/selectUserKwdCode")
 	@ResponseBody
 	public List<CodeVO> selectUserKwdCode(HttpSession session) {

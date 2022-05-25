@@ -58,7 +58,8 @@
 	</update>
 	
 	<delete id="userDelete" parameterType="UserVO">
-	
+		DELETE	USERS
+		WHERE	ID = #{id}
 	</delete>
 	
 	<select id="selectToken" parameterType="UserVO" resultType="int">
