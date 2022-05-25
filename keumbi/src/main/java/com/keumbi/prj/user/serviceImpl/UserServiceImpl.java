@@ -1,8 +1,13 @@
 package com.keumbi.prj.user.serviceImpl;
 
 import java.util.List;
+import java.util.Random;
+
+import javax.mail.internet.MimeMessage;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
 import com.keumbi.prj.user.mapper.UserMapper;
@@ -12,9 +17,8 @@ import com.keumbi.prj.user.vo.UserVO;
 @Service
 public class UserServiceImpl implements UserService {
 
-	@Autowired UserMapper m;
-	
-	private static int seq = 1;
+	@Autowired 	UserMapper m;
+	@Autowired	private JavaMailSender mailSender;
 	
 	@Override
 	public List<UserVO> userSelectList() {
@@ -38,6 +42,18 @@ public class UserServiceImpl implements UserService {
 		vo.setBirth(birth.substring(2));
 		
 		return m.userInsert(vo);
+	}	
+
+	@Override
+	public int userUpdate(UserVO vo) {
+		
+		return m.userUpdate(vo);
+	}
+
+	@Override
+	public int userDelete(UserVO vo) {
+		
+		return m.userDelete(vo);
 	}
 
 	@Override
@@ -59,15 +75,40 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public int userUpdate(UserVO vo) {
-		
-		return m.userUpdate(vo);
-	}
+	public String userEmailChenk(String email) {
 
-	@Override
-	public int userDelete(UserVO vo) {
+		/* 뷰(View)로부터 넘어온 데이터 확인 */
+		System.out.println("이메일 데이터 전송 확인");
+		System.out.println("인증번호 : " + email);
+
+		/* 인증번호(난수) 생성 */
+		Random random = new Random();
+		int checkNum = random.nextInt(888888) + 111111;
+		System.out.println("인증번호 : " + checkNum);
+
+		System.setProperty("https.protocols", "TLSv1,TLSv1.1,TLSv1.2");
+		/* 이메일 보내기 */
+		String setForm = "ckatnc12@gmail.com";
+		String toMail = email;
+		String title = "회원가입 인증 이메일 입니다.";
+		String content = "홈페이지를 방문해주셔서 감사합니다." + "<br><br>" + "인증 번호는 " + checkNum + "입니다." + "<br>"
+				+ "해당 인증번호를 인증번호 확인란에 기입하여 주세요.";
+
+		try {
+			MimeMessage message = mailSender.createMimeMessage();
+			MimeMessageHelper helper = new MimeMessageHelper(message, true, "utf-8");
+			helper.setFrom(setForm);
+			helper.setTo(toMail);
+			helper.setSubject(title);
+			helper.setText(content, true);
+			mailSender.send(message);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		String num = Integer.toString(checkNum);
 		
-		return m.userDelete(vo);
+		return num;
 	}
 
 	@Override
@@ -89,33 +130,8 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public int insertRandUser() {
-		UserVO vo = new UserVO();
-		String test = "test";
-		String t = "테스트";
-		int i = (int) (Math.floor(Math.random()*2)+1);
-		String s = ""+seq;
-		if(seq<10) {
-			s = "000"+seq;
-		}else if(seq<100) {
-			s = "00"+seq;
-		}else if(seq<1000) {
-			s = "0"+seq;
-		}
+	public int userKwdDelete(String id) {
 		
-		vo.setId(test+s);
-		vo.setPw(test+s);
-		vo.setName(t+s);
-		vo.setBirth("570101");
-		vo.setGender_code("G"+i);
-		vo.setEmail(test+s+"@abc.com");
-		seq++;
-		return m.userInsert(vo);
+		return m.userKwdDelete(id);
 	}
-
-	@Override
-	public int userKwdDelete(String id, String keyword) {
-		
-		return m.userKwdDelete(id, keyword);
-	}	
 }

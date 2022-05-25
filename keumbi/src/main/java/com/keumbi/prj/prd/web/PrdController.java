@@ -2,29 +2,22 @@ package com.keumbi.prj.prd.web;
 
 import java.util.List;
 
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.keumbi.prj.account.service.AccountService;
 import com.keumbi.prj.chall.service.ChallService;
-import com.keumbi.prj.chall.vo.ChallVO;
 import com.keumbi.prj.common.service.CodeService;
-import com.keumbi.prj.prd.mapper.PrdChallengeMapper;
 import com.keumbi.prj.prd.service.DepositService;
 import com.keumbi.prj.prd.service.LoanService;
+import com.keumbi.prj.prd.service.PrdChallengeService;
 import com.keumbi.prj.prd.service.SavingService;
 import com.keumbi.prj.prd.vo.DepositBaseVO;
 import com.keumbi.prj.prd.vo.DepositOptionVO;
 import com.keumbi.prj.prd.vo.PrdChallengeVO;
-import com.keumbi.prj.user.vo.UserVO;
 
 @Controller
 public class PrdController {
@@ -32,14 +25,13 @@ public class PrdController {
 	@Autowired	DepositService dep;
 	@Autowired	SavingService sav;
 	@Autowired 	LoanService loa;
-	
-	@Autowired	PrdChallengeMapper chal;
+	@Autowired	PrdChallengeService chal;
 
 	@Autowired	AccountService accService;
+	@Autowired 	ChallService mychall;
 
 	@Autowired	CodeService codeService;
 	
-	@Autowired ChallService mychall;
 
 	/* 예금 */
 	// 예금상품 업데이트 처리 (관리자)
@@ -75,11 +67,13 @@ public class PrdController {
 	}
   
   
+	
 	/* 적금 */
 	// 적금상품 업데이트처리
 	@RequestMapping(value = "admin/savUpdate", produces = "application/text; charset=utf8")
 	@ResponseBody
 	public String savUpdate() {
+		
 		return sav.insertAllSavings();
 	}
 	
@@ -104,7 +98,6 @@ public class PrdController {
 
 	
 	
-	
 	/* 챌린지 */
 	// 챌린지 리스트
 	@RequestMapping("/prdChallengeList")
@@ -114,28 +107,11 @@ public class PrdController {
 		return "product/prdChallengeList";
 	}
 	
-	// 선택된 챌린지
+	// 선택된 챌린지 정보 return
 	@RequestMapping("/prdChall")
 	@ResponseBody
 	public PrdChallengeVO prdChall(PrdChallengeVO vo) {
 		
 		return chal.prdChallengeSelect(vo);
-	}
-	
-	// 챌린지 가입
-	@RequestMapping("/challInsert")
-	@ResponseBody
-	public int challInsert(Model model, HttpSession session, ChallVO challVO, @RequestParam("chall_num") int chall_num) {
-		UserVO vo = (UserVO) session.getAttribute("loginUser"); // 세션값 불러오기
-		String userId = vo.getId(); // 세션에 저장된 ID값
-		challVO.setUser_id(userId);	
-		challVO.setChall_num(chall_num);
-		
-		int result = mychall.challSelect(challVO);	
-		
-		if(result != 1) {
-			mychall.challInsert(challVO);
-		}
-		return result;
 	}
 }

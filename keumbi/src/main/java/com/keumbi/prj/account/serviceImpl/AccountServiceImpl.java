@@ -2,8 +2,6 @@ package com.keumbi.prj.account.serviceImpl;
 
 import java.util.List;
 
-import javax.servlet.http.HttpSession;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,7 +11,6 @@ import com.keumbi.prj.account.mapper.AccountMapper;
 import com.keumbi.prj.account.service.AccountService;
 import com.keumbi.prj.account.vo.AccountVO;
 import com.keumbi.prj.common.mapper.CodeMapper;
-import com.keumbi.prj.common.vo.CodeVO;
 import com.keumbi.prj.ledger.mapper.LedgerMapper;
 import com.keumbi.prj.ledger.vo.LedgerVO;
 import com.keumbi.prj.openBank.BankAPI;
@@ -25,13 +22,12 @@ public class AccountServiceImpl implements AccountService {
 	@Autowired AccountMapper accMapper;
 	@Autowired AccTransMapper transMapper;
 	@Autowired LedgerMapper ledgerMapper;
-	@Autowired CodeMapper code;
+	@Autowired CodeMapper codeMapper;
 	
 	// API를 통해 계좌목록/잔액/계좌거래내역을 가져와 각각 비교 후 DB에 저장
 	// 회원 보유 계좌전체조회(API) -> DB저장(최초 1회)
 	@Override
-	public List<AccountVO> selectfirstAccount(HttpSession session) {
-		UserVO vo = (UserVO) session.getAttribute("loginUser");
+	public List<AccountVO> selectfirstAccount(UserVO vo) {
 		
 		List<AccountVO> acclist = BankAPI.getAccountList(vo);
 		
@@ -40,7 +36,6 @@ public class AccountServiceImpl implements AccountService {
 			// 해당 계좌가 DB에 존재하지 않으면 (API에 새로 등록된 계좌)
 			if(accMapper.selectAccount(avo.getFintech_use_num()) == 0 ) {
 				avo.setUser_id(vo.getId());
-//				CodeVO codeVO = code.bankCode();
 				// 해당 계좌를 DB에 INSERT한다.
 				accMapper.insertAccount(avo);
 			}
@@ -78,13 +73,12 @@ public class AccountServiceImpl implements AccountService {
 			}
 		}
 		
-		return selectAllAccount(session);				
+		return selectAllAccount(vo);				
 	}
 	
-	// DB에 저장된 계좌 전체 조회
+	// DB에 저장된 회원의 전체 계좌 조회
 	@Override
-	public List<AccountVO> selectAllAccount(HttpSession session) {
-		UserVO vo = (UserVO) session.getAttribute("loginUser");
+	public List<AccountVO> selectAllAccount(UserVO vo) {
 		
 		return accMapper.selectAllAccount(vo.getId());
 	}
@@ -97,7 +91,7 @@ public class AccountServiceImpl implements AccountService {
 		return amt;
 	}
 
-	// 계좌단건조회
+	// 계좌 단건 조회
 	@Override
 	public AccountVO selectOneAccount(String fintech_use_num) {
 		

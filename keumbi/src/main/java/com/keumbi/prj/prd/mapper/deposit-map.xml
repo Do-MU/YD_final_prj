@@ -43,8 +43,8 @@
 	</select>
 	
 	<select id="selectOneDepBase" resultType="DepositBaseVO">
-		SELECT *
-		FROM PRD_DEP_BASES
+		SELECT 	*
+		FROM 	PRD_DEP_BASES
 		WHERE	DEP_ID = #{dep_id}
 		ORDER BY DEP_ID
 	</select>

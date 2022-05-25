@@ -43,13 +43,12 @@ public class LoanServiceImpl implements LoanService {
 		deleteAllLoans();
 
 		for (LoanBaseVO lvo : loan.getBaseList()) {
-			l.insertLoanBase(lvo);
-			baseCnt++;
+			baseCnt += l.insertLoanBase(lvo);
 		}
 
 		for (LoanOptionVO lvo : loan.getOptionList()) {
-			l.insertLoanOpt(lvo);
-			optCnt++;
+			
+			optCnt += l.insertLoanOpt(lvo);
 		}
 		return "대출상품 : " + baseCnt + "건\n대출상품옵션 : " + optCnt + "건\n업데이트완료";
 	}

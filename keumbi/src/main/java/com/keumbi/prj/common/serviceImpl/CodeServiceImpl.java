@@ -24,7 +24,7 @@ public class CodeServiceImpl implements CodeService {
 	}
 
 	@Override
-	public List<CodeVO> bankCode(String val) {
+	public List<CodeVO> bankCode() {
 		return m.bankCode();
 	}
 
@@ -32,7 +32,4 @@ public class CodeServiceImpl implements CodeService {
 	public List<CodeVO> selectUserKwdCode(String id) {
 		return m.selectUserKwdCode(id);
 	}
-
-
-
 }
