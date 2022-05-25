@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.keumbi.prj.account.service.AccountService;
@@ -38,7 +39,7 @@ public class PrdController {
 
 	@Autowired	CodeService codeService;
 	
-	@Autowired ChallService uchall;
+	@Autowired ChallService mychall;
 
 	/* 예금 */
 	// 예금상품 업데이트 처리 (관리자)
@@ -121,15 +122,20 @@ public class PrdController {
 		return chal.prdChallengeSelect(vo);
 	}
 	
-	// 챌린지 생성
+	// 챌린지 가입
 	@RequestMapping("/challInsert")
 	@ResponseBody
-	public String challInsert(Model model, HttpSession session, ChallVO challVO) {
+	public int challInsert(Model model, HttpSession session, ChallVO challVO, @RequestParam("chall_num") int chall_num) {
 		UserVO vo = (UserVO) session.getAttribute("loginUser"); // 세션값 불러오기
 		String userId = vo.getId(); // 세션에 저장된 ID값
-		challVO.setUser_id(userId);
+		challVO.setUser_id(userId);	
+		challVO.setChall_num(chall_num);
 		
-		uchall.challInsert(challVO);
-		return "prd/prdChallengeList";
+		int result = mychall.challSelect(challVO);	
+		
+		if(result != 1) {
+			mychall.challInsert(challVO);
+		}
+		return result;
 	}
 }
