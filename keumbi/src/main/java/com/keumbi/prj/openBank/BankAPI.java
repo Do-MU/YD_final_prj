@@ -121,7 +121,7 @@ public class BankAPI {
 		// System.out.println("잔액잔액잔액 : " + json);
 		AccountVO avo = new AccountVO();
 		avo.setFintech_use_num(json.get("fintech_use_num").asText());
-		avo.setBalance_amt(json.get("balance_amt").asLong());
+		avo.setBalance_amt(json.get("balance_amt").asInt());
 		avo.setProduct_name(json.get("product_name").asText());
 
 		return avo;
