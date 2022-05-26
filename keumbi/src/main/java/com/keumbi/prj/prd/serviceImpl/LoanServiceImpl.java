@@ -43,6 +43,7 @@ public class LoanServiceImpl implements LoanService {
 		deleteAllLoans();
 
 		for (LoanBaseVO lvo : loan.getBaseList()) {
+			lvo.setKor_co_nm(l.selectBankName(lvo.getKor_co_nm()));
 			baseCnt += l.insertLoanBase(lvo);
 		}
 

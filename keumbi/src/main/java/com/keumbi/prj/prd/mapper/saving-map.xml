@@ -42,4 +42,27 @@
 		SELECT 	*
 		FROM 	PRD_SAV_BASES
 	</select>
+	
+	<select id="selectOneSavBase" resultType="SavingBaseVO">
+		SELECT 	*
+		FROM 	PRD_SAV_BASES
+		WHERE 	SAV_ID = #{sav_id}
+		ORDER 	BY SAV_ID
+	</select>
+	
+	<select id="selectAllSavOpt" resultType="SavingOptionVO">
+		SELECT *
+		FROM PRD_SAV_OPTIONS
+		WHERE SAV_ID = #{sav_id}
+		ORDER BY SAVE_TRM
+	</select>
+	
+	<select id="selectBankName" resultType="String">
+		SELECT 	VAL
+		FROM 	COMMON_CODE
+		WHERE 	CODE = ( 	SELECT	SUBSTR(CODE, 2)
+							FROM	COMMON_CODE
+							WHERE 	VAL = #{kor_co_nm}
+							AND		PRE_CODE = 'PB')
+	</select>
 </mapper>
