@@ -1,6 +1,6 @@
 package com.keumbi.prj.reply.vo;
 
-import java.sql.Date;
+import java.util.Date;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
@@ -14,7 +14,7 @@ public class ReplyVO {
 	private int bod_num;
 	private int pre_re_num;
 	private String re_contents;
-	@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss", timezone="Asia/Seoul")
-	private Date re_date;
+	@JsonFormat(pattern="yyyy-MM-dd", timezone="Asia/Seoul") 
+	private Date re_date; 	
 	private String re_code;
 }

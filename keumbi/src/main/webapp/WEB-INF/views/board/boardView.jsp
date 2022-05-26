@@ -153,18 +153,19 @@ console.log($("#user_id").val());
 			type : 'get',        
 			data : {'bod_num' : bod_num},       
 			success : function(data){            
-				var a ='';             
+				var a ='';  
+				$(".replyList").empty();           
 				$.each(data, function(key, value){
-	                 a += '<div class="commentArea" style="border-bottom:1px solid darkgray; margin-bottom: 15px;">';                
-					 a += '<div class="commentInfo'+value.re_num+'">'+ '  작성자 : '+value.user_id+ '&nbsp;  날짜 : '+value.re_date; 					                
+	                 /* a += '<div class="commentArea" style="border-bottom:1px solid darkgray; margin-bottom: 15px;">';  */               
+					 a = '<div class="commentInfo'+value.re_num+'">'+ '  작성자 : '+value.user_id+ '&nbsp;  날짜 : '+value.re_date; 					                
 					 a += '&nbsp; <c:if test="${loginUser.id eq view.user_id}"> <button class="btn btn-primary" onclick="replyUpdate('+value.re_num+',\''+value.re_contents+'\');"> 수정 </button>';                
 					 a += '<button class="btn btn-primary" onclick="replyDelete('+value.re_num+');"> 삭제 </button> </c:if></div> ';					               
 					 a += '<div class="re_contents'+value.re_num+'"> <p> ↳ &nbsp '+value.re_contents +'</p>';                
 					 a += '</div></div>'; 					          
+				 	$(".replyList").append(a); 
 				 }); 
 				                       
-				
-				 $(".replyList").html(a); 
+				console.log(a);
 				        
 			}    
 		});
@@ -208,7 +209,7 @@ console.log($("#user_id").val());
 			type : 'post',        
 			data : {'re_contents' : updateContent, 're_num' : re_num},        
 			success : function(data){
-	            if(data == 1) replyList(re_num); //댓글 수정후 목록 출력         
+	            if(data == 1) replyList(); //댓글 수정후 목록 출력         
 		}    
 	});
 }
@@ -219,7 +220,7 @@ console.log($("#user_id").val());
 	        url : 'replyDelete?re_num='+re_num,        
 			type : 'post',        
 			success : function(data){            
-				if(data == 1) replyList(re_num); //댓글 삭제후 목록 출력         
+				if(data == 1) replyList(); //댓글 삭제후 목록 출력         
 			}    
 		});
 	}
