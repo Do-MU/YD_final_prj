@@ -93,7 +93,7 @@ footer {
 				</div>
 				<div>
 					<label> <span> <input type="password"
-							name="pw" placeholder="비밀번호" value="user1">
+							name="pw" placeholder="비밀번호" value="87654321">
 					</span>
 					</label>
 				</div>
