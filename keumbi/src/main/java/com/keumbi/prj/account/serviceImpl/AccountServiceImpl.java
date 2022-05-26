@@ -2,6 +2,8 @@ package com.keumbi.prj.account.serviceImpl;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -79,7 +81,7 @@ public class AccountServiceImpl implements AccountService {
 	// DB에 저장된 회원의 전체 계좌 조회
 	@Override
 	public List<AccountVO> selectAllAccount(UserVO vo) {
-		
+		System.out.println(vo.getId());
 		return accMapper.selectAllAccount(vo.getId());
 	}
 
