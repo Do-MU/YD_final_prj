@@ -27,5 +27,11 @@ public class ChallServiceImpl implements ChallService {
 	public int challInsert(ChallVO vo) {
 		return m.challInsert(vo);
 	}
+	
+	//챌린지 도전자 수
+	@Override
+	public int challTotalUser(int chall_num) {
+		return m.challTotalUser(chall_num);
+	}
 
 }

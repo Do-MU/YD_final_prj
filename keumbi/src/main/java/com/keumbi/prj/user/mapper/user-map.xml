@@ -1,40 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.keumbi.prj.user.mapper.UserMapper">
-	<select id="userSelectList" resultType="UserVO">
-		SELECT	*
-		FROM	USERS
-	</select>
-	
 	<select id="userSelect" resultType="UserVO">
 		SELECT	*
 		FROM	USERS
-		WHERE	ID = #{id}
+		WHERE	1 = 1
+		<if test="id != null">
+			AND		ID = #{id}
+		</if>
 		<if test="pw != null">
        		AND		PW = #{pw}
        	</if>
+       	<if test="name != null">
+       		AND		NAME = #{name}
+       	</if>
+       	<if test="email != null">
+       		AND		EMAIL = #{email}
+       	</if>
 	</select>
-	
-	<select id="userIdFind" resultType="String">
-		SELECT	ID
-		FROM	USERS
-		WHERE	NAME = #{name}
-		AND		EMAIL = #{email}
-	</select>
-	
-	<select id="userPwFind" resultType="String">
-		SELECT	ID
-		FROM 	USERS
-		WHERE	ID = #{id}
-		AND		NAME = #{name}
-		AND		EMAIL = #{email}
-	</select>
-	
-	<update id="userPwUpdate" parameterType="UserVO">
-		UPDATE	USERS
-		SET 	PW = #{pw}
-		WHERE	ID = #{id}
-	</update> 
 	
 	<insert id="userInsert" parameterType="UserVO">
 		INSERT INTO USERS ( ID, PW, NAME, BIRTH, GENDER_CODE, EMAIL, ADDR, PHONE, USER_CODE )
@@ -43,7 +26,12 @@
 	
 	<update id="userUpdate" parameterType="UserVO">
 		UPDATE	USERS
-		SET		PW = #{pw}, EMAIL = #{email}, PHONE = #{phone}, ADDR = #{addr}
+		<set>	
+			<if test="pw != null">PW = #{pw},</if>
+			<if test="email != null">EMAIL = #{email},</if>
+			<if test="phone != null">PHONE = #{phone},</if>
+			<if test="addr != null">ADDR = #{addr},</if>
+		</set>
 		WHERE	ID = #{id}
 	</update>
 	

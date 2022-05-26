@@ -2,9 +2,15 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.keumbi.prj.chall.mapper.ChallMapper">
 	<select id="challList" resultType="ChallVO" parameterType="String">
-		SELECT	*
+		SELECT	NUM, USER_ID, GOAL, CHALL_CODE, CHALL_NUM, CEIL(EDATE-SYSDATE) "dDay"
 		FROM	CHALLS
 		WHERE	USER_ID = #{id}
+	</select>
+	
+	<select id="challTotalUser" resultType="int" parameterType="int">
+		SELECT	COUNT(USER_ID)
+		FROM	CHALLS
+		WHERE	CHALL_NUM = #{chall_num}
 	</select>
 	
 	<insert id="challInsert" parameterType="ChallVO">

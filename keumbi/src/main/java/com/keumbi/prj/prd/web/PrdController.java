@@ -26,13 +26,10 @@ public class PrdController {
 	@Autowired	SavingService sav;
 	@Autowired 	LoanService loa;
 	@Autowired	PrdChallengeService chal;
-
 	@Autowired	AccountService accService;
 	@Autowired 	ChallService mychall;
-
 	@Autowired	CodeService codeService;
 	
-
 	/* 예금 */
 	// 예금상품 업데이트 처리 (관리자)
 	@RequestMapping(value = "admin/depUpdate", produces = "application/text; charset=utf8")

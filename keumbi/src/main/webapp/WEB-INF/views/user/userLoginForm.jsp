@@ -299,7 +299,7 @@ footer {
 					}
 				}).done(function(data){
 			        $("#find1").css("display", "");
-			        $("#idf").html('" '+data+' " '+'입니다.');
+			        $("#idf").html('" '+data.id+' " '+'입니다.');
 				});
 	        });
 	    } else {                                       	// 일치하지 않을 경우
@@ -360,12 +360,12 @@ footer {
 								$.ajax({
 									url:"userPwUpdate",
 									data:{
-										id : data,
+										id : data.id,
 										pw : $("#pw1").val()
 									}
 								}).done(function(data){
 									if(data == 1){
-										$("#updatePWModal").modal("hide");									
+										$("#updatePWModal").modal("hide");						
 									}
 								})
 							}else{

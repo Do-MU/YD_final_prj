@@ -2,14 +2,19 @@ package com.keumbi.prj.chall.vo;
 
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import lombok.Data;
 
 @Data
 public class ChallVO {
 	private int num;
 	private String user_id;
-	private Date s_date;
-	private Date e_date;
+	@JsonFormat(pattern="yyyy-MM-dd", timezone="Asia/Seoul")
+	private Date sdate;
+	@JsonFormat(pattern="yyyy-MM-dd", timezone="Asia/Seoul")
+	private Date edate;
+	private int dday;
 	private int goal;
 	private String chall_code;
 	private int chall_num;
