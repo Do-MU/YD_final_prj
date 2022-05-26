@@ -138,17 +138,15 @@ public class UserController {
 	// 아이디 찾기
 	@RequestMapping("/userIdFind")
 	@ResponseBody
-	public String userIdFind(UserVO userVO) {
-		
-		return service.userIdFind(userVO);
+	public UserVO userIdFind(UserVO userVO) {
+		return service.userSelect(userVO);
 	}
 
 	// 비밀번호 찾기
 	@RequestMapping("/userPwFind")
 	@ResponseBody
-	public String userPwFind(UserVO userVO) {
-		
-		return service.userPwFind(userVO);
+	public UserVO userPwFind(UserVO userVO) {
+		return service.userSelect(userVO);
 	}
 
 	// 비밀번호 변경
@@ -156,7 +154,7 @@ public class UserController {
 	@ResponseBody
 	public int userPwUpdate(UserVO userVO) {
 		
-		return service.userPwUpdate(userVO);
+		return service.userUpdate(userVO);
 	}
 	
 	// 회원 관심 키워드 select

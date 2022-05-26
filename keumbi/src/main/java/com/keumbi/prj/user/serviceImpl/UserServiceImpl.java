@@ -1,6 +1,5 @@
 package com.keumbi.prj.user.serviceImpl;
 
-import java.util.List;
 import java.util.Random;
 
 import javax.mail.internet.MimeMessage;
@@ -20,15 +19,9 @@ public class UserServiceImpl implements UserService {
 	@Autowired 	UserMapper m;
 	@Autowired	private JavaMailSender mailSender;
 	
-	@Override
-	public List<UserVO> userSelectList() {
-		
-		return m.userSelectList();
-	}
-
+	//회원 전체리스트, 회원 조회, 아이디/비밀번호 찾기시 입력한 정보와 DB비교
 	@Override
 	public UserVO userSelect(UserVO vo) {
-		
 		return m.userSelect(vo);
 	}
 
@@ -43,35 +36,21 @@ public class UserServiceImpl implements UserService {
 		
 		return m.userInsert(vo);
 	}	
-
+	
+	//회원정보,비밀번호 수정
 	@Override
 	public int userUpdate(UserVO vo) {
-		
 		return m.userUpdate(vo);
 	}
 
 	@Override
 	public int userDelete(UserVO vo) {
-		
 		return m.userDelete(vo);
 	}
 
 	@Override
 	public int userKwdInsert(String id, String keyword) {
-		
 		return m.userKwdInsert(id, keyword);
-	}
-
-	@Override
-	public String userIdFind(UserVO vo) {
-		
-		return m.userIdFind(vo);
-	}
-
-	@Override
-	public String userPwFind(UserVO vo) {
-		
-		return m.userPwFind(vo);
 	}
 
 	@Override
@@ -113,25 +92,16 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public int selectToken(UserVO vo) {
-		
 		return m.selectToken(vo);
 	}
 
 	@Override
 	public int UpdateToken(UserVO vo) {
-		
 		return m.updateToken(vo);
 	}
 
 	@Override
-	public int userPwUpdate(UserVO vo) {
-		
-		return m.userPwUpdate(vo);
-	}
-
-	@Override
 	public int userKwdDelete(String id) {
-		
 		return m.userKwdDelete(id);
 	}
 }

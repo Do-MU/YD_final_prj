@@ -8,4 +8,5 @@ public interface ChallService {
 	List<ChallVO> challList(String id);			// 전체조회
 	int challSelect(ChallVO vo);				// 단건조회
 	int challInsert(ChallVO vo);				// 등록
+	int challTotalUser(int chall_num);			// 챌린지 도전자 수
 }

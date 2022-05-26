@@ -153,7 +153,7 @@
 				<div class="div_etc">
 					<div class="div_exp">
 						<div>- 목표기간 : 1개월</div>
-						<div>- 도전자 : 100명</div>
+						<div>- 도전자 : ${prd.image}명</div>
 					</div>
 					<div class="div_img">
 						<img src="${pageContext.request.contextPath}/resources/img/challenge_img/${prd.image}" style="height: 150px; width:150px;">
@@ -213,7 +213,18 @@
 	</div>
 </section>
 <script>
-	$(".chalbtn").on('click',this,function(){
+		$(".challs").each(function(){
+			console.log($(this).children($(".div_title")).children().eq(1).data("chall_num"));
+			var challengers = $(this).children($(".div_etc")).children().children().eq(2);
+			$.ajax({
+				url:"challTotalUser",
+				data:{chall_num : $(this).children($(".div_title")).children().eq(1).data("chall_num")}
+			}).done(function(totalUser){
+				challengers.html("- 도전자 : "+ totalUser +"명");
+			})
+		})
+	
+		$(".chalbtn").on('click',this,function(){
 		$("#challengeJoin_modal").modal("show");
 		var chall_num = $(this).data("chall_num");
 		$.ajax({
@@ -224,8 +235,13 @@
 			$("#mod_chal_img").attr("src","${pageContext.request.contextPath}/resources/img/challenge_img/"+chall.image);
 			$("#mod_chal_title").html(chall.title);
 			$("#mod_chal_cont").html(chall.content);
-			$("#mod_chal_user").html("도전자 : " + 0 + "명");				// 챌린지-유저 테이블 count
-			$("#mod_chal_top3").html("");
+			$.ajax({
+				url:"challTotalUser",
+				data:{chall_num : chall_num}
+			}).done(function(totalUser){
+				$("#mod_chal_user").html("도전자 : " + totalUser + "명");				// 챌린지-유저 테이블 count
+			})
+			$("#mod_chal_top3").html("월 평균 소비 TOP 3!!");
 			for(let i = 1; i < 4; i++){									// 지출내역 테이블 >> userId + 챌린지키워드 or 검색키워드 >> 금액 합계 >> 확장for문 사용
 				if(true){												// 3개 출력시 stop
 					$("<div>").html(i + ". " + "장소" + "금액" + "원").appendTo($("#mod_chal_top3"));

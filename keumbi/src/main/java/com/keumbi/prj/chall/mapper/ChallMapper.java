@@ -8,4 +8,5 @@ public interface ChallMapper {
 	List<ChallVO> challList(String id);
 	int challSelect(ChallVO vo);
 	int challInsert(ChallVO vo);
+	int challTotalUser(int chall_num);
 }
