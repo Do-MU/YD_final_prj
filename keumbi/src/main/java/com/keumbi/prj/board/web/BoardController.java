@@ -23,7 +23,7 @@ public class BoardController {
 	@Autowired
 	private BoardService service;
 
-	@RequestMapping(value = "/boardList", method = RequestMethod.GET)
+	@RequestMapping("/boardList")
 	public String boardList(BoardVO vo, Model model) {
 
 		List<BoardVO> list = service.selectBoardList();
@@ -33,7 +33,8 @@ public class BoardController {
 	}
 
 	@RequestMapping("/boardInsertForm")
-	public String boardInsertForm() throws Exception {
+	public String boardInsertForm(){
+		
 		return "board/boardInsertForm";
 	}
 
@@ -41,12 +42,12 @@ public class BoardController {
 	public String insertBoard(@ModelAttribute BoardVO vo, HttpSession session) {
 		UserVO uvo = (UserVO) session.getAttribute("loginUser");
 		vo.setUser_id(uvo.getId());
-
 		service.insertBoard(vo);
+		
 		return "redirect:boardList";
 	}
 
-	@RequestMapping(value = "/boardView", method = RequestMethod.GET)
+	@RequestMapping("/boardView")
 	public String boardView(BoardVO vo, Model model, @RequestParam("bod_num") int bod_num) {
 		BoardVO view = service.view(bod_num);
 		service.boardHit(bod_num);
@@ -74,7 +75,7 @@ public class BoardController {
 
 	}
 
-	@RequestMapping(value = "/delete", method = RequestMethod.GET)
+	@RequestMapping("/delete")
 	public String delete(@RequestParam("bod_num") int bod_num) {
 
 		service.delete(bod_num);

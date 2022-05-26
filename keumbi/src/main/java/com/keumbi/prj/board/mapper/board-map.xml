@@ -1,19 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.keumbi.prj.board.mapper.BoardMapper">
-	<!-- <resultMap type="com.keumbi.prj.board.vo.BoardVO" id="boardMap">
-		<id property="bod_num" column="bod_num" />
-		<result property="title" column="title" />
-		<result property="user_id" column="user_id" />
-		<result property="contents" column="contents" />
-		<result property="wdate" column="wdate" />
-		<result property="bod_code" column="bod_code" />
-		<result property="hit" column="hit" />
-	</resultMap> -->	
 	
 	<select id="selectBoardList" resultType="BoardVO">
 		SELECT *
-		FROM BOARDS	
+		FROM BOARDS			
 	</select>
 
 	
@@ -50,11 +41,16 @@
 			SELECT NVL(MAX(BOD_NUM),0)+1
 			FROM BOARDS
 		</selectKey>
+		
+		<!-- <selectKey keyProperty="wdate" resultType="date" order="BEFORE">
+			SELECT SYSDATE FROM DUAL;
+		</selectKey> -->
+		
 		<!-- <selectKey keyProperty="bod_num" resultType="int" order="BEFORE">
 			SELECT BOARDS_SEQ.NEXTVAL FROM DUAL
 		</selectKey> -->
 		INSERT INTO BOARDS ( BOD_NUM, USER_ID, TITLE, CONTENTS, WDATE, BOD_CODE, HIT)
-		VALUES ( #{bod_num}, #{user_id}, #{title}, #{contents}, #{wdate}, #{bod_code}, #{hit} )
+		VALUES ( #{bod_num}, #{user_id}, #{title}, #{contents}, to_char(sysdate, 'yyyy-mm-dd'), #{bod_code}, #{hit} )
 	</insert>
 	
 	<update id="boardHit">

@@ -38,8 +38,16 @@
 	
 	<!-- 계좌의 잔액과 상품명을 UPDATE -->
 	<update id="updateBalance" parameterType="AccountVO">
+<!-- 		UPDATE 	ACCOUNTS -->
+<!-- 		SET 	BALANCE_AMT = #{balance_amt}, PRODUCT_NAME = #{product_name} -->
+<!-- 		WHERE	FINTECH_USE_NUM = #{fintech_use_num} -->
+		
+		
 		UPDATE 	ACCOUNTS
-		SET 	BALANCE_AMT = #{balance_amt}, PRODUCT_NAME = #{product_name}
+		<set>
+			<if test="balance_amt != null">BALANCE_AMT = #{balance_amt}, </if>
+			<if test="product_name != null">PRODUCT_NAME = #{product_name},</if>
+		</set>
 		WHERE	FINTECH_USE_NUM = #{fintech_use_num}
 	</update>
   

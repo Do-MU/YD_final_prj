@@ -2,15 +2,10 @@ package com.keumbi.prj.user.web;
 
 import java.io.PrintWriter;
 import java.util.List;
-import java.util.Random;
-
-import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -30,7 +25,7 @@ public class UserController {
 	@Autowired	CodeService code;
 	@Autowired	TermService term;
 	
-	@Autowired	private JavaMailSender mailSender;
+	
 
 	// 로그인 화면 출력
 	@RequestMapping("/userLoginForm")
@@ -46,8 +41,10 @@ public class UserController {
 	@RequestMapping("/userLogin")
 	public String userLogin(HttpSession session, UserVO userVO, HttpServletResponse response) throws Exception {
 		UserVO loginUser = service.userSelect(userVO);
+		
 		if (loginUser != null && loginUser.getPw().equals(userVO.getPw())) {
 			session.setAttribute("loginUser", loginUser);
+			
 			return "redirect:home";
 		} else {
 			response.setContentType("text/html; charset=UTF-8");
@@ -57,22 +54,17 @@ public class UserController {
 			out.println("history.back();");
 			out.println("</script>");
 			out.flush();
+			
 			return "redirect:userLoginForm";
 		}
 	}
 
-	// 회원가입 화면 출력
-	
-	@RequestMapping("/userJoinForm")
-	public String userJoinForm(Model model) {
-	model.addAttribute("code", code.keywordCode());
-	return "user/userJoinForm";
-	}
-	
+	// 회원가입 화면 출력	
 	@RequestMapping("/joinForm")
 	public String joinForm(Model model) {
 		model.addAttribute("code", code.keywordCode());
 		model.addAttribute("term", term.joinTerm());
+		
 		return "joinForm";
 	}
 
@@ -89,37 +81,30 @@ public class UserController {
 		return "redirect:home";
 	}
 	
-	
-	//회원정보 수정 폼
+	// 회원정보 수정 화면
 	@RequestMapping("/userUpdateForm")
-	public String userUpdateForm(Model model,HttpSession session) {
-		UserVO vo = (UserVO) session.getAttribute("loginUser"); // 세션값 불러오기
-		String userId = vo.getId(); // 세션에 저장된 ID값
-
+	public String userUpdateForm(Model model) {
 		model.addAttribute("code", code.keywordCode());
+		
 		return "user/userUpdateForm";
 	}
 
-	//회원 정보 수정
+	// 회원 정보 수정 처리
 	@RequestMapping("/userUpdate")
 	public String userUpdate(UserVO userVO, @RequestParam(required = false) String[] keyword,HttpSession session) {
 		service.userUpdate(userVO);
-			
-		for(String kwd : keyword) {
-			service.userKwdDelete(userVO.getId(), kwd);
-		}
+		service.userKwdDelete(userVO.getId());
 		
 		for(String kwd : keyword) {
 			service.userKwdInsert(userVO.getId(), kwd);
 		}
-			
-		UserVO loginUser = service.userSelect(userVO);
-		session.setAttribute("loginUser", loginUser);
+		
+		session.setAttribute("loginUser", service.userSelect(userVO));		// 수정된 회원정보를 세션에 저장
 			
 		return "redirect:userUpdateForm";
 	}
 	
-	//회원 탈퇴
+	// 회원 탈퇴 처리
 	@RequestMapping("/userDelete")
 	public String userDelete(HttpSession session) {
 		UserVO vo = (UserVO) session.getAttribute("loginUser"); // 세션값 불러오기
@@ -128,6 +113,8 @@ public class UserController {
 		return "home/home";
 	}
 		
+	
+	
 	// aJax----------------------------------------------------------------------------------------
 	// ID 중복체크
 	@RequestMapping("/idCheck")
@@ -145,38 +132,7 @@ public class UserController {
 	@ResponseBody
 	public String mailCheckGET(String email) {
 
-		/* 뷰(View)로부터 넘어온 데이터 확인 */
-		System.out.println("이메일 데이터 전송 확인");
-		System.out.println("인증번호 : " + email);
-
-		/* 인증번호(난수) 생성 */
-		Random random = new Random();
-		int checkNum = random.nextInt(888888) + 111111;
-		System.out.println("인증번호 : " + checkNum);
-
-		System.setProperty("https.protocols", "TLSv1,TLSv1.1,TLSv1.2");
-		/* 이메일 보내기 */
-		String setForm = "ckatnc12@gmail.com";
-		String toMail = email;
-		String title = "회원가입 인증 이메일 입니다.";
-		String content = "홈페이지를 방문해주셔서 감사합니다." + "<br><br>" + "인증 번호는 " + checkNum + "입니다." + "<br>"
-				+ "해당 인증번호를 인증번호 확인란에 기입하여 주세요.";
-
-		try {
-			MimeMessage message = mailSender.createMimeMessage();
-			MimeMessageHelper helper = new MimeMessageHelper(message, true, "utf-8");
-			helper.setFrom(setForm);
-			helper.setTo(toMail);
-			helper.setSubject(title);
-			helper.setText(content, true);
-			mailSender.send(message);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-		String num = Integer.toString(checkNum);
-
-		return num;
+		return service.userEmailChenk(email);
 	}
 
 	// 아이디 찾기
@@ -203,13 +159,13 @@ public class UserController {
 		return service.userPwUpdate(userVO);
 	}
 	
-	// 코드
+	// 회원 관심 키워드 select
 	@RequestMapping("/selectUserKwdCode")
 	@ResponseBody
 	public List<CodeVO> selectUserKwdCode(HttpSession session) {
 		UserVO vo = (UserVO) session.getAttribute("loginUser"); // 세션값 불러오기
-		String userId = vo.getId(); // 세션에 저장된 ID값	
-		return code.selectUserKwdCode(userId);
+		
+		return code.selectUserKwdCode(vo.getId());
 	}
 	
 	

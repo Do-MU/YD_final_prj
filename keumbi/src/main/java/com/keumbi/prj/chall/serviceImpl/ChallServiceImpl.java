@@ -14,12 +14,12 @@ public class ChallServiceImpl implements ChallService {
 	@Autowired ChallMapper m;
 	
 	@Override
-	public List<ChallVO> challList() {
-		return m.challList();
+	public List<ChallVO> challList(String id) {
+		return m.challList(id);
 	}
 
 	@Override
-	public ChallVO challSelect(ChallVO vo) {
+	public int challSelect(ChallVO vo) {
 		return m.challSelect(vo);
 	}
 
@@ -27,4 +27,5 @@ public class ChallServiceImpl implements ChallService {
 	public int challInsert(ChallVO vo) {
 		return m.challInsert(vo);
 	}
+
 }

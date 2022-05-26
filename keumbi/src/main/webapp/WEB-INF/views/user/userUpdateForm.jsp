@@ -57,13 +57,13 @@ table {
 			<tr>
 				<td width="151px">아이디</td>
 				<td><input type="text" id="id" name="id"
-					value="${loginUser.id}" readonly="true"></td>
+					value="${loginUser.id}" readonly="readonly"></td>
 			</tr>
 
 			<tr>
 				<td>비밀번호</td>
 				<td><input type="password" id="password1" name="pw"
-					readonly="true" value="${loginUser.pw}" min="8"> <input
+					readonly="readonly" value="${loginUser.pw}" min="8"> <input
 					type="button" id="pwUpdate" value="비밀번호 변경"></td>
 			</tr>
 
@@ -80,7 +80,7 @@ table {
 			</tr>
 			<tr>
 				<td>이름</td>
-				<td><input type="text" name="name" readonly="true"
+				<td><input type="text" name="name" readonly="readonly"
 					value="${loginUser.name}"></td>
 			</tr>
 
@@ -88,7 +88,7 @@ table {
 				<td>주민등록번호</td>
 				<td>
 					<div>
-						<input type="text" id="birth" name="birth" readonly="true"
+						<input type="text" id="birth" name="birth" readonly="readonly"
 							value="${loginUser.birth}">
 					</div>
 				</td>
@@ -97,7 +97,7 @@ table {
 			<tr>
 				<td>이메일</td>
 				<td><input class="mail_input" type="email" id="email"
-					name="email" maxlength="30" readonly="true"
+					name="email" maxlength="30" readonly="readonly"
 					value="${loginUser.email}"> <input class="mail_check_btn"
 					type="button" value="이메일 변경"></td>
 			</tr>

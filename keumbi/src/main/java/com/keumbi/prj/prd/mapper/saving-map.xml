@@ -37,4 +37,9 @@
 	<delete id="deleteAllSavOpt">
 		DELETE FROM PRD_SAV_OPTIONS
 	</delete>
+	
+	<select id="selectAllSavBase" resultType="SavingBaseVO">
+		SELECT 	*
+		FROM 	PRD_SAV_BASES
+	</select>
 </mapper>

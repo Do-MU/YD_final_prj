@@ -2,6 +2,7 @@ package com.keumbi.prj.prd.serviceImpl;
 
 import java.util.List;
 
+import org.apache.ibatis.session.SqlSessionException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,8 +16,7 @@ import com.keumbi.prj.prd.web.PrdAPI;
 @Service
 public class DepositServiceImpl implements DepositService {
 
-	@Autowired
-	DepositMapper m;
+	@Autowired DepositMapper m;
 
 	@Override // 전쳬 예금 목록 불러오기
 	public List<DepositBaseVO> selectAllDepBase() {
@@ -47,20 +47,20 @@ public class DepositServiceImpl implements DepositService {
 
 		for (DepositBaseVO bvo : deposits.getBaseList()) {
 			bvo.setKor_co_nm(m.selectBankName(bvo.getKor_co_nm()));
-			m.insertDepBase(bvo);
-			baseCnt++;
+			
+			baseCnt += m.insertDepBase(bvo);
 		}
 
 		for (DepositOptionVO ovo : deposits.getOptionList()) {
-			m.insertDepOpt(ovo);
-			optCnt++;
+			
+			optCnt += m.insertDepOpt(ovo);
 		}
 
 		return "예금상품 : " + baseCnt + "건\n예금상품옵션 : " + optCnt + "건\n업데이트 완료";
 	}
 
 	@Override // 예금 정보 삭제
-	public void deleteAllDeposits() {
+	public void deleteAllDeposits() throws SqlSessionException{
 		m.deleteAllDepOpt();
 		m.deleteAllDepBase();
 	}

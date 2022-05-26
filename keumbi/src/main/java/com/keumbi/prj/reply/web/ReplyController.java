@@ -2,62 +2,64 @@ package com.keumbi.prj.reply.web;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.keumbi.prj.reply.service.ReplyService;
 import com.keumbi.prj.reply.vo.ReplyVO;
+import com.keumbi.prj.user.vo.UserVO;
 
 @Controller
-@RequestMapping("/boardView")
 public class ReplyController {
 
 	@Autowired
 	private ReplyService service;
 
-	@RequestMapping("/replyList")
+	@RequestMapping(value = "/replyList", method = RequestMethod.GET)
 	@ResponseBody
-	private String replyList(Model model) {
+	private List<ReplyVO> replyList(ReplyVO vo, Model model) {
 		
-		List<ReplyVO> list = service.replyList(null); 
-		model.addAttribute("replyList", list);
+		List<ReplyVO> replyList = service.replyList(vo);
+		model.addAttribute("replyList", replyList);
 		
-		return "redirect:boardList";
+		return replyList;
 		
 	}
 	
-	@RequestMapping("/replyInsert")
+	@RequestMapping(value = "/replyInsert", method = RequestMethod.POST)
 	@ResponseBody
-	private String replyInsert(@RequestParam int re_num, @RequestParam String re_contents, String user_id) {
-		ReplyVO vo = new ReplyVO();
-		vo.setRe_num(re_num);
-		vo.setRe_contents(re_contents);
-		vo.setUser_id(user_id);
+	private int replyInsert(ReplyVO vo, HttpSession session) {
+		UserVO uvo = (UserVO) session.getAttribute("loginUser");
+		vo.setUser_id(uvo.getId());
 		
-		return "redirect:boardList";
+		
+		
+		return service.replyInsert(vo);
 	}
 	
 	@RequestMapping("/replyUpdate")
 	@ResponseBody
-	private String replyUpdate(@RequestParam int re_num, @RequestParam String re_contents) {
+	private String replyUpdate(ReplyVO vo) {
 		
-		ReplyVO vo = new ReplyVO();
-		vo.setRe_num(re_num);
-		vo.setRe_contents(re_contents);
+		service.replyUpdate(vo);
 		
-		return "redirect:boardList";
+		return "redirect:replyList";
 	}
 	
 	@RequestMapping("/replyDelete")
 	@ResponseBody
-	private String replyDelete(@PathVariable int re_num) {
+	private int replyDelete(@RequestParam("re_num") int re_num) {
 		
-		return "redirect:boardList";
+		
+		
+		return service.replyDelete(re_num);
 	}
 
 }

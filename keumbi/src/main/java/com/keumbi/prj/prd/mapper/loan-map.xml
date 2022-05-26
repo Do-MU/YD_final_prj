@@ -2,6 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.keumbi.prj.prd.mapper.LoanMapper">
 	<insert id="insertLoanBase" parameterType="LoanBaseVO">
+	
 		<selectKey keyProperty="loan_id" resultType="int" order="BEFORE">
 			SELECT 	NVL(MAX(LOAN_ID),0)+1
 			FROM 	PRD_LOAN_BASES
@@ -15,12 +16,12 @@
 	
 	<insert id="insertLoanOpt" parameterType="LoanOptionVO">
 		<selectKey keyProperty="loan_id" resultType="int" order="BEFORE">
-			SELECT LOAN_ID
-			FROM PRD_LOAN_BASES
-			WHERE DCLS_MONTH = #{dcls_month}
-			AND FIN_CO_NO = #{fin_co_no}
-			AND FIN_PRDT_CD = #{fin_prdt_cd}
-			AND CRDT_PRDT_TYPE = #{crdt_prdt_type}
+			SELECT 	LOAN_ID
+			FROM 	PRD_LOAN_BASES
+			WHERE 	DCLS_MONTH = #{dcls_month}
+			AND 	FIN_CO_NO = #{fin_co_no}
+			AND 	FIN_PRDT_CD = #{fin_prdt_cd}
+			AND 	CRDT_PRDT_TYPE = #{crdt_prdt_type}
 		</selectKey>
 		INSERT INTO PRD_LOAN_OPTIONS (LOAN_ID, CRDT_LEND_RATE_TYPE, CRDT_LEND_RATE_TYPE_NM, CRDT_GRAD_1, CRDT_GRAD_4,
 									  CRDT_GRAD_5, CRDT_GRAD_6, CRDT_GRAD_10, CRDT_GRAD_11, CRDT_GRAD_12, CRDT_GRAD_13, CRDT_GRAD_AVG, CRDT_PRDT_TYPE)

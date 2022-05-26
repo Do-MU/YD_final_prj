@@ -14,14 +14,6 @@ public class BoardServiceImpl implements BoardService {
 
 	@Autowired BoardMapper m; 
 	
-	
-	/*
-	 * @Override public int boardInsert() { return m.boardInsert(); }
-	 */
-
-	/*public void boardInsert(BoardVO vo) throws Exception {
-		m.boardInsert(vo);*/
-	
 	@Override
 	public void insertBoard(BoardVO vo) {
 		m.insertBoard(vo);
