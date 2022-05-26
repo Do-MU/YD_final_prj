@@ -63,7 +63,7 @@ public class AccTransController {
 		
 		model.addAttribute("accList", accountServiceImpl.selectAllAccount(vo)); // 계좌목록 호출
 		model.addAttribute("finBal", accountServiceImpl.selectOneAccount(fintech_use_num)); //단건 계좌 정보
-		return "account/accDeposit";
+		return "account/remitForm";
 	}
 	
 	// 잔액 ajax

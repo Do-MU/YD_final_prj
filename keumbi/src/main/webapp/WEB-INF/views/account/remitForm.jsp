@@ -25,11 +25,9 @@
 		<div align="center">
 			<div>
 				<form id="depositFrm">
-<%-- 					<c:if test="${not empty finBal}">						 --%>
 						<input type="hidden" name="wit_bank_name" value="${finBal.bank_name }">
 						<input type="hidden" name="wit_account_num_masked" value="${finBal.account_num_masked }">
 						<h4 id="fin" data-fin="${finBal.fintech_use_num }">출금계좌정보</h4>
-<%-- 					</c:if> --%>
 					<table>
 						<tr>
 							<th scope="col">출금계좌번호</th>
@@ -148,7 +146,6 @@
 			}
 		}
 	})
-	
 	
 	// 모달에 필요한 변수	
 	var wit_bn;

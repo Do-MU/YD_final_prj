@@ -92,14 +92,18 @@ public class AccTransServiceImpl implements AccTransService {
 		lwvo.setIo_code(vo.getWit_inout_type());
 		lwvo.setContent(vo.getWit_print_content());
 		lwvo.setAmt(vo.getTran_amt());
+		lwvo.setCat_code(vo.getTran_type());
 		ledgerMapper.transInsert(lwvo);
+		System.out.println("완");
 		//	-> 입금
 		ldvo.setTdate(vo.getTran_date());
 		ldvo.setUser_id(uvo.getId());
 		ldvo.setIo_code(vo.getDep_inout_type());
 		ldvo.setContent(vo.getDep_print_content());
 		ldvo.setAmt(vo.getTran_amt());
+		ldvo.setCat_code(vo.getTran_type());
 		ledgerMapper.transInsert(ldvo);
+		System.out.println("료");
 		
 		return 0;
 	}
