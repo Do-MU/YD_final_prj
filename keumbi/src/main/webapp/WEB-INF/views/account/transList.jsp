@@ -112,46 +112,7 @@
 			data : $("#transFrm").serialize()
 		})
 		.done(function(datas){
-			//console.log("완료")
-			//console.log(datas)
-			
-			//$("#noData").remove();
-			//$("#result").empty();
-			$("#output").empty();
-			
-			if(datas.length != 0) {
-				var table = $('<table class="table">');
-				var thead = `<thead class="thead-dark">
-								<tr>
-									<th scope="col">TRAN_DATE</th>
-									<th scope="col">TRAN_TIME</th>
-									<th scope="col">INOUT_TYPE</th>
-									<th scope="col">PRINT_CONTENT</th>
-									<th scope="col">TRAN_AMT</th>
-									<th scope="col">AFTER_BALANCE_AMT</th>
-									<th scope="col">BRANCH_NAME</th>
-								</tr>
-							</thead>`;
-				var tbody = $('<tbody id="result">');
-				$("#output").append(table);
-				table.append(thead, tbody);
-				for(data of datas){
-					var tr = `<tr>
-								<td>\${data.tran_date}</td>
-								<td>\${data.tran_time}</td>
-								<td>\${data.inout_type}</td>
-								<td>\${data.print_content}</td>
-								<td>\${data.tran_amt}</td>
-								<td>\${data.after_balance_amt}</td>
-								<td>\${data.branch_name}</td>
-							</tr>`;
-					tbody.append(tr);
-				}
-				
-			} else {
-				$("#output").empty();
-				$("#output").html("<h3>거래내역이 없습니다.</h3>");
-			}
+			makeTable(datas);
 		})	
 	}
 	
@@ -169,46 +130,7 @@
 			data : {fintech_use_num : selVal}
 		})
 		.done(function(datas){
-			//console.log("갔다왔지롱")
-			//console.log(datas)
-			
-			//$("#noData").remove();
-			//$("#result").empty();
-			$("#output").empty();
-			
-			if(datas.length != 0) {
-				var table = $('<table class="table">');
-				var thead = `<thead class="thead-dark">
-								<tr>
-									<th scope="col">TRAN_DATE</th>
-									<th scope="col">TRAN_TIME</th>
-									<th scope="col">INOUT_TYPE</th>
-									<th scope="col">PRINT_CONTENT</th>
-									<th scope="col">TRAN_AMT</th>
-									<th scope="col">AFTER_BALANCE_AMT</th>
-									<th scope="col">BRANCH_NAME</th>
-								</tr>
-							</thead>`;
-				var tbody = $('<tbody id="result">');
-				$("#output").append(table);
-				table.append(thead, tbody);
-				
-				for(data of datas){
-					var tr = `<tr>
-								<td>\${data.tran_date}</td>
-								<td>\${data.tran_time}</td>
-								<td>\${data.inout_type}</td>
-								<td>\${data.print_content}</td>
-								<td>\${data.tran_amt}</td>
-								<td>\${data.after_balance_amt}</td>
-								<td>\${data.branch_name}</td>
-							</tr>`;		
-					tbody.append(tr);
-				}
-			} else {
-				//$("#output").empty();
-				$("#output").html("<h3>거래내역이 없습니다.</h3>");
-			}
+			makeTable(datas);
 		})
 	}
 	
@@ -222,6 +144,45 @@
 		transFrm.method = "get";
 		transFrm.submit();
 	})
+	
+	// tableFunc
+	function makeTable(datas){
+		$("#output").empty();
+		
+		if(datas.length != 0) {
+			var table = $('<table class="table">');
+			var thead = `<thead class="thead-dark">
+							<tr>
+								<th scope="col">TRAN_DATE</th>
+								<th scope="col">TRAN_TIME</th>
+								<th scope="col">INOUT_TYPE</th>
+								<th scope="col">PRINT_CONTENT</th>
+								<th scope="col">TRAN_AMT</th>
+								<th scope="col">AFTER_BALANCE_AMT</th>
+								<th scope="col">BRANCH_NAME</th>
+							</tr>
+						</thead>`;
+			var tbody = $('<tbody id="result">');
+			$("#output").append(table);
+			table.append(thead, tbody);
+			
+			for(data of datas){
+				var tr = `<tr>
+							<td>\${data.tran_date}</td>
+							<td>\${data.tran_time}</td>
+							<td>\${data.inout_type}</td>
+							<td>\${data.print_content}</td>
+							<td>\${data.tran_amt}</td>
+							<td>\${data.after_balance_amt}</td>
+							<td>\${data.branch_name}</td>
+						</tr>`;		
+				tbody.append(tr);
+			}
+		} else {
+			//$("#output").empty();
+			$("#output").html("<h3>거래내역이 없습니다.</h3>");
+		}
+	}
 </script>
 
 </body>

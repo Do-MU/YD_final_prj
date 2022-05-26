@@ -70,6 +70,7 @@ public class AccountServiceImpl implements AccountService {
 					lvo.setIo_code(tvo.getInout_type());
 					lvo.setContent(tvo.getPrint_content());
 					lvo.setAmt(tvo.getTran_amt());
+					lvo.setCat_code(tvo.getTran_type());
 					ledgerMapper.transInsert(lvo);
 				}
 			}

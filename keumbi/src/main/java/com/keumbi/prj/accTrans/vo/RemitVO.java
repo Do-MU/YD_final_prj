@@ -26,6 +26,6 @@ public class RemitVO {
 	private String tran_date;
 	private String tran_time;
 	private int tran_amt;
-	private String tran_type = "송금";
+	private String tran_type = "이체";
 	private String branch_name = "금비";
 }

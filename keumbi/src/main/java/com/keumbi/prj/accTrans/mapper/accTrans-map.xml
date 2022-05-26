@@ -14,7 +14,7 @@
 			SELECT	NVL( MAX(SEQ), 0 ) + 1
 			FROM	ACC_TRANS
 		</selectKey>
-		INSERT INTO ACC_TRANS 
+		INSERT INTO ACC_TRANS
 		VALUES ( #{seq}, #{fintech_use_num}, #{tran_date}, #{tran_time}, #{inout_type}, #{tran_type}, #{print_content}, #{tran_amt}, #{after_balance_amt}, #{branch_name} )
 	</insert>
 	
