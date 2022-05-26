@@ -29,9 +29,9 @@ public class AccTransController {
 	public String accTransView(HttpSession session, Model model, String fintech_use_num){
 		UserVO vo = (UserVO) session.getAttribute("loginUser");
 		
-		//System.out.println("fintech_use_num :  " + fintech_use_num);
-		model.addAttribute("accList", accountServiceImpl.selectAllAccount(vo)); // 계좌목록 호출
-		model.addAttribute("accTrans",accTransServiceImpl.selectAccTransAll(fintech_use_num)); // 거래내역 호출
+		model.addAttribute("accList", accountServiceImpl.selectAllAccount(vo)); 				// 계좌목록 호출
+		model.addAttribute("accTrans",accTransServiceImpl.selectAccTransAll(fintech_use_num)); 	// 거래내역 호출
+		
 		return "account/transList";
 	}
 	

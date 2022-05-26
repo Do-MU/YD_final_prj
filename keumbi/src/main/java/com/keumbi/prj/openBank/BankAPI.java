@@ -77,17 +77,19 @@ public class BankAPI {
 
 		JsonNode jsonVal = json.get("res_list");
 		System.out.println("jsonVal : " + jsonVal);
-
-		for (JsonNode i : jsonVal) {
-			AccountVO avo = new AccountVO();
-			avo.setUser_id(vo.getId());
-			avo.setFintech_use_num(i.get("fintech_use_num").asText());
-			avo.setAccount_num_masked(i.get("account_num_masked").asText());
-			avo.setAccount_alias(i.get("account_alias").asText());
-			avo.setBank_code_std(i.get("bank_code_std").asText());
-			avo.setBank_name(i.get("bank_name").asText());
-			acclist.add(avo);
+		if(jsonVal != null) {
+			for (JsonNode i : jsonVal) {
+				AccountVO avo = new AccountVO();
+				avo.setUser_id(vo.getId());
+				avo.setFintech_use_num(i.get("fintech_use_num").asText());
+				avo.setAccount_num_masked(i.get("account_num_masked").asText());
+				avo.setAccount_alias(i.get("account_alias").asText());
+				avo.setBank_code_std(i.get("bank_code_std").asText());
+				avo.setBank_name(i.get("bank_name").asText());
+				acclist.add(avo);
+			}
 		}
+		
 		return acclist;
 	}
 
