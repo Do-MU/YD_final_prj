@@ -7,8 +7,8 @@
 			SELECT 	NVL(MAX(LOAN_ID),0)+1
 			FROM 	PRD_LOAN_BASES
 		</selectKey>
-		INSERT INTO PRD_LOAN_BASES (loan_id, dcls_month, fin_co_no, fin_prdt_cd, crdt_prdt_type, kor_co_nm, 
-									fin_prdt_nm, join_way, cb_name, crdt_prdt_type_nm)
+		INSERT INTO PRD_LOAN_BASES (LOAN_ID, DCLS_MONTH, FIN_CO_NO, FIN_PRDT_CD, CRDT_PRDT_TYPE, KOR_CO_NM, 
+									FIN_PRDT_NM, JOIN_WAY, CB_NAME, CRDT_PRDT_TYPE_NM)
 		
 		VALUES (#{loan_id}, #{dcls_month}, #{fin_co_no}, #{fin_prdt_cd}, #{crdt_prdt_type}, #{kor_co_nm},
 				#{fin_prdt_nm}, #{join_way}, #{cb_name}, #{crdt_prdt_type_nm})
@@ -37,4 +37,31 @@
 	<delete id="deleteAllLoanOpt">
 		DELETE FROM PRD_LOAN_OPTIONS
 	</delete>
+	
+	<select id="selectAllLoanBase" resultType="LoanBaseVO">
+		SELECT 	*
+		FROM 	PRD_LOAN_BASES
+	</select>
+	
+	<select id="selectOneLoanBase" resultType="LoanBaseVO">
+		SELECT 	*
+		FROM 	PRD_LOAN_BASES
+		WHERE 	LOAN_ID = #{loan_id}
+		ORDER 	BY LOAN_ID
+	</select>
+	
+	<select id="selectAllLoanOpt" resultType="LoanOptionVO">
+		SELECT 	*
+		FROM 	PRD_LOAN_OPTIONS
+		WHERE 	LOAN_ID = #{loan_id}
+	</select>
+	
+	<select id="selectBankName" resultType="String">
+		SELECT 	VAL
+		FROM 	COMMON_CODE
+		WHERE 	CODE = ( 	SELECT	SUBSTR(CODE, 2)
+							FROM	COMMON_CODE
+							WHERE 	VAL = #{kor_co_nm}
+							AND		PRE_CODE = 'PB')
+	</select>
 </mapper>
