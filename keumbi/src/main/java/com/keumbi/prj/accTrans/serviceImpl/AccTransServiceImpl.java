@@ -16,6 +16,8 @@ import com.keumbi.prj.accTrans.vo.AccTransVO;
 import com.keumbi.prj.accTrans.vo.RemitVO;
 import com.keumbi.prj.account.mapper.AccountMapper;
 import com.keumbi.prj.account.vo.AccountVO;
+import com.keumbi.prj.ledger.mapper.LedgerMapper;
+import com.keumbi.prj.ledger.vo.LedgerVO;
 import com.keumbi.prj.user.vo.UserVO;
 
 @Service
@@ -23,6 +25,7 @@ public class AccTransServiceImpl implements AccTransService {
 
 	@Autowired AccTransMapper transMapper;
 	@Autowired AccountMapper accMapper;
+	@Autowired LedgerMapper ledgerMapper;
 
 	// 거래내역 전체 조회
 	@Override
@@ -64,14 +67,11 @@ public class AccTransServiceImpl implements AccTransService {
 		// 출금 입금 insert
 		vo.setWit_after_balance_amt(witAftBal);
 		vo.setDep_after_balance_amt(depAftBal);
-		if(vo.getWit_print_content() == null) {
-			vo.setWit_print_content(vo.getDep_bank_name() + " " + uvo.getName());
-			vo.setDep_print_content(vo.getWit_bank_name() + " " + uvo.getName());
-			transMapper.insertRemit(vo);
-		}
-		// insert 실패 시 ????????????
+		//System.out.println(vo);
+		transMapper.insertRemit(vo);
+		// -----insert 실패 시 ????????????
 		
-		// account T -> 잔액 update
+		// account T -> 잔액 update		
 		AccountVO wvo = new AccountVO();
 		wvo.setFintech_use_num(vo.getWit_fintech_use_num());
 		wvo.setBalance_amt(witAftBal);
@@ -81,6 +81,25 @@ public class AccTransServiceImpl implements AccTransService {
 		dvo.setFintech_use_num(vo.getDep_fintech_use_num());
 		dvo.setBalance_amt(depAftBal);
 		accMapper.updateBalance(dvo);
+		
+		
+		// 지출내역 (total_trans) DB에 저장
+		LedgerVO lwvo = new LedgerVO();
+		LedgerVO ldvo = new LedgerVO();
+		//	-> 출금
+		lwvo.setTdate(vo.getTran_date());
+		lwvo.setUser_id(uvo.getId());
+		lwvo.setIo_code(vo.getWit_inout_type());
+		lwvo.setContent(vo.getWit_print_content());
+		lwvo.setAmt(vo.getTran_amt());
+		ledgerMapper.transInsert(lwvo);
+		//	-> 입금
+		ldvo.setTdate(vo.getTran_date());
+		ldvo.setUser_id(uvo.getId());
+		ldvo.setIo_code(vo.getDep_inout_type());
+		ldvo.setContent(vo.getDep_print_content());
+		ldvo.setAmt(vo.getTran_amt());
+		ledgerMapper.transInsert(ldvo);
 		
 		return 0;
 	}

@@ -87,7 +87,7 @@
 			WHERE   USER_ID = #{user_id}
 			AND     TDATE = #{tdate}
 		</selectKey>
-		INSERT INTO TOTAL_TRANS( TDATE, NUM, USER_ID, IO_CODE, CONTENT, AMT )
+		INSERT INTO TOTAL_TRANS ( TDATE, NUM, USER_ID, IO_CODE, CONTENT, AMT )
 		VALUES ( #{tdate}, #{num}, #{user_id}, 
     			(SELECT CODE FROM COMMON_CODE WHERE VAL = #{io_code}), #{content}, #{amt})
 	</insert>

@@ -12,7 +12,7 @@ public interface LedgerMapper {
 	List<LedgerVO> dayTotalAmt(LedgerVO vo);
 	int cashInsert(LedgerVO vo);
 	List<LedgerVO> ledgerSearch(LedgerVO vo);
-	int transInsert(LedgerVO vo); // 거래내역 입력(최초1회)
+	int transInsert(LedgerVO vo); // acc_trans -> 거래내역 입력
 	int ledgerUpdate(LedgerVO vo); // 가계부 거래내역 수정 처리
 	int ledgerDelete(LedgerVO vo); // 가계부 서래내역 삭제 처리
 }
