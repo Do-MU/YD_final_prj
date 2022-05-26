@@ -50,7 +50,7 @@
 			SELECT BOARDS_SEQ.NEXTVAL FROM DUAL
 		</selectKey> -->
 		INSERT INTO BOARDS ( BOD_NUM, USER_ID, TITLE, CONTENTS, WDATE, BOD_CODE, HIT)
-		VALUES ( #{bod_num}, #{user_id}, #{title}, #{contents}, to_char(sysdate, 'yyyy-mm-dd'), #{bod_code}, #{hit} )
+		VALUES ( #{bod_num}, #{user_id}, #{title}, #{contents}, TO_CHAR(SYSDATE, 'YYYY-MM-DD'), #{bod_code}, #{hit} )
 	</insert>
 	
 	<update id="boardHit">

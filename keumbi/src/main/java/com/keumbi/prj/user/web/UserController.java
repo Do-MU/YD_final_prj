@@ -51,7 +51,7 @@ public class UserController {
 			PrintWriter out = response.getWriter();
 			out.println("<script type='text/javascript'>");
 			out.println("alert('아이디 또는 비밀번호가 일치하지 않습니다.');");
-			out.println("history.back();");
+			out.println("location.href='userLoginForm';");
 			out.println("</script>");
 			out.flush();
 			
