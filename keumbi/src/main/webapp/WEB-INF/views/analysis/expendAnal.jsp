@@ -14,87 +14,125 @@
 		alert('로그인이 필요합니다.');
 		window.location = "userLoginForm";
 	}
-	
-	// 파이차트 - 월별 지출항목 통계 
-	google.charts.load('current', {'packages' : [ 'corechart' ]});
+
+	// 파이차트: 월별-카테고리별 지출항목 통계 출력
+	google.charts.load('current', {
+		'packages' : [ 'corechart' ]
+	});
 	google.charts.setOnLoadCallback(drawPieChart);
 
-	
 	function drawPieChart() {
 		var date = new Date();
-		var yearMonth = date.getFullYear()+'-'+("0" + (1 + date.getMonth())).slice(-2);
+		var yearMonth = date.getFullYear() + '-'
+				+ ("0" + (1 + date.getMonth())).slice(-2);
 		var jsonData = $.ajax({
-							url : "monthlyAnalysis",
-							data : {
-								user_id : "${loginUser.id}",
-								yearMonth : yearMonth
-							},
-							dataType : "json",
-							async : false
-						}).responseText;		
+			url : "monthlyAnalysis",
+			data : {
+				user_id : "${loginUser.id}",
+				yearMonth : yearMonth
+			},
+			async : false
+		}).responseText;
+
 		var obj = jQuery.parseJSON(jsonData);
-        var data = google.visualization.arrayToDataTable(obj);
-        data.addColumn('string', '카테고리');        
-        data.addColumn('amt', '지출액');        
-        
-		/* var data = google.visualization.arrayToDataTable([
-				[ 'Task', 'Hours per Day' ], 
-				[ 'Work', 11 ], 
-				[ 'Eat', 2 ],
-				[ 'Commute', 2 ], 
-				[ 'Watch TV', 2 ], 
-				[ 'Sleep', 7 ] 
-		]); */
+		var data = new google.visualization.DataTable();
+		data.addColumn('string', '카테고리');
+		data.addColumn('number', '지출액');
+
+		var arr = [];
+		for (let i = 0; i < obj.length; i++) {
+			arr.push([ obj[i].val, obj[i].amt ]);
+		}
+
+		data.addRows(arr);
 
 		var options = {
-			title : yearMonth+' 지출 통계'
+			title : yearMonth + ' 지출 통계'
 		};
 
-		var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+		var chart = new google.visualization.PieChart(document
+				.getElementById('piechart'));
 
 		chart.draw(data, options);
 	}
 
-	//라인차트
+	// 영역차트: 이번달과 지난달 지출액 비교
 	google.charts.load('current', {
-		packages : [ 'corechart', 'line' ]
+		'packages' : [ 'corechart' ]
 	});
-	google.charts.setOnLoadCallback(drawBasic);
+	google.charts.setOnLoadCallback(drawAreaChart);
 
-	function drawBasic() {
-
+	function drawAreaChart() {
+		
+		var date = new Date();
+		// 이번달 값 구해서 변수에 담기
+		var thisMonth = date.getFullYear() + '-' + ("0" + (1 + date.getMonth())).slice(-2);
+		// 지난달 값 구해서 변수에 담기
+		var firstDayOfMonth = new Date(date.getFullYear(), date.getMonth(), 1 );
+		var lastDayOfMonth = new Date ( firstDayOfMonth.setDate( firstDayOfMonth.getDate() - 1 ) );
+		var lastMonth = lastDayOfMonth.getFullYear()+'-'+("0"+(1+lastDayOfMonth.getMonth())).slice(-2);
+		
+		var jsonData = $.ajax({
+			url : "thisPreAnalysis",
+			data : {
+				user_id : "${loginUser.id}",
+				thisMonth : thisMonth,
+				lastMonth : lastMonth
+			},
+			async : false
+		}).responseText;
+		var obj = jQuery.parseJSON(jsonData);
+		console.log(obj)
 		var data = new google.visualization.DataTable();
-		data.addColumn('number', 'X');
-		data.addColumn('number', 'Dogs');
-
-		data.addRows([ [ 0, 0 ], [ 1, 10 ], [ 2, 23 ], [ 3, 17 ], [ 4, 18 ],
-				[ 5, 9 ], [ 6, 11 ], [ 7, 27 ], [ 8, 33 ], [ 9, 40 ],
-				[ 10, 32 ], [ 11, 35 ], [ 12, 30 ], [ 13, 40 ], [ 14, 42 ],
-				[ 15, 47 ], [ 16, 44 ], [ 17, 48 ], [ 18, 52 ], [ 19, 54 ],
-				[ 20, 42 ], [ 21, 55 ], [ 22, 56 ], [ 23, 57 ], [ 24, 60 ],
-				[ 25, 50 ], [ 26, 52 ], [ 27, 51 ], [ 28, 49 ], [ 29, 53 ],
-				[ 30, 55 ], [ 31, 60 ], [ 32, 61 ], [ 33, 59 ], [ 34, 62 ],
-				[ 35, 65 ], [ 36, 62 ], [ 37, 58 ], [ 38, 55 ], [ 39, 61 ],
-				[ 40, 64 ], [ 41, 65 ], [ 42, 63 ], [ 43, 66 ], [ 44, 67 ],
-				[ 45, 69 ], [ 46, 69 ], [ 47, 70 ], [ 48, 72 ], [ 49, 68 ],
-				[ 50, 66 ], [ 51, 65 ], [ 52, 67 ], [ 53, 70 ], [ 54, 71 ],
-				[ 55, 72 ], [ 56, 73 ], [ 57, 75 ], [ 58, 70 ], [ 59, 68 ],
-				[ 60, 64 ], [ 61, 60 ], [ 62, 65 ], [ 63, 67 ], [ 64, 68 ],
-				[ 65, 69 ], [ 66, 70 ], [ 67, 72 ], [ 68, 75 ], [ 69, 80 ] ]);
+		data.addColumn('string', 'day');
+		data.addColumn('number', thisMonth);
+		data.addColumn('number', lastMonth);
+		var arr = [];
+		for (let i = 0; i < obj.length; i++) {
+			arr.push([ obj[i].dt, obj[i].amt1, obj[i].amt2 ]);
+		}
+		data.addRows(arr);
 
 		var options = {
+			title : '당월-전월 지출액 누적 비교',
 			hAxis : {
-				title : 'Time'
+				title : 'day',
+				titleTextStyle : {
+					color : '#333'
+				}
 			},
 			vAxis : {
-				title : 'Popularity'
+				minValue : 0
 			}
 		};
 
-		var chart = new google.visualization.LineChart(document
-				.getElementById('chart_div'));
-
+		var chart = new google.visualization.AreaChart(document
+				.getElementById('areachart'));
 		chart.draw(data, options);
+	}
+
+	//월별 지출 통계 -> 컬럼차트
+	google.charts.load('current', {
+		'packages' : [ 'bar' ]
+	});
+	google.charts.setOnLoadCallback(drawColumnChart);
+
+	function drawColumnChart() {
+		var data = google.visualization.arrayToDataTable([
+				[ 'month', '소득', '지출' ], [ '1월', 400, 200 ],
+				[ '2월', 460, 250 ], [ '3월', 1120, 300 ], [ '4월', 540, 350 ] ]);
+
+		var options = {
+			chart : {
+				title : 'Company Performance',
+				subtitle : 'Sales, Expenses, and Profit: 2014-2017',
+			}
+		};
+
+		var chart = new google.charts.Bar(document
+				.getElementById('columnchart'));
+
+		chart.draw(data, google.charts.Bar.convertOptions(options));
 	}
 </script>
 <body>
@@ -113,7 +151,10 @@
 	<!-- pie chart -->
 	<div id="piechart" style="width: 900px; height: 500px;"></div>
 
-	<!-- line chart -->
-	<div id="chart_div"></div>
+	<!-- area chart -->
+	<div id="areachart" style="width: 100%; height: 500px;"></div>
+
+	<!-- column chart -->
+	<div id="columnchart" style="width: 800px; height: 500px;"></div>
 </body>
 </html>
