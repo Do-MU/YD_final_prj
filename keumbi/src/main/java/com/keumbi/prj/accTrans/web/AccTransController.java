@@ -63,7 +63,7 @@ public class AccTransController {
 		
 		model.addAttribute("accList", accountServiceImpl.selectAllAccount(vo)); // 계좌목록 호출
 		model.addAttribute("finBal", accountServiceImpl.selectOneAccount(fintech_use_num)); //단건 계좌 정보
-		return "account/accDeposit";
+		return "account/remitForm";
 	}
 	
 	// 잔액 ajax
@@ -79,15 +79,7 @@ public class AccTransController {
 	// view -> 각 vo로 받기 -> service 호출
 	@RequestMapping("accTranProcess")
 	public String accTranProcess(HttpSession session, RemitVO vo, Model model) {
-		System.out.println("accTranProcess");
-		System.out.println(vo);
-		
-		int result = accTransServiceImpl.insertRemit(session, vo);
-		if(result != 0) {
-			model.addAttribute("msg", "이체가 완료되었습니다.");
-		} else {
-			model.addAttribute("msg", "잠시 후 다시 시도해주세요.");
-		}
-		return "account/accDeposit";
+		accTransServiceImpl.insertRemit(session, vo);
+		return "redirect:accDepositView";
 	}
 }

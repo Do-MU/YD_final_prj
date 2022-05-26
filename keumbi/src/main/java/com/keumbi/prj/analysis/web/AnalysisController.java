@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.keumbi.prj.analysis.service.AnalysisService;
+import com.keumbi.prj.analysis.vo.AnalysisThisPrevVO;
 import com.keumbi.prj.analysis.vo.AnalysisVO;
 
 @Controller
@@ -26,5 +27,12 @@ public class AnalysisController {
 	@ResponseBody
 	public List<AnalysisVO> monthlyAnalysis(AnalysisVO vo) {
 		return service.monthlyAnalysis(vo);
+	}
+	
+	// 당월전월 누적지축금액 데이터 출력
+	@RequestMapping("/thisPreAnalysis")
+	@ResponseBody
+	public List<AnalysisThisPrevVO> thisPreAnalysis(AnalysisThisPrevVO vo) {
+		return service.thisPreAnalysis(vo);
 	}
 }

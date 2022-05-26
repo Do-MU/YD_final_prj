@@ -17,7 +17,11 @@ import com.keumbi.prj.prd.service.PrdChallengeService;
 import com.keumbi.prj.prd.service.SavingService;
 import com.keumbi.prj.prd.vo.DepositBaseVO;
 import com.keumbi.prj.prd.vo.DepositOptionVO;
+import com.keumbi.prj.prd.vo.LoanBaseVO;
+import com.keumbi.prj.prd.vo.LoanOptionVO;
 import com.keumbi.prj.prd.vo.PrdChallengeVO;
+import com.keumbi.prj.prd.vo.SavingBaseVO;
+import com.keumbi.prj.prd.vo.SavingOptionVO;
 
 @Controller
 public class PrdController {
@@ -85,6 +89,20 @@ public class PrdController {
 		return "product/savingList";
 	}
 	
+	// 적금정보 불러오기
+	@RequestMapping("/prdSavBase")
+	@ResponseBody
+	public SavingBaseVO prdSavBaseList(int sav_id) {
+		
+		return sav.selectOneSavBase(sav_id);
+	}
+	
+	// 선택된 적금상품 옵션 보여주기
+	@RequestMapping("/prdSavOpt")
+	@ResponseBody
+	public List<SavingOptionVO> prdSavOptList(int sav_id) {
+		return sav.selectAllSavOpt(sav_id);
+	}
 	
 	
 	/* 대출 */
@@ -96,6 +114,36 @@ public class PrdController {
 		return loa.insertAllLoans();
 	}
 
+	// 대출 상품추천 화면 출력
+	@RequestMapping("/prdLoanList")
+	public String prdLoanList(Model model) {
+		model.addAttribute("loanList", loa.selectAllLoanBase());
+		
+		return "product/loanList";
+	}
+	
+	// 적금정보 불러오기
+		@RequestMapping("/prdLoanBase")
+		@ResponseBody
+		public LoanBaseVO prdLanBaseList(int loan_id) {
+			
+			return loa.selectOneLoanBase(loan_id);
+		}
+		
+		// 선택된 적금상품 옵션 보여주기
+		@RequestMapping("/prdLoanOpt")
+		@ResponseBody
+		public List<LoanOptionVO> prdLoanOptList(int loan_id) {
+			return loa.selectAllLoanOpt(loan_id);
+		}
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	/* 챌린지 */

@@ -15,5 +15,4 @@ public interface SavingMapper {
 	SavingBaseVO selectOneSavBase(int sav_id);
 	List<SavingOptionVO> selectAllSavOpt(int sav_id);
 	String selectBankName(String kor_co_nm);
-	
 }

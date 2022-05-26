@@ -92,8 +92,7 @@ footer {
 					</label>
 				</div>
 				<div>
-					<label> <span> <input type="password"
-							name="pw" placeholder="비밀번호">
+					<label> <span> <input type="password" name="pw" placeholder="비밀번호">
 					</span>
 					</label>
 				</div>

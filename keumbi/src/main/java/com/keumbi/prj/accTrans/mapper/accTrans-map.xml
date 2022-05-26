@@ -14,7 +14,7 @@
 			SELECT	NVL( MAX(SEQ), 0 ) + 1
 			FROM	ACC_TRANS
 		</selectKey>
-		INSERT INTO ACC_TRANS 
+		INSERT INTO ACC_TRANS
 		VALUES ( #{seq}, #{fintech_use_num}, #{tran_date}, #{tran_time}, #{inout_type}, #{tran_type}, #{print_content}, #{tran_amt}, #{after_balance_amt}, #{branch_name} )
 	</insert>
 	
@@ -26,10 +26,11 @@
 	</select>
 	
 	<select id="selectAccTransDate" parameterType="AccTransReqVO" resultType="AccTransVO">
-		SELECT  *
-		FROM    ACC_TRANS
-		WHERE   TRAN_DATE  BETWEEN #{from_date} AND #{to_date}
+		SELECT	*
+		FROM	ACC_TRANS
+		WHERE	TRAN_DATE  BETWEEN #{from_date} AND #{to_date}
 				AND FINTECH_USE_NUM = #{fintech_use_num}
+		ORDER BY TRAN_DATE DESC, TRAN_TIME DESC
 	</select>
 	
 	<insert id="insertRemit" parameterType="RemitVO">
@@ -41,6 +42,7 @@
 		INSERT ALL
 			INTO ACC_TRANS
 			VALUES( #{seq}, #{wit_fintech_use_num}, #{tran_date}, #{tran_time}, #{wit_inout_type}, #{tran_type}, #{wit_print_content}, #{tran_amt}, #{wit_after_balance_amt}, #{branch_name} )
+			
 			INTO ACC_TRANS
 			VALUES( #{seq} + 1, #{dep_fintech_use_num}, #{tran_date}, #{tran_time}, #{dep_inout_type}, #{tran_type}, #{dep_print_content}, #{tran_amt}, #{dep_after_balance_amt}, #{branch_name} )
 		SELECT * FROM dual
