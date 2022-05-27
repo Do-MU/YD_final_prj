@@ -14,4 +14,9 @@ public interface AccountService {
 	// 문제점 !!!!!!!!!!!!
 	// 다른 회원 같은 finNum -> 오류
 	
+	
+	
+	int makeDummyDep();
+	int makeDummySav();
+	int makeDumLoa();
 }

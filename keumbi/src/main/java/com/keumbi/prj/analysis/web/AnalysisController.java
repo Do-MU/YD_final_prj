@@ -8,8 +8,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.keumbi.prj.analysis.service.AnalysisService;
+import com.keumbi.prj.analysis.vo.AnalysisDailyVO;
+import com.keumbi.prj.analysis.vo.AnalysisMonthlyVO;
 import com.keumbi.prj.analysis.vo.AnalysisThisPrevVO;
 import com.keumbi.prj.analysis.vo.AnalysisVO;
+import com.keumbi.prj.analysis.vo.AnalysisYearlyVO;
 
 @Controller
 public class AnalysisController {
@@ -22,17 +25,38 @@ public class AnalysisController {
 		return "analysis/expendAnal";
 	}
 	
-	// 월별 지출통계 데이터 출력
+	// 파이차트: 월별 지출통계 데이터 호출
 	@RequestMapping("/monthlyAnalysis")
 	@ResponseBody
 	public List<AnalysisVO> monthlyAnalysis(AnalysisVO vo) {
 		return service.monthlyAnalysis(vo);
 	}
 	
-	// 당월전월 누적지축금액 데이터 출력
+	// 라인차트: 당월전월 누적지축금액 데이터 호출
 	@RequestMapping("/thisPreAnalysis")
 	@ResponseBody
 	public List<AnalysisThisPrevVO> thisPreAnalysis(AnalysisThisPrevVO vo) {
 		return service.thisPreAnalysis(vo);
+	}
+	
+	// 컬럼차트1번: 한달간 일별 총 지출금액 데이터 호출
+	@RequestMapping("/columnChart1")
+	@ResponseBody
+	public List<AnalysisDailyVO> columnChart1(AnalysisDailyVO vo) {
+		return service.columnChartDaily(vo);
+	}
+	
+	// 컬럼차트2번: 최근 몇달 월별 총 지출금액 데이터 호출
+	@RequestMapping("/columnChart2")
+	@ResponseBody
+	public List<AnalysisMonthlyVO> columnChart2(AnalysisMonthlyVO vo) {
+		return service.columnChartMonthly(vo);
+	}
+	
+	// 컬럼차트3번: 최근10년간 연도별 총 지출금액 데이터 호출
+	@RequestMapping("/columnChart3")
+	@ResponseBody
+	public List<AnalysisYearlyVO> columnChart3(AnalysisYearlyVO vo) {
+		return service.columnChartYearly(vo);
 	}
 }

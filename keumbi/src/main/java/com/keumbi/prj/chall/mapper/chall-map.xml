@@ -7,7 +7,7 @@
 		WHERE	USER_ID = #{id}
 	</select>
 	
-	<select id="challTotalUser" resultType="int" parameterType="int">
+	<select id="challTotalUser" resultType="int">
 		SELECT	COUNT(USER_ID)
 		FROM	CHALLS
 		WHERE	CHALL_NUM = #{chall_num}

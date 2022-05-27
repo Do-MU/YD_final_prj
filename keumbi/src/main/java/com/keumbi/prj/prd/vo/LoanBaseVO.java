@@ -14,4 +14,5 @@ public class LoanBaseVO {
 	private String join_way;
 	private String cb_name;
 	private String crdt_prdt_type_nm;
+	private String bank_code;
 }

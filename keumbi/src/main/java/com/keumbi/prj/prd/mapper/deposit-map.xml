@@ -9,10 +9,10 @@
 		</selectKey>
 		INSERT 	INTO PRD_DEP_BASES ( DEP_ID, DCLS_MONTH, FIN_CO_NO, FIN_PRDT_CD, 
 									 KOR_CO_NM, FIN_PRDT_NM, JOIN_WAY, MTRT_INT,
-									 SPCL_CND, JOIN_DENY, JOIN_MEMBER, ETC_NOTE, MAX_LIMIT )
+									 SPCL_CND, JOIN_DENY, JOIN_MEMBER, ETC_NOTE, MAX_LIMIT, BANK_CODE )
 		VALUES	( #{dep_id}, #{dcls_month}, #{fin_co_no}, #{fin_prdt_cd}, 
 				  #{kor_co_nm}, #{fin_prdt_nm}, #{join_way}, #{mtrt_int},
-				  #{spcl_cnd}, #{join_deny}, #{join_member}, #{etc_note}, #{max_limit} )
+				  #{spcl_cnd}, #{join_deny}, #{join_member}, #{etc_note}, #{max_limit}, #{bank_code} )
 	</insert>
 	
 	<insert id="insertDepOpt" parameterType="DepositOptionVO">
@@ -38,8 +38,8 @@
 	</delete>
 	
 	<select id="selectAllDepBase" resultType="DepositBaseVO">
-		SELECT *
-		FROM PRD_DEP_BASES
+      	SELECT *
+      	FROM PRD_DEP_BASES
 	</select>
 	
 	<select id="selectOneDepBase" resultType="DepositBaseVO">
@@ -56,8 +56,8 @@
 		ORDER BY SAVE_TRM
 	</select>
 	
-	<select id="selectBankName" resultType="String">
-		SELECT 	VAL
+	<select id="selectBankName" resultType="CodeVO">
+		SELECT 	VAL, CODE
 		FROM 	COMMON_CODE
 		WHERE 	CODE = ( 	SELECT	SUBSTR(CODE, 2)
 							FROM	COMMON_CODE

@@ -95,20 +95,21 @@
 							<ul class="dropdown-menu">
 								<li class="nav-item"><a class="nav-link" href="accountList">내 계좌 목록</a></li>
 								<li class="nav-item"><a class="nav-link" href="accDepositView">송금</a></li>
-								<li class="nav-item"><a class="nav-link" href="prdDepositList">상품추천</a></li>
 							</ul>
 						</li>
 						<li class="nav-item submenu dropdown">
 							<a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">카드</a>
 							<ul class="dropdown-menu">
 								<li class="nav-item"><a class="nav-link" href="#">내 카드 목록</a></li>
-								<li class="nav-item"><a class="nav-link" href="#">상품추천</a></li>
+								<li class="nav-item"><a class="nav-link" href="PrdCardListView">상품추천</a></li>
 							</ul>
 						</li>
 						<li class="nav-item submenu dropdown">
-							<a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">대출</a>
+							<a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">금융상품</a>
 							<ul class="dropdown-menu">
-								<li class="nav-item"><a class="nav-link" href="#">상품추천</a></li>
+								<li class="nav-item"><a class="nav-link" href="prdDepositList">예금상품</a></li>
+								<li class="nav-item"><a class="nav-link" href="prdSavingList">적금상품</a></li>
+								<li class="nav-item"><a class="nav-link" href="prdLoanList">대출상품</a></li>
 							</ul>
 						</li>
 						<li class="nav-item"><a class="nav-link" href="monthView">가계부</a></li>

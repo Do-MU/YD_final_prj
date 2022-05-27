@@ -27,7 +27,7 @@ public class ReplyController {
 	private List<ReplyVO> replyList(ReplyVO vo, Model model) {
 		
 		List<ReplyVO> replyList = service.replyList(vo);
-		model.addAttribute("replyList", replyList);
+		model.addAttribute("reply", replyList);
 		
 		return replyList;
 		
@@ -45,12 +45,13 @@ public class ReplyController {
 	}
 	
 	@RequestMapping("/replyUpdate")
-	@ResponseBody
-	private String replyUpdate(ReplyVO vo) {
+    @ResponseBody 
+	private int replyUpdate(ReplyVO vo) {
 		
-		service.replyUpdate(vo);
 		
-		return "redirect:replyList";
+		
+		return service.replyUpdate(vo);
+		
 	}
 	
 	@RequestMapping("/replyDelete")

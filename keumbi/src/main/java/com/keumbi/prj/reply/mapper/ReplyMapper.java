@@ -9,6 +9,6 @@ public interface ReplyMapper {
 	int replyCount();
 	List<ReplyVO> replyList(ReplyVO vo);
 	int replyInsert(ReplyVO vo);
-	void replyUpdate(ReplyVO vo);
+	int replyUpdate(ReplyVO vo);
 	int replyDelete(int re_num);
 }

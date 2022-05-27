@@ -15,12 +15,14 @@ import com.keumbi.prj.ledger.service.LedgerService;
 import com.keumbi.prj.ledger.vo.LedgerVO;
 import com.keumbi.prj.prd.service.DepositService;
 import com.keumbi.prj.prd.service.LoanService;
+import com.keumbi.prj.prd.service.PrdCardService;
 import com.keumbi.prj.prd.service.PrdChallengeService;
 import com.keumbi.prj.prd.service.SavingService;
 import com.keumbi.prj.prd.vo.DepositBaseVO;
 import com.keumbi.prj.prd.vo.DepositOptionVO;
 import com.keumbi.prj.prd.vo.LoanBaseVO;
 import com.keumbi.prj.prd.vo.LoanOptionVO;
+import com.keumbi.prj.prd.vo.PrdCardVO;
 import com.keumbi.prj.prd.vo.PrdChallengeVO;
 import com.keumbi.prj.prd.vo.SavingBaseVO;
 import com.keumbi.prj.prd.vo.SavingOptionVO;
@@ -32,6 +34,7 @@ public class PrdController {
 	@Autowired	SavingService sav;
 	@Autowired 	LoanService loa;
 	@Autowired	PrdChallengeService chal;
+	@Autowired	PrdCardService card;
 	@Autowired	AccountService accService;
 	@Autowired 	ChallService mychall;
 	@Autowired	CodeService codeService;
@@ -138,7 +141,19 @@ public class PrdController {
 		}
 	
 	
-	
+	/* 카드 */
+	// 카드전체목록
+	@RequestMapping("/PrdCardListView")
+	public String PrdCardListView(Model model) {
+		model.addAttribute("cardList", card.selectRandomCard());
+		return "product/prdCardList";
+	}
+	// 전체버튼
+	@RequestMapping("totalPrd")
+	@ResponseBody
+	public List<PrdCardVO> totalPrd() {
+		return card.selectRandomCard();
+	}
 	
 	
 	

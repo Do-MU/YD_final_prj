@@ -26,7 +26,9 @@
 	.td_contents{
 		text-align:left;
 	}
-	
+	#output {
+		min-height:300px;
+	}
 </style>
 </head>
 <body>

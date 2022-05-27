@@ -17,5 +17,6 @@ public class DepositBaseVO {
 	private String join_member;
 	private String etc_note;
 	private String max_limit;
+	private String bank_code;
 }
 
