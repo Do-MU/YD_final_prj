@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.keumbi.prj.common.vo.CodeVO;
 import com.keumbi.prj.prd.mapper.LoanMapper;
 import com.keumbi.prj.prd.service.LoanService;
 import com.keumbi.prj.prd.vo.LoanBaseVO;
@@ -43,7 +44,9 @@ public class LoanServiceImpl implements LoanService {
 		deleteAllLoans();
 
 		for (LoanBaseVO lvo : loan.getBaseList()) {
-			lvo.setKor_co_nm(l.selectBankName(lvo.getKor_co_nm()));
+			CodeVO bank_code = l.selectBankName(lvo.getKor_co_nm());
+			lvo.setKor_co_nm(bank_code.getVal());
+			lvo.setBank_code(bank_code.getCode());
 			baseCnt += l.insertLoanBase(lvo);
 		}
 

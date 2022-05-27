@@ -2,6 +2,7 @@ package com.keumbi.prj.prd.mapper;
 
 import java.util.List;
 
+import com.keumbi.prj.common.vo.CodeVO;
 import com.keumbi.prj.prd.vo.DepositBaseVO;
 import com.keumbi.prj.prd.vo.DepositOptionVO;
 
@@ -13,5 +14,5 @@ public interface DepositMapper {
 	List<DepositBaseVO> selectAllDepBase();
 	DepositBaseVO selectOneDepBase(int dep_id);
 	List<DepositOptionVO> selectAllDepOpt(int dep_id);
-	String selectBankName(String kor_co_nm);
+	CodeVO selectBankName(String kor_co_nm);
 }
