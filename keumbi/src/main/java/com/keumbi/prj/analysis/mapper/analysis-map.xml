@@ -61,4 +61,69 @@
 		ORDER BY DT
 	</select>
 	
+	<!-- 한달간 일별 총지출금액 통계 -->
+	<select id="columnChartDaily" resultType="AnalysisDailyVO">
+		SELECT TO_CHAR(B.DT, 'DD') AS DT
+     		 , NVL(SUM(A.AMT), 0) AMT
+  		FROM ( SELECT TO_CHAR(TDATE, 'YYYY-MM-DD') AS TDATE, SUM(AMT) AMT
+           	   FROM TOTAL_TRANS
+          	   WHERE TDATE BETWEEN TO_DATE(#{firstday}, 'YYYY-MM-DD')
+               		           AND TO_DATE(#{lastday}, 'YYYY-MM-DD') 
+                AND USER_ID = #{user_id}
+        		AND IO_CODE = 'I1'
+          		GROUP BY TDATE
+       		 ) A
+     	   , ( SELECT TO_DATE(#{firstday},'YYYY-MM-DD') + LEVEL - 1 AS DT
+          	   FROM DUAL 
+          	   CONNECT BY <![CDATA[ LEVEL <= (TO_DATE(#{lastday},'YYYY-MM-DD') ]]>
+                            - TO_DATE(#{firstday},'YYYY-MM-DD') + 1)
+        	 ) B
+  		WHERE B.DT = A.TDATE(+)
+  		GROUP BY B.DT
+  		ORDER BY B.DT
+	</select>
+	
+	<!-- 최근 몇달간 월별 총지출금액 통계 -->
+	<select id="columnChartMonthly" resultType="AnalysisMonthlyVO">
+		SELECT  TO_CHAR(B.DT, 'YYYY-MM') AS MONTH
+			  , NVL(SUM(A.AMT), 0) AS AMT
+		FROM (  SELECT TO_CHAR(TDATE, 'YYYY-MM-DD') AS TDATE, SUM(AMT) AMT
+				FROM  TOTAL_TRANS
+				WHERE TDATE BETWEEN TO_DATE(#{firstMonth},'YYYY-MM-DD') 
+                				AND TO_DATE(#{lastMonth},'YYYY-MM-DD')
+				AND USER_ID = #{user_id}
+				AND IO_CODE = 'I1'
+				GROUP BY TDATE
+      		  ) A,
+	 		  ( SELECT TO_DATE(#{firstMonth}, 'YYYY-MM-DD') + LEVEL -1 AS DT
+       			FROM DUAL 
+	   			CONNECT BY <![CDATA[ LEVEL <= (TO_DATE(#{lastMonth}, 'YYYY-MM-DD') ]]>
+                          - TO_DATE(#{firstMonth}, 'YYYY-MM-DD') +1)
+     		  ) B
+		WHERE B.DT = A.TDATE(+)
+		GROUP BY TO_CHAR(B.DT, 'YYYY-MM')
+		ORDER BY TO_CHAR(B.DT, 'YYYY-MM')
+	</select>
+	
+	<!-- 최근 십년간 연도별 총 지출금액 통계  -->
+	<select id="columnChartYearly" resultType="AnalysisYearlyVO">
+		SELECT TO_CHAR(B.DT, 'YYYY') AS YEAR, NVL(SUM(A.AMT), 0) AS AMT
+		FROM (  SELECT TO_CHAR(TDATE, 'YYYY-MM-DD') AS TDATE, SUM(AMT) AMT
+				FROM  TOTAL_TRANS
+				WHERE TDATE BETWEEN TO_DATE(#{firstYear},'YYYY-MM-DD') 
+                AND TO_DATE(#{lastYear},'YYYY-MM-DD')
+				AND USER_ID = #{user_id}
+				AND IO_CODE = 'I1'
+				GROUP BY TDATE
+      		  ) A,
+	 		( SELECT TO_DATE(#{firstYear}, 'YYYY-MM-DD') + LEVEL -1 AS DT
+       		  FROM DUAL 
+	   		  CONNECT BY <![CDATA[ LEVEL <= (TO_DATE(#{lastYear}, 'YYYY-MM-DD') ]]>
+                          - TO_DATE(#{firstYear}, 'YYYY-MM-DD') +1)
+      		) B
+		WHERE B.DT = A.TDATE(+)
+		GROUP BY TO_CHAR(B.DT, 'YYYY')
+		ORDER BY TO_CHAR(B.DT, 'YYYY')
+	</select>
+	
 </mapper>
