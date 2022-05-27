@@ -38,8 +38,8 @@
 	</delete>
 	
 	<select id="selectAllDepBase" resultType="DepositBaseVO">
-		SELECT *
-		FROM PRD_DEP_BASES
+      	SELECT *
+      	FROM PRD_DEP_BASES
 	</select>
 	
 	<select id="selectOneDepBase" resultType="DepositBaseVO">

@@ -51,7 +51,7 @@
 	</select>
 	
 	<select id="selectAllLoanOpt" resultType="LoanOptionVO">
-		SELECT 	*
+		SELECT  *
 		FROM 	PRD_LOAN_OPTIONS
 		WHERE 	LOAN_ID = #{loan_id}
 	</select>
