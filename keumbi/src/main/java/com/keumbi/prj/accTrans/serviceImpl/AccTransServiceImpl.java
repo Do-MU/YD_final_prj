@@ -75,12 +75,12 @@ public class AccTransServiceImpl implements AccTransService {
 		AccountVO wvo = new AccountVO();
 		wvo.setFintech_use_num(vo.getWit_fintech_use_num());
 		wvo.setBalance_amt(witAftBal);
-		accMapper.updateBalance(wvo);
+		accMapper.updateAccount(wvo);
 		
 		AccountVO dvo = new AccountVO();
 		dvo.setFintech_use_num(vo.getDep_fintech_use_num());
 		dvo.setBalance_amt(depAftBal);
-		accMapper.updateBalance(dvo);
+		accMapper.updateAccount(dvo);
 		
 		
 		// 지출내역 (total_trans) DB에 저장
@@ -94,7 +94,6 @@ public class AccTransServiceImpl implements AccTransService {
 		lwvo.setAmt(vo.getTran_amt());
 		lwvo.setCat_code(vo.getTran_type());
 		ledgerMapper.transInsert(lwvo);
-		System.out.println("완");
 		//	-> 입금
 		ldvo.setTdate(vo.getTran_date());
 		ldvo.setUser_id(uvo.getId());
@@ -103,7 +102,6 @@ public class AccTransServiceImpl implements AccTransService {
 		ldvo.setAmt(vo.getTran_amt());
 		ldvo.setCat_code(vo.getTran_type());
 		ledgerMapper.transInsert(ldvo);
-		System.out.println("료");
 		
 		return 0;
 	}

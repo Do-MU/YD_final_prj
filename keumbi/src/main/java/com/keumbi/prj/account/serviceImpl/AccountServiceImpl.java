@@ -60,7 +60,7 @@ public class AccountServiceImpl implements AccountService {
 					avo.setBalance_amt(accVO.getBalance_amt());				// 잔액 설정
 					avo.setProduct_name(accVO.getProduct_name());			// 상품명 설정
 					// 잔액과 상품명을 UPDATE한다.
-					accMapper.updateBalance(avo);
+					accMapper.updateAccount(avo);
 				}
 				
 				// 거래내역 저장 (최초 1회)
@@ -80,11 +80,30 @@ public class AccountServiceImpl implements AccountService {
 						lvo.setIo_code(tvo.getInout_type());
 						lvo.setContent(tvo.getPrint_content());
 						lvo.setAmt(tvo.getTran_amt());
+						lvo.setCat_code(tvo.getTran_type());
 						ledgerMapper.transInsert(lvo);
 					}
 				}
+				
+				// account_code, prd_id 수정
+				if(accMapper.selectPrdDep(avo.getFintech_use_num()) != null) {
+					avo.setAccount_code("AD");
+					avo.setPrd_id(accMapper.selectPrdDep(avo.getFintech_use_num()));
+					accMapper.updateAccount(avo);
+				} else if(accMapper.selectPrdSav(avo.getFintech_use_num()) != null) {
+					avo.setAccount_code("AS");
+					avo.setPrd_id(accMapper.selectPrdSav(avo.getFintech_use_num()));
+					accMapper.updateAccount(avo);
+				} else if(accMapper.selectPrdLoan(avo.getFintech_use_num()) != null) {
+					avo.setAccount_code("AL");
+					avo.setPrd_id(accMapper.selectPrdSav(avo.getFintech_use_num()));
+					accMapper.updateAccount(avo);
+				} else {
+					avo.setAccount_code("AF");
+					accMapper.updateAccount(avo);
+				}
 			}
-		}else {
+		} else {
 			accMapper.deleteAccounts(vo);
 		}
 		

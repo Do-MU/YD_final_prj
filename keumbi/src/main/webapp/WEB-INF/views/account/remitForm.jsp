@@ -35,7 +35,7 @@
 								<select name="wit_fintech_use_num" onchange="witSelect()">
 									<option value="">계좌를 선택해주세요.</option>
 									<c:forEach items="${accList }" var="list">
-										<option value="${list.fintech_use_num }">${list.bank_name}			${list.account_num_masked }</option>				
+										<option value="${list.fintech_use_num }">${list.bank_name}	${list.account_num_masked }</option>				
 									</c:forEach>
 								</select>
 							</td>
@@ -60,7 +60,7 @@
 								<select name="dep_fintech_use_num" onchange="depSelect()">
 									<option value="">계좌를 선택해주세요.</option>
 									<c:forEach items="${accList }" var="list">
-										<option value="${list.fintech_use_num }">${list.bank_name}		${list.account_num_masked }</option>				
+										<option value="${list.fintech_use_num }">${list.bank_name}	${list.account_num_masked }</option>				
 									</c:forEach>
 								</select>
 							</td>

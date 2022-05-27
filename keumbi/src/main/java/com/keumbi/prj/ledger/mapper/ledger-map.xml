@@ -57,7 +57,7 @@
 			AND     TDATE = #{tdate}
 		</selectKey>
 		INSERT INTO TOTAL_TRANS VALUES
-		(#{tdate}, #{num}, #{user_id}, #{io_code}, #{content}, #{amt}, #{cat_code})
+		( #{tdate}, #{num}, #{user_id}, #{io_code}, #{content}, #{amt}, #{cat_code} )
 	</insert>
 	
 	<update id="ledgerUpdate" parameterType="LedgerVO">
