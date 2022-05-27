@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.keumbi.prj.account.service.AccountService;
 import com.keumbi.prj.chall.service.ChallService;
 import com.keumbi.prj.common.service.CodeService;
+import com.keumbi.prj.ledger.service.LedgerService;
+import com.keumbi.prj.ledger.vo.LedgerVO;
 import com.keumbi.prj.prd.service.DepositService;
 import com.keumbi.prj.prd.service.LoanService;
 import com.keumbi.prj.prd.service.PrdCardService;
@@ -32,10 +34,11 @@ public class PrdController {
 	@Autowired	SavingService sav;
 	@Autowired 	LoanService loa;
 	@Autowired	PrdChallengeService chal;
+	@Autowired	PrdCardService card;
 	@Autowired	AccountService accService;
 	@Autowired 	ChallService mychall;
 	@Autowired	CodeService codeService;
-	@Autowired	PrdCardService PrdCardServiceImpl;
+	@Autowired	LedgerService led;
 	
 	/* 예금 */
 	// 예금상품 업데이트 처리 (관리자)
@@ -142,14 +145,14 @@ public class PrdController {
 	// 카드전체목록
 	@RequestMapping("/PrdCardListView")
 	public String PrdCardListView(Model model) {
-		model.addAttribute("cardList", PrdCardServiceImpl.selectRandomCard());
+		model.addAttribute("cardList", card.selectRandomCard());
 		return "product/prdCardList";
 	}
 	// 전체버튼
 	@RequestMapping("totalPrd")
 	@ResponseBody
 	public List<PrdCardVO> totalPrd() {
-		return PrdCardServiceImpl.selectRandomCard();
+		return card.selectRandomCard();
 	}
 	
 	
@@ -163,7 +166,6 @@ public class PrdController {
 	@RequestMapping("/prdChallengeList")
 	public String prdChallengeList(Model model) {
 		model.addAttribute("prdChall", chal.prdChallengeList());
-		
 		return "product/prdChallengeList";
 	}
 	
@@ -171,7 +173,14 @@ public class PrdController {
 	@RequestMapping("/prdChall")
 	@ResponseBody
 	public PrdChallengeVO prdChall(PrdChallengeVO vo) {
-		
 		return chal.prdChallengeSelect(vo);
+	}
+	
+	
+	// 소비금액 가져오기
+	@RequestMapping("/avgAmt")
+	@ResponseBody
+	public List<LedgerVO> avgAmt(PrdChallengeVO vo){
+	   return led.avgAmt(vo);
 	}
 }
