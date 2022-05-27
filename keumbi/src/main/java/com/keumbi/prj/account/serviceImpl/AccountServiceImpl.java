@@ -186,7 +186,7 @@ public class AccountServiceImpl implements AccountService {
 		// 상품명, 상품코드, 은행 코드, 은행 이름
 		rand = random.nextInt(50);
 		DepositBaseVO dep = depMapper.selectAllDepBase().get(rand);
-		dummy.setPrd_id(dep.getDep_id());
+		dummy.setPrd_id(Integer.toString(dep.getDep_id()));
 		dummy.setProduct_name(dep.getFin_prdt_nm());
 		dummy.setBank_code_std(dep.getBank_code());
 		dummy.setBank_name(dep.getKor_co_nm());
@@ -244,7 +244,7 @@ public class AccountServiceImpl implements AccountService {
 		// 상품명, 상품코드, 은행 코드, 은행 이름
 		rand = random.nextInt(73);
 		SavingBaseVO sav = savMapper.selectAllSavBase().get(rand);
-		dummy.setPrd_id(sav.getSav_id());
+		dummy.setPrd_id(Integer.toString(sav.getSav_id()));
 		dummy.setProduct_name(sav.getFin_prdt_nm());
 		dummy.setBank_code_std(sav.getBank_code());
 		dummy.setBank_name(sav.getKor_co_nm());
@@ -301,12 +301,12 @@ public class AccountServiceImpl implements AccountService {
 		// 상품명, 상품코드, 은행 코드, 은행 이름
 		rand = random.nextInt(45);
 		LoanBaseVO loa = loaMapper.selectAllLoanBase().get(rand);
-		dummy.setPrd_id(loa.getLoan_id());
+		dummy.setPrd_id(Integer.toString(loa.getLoan_id()));
 		dummy.setProduct_name(loa.getFin_prdt_nm());
 		dummy.setBank_code_std(loa.getBank_code());
 		dummy.setBank_name(loa.getKor_co_nm());
 		
-		System.out.println(dummy);
+//		System.out.println(dummy);
 		
 		return accMapper.insertAccount(dummy);
 	}
