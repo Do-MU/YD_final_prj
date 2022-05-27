@@ -15,7 +15,7 @@
 		window.location = "userLoginForm";
 	}
 
-	// 파이차트: 월별-카테고리별 지출항목 통계 출력
+	// 파이차트: 카테고리별 지출항목 통계 출력
 	google.charts.load('current', {
 		'packages' : [ 'corechart' ]
 	});
@@ -111,26 +111,150 @@
 		chart.draw(data, options);
 	}
 
-	//월별 지출 통계 -> 컬럼차트
+	
+	// 컬럼차트1번 : 한달간 일별 지출 통계 -> 컬럼차트
 	google.charts.load('current', {
 		'packages' : [ 'bar' ]
 	});
-	google.charts.setOnLoadCallback(drawColumnChart);
+	google.charts.setOnLoadCallback(drawColumnChart1);
 
-	function drawColumnChart() {
-		var data = google.visualization.arrayToDataTable([
-				[ 'month', '소득', '지출' ], [ '1월', 400, 200 ],
-				[ '2월', 460, 250 ], [ '3월', 1120, 300 ], [ '4월', 540, 350 ] ]);
+	function drawColumnChart1() {
+		
+		var now = new Date();	
+		var firstday = now.getFullYear()+'-'+("0"+(now.getMonth()+1)).slice(-2)+"-01";
+		console.log(firstday)
+		var getLastDay = new Date(now.getFullYear(), now.getMonth()+1, 0);
+		var lastday = now.getFullYear()+'-'+("0"+(now.getMonth()+1))+'-'+getLastDay.getDate();
+		console.log(lastday)
+		
 
+		var jsonData = $.ajax({
+			url : "columnChart1",
+			data : {
+				user_id : "${loginUser.id}",
+				firstday : firstday,
+				lastday : lastday
+			},
+			async : false
+		}).responseText;
+		var obj = jQuery.parseJSON(jsonData);
+		console.log(obj)
+		var data = new google.visualization.DataTable();
+		data.addColumn('string', 'day');
+		data.addColumn('number', '지출');
+		var arr = [];
+		for (let i = 0; i < obj.length; i++) {
+			arr.push([ obj[i].dt, obj[i].amt]);
+		}
+		data.addRows(arr);
+		
 		var options = {
 			chart : {
-				title : 'Company Performance',
-				subtitle : 'Sales, Expenses, and Profit: 2014-2017',
+				title : '나의 일별 지출 차트',
+				subtitle : '한달 간 일별 지출 총액을 확인해보세요.',
 			}
 		};
 
 		var chart = new google.charts.Bar(document
-				.getElementById('columnchart'));
+				.getElementById('columnchart1'));
+
+		chart.draw(data, google.charts.Bar.convertOptions(options));
+	}
+	
+	
+	//컬럼차트 2번 : 월별 지출 통계 
+	google.charts.load('current', {
+		'packages' : [ 'bar' ]
+	});
+	google.charts.setOnLoadCallback(drawColumnChart2);
+
+	function drawColumnChart2() {
+		
+		var now = new Date();	
+		//
+		var getLastDay = new Date(now.getFullYear(), now.getMonth()+1, 0);
+		var lastMonth =	now.getFullYear()+'-'+("0"+(now.getMonth()+1)).slice(-2)+'-'+(getLastDay.getDate());
+		console.log("이번달 마지막날========> " + lastMonth);
+		
+		var sixMonthAgo = new Date(now.setMonth(now.getMonth()-5));	// 여섯달 전
+		console.log("여섯달전______:"+sixMonthAgo)
+		var firstMonth = sixMonthAgo.getFullYear()+'-'+(sixMonthAgo.getMonth()+1)+'-01';
+		console.log("여섯달 전 첫쨋날========> "+firstMonth);
+
+		var jsonData = $.ajax({
+			url : "columnChart2",
+			data : {
+				user_id : "${loginUser.id}",
+				firstMonth : firstMonth,
+				lastMonth : lastMonth
+			},
+			async : false
+		}).responseText;
+		var obj = jQuery.parseJSON(jsonData);
+		console.log(obj)
+		var data = new google.visualization.DataTable();
+		data.addColumn('string', 'month');
+		data.addColumn('number', '지출');
+		var arr = [];
+		for (let i = 0; i < obj.length; i++) {
+			arr.push([ obj[i].month, obj[i].amt]);
+		}
+		data.addRows(arr);
+		
+		var options = {
+			chart : {
+				title : '나의 월별 지출 차트',
+				subtitle : '최근 6개월 간 월별 지출 총액을 확인해보세요.',
+			}
+		};
+
+		var chart = new google.charts.Bar(document
+				.getElementById('columnchart2'));
+
+		chart.draw(data, google.charts.Bar.convertOptions(options));
+	}
+	
+	//컬럼차트 3번 : 연도별 지출 통계 
+	google.charts.load('current', {
+		'packages' : [ 'bar' ]
+	});
+	google.charts.setOnLoadCallback(drawColumnChart3);
+
+	function drawColumnChart3() {
+		
+		var now = new Date();	
+		var firstYear = '2012-01-01';
+		var lastYear = '2022-12-31';
+
+		var jsonData = $.ajax({
+			url : "columnChart3",
+			data : {
+				user_id : "${loginUser.id}",
+				firstYear : firstYear,
+				lastYear : lastYear
+			},
+			async : false
+		}).responseText;
+		var obj = jQuery.parseJSON(jsonData);
+		console.log(obj)
+		var data = new google.visualization.DataTable();
+		data.addColumn('string', 'year');
+		data.addColumn('number', '지출');
+		var arr = [];
+		for (let i = 0; i < obj.length; i++) {
+			arr.push([ obj[i].year, obj[i].amt]);
+		}
+		data.addRows(arr);
+		
+		var options = {
+			chart : {
+				title : '연도별 지출 차트',
+				subtitle : '최근 10년 간 연도별 지출 총액을 확인해보세요.',
+			}
+		};
+
+		var chart = new google.charts.Bar(document
+				.getElementById('columnchart3'));
 
 		chart.draw(data, google.charts.Bar.convertOptions(options));
 	}
@@ -148,13 +272,19 @@
 		</div>
 	</section>
 
-	<!-- pie chart -->
+	<!-- pie chart : 카테코리별 지출 통계 -->
 	<div id="piechart" style="width: 900px; height: 500px;"></div>
 
-	<!-- area chart -->
+	<!-- area chart : 당월-전월 지출 누적 비교 통계 -->
 	<div id="areachart" style="width: 100%; height: 500px;"></div>
 
-	<!-- column chart -->
-	<div id="columnchart" style="width: 800px; height: 500px;"></div>
+	<!-- column chart1 : 일별 지출 통계 -->
+	<div id="columnchart1" style="width: 800px; height: 500px;"></div>
+	
+	<!-- column chart2 : 월별 지출 통계 -->
+	<div id="columnchart2" style="width: 800px; height: 500px;"></div>
+	
+	<!-- column chart3 : 연도별 지출 통계 -->
+	<div id="columnchart3" style="width: 800px; height: 500px;"></div>
 </body>
 </html>
