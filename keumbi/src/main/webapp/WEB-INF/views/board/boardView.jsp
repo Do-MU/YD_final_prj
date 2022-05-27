@@ -201,7 +201,7 @@ console.log($("#user_id").val());
 	}
 	
 	//댓글 수정
-	function replyUpdate(re_num){    
+	function replyUpdateProc(re_num){    
 		var updateContent = $('[name=re_contents_'+re_num+']').val();        
 		
 		$.ajax({
