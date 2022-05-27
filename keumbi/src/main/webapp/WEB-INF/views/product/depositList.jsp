@@ -55,7 +55,7 @@
 }
 
 
-#total{	
+#total, #taxPercent{	
 	color: red;
 }
 #totalText{
@@ -67,7 +67,7 @@
 
 #cal{
     font-weight: bold;
-    font-size: large;
+    font-size: 25px;
     color: black;
     padding-top: 10px;
 }
@@ -83,10 +83,13 @@
 
 #tax{
 	font-weight: bold;
-    font-size: small;
+    font-size: 20px;
     color: black;
 }
 
+#list{
+	display:none;
+}
 </style>
 
 
@@ -123,7 +126,10 @@
 				</div>
 				<hr>
 			</c:forEach>
-		</div><br>
+		</div>
+		<div id="plus_button" class="btn_wrap">
+			<a href="javascript:;" class="button">더보기</a>
+		</div>
 	</div>
 	
 	<div class="modal fade" id="modal" role="dialog">
@@ -142,7 +148,7 @@
 				</div>
 				
 				<div class="modal-footer" style="display: inline;">
-					<div id="cal" style="float: left;">금리 계산기<br><p id="tax">일반세율 <span id="total">15.4%</span>가 적용됩니다.</p></div>
+					<div id="cal" style="float: left;">금리 계산기<br><p id="tax">일반세율 <span id="taxPercent">15.4%</span>가 적용됩니다.</p></div>
 					<div class="depOpt" style="float: right" onchange="depMoney()">
 						<select id="date">
 							<option value="" selected>선택</option>
@@ -155,8 +161,6 @@
 		</div>
 	</div>
 </section>
-
-
 
 <script>	
 	//상세보기시 옵션 출력
@@ -261,6 +265,8 @@
 			var total = (price - tax); // 세후금액: 금액 - 세금
 			document.getElementById("totalText").innerHTML = "<div id='totalText'>만기수령액은 <span id='total'>" + Math.round(total) + "원 </span>입니다.</div>";
 		}
+		//천단위 콤마
+		$("#totalText").html($("#totalText").html().toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ","));
 	}
 	
 	// 예금 계산기 호출
@@ -271,5 +277,18 @@
 			calculator();
 		})
 	}
+	
+	// 더보기 왜안돼애애애ㅐ애액
+	/*$(function(){
+		$("div").slice(0,10).show();
+		$("#plus_button").click(function(e){
+			e.preventDefault();
+			$("div:hidden").slice(0,10).show();
+			if($("div:hidden").length == 0){
+				alert("없음")
+			}
+		})
+		
+	}) */
 	
 </script>

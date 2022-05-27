@@ -53,6 +53,7 @@
 
 .modal-footer>:not(:first-child){
 	text-align: right;
+	margin-top: 10px
 }
 
 
@@ -68,7 +69,7 @@
 
 #cal{
     font-weight: bold;
-    font-size: large;
+    font-size: 25px;
     color: black;
     padding-top: 10px;
 }
@@ -84,7 +85,7 @@
 
 #tax{
 	font-weight: bold;
-    font-size: small;
+    font-size: 20px;
     color: black;
 }
 </style>
@@ -257,6 +258,8 @@
 				
 				document.getElementById("totalText").innerHTML = "<div id='totalText'>만기수령액은 <span id='total'>" + Math.round(total) + "원 </span>입니다.</div>";
 			}
+			//천단위 콤마
+			$("#totalText").html($("#totalText").html().toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ","));
 		}
 		
 		// 적금 계산기 호출
