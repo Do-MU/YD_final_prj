@@ -1,7 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-
 <script src="http://code.jquery.com/jquery-3.6.0.js"></script>
 <style>
 /* 챌린지 출력 선택 목록 */
@@ -142,18 +141,18 @@
 			</div>
 
 			<div class="div_detail">
-				<div class="div_title">챌린지 제목<span class="chal_pro chal_pro_i">진행중</span></div>
+				<div class="div_title"><span class="chal_pro chal_pro_i">진행중</span></div>
 				<div class="div_contents">챌린지 내용 챌린지 내용 챌린지 내용 챌린지 내용 챌린지 내용
 					챌린지 내용 챌린지 내용 챌린지 내용 챌린지 내용 챌린지</div>
 
 				<div class="progress">
 					<div class="progress-var bg-info" style="width: 50%;">50%</div>
 				</div>
-				<div class="div_per">목표금액 100,000원</div>
+				<div class="div_per"></div>
 			</div>
 		</div>
 		<hr>
-		
+
 		<div class="challs">
 			<div class="div_img">
 				<img src="resources/img/favicon.png"
@@ -162,7 +161,7 @@
 					<h3>D-30</h3>
 				</div>
 			</div>
-
+			
 			<div class="div_detail">
 				<div class="div_title">챌린지 제목<span class="chal_pro chal_pro_s">성공</span></div>
 				<div class="div_contents">챌린지 내용 챌린지 내용 챌린지 내용 챌린지 내용 챌린지 내용
@@ -198,7 +197,39 @@
 		</div>
 		<hr>
 		
+		
 	</div>
 </section>
 <script>
+//유저 챌린지 정보 가져오기
+$.ajax({
+	type:"GET",
+	url:"userChallList",
+	data:{id:"${loginUser.id}"}
+}).done(function(chall){
+	$.each(chall, function(index, item){
+		//상품 챌린지 정보 가져오기
+		var i = item.chall_code;
+		var html = '';
+		if(i == 'CH1'){
+			html = "진행중";
+		}else if(i == "CH2"){
+			html = "성공";
+		}else if(i == "CH3"){
+			html = "실패";
+		}
+		$(".challs").data("chall_num", item.chall_num);			//챌린지 번호 부여
+		$(".div_per").html(item.goal+"원");						//목표금액
+		$(".div_period").children('h3').html("D-"+item.dday);	//남은일자
+		$.ajax({
+			type:"GET",
+			url:"prdChall",
+			data:{num: $(".challs").data("chall_num")}
+		}).done(function(pchall){
+			$(".div_title").html(pchall.title);					//챌린지 제목
+			$(".div_title").append($(`<span class='chal_pro chal_pro_i'></span>`).html(html));	//진행,성공,실패
+			$(".div_contents").html(pchall.content);			//챌린지 내용
+		})
+	})
+})
 </script>

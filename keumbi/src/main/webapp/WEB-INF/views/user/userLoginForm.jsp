@@ -87,13 +87,12 @@ footer {
 			<div>
 				<div>
 					<label> <span> <input type="text" name="id"
-							placeholder="아이디" value="user1">
+							placeholder="아이디">
 					</span>
 					</label>
 				</div>
 				<div>
-					<label> <span> <input type="password"
-							name="pw" placeholder="비밀번호" value="user1">
+					<label> <span> <input type="password" name="pw" placeholder="비밀번호">
 					</span>
 					</label>
 				</div>
@@ -299,7 +298,7 @@ footer {
 					}
 				}).done(function(data){
 			        $("#find1").css("display", "");
-			        $("#idf").html('" '+data+' " '+'입니다.');
+			        $("#idf").html('" '+data.id+' " '+'입니다.');
 				});
 	        });
 	    } else {                                       	// 일치하지 않을 경우
@@ -360,12 +359,12 @@ footer {
 								$.ajax({
 									url:"userPwUpdate",
 									data:{
-										id : data,
+										id : data.id,
 										pw : $("#pw1").val()
 									}
 								}).done(function(data){
 									if(data == 1){
-										$("#updatePWModal").modal("hide");									
+										$("#updatePWModal").modal("hide");						
 									}
 								})
 							}else{

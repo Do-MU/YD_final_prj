@@ -3,9 +3,7 @@ package com.keumbi.prj.openBank;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -19,7 +17,6 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.keumbi.prj.accTrans.vo.AccTransVO;
 import com.keumbi.prj.account.vo.AccountVO;
-import com.keumbi.prj.card.vo.CardVO;
 import com.keumbi.prj.user.vo.UserVO;
 
 public class BankAPI {
@@ -80,17 +77,19 @@ public class BankAPI {
 
 		JsonNode jsonVal = json.get("res_list");
 		System.out.println("jsonVal : " + jsonVal);
-
-		for (JsonNode i : jsonVal) {
-			AccountVO avo = new AccountVO();
-			avo.setUser_id(vo.getId());
-			avo.setFintech_use_num(i.get("fintech_use_num").asText());
-			avo.setAccount_num_masked(i.get("account_num_masked").asText());
-			avo.setAccount_alias(i.get("account_alias").asText());
-			avo.setBank_code_std(i.get("bank_code_std").asText());
-			avo.setBank_name(i.get("bank_name").asText());
-			acclist.add(avo);
+		if(jsonVal != null) {
+			for (JsonNode i : jsonVal) {
+				AccountVO avo = new AccountVO();
+				avo.setUser_id(vo.getId());
+				avo.setFintech_use_num(i.get("fintech_use_num").asText());
+				avo.setAccount_num_masked(i.get("account_num_masked").asText());
+				avo.setAccount_alias(i.get("account_alias").asText());
+				avo.setBank_code_std(i.get("bank_code_std").asText());
+				avo.setBank_name(i.get("bank_name").asText());
+				acclist.add(avo);
+			}
 		}
+		
 		return acclist;
 	}
 
@@ -121,7 +120,7 @@ public class BankAPI {
 		// System.out.println("잔액잔액잔액 : " + json);
 		AccountVO avo = new AccountVO();
 		avo.setFintech_use_num(json.get("fintech_use_num").asText());
-		avo.setBalance_amt(json.get("balance_amt").asLong());
+		avo.setBalance_amt(json.get("balance_amt").asInt());
 		avo.setProduct_name(json.get("product_name").asText());
 
 		return avo;

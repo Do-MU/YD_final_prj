@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.keumbi.prj.analysis.mapper.AnalysisMapper">
+
+	<!-- 월별 카테고리별 지출 통계 -->
+	<select id="monthlyAnalysis" resultType="AnalysisVO">
+		SELECT   SUM(AMT) AS AMT, C.VAL, TO_CHAR(T.TDATE, 'YYYY-MM') AS yearMonth
+		FROM     TOTAL_TRANS T
+		JOIN     COMMON_CODE C
+		ON       T.CAT_CODE = C.CODE
+		WHERE    USER_ID = #{user_id}
+		AND      IO_CODE = 'I1'
+		AND 	 TO_CHAR(T.TDATE, 'YYYY-MM') = #{yearMonth}
+		GROUP BY TO_CHAR(T.TDATE, 'YYYY-MM'), C.VAL
+		ORDER BY 1 DESC
+	</select>
+	
+	<!-- 이번달-지난달 누적 지출 비교 통계 -->
+	<select id="thisPreAnalysis" resultType="AnalysisThisPrevVO">
+		SELECT 	DT,  
+		      	SUM( CASE WHEN GB = 'A' THEN AMT ELSE 0 END) AS AMT1,  
+		      	SUM( CASE WHEN GB = 'B' THEN AMT ELSE 0 END) AS AMT2
+		FROM (
+		        SELECT *
+		        FROM (
+		               SELECT 'A' AS GB, DT,  SUM(AMT) OVER(ORDER BY DT) AS AMT
+		               FROM (  SELECT TO_CHAR(TDATE, 'DD') AS TDATE, NVL(SUM(AMT),0) AMT
+		                       FROM  TOTAL_TRANS
+		                       WHERE TO_CHAR(TDATE,'YYYY-MM') = #{thisMonth}
+		                       AND USER_ID = #{user_id}
+		                       AND IO_CODE = 'I1'
+		                       GROUP BY TO_CHAR(TDATE, 'DD')
+		                     ) A,
+		                     ( SELECT  LEVEL  AS DT
+		                       FROM DUAL 
+		                       CONNECT BY <![CDATA[ LEVEL <= 31 ]]>
+		                     ) B
+                 WHERE B.DT = A.TDATE(+)
+                 ORDER BY DT
+              )
+         	  UNION ALL
+		         SELECT *
+		         FROM (
+		                SELECT 'B', DT, SUM(AMT) OVER(ORDER BY DT)
+		                FROM ( SELECT TO_CHAR(TDATE, 'DD') AS TDATE, NVL(SUM(AMT),0) AMT
+                               FROM  TOTAL_TRANS
+                               WHERE TO_CHAR(TDATE,'YYYY-MM') = #{lastMonth}
+                               AND USER_ID = #{user_id}
+                               AND IO_CODE = 'I1'
+                               GROUP BY TO_CHAR(TDATE, 'DD')
+                        	 ) A,
+                         	 ( SELECT  LEVEL  AS DT
+                               FROM DUAL 
+                               CONNECT BY <![CDATA[ LEVEL <= 31 ]]>
+                             ) B
+                  		WHERE B.DT = A.TDATE(+)
+                  	 	ORDER BY DT
+                 )
+			)
+		GROUP BY DT
+		ORDER BY DT
+	</select>
+	
+</mapper>

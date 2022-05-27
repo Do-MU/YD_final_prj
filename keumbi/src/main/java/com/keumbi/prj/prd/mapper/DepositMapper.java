@@ -10,10 +10,8 @@ public interface DepositMapper {
 	int insertDepOpt(DepositOptionVO vo);
 	int deleteAllDepBase();
 	int deleteAllDepOpt();
-	
 	List<DepositBaseVO> selectAllDepBase();
 	DepositBaseVO selectOneDepBase(int dep_id);
 	List<DepositOptionVO> selectAllDepOpt(int dep_id);
-	
 	String selectBankName(String kor_co_nm);
 }

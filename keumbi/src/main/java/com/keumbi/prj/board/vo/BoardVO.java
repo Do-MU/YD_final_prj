@@ -1,9 +1,5 @@
 package com.keumbi.prj.board.vo;
 
-
-
-
-
 import java.sql.Date;
 
 import com.fasterxml.jackson.annotation.JsonFormat;

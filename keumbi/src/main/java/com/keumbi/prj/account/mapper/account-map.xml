@@ -1,46 +1,64 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.keumbi.prj.account.mapper.AccountMapper">
-		
+
 	<!-- 해당 회원의 계좌를 모두 가져옴 -->
 	<select id="selectAllAccount" resultType="AccountVO">
-		SELECT	*
-		FROM 	ACCOUNTS
-		WHERE	USER_ID = #{user_id}
+		SELECT *
+		FROM ACCOUNTS
+		WHERE USER_ID = #{user_id}
 	</select>
-	
+
 	<!-- 해당 계좌가 존재하는지 여부 -->
-	<select id="selectAccount" parameterType="AccountVO" resultType="Integer">
-		SELECT	COUNT(*)
-		FROM 	ACCOUNTS
-		WHERE	FINTECH_USE_NUM = #{fintech_use_num}
+	<select id="selectAccount" parameterType="AccountVO"
+		resultType="Integer">
+		SELECT COUNT(*)
+		FROM ACCOUNTS
+		WHERE FINTECH_USE_NUM =
+		#{fintech_use_num}
 	</select>
-	
+
 	<!-- 계좌 정보를 가져옴 -->
-	<select id="selectOneAccount" parameterType="AccountVO" resultType="AccountVO">
-		SELECT 	*
-		FROM 	ACCOUNTS
-		WHERE 	FINTECH_USE_NUM = #{fintech_use_num}
+	<select id="selectOneAccount" parameterType="AccountVO"
+		resultType="AccountVO">
+		SELECT *
+		FROM ACCOUNTS
+		WHERE FINTECH_USE_NUM =
+		#{fintech_use_num}
 	</select>
-	
+
 	<!-- 회원의 명의로 된 모든 계좌의 잔액을 합쳐서 return -->
 	<select id="selectAccTotalSum" resultType="int">
-		SELECT	NVL( SUM( NVL( BALANCE_AMT, 0 ) ), 0 )
-		FROM	ACCOUNTS
-		WHERE 	USER_ID = #{user_id}
+		SELECT NVL( SUM( NVL(
+		BALANCE_AMT, 0 ) ), 0 )
+		FROM ACCOUNTS
+		WHERE USER_ID = #{user_id}
 	</select>
-	
+
 	<!-- 계좌 DB에 저장 -->
 	<insert id="insertAccount" parameterType="AccountVO">
-		INSERT INTO ACCOUNTS ( FINTECH_USE_NUM, USER_ID, ACCOUNT_NUM_MASKED, ACCOUNT_ALIAS, BANK_CODE_STD, BANK_NAME, BALANCE_AMT )
-		VALUES ( #{fintech_use_num}, #{user_id}, #{account_num_masked}, #{account_alias}, #{bank_code_std}, #{bank_name}, #{balance_amt} )
+		INSERT INTO ACCOUNTS (
+		FINTECH_USE_NUM, USER_ID, ACCOUNT_NUM_MASKED, ACCOUNT_ALIAS,
+		BANK_CODE_STD, BANK_NAME, BALANCE_AMT )
+		VALUES ( #{fintech_use_num},
+		#{user_id}, #{account_num_masked}, #{account_alias}, #{bank_code_std},
+		#{bank_name}, #{balance_amt} )
 	</insert>
-	
+
 	<!-- 계좌의 잔액과 상품명을 UPDATE -->
 	<update id="updateBalance" parameterType="AccountVO">
 		UPDATE 	ACCOUNTS
-		SET 	BALANCE_AMT = #{balance_amt}, PRODUCT_NAME = #{product_name}
-		WHERE	FINTECH_USE_NUM = #{fintech_use_num}
+		<set>
+			<if test="balance_amt != null">BALANCE_AMT = #{balance_amt}, </if>
+			<if test="product_name != null">PRODUCT_NAME = #{product_name},</if>
+		</set>
+		WHERE FINTECH_USE_NUM = #{fintech_use_num}
 	</update>
-  
+
+	<!-- 해당 회원의 연결된 계좌와 계좌거래 내역 삭제 -->
+	<delete id="deleteAccounts" parameterType="UserVO">
+		DELETE FROM ACCOUNTS
+		WHERE USER_ID = #{id}
+	</delete>
+
 </mapper>
