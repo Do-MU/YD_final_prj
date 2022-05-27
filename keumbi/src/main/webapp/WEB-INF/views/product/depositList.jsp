@@ -86,10 +86,6 @@
     font-size: 20px;
     color: black;
 }
-
-#list{
-	display:none;
-}
 </style>
 
 
@@ -126,9 +122,6 @@
 				</div>
 				<hr>
 			</c:forEach>
-		</div>
-		<div id="plus_button" class="btn_wrap">
-			<a href="javascript:;" class="button">더보기</a>
 		</div>
 	</div>
 	
@@ -276,19 +269,5 @@
 		$("#depMoney").keyup(function depMoney(){
 			calculator();
 		})
-	}
-	
-	// 더보기 왜안돼애애애ㅐ애액
-	/*$(function(){
-		$("div").slice(0,10).show();
-		$("#plus_button").click(function(e){
-			e.preventDefault();
-			$("div:hidden").slice(0,10).show();
-			if($("div:hidden").length == 0){
-				alert("없음")
-			}
-		})
-		
-	}) */
-	
+	}	
 </script>
