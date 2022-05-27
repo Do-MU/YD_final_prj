@@ -10,12 +10,10 @@
 	</select>
 
 	<!-- 해당 계좌가 존재하는지 여부 -->
-	<select id="selectAccount" parameterType="AccountVO"
-		resultType="Integer">
+	<select id="selectAccount" parameterType="AccountVO" resultType="Integer">
 		SELECT COUNT(*)
 		FROM ACCOUNTS
-		WHERE FINTECH_USE_NUM =
-		#{fintech_use_num}
+		WHERE FINTECH_USE_NUM = #{fintech_use_num}
 	</select>
 
 	<!-- 계좌 정보를 가져옴 -->
@@ -45,12 +43,14 @@
 		#{bank_name}, #{balance_amt} )
 	</insert>
 
-	<!-- 계좌의 잔액과 상품명을 UPDATE -->
-	<update id="updateBalance" parameterType="AccountVO">
+	<!-- 계좌의 잔액과 상품명 // account_codem prd_id를 UPDATE -->
+	<update id="updateAccount" parameterType="AccountVO">
 		UPDATE 	ACCOUNTS
 		<set>
 			<if test="balance_amt != null">BALANCE_AMT = #{balance_amt}, </if>
 			<if test="product_name != null">PRODUCT_NAME = #{product_name},</if>
+			<if test="account_code != null">ACCOUNT_CODE = #{account_code},</if>
+			<if test="prd_id != null">PRD_ID = #{prd_id}</if>
 		</set>
 		WHERE FINTECH_USE_NUM = #{fintech_use_num}
 	</update>
@@ -60,5 +60,34 @@
 		DELETE FROM ACCOUNTS
 		WHERE USER_ID = #{id}
 	</delete>
-
+	
+	<!-- 예금 id 찾기 -->
+	<select id="selectPrdDep" parameterType="AccountVO" resultType="String">
+		SELECT	DEP_ID
+		FROM 	PRD_DEP_BASES
+		WHERE 	FIN_PRDT_NM = 
+					( SELECT PRODUCT_NAME
+                     FROM ACCOUNTS
+                     WHERE FINTECH_USE_NUM = #{fintech_use_num} )
+	</select>
+	
+	<!-- 적금 id 찾기 -->
+	<select id="selectPrdSav" parameterType="AccountVO" resultType="String">
+		SELECT	SAV_ID
+		FROM 	PRD_SAV_BASES
+		WHERE 	FIN_PRDT_NM = 
+					( SELECT PRODUCT_NAME
+                     FROM ACCOUNTS
+                     WHERE FINTECH_USE_NUM = #{fintech_use_num} )
+	</select>
+	
+	<!-- 대출 id 찾기 -->
+	<select id="selectPrdLoan" parameterType="AccountVO" resultType="String">
+		SELECT	LOAN_ID
+		FROM 	PRD_LOAN_BASES
+		WHERE 	FIN_PRDT_NM = 
+					( SELECT PRODUCT_NAME
+                     FROM ACCOUNTS
+                     WHERE FINTECH_USE_NUM = #{fintech_use_num} )
+	</select>
 </mapper>

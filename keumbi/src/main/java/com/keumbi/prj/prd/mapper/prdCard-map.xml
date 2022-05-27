@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.keumbi.prj.prd.mapper.PrdCardMapper">
+
+	<select id="selectAllPrdCard" resultType="PrdCardVO">
+		SELECT	*
+		FROM	PRD_CARDS
+	</select>
+	
+	<select id="selectRandomCard" resultType="PrdCardVO">
+		SELECT * FROM ( 
+						SELECT * FROM PRD_CARDS
+						ORDER BY DBMS_RANDOM.RANDOM 
+					)
+		WHERE ROWNUM  <![CDATA[ <=5 ]]>
+	</select>
+
+</mapper>

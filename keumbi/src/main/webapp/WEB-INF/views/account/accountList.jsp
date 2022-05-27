@@ -130,6 +130,7 @@
 			
 		</div>
 	</section>
+</body>
 
 	<script>
 		// 천단위 콤마
