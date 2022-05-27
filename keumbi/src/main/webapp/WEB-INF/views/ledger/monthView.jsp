@@ -567,7 +567,7 @@ body {
 
 	<!-- 현금 지출수입내역 입력 Modal 시작 -->
 	<div class="modal fade" id="myModal" tabindex="-1"
-		aria-labelledby="exampleModalLabel" aria-hidden="true" name="myModal">
+		aria-labelledby="exampleModalLabel" aria-hidden="true">
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header">
@@ -580,7 +580,7 @@ body {
 					<form id="cashInsertFrm" name="modalForm">
 						<input type="hidden" name="user_id" value="${loginUser.id}">
 						<div>
-							<input type="radio" id="choice1" name="io_code" value="I1" checked=true>
+							<input type="radio" id="choice1" name="io_code" value="I1" checked="checked">
 							<label for="choice1">지출</label> 
 							<input type="radio" id="choice2" name="io_code" value="I2"> 
 							<label for="choice2">수입</label>
