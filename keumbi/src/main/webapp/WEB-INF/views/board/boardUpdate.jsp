@@ -12,7 +12,7 @@
 </head>
 
 <body>
-<section class="banner_area">
+	<section class="banner_area">
 		<div class="container box_1620">
 			<div class="banner_inner d-flex align-items-center">
 				<div class="container">
@@ -23,138 +23,140 @@
 			</div>
 		</div>
 	</section>
-<br>
-<br>
+	<br>
+	<br>
 
-<div class="container">
-	<div class="row">
-		<form method="post" action="update?bod_num=${up.bod_num}" style="width:1180px; text-align:center;">
-			<input type="hidden" id="user_id" name="user_id" value="${up.user_id}">
-			<%-- <input type="hidden" id="nid" name="nid" value="${notice.NId }"> --%>
+	<div class="container">
+		<div class="row">
+			<form method="post" action="update?bod_num=${up.bod_num}"
+				style="width: 1180px; text-align: center;">
+				<input type="hidden" id="user_id" name="user_id"
+					value="${up.user_id}">
 
 
-			
-			<table class="table table-striped"
-				style="text-align: center; border: 1px solid #dddddd">
-				<thead>
-					<tr>
-						<th colspan="2"
-							style="background-color: #eeeeee; text-align: center;">게시판 글
-							보기</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr>
-						<td>작성일자</td>
-						<td colspan="2">${up.wdate}</td>
-					</tr>
-					<tr>
-						<td style="width: 20%;">글 제목</td>
-						<td colspan="2"><input type="text" style="width:900px;" value="${up.title}"
-							name="title">
-							<input type="hidden" name="contents" value="${up.contents}"></td>
-					</tr>
-					<tr>
-						<td>내용</td>
-						<%-- <td colspan="2" style="height: 200px; text-align: center;"><input
-							type="text" style="width:900px; height: 200px;" value="${up.contents}" name="contents"> --%>
+
+				<table class="table table-striped"
+					style="text-align: center; border: 1px solid #dddddd">
+					<thead>
+						<tr>
+							<th colspan="2"
+								style="background-color: #eeeeee; text-align: center;">게시판
+								글 보기</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>작성일자</td>
+							<td colspan="2">${up.wdate}</td>
+						</tr>
+						<tr>
+							<td style="width: 20%;">글 제목</td>
+							<td colspan="2"><input type="text" style="width: 900px;"
+								value="${up.title}" name="title"> <input type="hidden"
+								name="contents" value="${up.contents}"></td>
+						</tr>
+						<tr>
+							<td>내용</td>
 							<td>
-							<div id="editor" style="width: 900px; height: 100px; text-align: left;" ></div>
-							
+								<div id="editor"
+									style="width: 900px; height: 100px; text-align: left;"></div>
+
 								<div>
 									<ul id="tag-list" style="float: left;"></ul>
-								</div></td>
-							
-					</tr>
-				</tbody>
-			</table>
-			<br>
-			
-			<div class="row" id="tag-list" style="margin: auto;">
+								</div>
+							</td>
+
+						</tr>
+					</tbody>
+				</table>
+				<br>
+
+				<div class="row" id="tag-list" style="margin: auto;">
 					<input type="button" role="button"
-						class="btn btn-outline-info pull-right hashtag" value="#차" data-code = "K001"
-						style="width: 95px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						class="btn btn-outline-info pull-right hashtag" value="#차"
+						data-code="K001" style="width: 95px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 					<input type="button" role="button"
-						class="btn btn-outline-info pull-right hashtag" value="#애완동물" data-code = "K002"
-						style="width: 95px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						class="btn btn-outline-info pull-right hashtag" value="#애완동물"
+						data-code="K002" style="width: 95px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 					<input type="button" role="button"
-						class="btn btn-outline-info pull-right hashtag" value="#카페" data-code = "K003"
-						style="width: 95px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						class="btn btn-outline-info pull-right hashtag" value="#카페"
+						data-code="K003" style="width: 95px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 					<input type="button" role="button"
-						class="btn btn-outline-info pull-right hashtag" value="#주식" data-code = "K004"
-						style="width: 95px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						class="btn btn-outline-info pull-right hashtag" value="#주식"
+						data-code="K004" style="width: 95px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 					<input type="button" role="button"
-						class="btn btn-outline-info pull-right hashtag" value="#코인" data-code = "K005"
-						style="width: 95px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						class="btn btn-outline-info pull-right hashtag" value="#코인"
+						data-code="K005" style="width: 95px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 					<input type="button" role="button"
-						class="btn btn-outline-info pull-right hashtag" value="#게임" data-code = "K006"
-						style="width: 95px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						class="btn btn-outline-info pull-right hashtag" value="#게임"
+						data-code="K006" style="width: 95px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 					<input type="button" role="button"
-						class="btn btn-outline-info pull-right hashtag" value="#여행" data-code = "K007"
-						style="width: 95px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						class="btn btn-outline-info pull-right hashtag" value="#여행"
+						data-code="K007" style="width: 95px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 					<input type="button" role="button"
-						class="btn btn-outline-info pull-right hashtag" value="#전자제품" data-code = "K008"
-						style="width: 95px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						class="btn btn-outline-info pull-right hashtag" value="#전자제품"
+						data-code="K008" style="width: 95px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 					<input type="button" role="button"
-						class="btn btn-outline-info pull-right hashtag" value="#영화" data-code = "K009"
-						style="width: 95px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						class="btn btn-outline-info pull-right hashtag" value="#영화"
+						data-code="K009" style="width: 95px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 					<input type="button" role="button"
-						class="btn btn-outline-info pull-right hashtag" value="#옷" data-code = "K010"
-						style="width: 95px;">
+						class="btn btn-outline-info pull-right hashtag" value="#옷"
+						data-code="K010" style="width: 95px;">
 				</div>
 				<br>
 				<div class="row" style="margin: auto;">
 					<input type="button" role="button"
-						class="btn btn-outline-info pull-right hashtag" value="#신발" data-code = "K011"
-						style="width: 95px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						class="btn btn-outline-info pull-right hashtag" value="#신발"
+						data-code="K011" style="width: 95px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 					<input type="button" role="button"
-						class="btn btn-outline-info pull-right hashtag" value="#의약품" data-code = "K012"
-						style="width: 95px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						class="btn btn-outline-info pull-right hashtag" value="#의약품"
+						data-code="K012" style="width: 95px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 					<input type="button" role="button"
-						class="btn btn-outline-info pull-right hashtag" value="#SNS" data-code = "K013"
-						style="width: 95px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						class="btn btn-outline-info pull-right hashtag" value="#SNS"
+						data-code="K013" style="width: 95px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 					<input type="button" role="button"
-						class="btn btn-outline-info pull-right hashtag" value="#스포츠" data-code = "K014"
-						style="width: 95px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						class="btn btn-outline-info pull-right hashtag" value="#스포츠"
+						data-code="K014" style="width: 95px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 					<input type="button" role="button"
-						class="btn btn-outline-info pull-right hashtag" value="#부동산" data-code = "K015"
-						style="width: 95px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						class="btn btn-outline-info pull-right hashtag" value="#부동산"
+						data-code="K015" style="width: 95px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 					<input type="button" role="button"
-						class="btn btn-outline-info pull-right hashtag" value="#문화생활" data-code = "K016"
-						style="width: 95px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						class="btn btn-outline-info pull-right hashtag" value="#문화생활"
+						data-code="K016" style="width: 95px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 					<input type="button" role="button"
-						class="btn btn-outline-info pull-right hashtag" value="#교육" data-code = "K017"
-						style="width: 95px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						class="btn btn-outline-info pull-right hashtag" value="#교육"
+						data-code="K017" style="width: 95px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 					<input type="button" role="button"
-						class="btn btn-outline-info pull-right hashtag" value="#보험" data-code = "K018"
-						style="width: 95px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						class="btn btn-outline-info pull-right hashtag" value="#보험"
+						data-code="K018" style="width: 95px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 					<input type="button" role="button"
-						class="btn btn-outline-info pull-right hashtag" value="#앤티크" data-code = "K019"
-						style="width: 95px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						class="btn btn-outline-info pull-right hashtag" value="#앤티크"
+						data-code="K019" style="width: 95px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 					<input type="button" role="button"
-						class="btn btn-outline-info pull-right hashtag" value="#외식" data-code = "K020"
-						style="width: 95px;">
+						class="btn btn-outline-info pull-right hashtag" value="#외식"
+						data-code="K020" style="width: 95px;">
 				</div>
-			
-				<br>
-				<br>
-			
-			<input name="bod_num" type="hidden" value="${up.bod_num}">
-			
-			<a href="boardList" role="button" class="btn btn-outline-info" style="float: right;">목록보기</a>
-			<a href="boardView?bod_num=${up.bod_num}" role="button" class="btn btn-outline-info" style="float: right;" onclick="return confirm('수정을 취소하시겠습니까?')">취소</a>
-			<button type="submit" id="submit" class="btn btn-outline-info" onclick="return confirm('수정을 완료하시겠습니까?')" style="float: right;">수정완료</button>
 
-		</form>
+				<br> <br> <input name="bod_num" type="hidden"
+					value="${up.bod_num}"> <a href="boardList" role="button"
+					class="btn btn-outline-info" style="float: right;">목록보기</a> <a
+					href="boardView?bod_num=${up.bod_num}" role="button"
+					class="btn btn-outline-info" style="float: right;"
+					onclick="return confirm('수정을 취소하시겠습니까?')">취소</a>
+				<button type="submit" id="submit" class="btn btn-outline-info"
+					onclick="return confirm('수정을 완료하시겠습니까?')" style="float: right;">수정완료</button>
+
+			</form>
+		</div>
 	</div>
-</div>
 
 	<br>
 	<br>
 
-<script	src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js"></script>
+	<script
+		src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js"></script>
 
-<script>
+	<script>
 		const editor = new toastui.Editor({
 			el : document.querySelector('#editor'),
 			previewStyle : 'vertical',
@@ -174,7 +176,7 @@
 		}
 	</script>
 
-<script>
+	<script>
 		$(document)
 				.ready(
 						function() {

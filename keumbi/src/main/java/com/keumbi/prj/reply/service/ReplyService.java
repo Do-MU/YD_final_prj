@@ -9,7 +9,7 @@ public interface ReplyService {
 	void replyCount(int re_num);
 	List<ReplyVO> replyList(ReplyVO vo);
 	int replyInsert(ReplyVO vo);
-	void replyUpdate(ReplyVO vo);
+	int replyUpdate(ReplyVO vo);
 	int replyDelete(int re_num);
 	
 	
