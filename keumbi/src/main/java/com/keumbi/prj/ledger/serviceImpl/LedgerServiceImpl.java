@@ -9,6 +9,7 @@ import com.keumbi.prj.ledger.mapper.LedgerMapper;
 import com.keumbi.prj.ledger.service.LedgerService;
 import com.keumbi.prj.ledger.vo.LedgerMonthVO;
 import com.keumbi.prj.ledger.vo.LedgerVO;
+import com.keumbi.prj.prd.vo.PrdChallengeVO;
 
 @Service
 public class LedgerServiceImpl implements LedgerService {
@@ -54,6 +55,11 @@ public class LedgerServiceImpl implements LedgerService {
 	@Override
 	public int ledgerDelete(LedgerVO vo) {
 		return m.ledgerDelete(vo);
+	}
+
+	@Override
+	public List<LedgerVO> avgAmt(PrdChallengeVO vo) {
+		return m.avgAmt(vo);
 	}
 
 }

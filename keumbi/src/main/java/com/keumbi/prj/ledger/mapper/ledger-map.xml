@@ -93,4 +93,12 @@
     			(SELECT CODE FROM COMMON_CODE WHERE VAL LIKE '%'||#{cat_code}||'%')
     			)
 	</insert>
+	
+	<select id="avgAmt" resultType="LedgerVO">
+        SELECT	*
+        FROM	TOTAL_TRANS
+        WHERE	CAT_CODE = (SELECT VAL
+                            FROM COMMON_CODE
+                            WHERE CODE = #{category})
+   </select>
 </mapper>  

@@ -153,7 +153,7 @@
 				<div class="div_etc">
 					<div class="div_exp">
 						<div>- 목표기간 : 1개월</div>
-						<div>- 도전자 : ${prd.image}명</div>
+						<div></div>
 					</div>
 					<div class="div_img">
 						<img src="${pageContext.request.contextPath}/resources/img/challenge_img/${prd.image}" style="height: 150px; width:150px;">
@@ -232,6 +232,7 @@
 			data:{ num : chall_num }
 		}).done(function(chall){
 			//console.log(chall);
+			console.log(chall.category);
 			$("#mod_chal_img").attr("src","${pageContext.request.contextPath}/resources/img/challenge_img/"+chall.image);
 			$("#mod_chal_title").html(chall.title);
 			$("#mod_chal_cont").html(chall.content);
@@ -242,6 +243,13 @@
 				$("#mod_chal_user").html("도전자 : " + totalUser + "명");				// 챌린지-유저 테이블 count
 			})
 			$("#mod_chal_top3").html("월 평균 소비 TOP 3!!");
+			
+			$.ajax({
+				url:"avgAmt",
+				data:{cat_code : chall.category}
+			}).done(function(data){
+				console.log(data);
+			})
 			for(let i = 1; i < 4; i++){									// 지출내역 테이블 >> userId + 챌린지키워드 or 검색키워드 >> 금액 합계 >> 확장for문 사용
 				if(true){												// 3개 출력시 stop
 					$("<div>").html(i + ". " + "장소" + "금액" + "원").appendTo($("#mod_chal_top3"));
@@ -250,13 +258,12 @@
 			// $("#slider").attr("max")									// 불러온 목록의 전체 금액을 다 더하여 max 값으로	
 			$("#goal_max").html($("#slider").attr("max"))				// max값 출력
 		});
-		
-		// slider 초기화
-		$("#slider").val($('#slider').attr('max')/2);					// 슬라이드 바 중앙으로
-		$("#goal_now").html($("#slider").val());						// 하단 금액 추전 금액으로
-		$("#slider").attr("step", $('#slider').attr('max')/100);		// 금액 단위 조정
-		$("#challengeJoinBtn").data("chall_num", chall_num);			// 도전하기 버튼에 챌린지 번호 부여
-	})
+			// slider 초기화
+			$("#slider").val($('#slider').attr('max')/2);					// 슬라이드 바 중앙으로
+			$("#goal_now").html($("#slider").val());						// 하단 금액 추전 금액으로
+			$("#slider").attr("step", $('#slider').attr('max')/100);		// 금액 단위 조정
+			$("#challengeJoinBtn").data("chall_num", chall_num);			// 도전하기 버튼에 챌린지 번호 부여
+		})
 	
 	$("#slider").mousemove(function(){
 		$("#goal_now").html($("#slider").val());
@@ -288,5 +295,6 @@
 	 		}
 		}
 	})
+	
 	
 </script>	

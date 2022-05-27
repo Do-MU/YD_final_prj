@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.keumbi.prj.account.service.AccountService;
 import com.keumbi.prj.chall.service.ChallService;
 import com.keumbi.prj.common.service.CodeService;
+import com.keumbi.prj.ledger.service.LedgerService;
+import com.keumbi.prj.ledger.vo.LedgerVO;
 import com.keumbi.prj.prd.service.DepositService;
 import com.keumbi.prj.prd.service.LoanService;
 import com.keumbi.prj.prd.service.PrdChallengeService;
@@ -33,6 +35,7 @@ public class PrdController {
 	@Autowired	AccountService accService;
 	@Autowired 	ChallService mychall;
 	@Autowired	CodeService codeService;
+	@Autowired	LedgerService led;
 	
 	/* 예금 */
 	// 예금상품 업데이트 처리 (관리자)
@@ -148,7 +151,6 @@ public class PrdController {
 	@RequestMapping("/prdChallengeList")
 	public String prdChallengeList(Model model) {
 		model.addAttribute("prdChall", chal.prdChallengeList());
-		
 		return "product/prdChallengeList";
 	}
 	
@@ -156,7 +158,14 @@ public class PrdController {
 	@RequestMapping("/prdChall")
 	@ResponseBody
 	public PrdChallengeVO prdChall(PrdChallengeVO vo) {
-		
 		return chal.prdChallengeSelect(vo);
+	}
+	
+	
+	// 소비금액 가져오기
+	@RequestMapping("/avgAmt")
+	@ResponseBody
+	public List<LedgerVO> avgAmt(PrdChallengeVO vo){
+	   return led.avgAmt(vo);
 	}
 }
