@@ -31,8 +31,10 @@ public class ReplyServiceImpl implements ReplyService {
 	}
 
 	@Override
-	public void replyUpdate(ReplyVO vo) {
-		m.replyUpdate(vo);
+	public int replyUpdate(ReplyVO vo) {
+		return m.replyUpdate(vo);
+		
+		
 
 	}
 
