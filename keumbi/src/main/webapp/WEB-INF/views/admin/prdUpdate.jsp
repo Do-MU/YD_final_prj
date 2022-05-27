@@ -22,6 +22,16 @@
 		<br>
 		<button id="loan">대출목록 가져오기</button>
 		<br>
+		<br>
+		<br>
+		<br>
+		<br>
+		<button id="dummy_dep" class="btn btn-success">예금 계좌 더미데이터 만들기</button>
+		<br>
+		<button id="dummy_sav" class="btn btn-success">적금 계좌 더미데이터 만들기</button>
+		<br>
+		<button id="dummy_loa" class="btn btn-success">대출 계좌 더미데이터 만들기</button>
+		<br>
 	</div>
 </div>
 
@@ -47,6 +57,32 @@
 			url : "loanUpdate"
 		}).done(function(str){
 			alert(str);
+		});
+	});
+	
+	
+	// 더미 데이터 만들기
+	$("#dummy_dep").on("click", function(){
+		$.ajax({
+			url : "dummyDep"
+		}).done(function(acc){
+			console.log(acc+"개 계좌 생성완료!!!");
+		});
+	});
+	
+	$("#dummy_sav").on("click", function(){
+		$.ajax({
+			url : "dummySav"
+		}).done(function(acc){
+			console.log(acc+"개 계좌 생성완료!!!");
+		});
+	});
+	
+	$("#dummy_loa").on("click", function(){
+		$.ajax({
+			url : "dummyLoa"
+		}).done(function(acc){
+			console.log(acc+"개 계좌 생성완료!!!");
 		});
 	});
 </script>

@@ -39,10 +39,10 @@
 	<insert id="insertAccount" parameterType="AccountVO">
 		INSERT INTO ACCOUNTS (
 		FINTECH_USE_NUM, USER_ID, ACCOUNT_NUM_MASKED, ACCOUNT_ALIAS,
-		BANK_CODE_STD, BANK_NAME, BALANCE_AMT )
+		BANK_CODE_STD, BANK_NAME, BALANCE_AMT, ACCOUNT_CODE, PRODUCT_NAME, PRD_ID )
 		VALUES ( #{fintech_use_num},
 		#{user_id}, #{account_num_masked}, #{account_alias}, #{bank_code_std},
-		#{bank_name}, #{balance_amt} )
+		#{bank_name}, #{balance_amt}, #{account_code}, #{product_name}, #{prd_id} )
 	</insert>
 
 	<!-- 계좌의 잔액과 상품명을 UPDATE -->

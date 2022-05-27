@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.keumbi.prj.common.vo.CodeVO;
 import com.keumbi.prj.prd.mapper.SavingMapper;
 import com.keumbi.prj.prd.service.SavingService;
 import com.keumbi.prj.prd.vo.SavingBaseVO;
@@ -42,7 +43,9 @@ public class SavingServiceImpl implements SavingService {
 		deleteAllSavings();
 
 		for (SavingBaseVO svo : saving.getBaseList()) {
-			svo.setKor_co_nm(s.selectBankName(svo.getKor_co_nm()));
+			CodeVO bankCode = s.selectBankName(svo.getKor_co_nm()); 
+			svo.setKor_co_nm(bankCode.getVal());
+			svo.setBank_code(bankCode.getCode());
 			baseCnt += s.insertSavBase(svo);
 		}
 
