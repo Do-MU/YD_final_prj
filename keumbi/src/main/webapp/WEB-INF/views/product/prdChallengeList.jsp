@@ -185,6 +185,7 @@
 						
 						<div id="mod_chal_top3">
 							<h3>월 평균 소비 TOP3</h3>
+							<p></p>
 						</div>
 						
 						<div id="mod_goalTitle">
@@ -232,7 +233,6 @@
 			data:{ num : chall_num }
 		}).done(function(chall){
 			//console.log(chall);
-			console.log(chall.category);
 			$("#mod_chal_img").attr("src","${pageContext.request.contextPath}/resources/img/challenge_img/"+chall.image);
 			$("#mod_chal_title").html(chall.title);
 			$("#mod_chal_cont").html(chall.content);
@@ -246,15 +246,22 @@
 			
 			$.ajax({
 				url:"avgAmt",
-				data:{cat_code : chall.category}
+				data:{cat_code : chall.category
+				}
 			}).done(function(data){
-				console.log(data);
+				for(let i = 0; i <= data.length; i++){
+					if(data[i].user_id == "${loginUser.id}"){		
+						$("<div>").html((i+1) + ". " + data[i].content + '   ' + data[i].sum + "원").appendTo($("#mod_chal_top3"));
+					}
+				}
 			})
-			for(let i = 1; i < 4; i++){									// 지출내역 테이블 >> userId + 챌린지키워드 or 검색키워드 >> 금액 합계 >> 확장for문 사용
+			
+			
+/* 			for(let i = 1; i < 4; i++){									// 지출내역 테이블 >> userId + 챌린지키워드 or 검색키워드 >> 금액 합계 >> 확장for문 사용
 				if(true){												// 3개 출력시 stop
 					$("<div>").html(i + ". " + "장소" + "금액" + "원").appendTo($("#mod_chal_top3"));
 				}
-			}
+			} */
 			// $("#slider").attr("max")									// 불러온 목록의 전체 금액을 다 더하여 max 값으로	
 			$("#goal_max").html($("#slider").attr("max"))				// max값 출력
 		});

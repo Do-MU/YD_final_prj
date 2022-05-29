@@ -81,10 +81,16 @@
 	</delete>
 	
 	<select id="avgAmt" resultType="LedgerVO">
-        SELECT	*
-        FROM	TOTAL_TRANS
-        WHERE	CAT_CODE = (SELECT VAL
-                            FROM COMMON_CODE
-                            WHERE CODE = #{category})
+       <![CDATA[
+       SELECT USER_ID, CONTENT, SUM(AMT) SUM
+       FROM   TOTAL_TRANS
+       WHERE CAT_CODE = (SELECT VAL
+                         FROM COMMON_CODE
+                         WHERE CODE = #{category})
+       
+       AND ROWNUM <= 4
+       group by user_id, content
+       ORDER BY 3 DESC
+       ]]>
    </select>
 </mapper>  
