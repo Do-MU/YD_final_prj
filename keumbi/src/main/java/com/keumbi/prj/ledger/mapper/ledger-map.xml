@@ -80,20 +80,6 @@
 		AND NUM = #{num}
 	</delete>
 	
-	<insert id="transInsert" parameterType="LedgerVO">
-		<selectKey keyProperty="num" resultType="int" order="BEFORE">
-			SELECT 	NVL(MAX(NUM),0) + 1
-			FROM 	TOTAL_TRANS
-			WHERE   USER_ID = #{user_id}
-			AND     TDATE = #{tdate}
-		</selectKey>
-		INSERT INTO TOTAL_TRANS
-		VALUES ( #{tdate}, #{num}, #{user_id}, 
-    			(SELECT CODE FROM COMMON_CODE WHERE VAL = #{io_code}), #{content}, #{amt},
-    			(SELECT CODE FROM COMMON_CODE WHERE VAL LIKE '%'||#{cat_code}||'%')
-    			)
-	</insert>
-	
 	<select id="avgAmt" resultType="LedgerVO">
         SELECT	*
         FROM	TOTAL_TRANS

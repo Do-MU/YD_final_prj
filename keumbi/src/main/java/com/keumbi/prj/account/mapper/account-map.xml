@@ -4,43 +4,33 @@
 
 	<!-- 해당 회원의 계좌를 모두 가져옴 -->
 	<select id="selectAllAccount" resultType="AccountVO">
-		SELECT *
-		FROM ACCOUNTS
-		WHERE USER_ID = #{user_id}
-	</select>
-
-	<!-- 해당 계좌가 존재하는지 여부 -->
-	<select id="selectAccount" parameterType="AccountVO" resultType="Integer">
-		SELECT COUNT(*)
-		FROM ACCOUNTS
-		WHERE FINTECH_USE_NUM = #{fintech_use_num}
+		SELECT 	*
+		FROM 	ACCOUNTS
+		WHERE 	USER_ID = #{user_id}
 	</select>
 
 	<!-- 계좌 정보를 가져옴 -->
-	<select id="selectOneAccount" parameterType="AccountVO"
-		resultType="AccountVO">
-		SELECT *
-		FROM ACCOUNTS
-		WHERE FINTECH_USE_NUM =
-		#{fintech_use_num}
+	<select id="selectOneAccount" parameterType="AccountVO" resultType="AccountVO">
+		SELECT 	*
+		FROM 	ACCOUNTS
+		WHERE 	FINTECH_USE_NUM = #{fintech_use_num}
 	</select>
 
 	<!-- 회원의 명의로 된 모든 계좌의 잔액을 합쳐서 return -->
 	<select id="selectAccTotalSum" resultType="int">
-		SELECT NVL( SUM( NVL(
-		BALANCE_AMT, 0 ) ), 0 )
-		FROM ACCOUNTS
-		WHERE USER_ID = #{user_id}
+		SELECT 	NVL( SUM( NVL(BALANCE_AMT, 0 ) ), 0 )
+		FROM 	ACCOUNTS
+		WHERE 	USER_ID = #{user_id}
 	</select>
+	
+	
 
 	<!-- 계좌 DB에 저장 -->
 	<insert id="insertAccount" parameterType="AccountVO">
-		INSERT INTO ACCOUNTS (
-		FINTECH_USE_NUM, USER_ID, ACCOUNT_NUM_MASKED, ACCOUNT_ALIAS,
-		BANK_CODE_STD, BANK_NAME, BALANCE_AMT, ACCOUNT_CODE, PRODUCT_NAME, PRD_ID )
-		VALUES ( #{fintech_use_num},
-		#{user_id}, #{account_num_masked}, #{account_alias}, #{bank_code_std},
-		#{bank_name}, #{balance_amt}, #{account_code}, #{product_name}, #{prd_id} )
+		INSERT INTO ACCOUNTS 	( FINTECH_USE_NUM, USER_ID, ACCOUNT_NUM_MASKED, ACCOUNT_ALIAS,
+								BANK_CODE_STD, BANK_NAME, BALANCE_AMT, ACCOUNT_CODE, PRODUCT_NAME, PRD_ID )
+		VALUES 					( #{fintech_use_num}, #{user_id}, #{account_num_masked}, #{account_alias},
+								#{bank_code_std}, #{bank_name}, #{balance_amt}, #{account_code}, #{product_name}, #{prd_id} )
 	</insert>
 
 	<!-- 계좌의 잔액과 상품명 // account_codem prd_id를 UPDATE -->
@@ -61,33 +51,58 @@
 		WHERE USER_ID = #{id}
 	</delete>
 	
-	<!-- 예금 id 찾기 -->
-	<select id="selectPrdDep" parameterType="AccountVO" resultType="String">
-		SELECT	DEP_ID
+	
+	
+	<!-- 오픈뱅킹 API를 통해 가져온 거래내역 저장 -->
+	<insert id="insertAccTrans" parameterType="AccTransVO">
+		<selectKey keyProperty="seq" resultType="int" order="BEFORE">
+			SELECT	NVL( MAX(SEQ), 0 ) + 1
+			FROM	ACC_TRANS
+		</selectKey>
+		INSERT INTO ACC_TRANS
+		VALUES ( #{seq}, #{fintech_use_num}, #{tran_date}, #{tran_time}, #{inout_type}, #{tran_type}, #{print_content}, #{tran_amt}, #{after_balance_amt}, #{branch_name} )
+	</insert>
+	
+	<!-- 오픈뱅킹 API를 통해 가져온 거래내역 > TOTAL_TRANS로 INSERT -->
+	<insert id="insertTrans" parameterType="LedgerVO">
+		<selectKey keyProperty="num" resultType="int" order="BEFORE">
+			SELECT 	NVL(MAX(NUM),0) + 1
+			FROM 	TOTAL_TRANS
+			WHERE   USER_ID = #{user_id}
+			AND     TDATE = #{tdate}
+		</selectKey>
+		INSERT INTO TOTAL_TRANS
+		VALUES ( #{tdate}, #{num}, #{user_id}, 
+    			( SELECT 	CODE
+    			  FROM		COMMON_CODE
+    			  WHERE 	VAL = #{io_code} ), 
+    			 #{content}, #{amt},
+    			( SELECT 	NVL(CODE, 'D019')
+    			  FROM 		COMMON_CODE
+    			  WHERE 	VAL LIKE '%'||#{cat_code}||'%' )
+    			)
+	</insert>
+	
+	
+	
+	<!-- 예금 ID 찾기 -->
+	<select id="selectPrdDep" parameterType="AccountVO" resultType="Integer">
+		SELECT	NVL(DEP_ID, 0)
 		FROM 	PRD_DEP_BASES
-		WHERE 	FIN_PRDT_NM = 
-					( SELECT PRODUCT_NAME
-                     FROM ACCOUNTS
-                     WHERE FINTECH_USE_NUM = #{fintech_use_num} )
+		WHERE 	FIN_PRDT_NM = #{product_name}
 	</select>
 	
-	<!-- 적금 id 찾기 -->
-	<select id="selectPrdSav" parameterType="AccountVO" resultType="String">
-		SELECT	SAV_ID
+	<!-- 적금 ID 찾기 -->
+	<select id="selectPrdSav" parameterType="AccountVO" resultType="Integer">
+		SELECT	NVL(SAV_ID, 0)
 		FROM 	PRD_SAV_BASES
-		WHERE 	FIN_PRDT_NM = 
-					( SELECT PRODUCT_NAME
-                     FROM ACCOUNTS
-                     WHERE FINTECH_USE_NUM = #{fintech_use_num} )
+		WHERE 	FIN_PRDT_NM = #{product_name}
 	</select>
 	
-	<!-- 대출 id 찾기 -->
-	<select id="selectPrdLoan" parameterType="AccountVO" resultType="String">
-		SELECT	LOAN_ID
+	<!-- 대출 ID 찾기 -->
+	<select id="selectPrdLoan" parameterType="AccountVO" resultType="Integer">
+		SELECT	NVL(LOAN_ID, 0)
 		FROM 	PRD_LOAN_BASES
-		WHERE 	FIN_PRDT_NM = 
-					( SELECT PRODUCT_NAME
-                     FROM ACCOUNTS
-                     WHERE FINTECH_USE_NUM = #{fintech_use_num} )
+		WHERE 	FIN_PRDT_NM = #{product_name}
 	</select>
 </mapper>

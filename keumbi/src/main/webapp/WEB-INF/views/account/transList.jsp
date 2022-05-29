@@ -26,6 +26,9 @@
 	.td_contents{
 		text-align:left;
 	}
+	 .td_money{
+	 	text-align:right;
+	 }
 	#output {
 		min-height:300px;
 	}
@@ -77,12 +80,12 @@
 							<table class="table">
 								<thead class="thead-dark">
 									<tr>
-										<th>거래일자</th>
-										<th>거래일시</th>
-										<th>입/출금</th>
-										<th>내 용</th>
-										<th>금 액</th>
-										<th>잔 액</th>
+										<th width="12%">거래일자</th>
+										<th width="12%">거래일시</th>
+										<th width="11%">입/출금</th>
+										<th width="35%">내 용</th>
+										<th width="15%">금 액</th>
+										<th width="15%">잔 액</th>
 									</tr>
 								</thead>
 								<tbody id="result">
@@ -92,8 +95,8 @@
 											<td>${trans.tran_time}</td>
 											<td>${trans.inout_type}</td>
 											<td class="td_contents">${trans.print_content} (${trans.branch_name})</td>
-											<td>${trans.tran_amt}</td>
-											<td>${trans.after_balance_amt}</td>
+											<td class="td_money">${trans.tran_amt}</td>
+											<td class="td_money">${trans.after_balance_amt}</td>
 										</tr>
 									</c:forEach>
 								</tbody>
@@ -123,6 +126,7 @@
 				$('select').niceSelect('update');
 			}
 		}
+		dateformat();
 	})
 
 	// 날짜 선택 -> 거래내역 회신
@@ -138,6 +142,7 @@
 				data : $("#transFrm").serialize()
 			}).done(function(datas){
 				makeTable(datas);
+				dateformat();
 			});
 		}
 	}
@@ -156,6 +161,7 @@
 			data : {fintech_use_num : selVal}
 		}).done(function(datas){
 			makeTable(datas);
+			dateformat();
 		});
 	}
 	
@@ -170,7 +176,7 @@
 		transFrm.submit();
 	})
 	
-	// 조회 통장 변경 OR 조회 시 출력하는 function 
+	// 조회 통장 변경 OR 조회 시 테이블 출력하는 function 
 	function makeTable(datas){
 		$("#output").empty();			// 출력 div 초기화
 		
@@ -178,12 +184,12 @@
 			var table = $('<table class="table">');
 			var thead = `<thead class="thead-dark">
 							<tr>
-								<th scope="col">거래일자</th>
-								<th scope="col">거래일시</th>
-								<th scope="col">입/출금</th>
-								<th scope="col">내 용</th>
-								<th scope="col">금 액</th>
-								<th scope="col">잔 액</th>
+								<th width="12%">거래일자</th>
+								<th width="12%">거래일시</th>
+								<th width="11%">입/출금</th>
+								<th width="35%">내 용</th>
+								<th width="15%">금 액</th>
+								<th width="15%">잔 액</th>
 							</tr>
 						</thead>`;
 						
@@ -194,8 +200,8 @@
 							<td>\${data.tran_time}</td>
 							<td>\${data.inout_type}</td>
 							<td class="td_contents">\${data.print_content} (\${data.branch_name})</td>
-							<td>\${data.tran_amt}</td>
-							<td>\${data.after_balance_amt}</td>
+							<td class="td_money">\${data.tran_amt}</td>
+							<td class="td_money">\${data.after_balance_amt}</td>
 						</tr>`;		
 				tbody.append(tr);
 			}
@@ -208,6 +214,19 @@
 			$("#output").empty();
 			$("#output").html("<h3>거래내역이 없습니다.</h3>");
 		}	
+	}
+	
+	function dateformat(){
+		$("#result").children().each(function(){
+			let tdate = $(this).children(":eq(0)").html();
+			let ttime = $(this).children(":eq(1)").html();
+			let tamt = $(this).children(":eq(4)").html();
+			let tmoney = $(this).children(":eq(5)").html();
+			$(this).children(":eq(0)").html(tdate.substr(0,4)+"/"+tdate.substr(4,2)+"/"+tdate.substr(6));
+			$(this).children(":eq(1)").html(ttime.substr(0,2)+":"+ttime.substr(2,2)+":"+ttime.substr(4));
+			$(this).children(":eq(4)").html(tamt.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",")+"원");
+			$(this).children(":eq(5)").html(tmoney.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",")+"원");
+		})
 	}
 </script>
 

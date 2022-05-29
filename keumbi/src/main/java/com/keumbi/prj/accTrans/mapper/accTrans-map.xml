@@ -2,35 +2,26 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.keumbi.prj.accTrans.mapper.AccTransMapper">
 
-	<select id="selectAccTransAll" resultType="AccTransVO">
+	<select id="selectAllAccTrans" resultType="AccTransVO">
 		SELECT 		*
 		FROM 		ACC_TRANS
 		WHERE 		FINTECH_USE_NUM = #{fintech_use_num}
 		ORDER BY    TRAN_DATE DESC, TRAN_TIME DESC
 	</select>
 	
-	<insert id="insertAccTrans" parameterType="AccTransVO">
-		<selectKey keyProperty="seq" resultType="int" order="BEFORE">
-			SELECT	NVL( MAX(SEQ), 0 ) + 1
-			FROM	ACC_TRANS
-		</selectKey>
-		INSERT INTO ACC_TRANS
-		VALUES ( #{seq}, #{fintech_use_num}, #{tran_date}, #{tran_time}, #{inout_type}, #{tran_type}, #{print_content}, #{tran_amt}, #{after_balance_amt}, #{branch_name} )
-	</insert>
+	<select id="selectAccTransDate" parameterType="AccTransReqVO" resultType="AccTransVO">
+		SELECT		*
+		FROM		ACC_TRANS
+		WHERE		TRAN_DATE BETWEEN #{from_date} AND #{to_date}
+		AND 		FINTECH_USE_NUM = #{fintech_use_num}
+		ORDER BY 	TRAN_DATE DESC, TRAN_TIME DESC
+	</select>
 	
 	<!-- 해당 계좌의 계좌 거래 내역이 존재하는 지 확인 -->
 	<select id="selectAccTransOne" parameterType="AccTransVO" resultType="Integer">
 		SELECT	COUNT(*)
 		FROM	ACC_TRANS
 		WHERE	FINTECH_USE_NUM = #{fintech_use_num}
-	</select>
-	
-	<select id="selectAccTransDate" parameterType="AccTransReqVO" resultType="AccTransVO">
-		SELECT	*
-		FROM	ACC_TRANS
-		WHERE	TRAN_DATE  BETWEEN #{from_date} AND #{to_date}
-				AND FINTECH_USE_NUM = #{fintech_use_num}
-		ORDER BY TRAN_DATE DESC, TRAN_TIME DESC
 	</select>
 	
 	<insert id="insertRemit" parameterType="RemitVO">

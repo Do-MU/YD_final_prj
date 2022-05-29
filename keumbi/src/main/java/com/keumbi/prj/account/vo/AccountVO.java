@@ -13,5 +13,5 @@ public class AccountVO {
 	private String account_code;
 	private int balance_amt;
 	private String product_name;
-	private String prd_id;
+	private int prd_id;
 }
