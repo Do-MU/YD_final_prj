@@ -45,7 +45,13 @@ public class UserController {
 		if (loginUser != null && loginUser.getPw().equals(userVO.getPw())) {
 			session.setAttribute("loginUser", loginUser);
 			
-			return "redirect:home";
+			if(loginUser.getId().equals("admin")) {			// 관리자 로그인
+				
+				return "redirect:admin/home";
+			}else {
+				
+				return "redirect:home";
+			}
 		} else {
 			response.setContentType("text/html; charset=UTF-8");
 			PrintWriter out = response.getWriter();
