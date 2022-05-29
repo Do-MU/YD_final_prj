@@ -142,7 +142,7 @@
 		// 계좌 클릭시 계좌 거래내역으로 이동
 		$(".div_acc").not($(".bi-justify")).on("click", function(){
 			$(this).css("box-shadow","3px 3px 3px 3px #dadce0 inset")
-			location.href = "accTransView?fintech_use_num=" + $(this).data("fin");
+			location.href = "accTransList?fintech_use_num=" + $(this).data("fin");
 		});
 		$(".div_btn").on("click",this,function(){
 			$(this).children(2).css("display","block");

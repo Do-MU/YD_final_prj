@@ -25,20 +25,20 @@ public class AccountController {
 	// 인증되지 않은 회원 : accountList > [내 계좌불러오기] > bankAuth > bankCallBack > accountList
 	@RequestMapping("/accountList")
 	public String accountView(HttpSession session, Model model, HttpServletResponse response) throws IOException {
-		UserVO vo = (UserVO) session.getAttribute("loginUser");
+		UserVO user = (UserVO) session.getAttribute("loginUser");
 		
 		// 로그인 시
-		if(vo != null) {
+		if(user != null) {
 			// 인증된 회원일 시
-			if(vo.getUser_seq_num() != null && !vo.getUser_seq_num().isEmpty()) {
-				List<AccountVO> myAccList = accService.selectfirstAccount(vo);
+			if(user.getUser_seq_num() != null && !user.getUser_seq_num().isEmpty()) {
+				List<AccountVO> myAccList = accService.selectfirstAccount(user);
 				if(myAccList != null) {
 					model.addAttribute("acc", myAccList);
 				}else {
-					vo.setUser_seq_num("");
-					vo.setAccess_token("");
-					vo.setRefresh_token("");
-					session.setAttribute("loginUser", vo);
+					user.setUser_seq_num("");
+					user.setAccess_token("");
+					user.setRefresh_token("");
+					session.setAttribute("loginUser", user);
 					
 					response.setContentType("text/html; charset=UTF-8");
 					PrintWriter out = response.getWriter();
@@ -50,7 +50,7 @@ public class AccountController {
 				}
 			}
 			// 잔액 합산 출력
-			model.addAttribute("accTotalSum", accService.selectAccTotalSum(vo.getId()));
+			model.addAttribute("accTotalSum", accService.selectAccTotalSum(user.getId()));
 		}
 		return "account/accountList";
 	}

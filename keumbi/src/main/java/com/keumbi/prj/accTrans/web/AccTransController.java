@@ -21,65 +21,66 @@ import com.keumbi.prj.user.vo.UserVO;
 @Controller
 public class AccTransController {
 	
-	@Autowired AccountService accountServiceImpl;
-	@Autowired AccTransService accTransServiceImpl;
+	@Autowired AccountService accountS;
+	@Autowired AccTransService accTransS;
 
 	// 계좌 -> 거래내역 페이지 넘어가는곳
-	@RequestMapping("/accTransView")
-	public String accTransView(HttpSession session, Model model, String fintech_use_num){
-		UserVO vo = (UserVO) session.getAttribute("loginUser");
+	@RequestMapping("/accTransList")
+	public String accTransView(HttpSession session, Model model, AccountVO acc){
+		UserVO user = (UserVO) session.getAttribute("loginUser");
 		
-		model.addAttribute("accList", accountServiceImpl.selectAllAccount(vo)); 				// 계좌목록 호출
-		model.addAttribute("accTrans",accTransServiceImpl.selectAccTransAll(fintech_use_num)); 	// 거래내역 호출
+		model.addAttribute("accList", accountS.selectAllAccount(user)); 				// 계좌목록 호출
+		model.addAttribute("accTrans",accTransS.selectAllAccTrans(acc)); 	// 거래내역 호출
 		
 		return "account/transList";
 	}
 	
-	// 선택일자 거래내역 ajax
-	@RequestMapping("/accTransRes")
-	@ResponseBody
-	public List<AccTransVO> accTransRes(AccTransReqVO vo) {
-		//System.out.println(vo.getFintech_use_num());
-		//System.out.println(vo.getFrom_date());
-		//System.out.println(vo.getTo_date());
-		//System.out.println("----" + accTransServiceImpl.selectAccTransDate(vo));		
-		
-		return accTransServiceImpl.selectAccTransDate(vo);
-	}
-	
-	//selectBox 계좌 변경 이벤트
-	@RequestMapping("/chageSelect")
-	@ResponseBody
-	public List<AccTransVO> chageSelect(String fintech_use_num) {
-		
-		return accTransServiceImpl.selectAccTransAll(fintech_use_num);
-	}
-	
 	// 송금 view
 	@RequestMapping("/accDepositView")
-	public String accDepositView(HttpSession session, Model model, String fintech_use_num) {
-		UserVO vo = (UserVO) session.getAttribute("loginUser");
+	public String accDepositView(HttpSession session, Model model, AccountVO acc) {
+		UserVO user = (UserVO) session.getAttribute("loginUser");
 		//System.out.println(fintech_use_num);
 		
-		model.addAttribute("accList", accountServiceImpl.selectAllAccount(vo)); // 계좌목록 호출
-		model.addAttribute("finBal", accountServiceImpl.selectOneAccount(fintech_use_num)); //단건 계좌 정보
+		model.addAttribute("accList", accountS.selectAllAccount(user)); 	// 계좌목록 호출
+		model.addAttribute("finBal", accountS.selectOneAccount(acc)); 		// 단건 계좌 정보
 		return "account/remitForm";
 	}
 	
-	// 잔액 ajax
-	@RequestMapping("getAccInfo")
-	@ResponseBody
-	public AccountVO getAccInfo(String fintech_use_num) {
-		System.out.println(fintech_use_num);
+	// view -> 각 vo로 받기 -> service 호출
+	@RequestMapping("/accTranProcess")
+	public String accTranProcess(HttpSession session, RemitVO vo, Model model) {
+		UserVO user = (UserVO) session.getAttribute("loginUser");
+		accTransS.insertRemit(user, vo);
 		
-		return accountServiceImpl.selectOneAccount(fintech_use_num);
-		
+		return "redirect:accTransList?fintech_use_num="+vo.getWit_fintech_use_num();
 	}
 	
-	// view -> 각 vo로 받기 -> service 호출
-	@RequestMapping("accTranProcess")
-	public String accTranProcess(HttpSession session, RemitVO vo, Model model) {
-		accTransServiceImpl.insertRemit(session, vo);
-		return "redirect:accDepositView";
+	
+	
+	
+	
+	// 거래내역 > 선택일자 거래내역 조회 aJax
+	@RequestMapping("/accTransRes")
+	@ResponseBody
+	public List<AccTransVO> accTransRes(AccTransReqVO vo) {
+		
+		return accTransS.selectAccTransDate(vo);
+	}
+	
+	// 거래내역 > selectBox 계좌 변경 이벤트 aJax
+	@RequestMapping("/chageSelect")
+	@ResponseBody
+	public List<AccTransVO> chageSelect(AccountVO acc) {
+		
+		return accTransS.selectAllAccTrans(acc);
+	}
+	
+	// 이체화면 > 잔액 aJax
+	@RequestMapping("/getAccInfo")
+	@ResponseBody
+	public AccountVO getAccInfo(AccountVO acc) {
+		
+		return accountS.selectOneAccount(acc);
+		
 	}
 }
