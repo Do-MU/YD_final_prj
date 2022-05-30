@@ -14,7 +14,6 @@ import com.keumbi.prj.accTrans.vo.AccTransVO;
 import com.keumbi.prj.accTrans.vo.RemitVO;
 import com.keumbi.prj.account.mapper.AccountMapper;
 import com.keumbi.prj.account.vo.AccountVO;
-import com.keumbi.prj.ledger.vo.LedgerVO;
 import com.keumbi.prj.user.vo.UserVO;
 
 @Service
@@ -67,28 +66,5 @@ public class AccTransServiceImpl implements AccTransService {
 		dvo.setFintech_use_num(rem.getDep_fintech_use_num());
 		dvo.setBalance_amt(depAftBal);
 		accMapper.updateAccount(dvo);
-		
-		
-		// 지출내역 (total_trans) DB에 저장
-		
-		// 출금
-		LedgerVO lwvo = new LedgerVO();
-		lwvo.setTdate(rem.getTran_date());
-		lwvo.setUser_id(user.getId());
-		lwvo.setIo_code(rem.getWit_inout_type());
-		lwvo.setContent(rem.getWit_print_content());
-		lwvo.setAmt(rem.getTran_amt());
-		lwvo.setCat_code(rem.getTran_type());
-		accMapper.insertTrans(lwvo);
-		
-		// 입금
-		LedgerVO ldvo = new LedgerVO();
-		ldvo.setTdate(rem.getTran_date());
-		ldvo.setUser_id(user.getId());
-		ldvo.setIo_code(rem.getDep_inout_type());
-		ldvo.setContent(rem.getDep_print_content());
-		ldvo.setAmt(rem.getTran_amt());
-		ldvo.setCat_code(rem.getTran_type());
-		accMapper.insertTrans(ldvo);
 	}
 }

@@ -65,4 +65,9 @@ public class DepositServiceImpl implements DepositService {
 		m.deleteAllDepOpt();
 		m.deleteAllDepBase();
 	}
+
+	@Override
+	public List<DepositBaseVO> selectBestDepBase() {
+		return m.selectBestDepBase();
+	}
 }

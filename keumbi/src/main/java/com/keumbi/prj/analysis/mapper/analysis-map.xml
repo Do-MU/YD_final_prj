@@ -44,7 +44,7 @@
 		                SELECT 'B', DT, SUM(AMT) OVER(ORDER BY DT)
 		                FROM ( SELECT TO_CHAR(TDATE, 'DD') AS TDATE, NVL(SUM(AMT),0) AMT
                                FROM  TOTAL_TRANS
-                               WHERE TO_CHAR(TDATE,'YYYY-MM') = #{lastMonth}
+                               WHERE TO_CHAR(TDATE,'YYYY-MM') = #{prevMonth}
                                AND USER_ID = #{user_id}
                                AND IO_CODE = 'I1'
                                GROUP BY TO_CHAR(TDATE, 'DD')

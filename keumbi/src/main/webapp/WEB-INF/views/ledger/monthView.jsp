@@ -94,6 +94,9 @@
 						user_id : "${loginUser.id}"
 					}
 				}).done(function(data) {
+					$("#dayOutTotal").html( '0원');
+					$("#dayInTotal").html(  '0원');
+					
 					for(d of data) {
 						if(d.io_code=='I1') {
 							var outTotal = priceToString(d.amt);
@@ -134,7 +137,7 @@
 					yearMonth : prevMonth
 				},
 				success : function(result) {
-					$("#monthTotalAmt").html("이번달 총 지출 "+priceToString(result)+"원");
+					$("#monthTotalAmt").html("이달의 지출 "+priceToString(result)+"원");
 				}
 			})
 		})
@@ -149,7 +152,7 @@
 					yearMonth : nextMonth
 				},
 				success : function(result) {
-					$("#monthTotalAmt").html("이번달 총 지출 "+priceToString(result)+"원");
+					$("#monthTotalAmt").html("이달의 지출 "+priceToString(result)+"원");
 				}
 			})
 		})
@@ -166,7 +169,7 @@
 				},
 				success : function(result) {
 					var totalAmt = priceToString(result)
-					$("#monthTotalAmt").html("이번달 총 지출 "+totalAmt+"원");
+					$("#monthTotalAmt").html("이달의 지출 "+totalAmt+"원");
 				}
 			})
 			
@@ -244,12 +247,12 @@
 			method : 'POST',
 			data : $("#cashInsertFrm").serialize(),
 			success : function(result) {
-				console.log(result)
 				$('#myModal').modal('hide');
 				$('#myModal').on('hidden.bs.modal', function (e) { 
 					document.forms['modalForm'].reset(); 
-				alert("성공적으로 입력되었습니다.");
 				})
+				alert("성공적으로 입력되었습니다.");
+				location.reload();
 			}
 		});
 	}
@@ -267,7 +270,7 @@
 			},
 			success : function(result) {
 				var totalAmt = priceToString(result)
-				$("#monthTotalAmt").html("이번달 총 지출 "+totalAmt+"원");
+				$("#monthTotalAmt").html("이달의 지출 "+totalAmt+"원");
 			}
 		})
 		
@@ -342,6 +345,7 @@
 			}
 	}
 	
+	// 키워드 검색 
 	function btnSearch(e) {
 		e.preventDefault();
 		var form = document.searchForm;
@@ -494,11 +498,14 @@ body {
 }
 #monthTotalAmt {
 	text-align : center;
-	font-size : large;
+	font-size : 2em;
 	font-weight : bold;
 	color : #e2703a;
 }
-
+.list{
+  	overflow-y:  scroll !important;
+	max-height: 300px;
+}
 
 </style>
 <body>
@@ -507,7 +514,11 @@ body {
 			<div class="banner_inner d-flex align-items-center">
 				<div class="container">
 					<div class="banner_content text-center">
-						<h3>가계부</h3>
+						<h2>가계부</h2>
+						<div class="page_link">
+							<a href="home">Home</a>
+							<a href="monthView">가계부</a>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -546,7 +557,7 @@ body {
 			<div id="dayTotal">
 				<span id="dayInTotal"></span>
 				<span id="dayOutTotal"></span>
-<!-- 				<table>
+ 		<!--	<table>
 					<tr>
 						<td ></td>
 						<td id=""></td>
@@ -588,7 +599,7 @@ body {
 						<label>날짜 </label> 
 						<input type="date" name="tdate" id="cashModalDate"> <br><br> 
 						<label>분류 </label> 
-						<select name="cat_code">
+						<select id="cat_code" name="cat_code">
 							<option value="">선택</option>
 							<c:forEach var="c" items="${code}">
 								<option value="${c.code}">${c.val}</option>

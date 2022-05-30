@@ -30,13 +30,13 @@ public class AccTransController {
 		UserVO user = (UserVO) session.getAttribute("loginUser");
 		
 		model.addAttribute("accList", accountS.selectAllAccount(user)); 				// 계좌목록 호출
-		model.addAttribute("accTrans",accTransS.selectAllAccTrans(acc)); 	// 거래내역 호출
+		model.addAttribute("accTrans",accTransS.selectAllAccTrans(acc)); 				// 거래내역 호출
 		
 		return "account/transList";
 	}
 	
 	// 송금 view
-	@RequestMapping("/accDepositView")
+	@RequestMapping("/accRemitForm")
 	public String accDepositView(HttpSession session, Model model, AccountVO acc) {
 		UserVO user = (UserVO) session.getAttribute("loginUser");
 		//System.out.println(fintech_use_num);

@@ -1,12 +1,10 @@
 package com.keumbi.prj.prd.web;
 
-
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import com.keumbi.prj.account.service.AccountService;
 import com.keumbi.prj.chall.service.ChallService;
@@ -52,8 +50,8 @@ public class PrdController {
 	// 예금 상품추천 화면 출력
 	@RequestMapping("/prdDepositList")
 	public String prdDepositList(Model model) {
-		model.addAttribute("depList",dep.selectAllDepBase());
-		
+		model.addAttribute("depList", dep.selectAllDepBase());
+		model.addAttribute("depBestList", dep.selectBestDepBase());
 		return "product/depositList";
 	}
 
@@ -61,7 +59,6 @@ public class PrdController {
 	@RequestMapping("/prdDepBase")
 	@ResponseBody
 	public DepositBaseVO prdDepBaseList(int dep_id) {
-		
 		return dep.selectOneDepBase(dep_id);
 	}
 
@@ -72,6 +69,7 @@ public class PrdController {
 		
 		return dep.selectAllDepOpt(dep_id);
 	}
+	
   
   
 	
@@ -125,7 +123,7 @@ public class PrdController {
 		return "product/loanList";
 	}
 	
-	// 적금정보 불러오기
+	// 대출정보 불러오기
 		@RequestMapping("/prdLoanBase")
 		@ResponseBody
 		public LoanBaseVO prdLanBaseList(int loan_id) {
@@ -133,7 +131,7 @@ public class PrdController {
 			return loa.selectOneLoanBase(loan_id);
 		}
 		
-		// 선택된 적금상품 옵션 보여주기
+		// 선택된 대출상품 옵션 보여주기
 		@RequestMapping("/prdLoanOpt")
 		@ResponseBody
 		public List<LoanOptionVO> prdLoanOptList(int loan_id) {
@@ -153,6 +151,19 @@ public class PrdController {
 	@ResponseBody
 	public List<PrdCardVO> totalPrd() {
 		return card.selectRandomCard();
+	}
+	// 카드 상세보기
+	@RequestMapping("/cardDetail")
+	@ResponseBody
+	public PrdCardVO cardDetail(PrdCardVO vo) {		
+		
+		return card.selectOneCard(vo);
+	}
+	// 카드사별 리스트 출력
+	@RequestMapping("companyCard")
+	@ResponseBody
+	public List<PrdCardVO> companyCard(PrdCardVO vo){
+		return card.selectCompanyCard(vo);
 	}
 	
 	

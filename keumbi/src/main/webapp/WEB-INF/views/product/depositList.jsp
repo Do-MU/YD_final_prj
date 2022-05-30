@@ -86,6 +86,21 @@
     font-size: 20px;
     color: black;
 }
+.prds{
+   display: none;
+}
+
+#read{
+	width: 500px;
+    margin: auto;
+    display: block;
+    margin-top: 30px;
+}
+.div_bestImg{
+	text-align: left;
+	height:100px;
+	flex:1;
+}
 </style>
 
 
@@ -106,6 +121,18 @@
 </section>
 <section class="contact_area p_120">
 	<div class="container">
+		<div id="best_content">OO대가 가장 많이사용하는 상품이에요</div>
+		<div class="row">
+			<c:forEach var="b" items="${depBestList }">
+				<div class="col-md-4">
+					<div class="wel_item">
+						<div class="div_bestImg"><img src="${pageContext.request.contextPath}/resources/img/bank_logo/${b.kor_co_nm}.jpg" width="50px" height="50px"></div>
+						<h4 id="best_bank">${b.kor_co_nm }</h4>
+						<p id="best_prdNm">${b.fin_prdt_nm }</p>
+					</div>
+				</div>
+			</c:forEach>
+		</div>
 		<div id="list">
 			<c:forEach var="d" items="${depList}">
 				<div class="prds" data-dep_id="${d.dep_id}">
@@ -119,9 +146,12 @@
 					<div class="div_btn">
 						<button class="depView">자세히 보기</button>
 					</div>
+					<hr>
 				</div>
-				<hr>
 			</c:forEach>
+			<div id="read_more">
+				<button type="button" class="btn btn-outline-primary" id="read">더보기</button>
+			</div>
 		</div>
 	</div>
 	
@@ -167,6 +197,7 @@
 			
 		var dep_id = $(this).parent().parent().data("dep_id");
 		
+		// 상품 정보
 		$.ajax({
 			url:"prdDepBase",
 			data:{ dep_id : dep_id }
@@ -184,6 +215,7 @@
 			
 		});
 		
+		// 상품 옵션
 		$.ajax({
 			url:"prdDepOpt",
 			data:{ dep_id : dep_id }
@@ -269,5 +301,20 @@
 		$("#depMoney").keyup(function depMoney(){
 			calculator();
 		})
-	}	
+	}
+	
+	// 더보기
+   $(window).ready(function(){
+      $("#list").children("div").slice(0,10).show().css("display", "flex");
+      
+      $("#read").click(function(e){
+         console.log($("#list").children("div:hidden").length)
+         if( $("#list").children("div:hidden").length == 0){
+        	 $("#read").hide();
+         }else{
+	         e.preventDefault();
+	         $("#list").children("div:hidden").slice(0,10).show().css("display", "flex");
+         }
+      })
+   })
 </script>

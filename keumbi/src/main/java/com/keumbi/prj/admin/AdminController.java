@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.keumbi.prj.account.service.AccountService;
 import com.keumbi.prj.user.service.UserService;
+import com.keumbi.prj.prd.service.PrdCardService;
 
 @Controller
 @RequestMapping("/admin")
@@ -16,6 +17,7 @@ public class AdminController {
 	
 	@Autowired AccountService a;
 	@Autowired UserService us;
+	@Autowired PrdCardService c;
 	
 	// 관리자 메인 화면
 	@RequestMapping("/home")
@@ -57,4 +59,11 @@ public class AdminController {
 		
 		return a.makeDumLoa();
 	}
+	@RequestMapping("/dummyCard")
+	@ResponseBody
+	public int dummyCard() {
+		
+		return c.makeDummyCard();
+	}
+	
 }
