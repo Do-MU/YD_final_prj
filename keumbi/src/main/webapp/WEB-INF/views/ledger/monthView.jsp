@@ -244,12 +244,12 @@
 			method : 'POST',
 			data : $("#cashInsertFrm").serialize(),
 			success : function(result) {
-				console.log(result)
 				$('#myModal').modal('hide');
 				$('#myModal').on('hidden.bs.modal', function (e) { 
 					document.forms['modalForm'].reset(); 
-				alert("성공적으로 입력되었습니다.");
 				})
+				alert("성공적으로 입력되었습니다.");
+				location.reload();
 			}
 		});
 	}
