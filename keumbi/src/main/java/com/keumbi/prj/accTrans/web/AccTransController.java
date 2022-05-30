@@ -49,7 +49,6 @@ public class AccTransController {
 	// view -> 각 vo로 받기 -> service 호출
 	@RequestMapping("/accTranProcess")
 	public String accTranProcess(HttpSession session, RemitVO vo, Model model) {
-		System.out.println("**************************"+vo);
 		UserVO user = (UserVO) session.getAttribute("loginUser");
 		accTransS.insertRemit(user, vo);
 		
