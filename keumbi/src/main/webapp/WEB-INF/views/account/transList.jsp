@@ -30,7 +30,7 @@
 	 	text-align:right;
 	 }
 	#output {
-		min-height:300px;
+		min-height:350px;
 	}
 </style>
 </head>
@@ -171,7 +171,7 @@
 		console.log(finNum);
 		
 		$("#fintech_use_num").val(finNum);
-		transFrm.action = "accDepositView";
+		transFrm.action = "accRemitForm";
 		transFrm.method = "get";
 		transFrm.submit();
 	})
@@ -220,11 +220,16 @@
 		$("#result").children().each(function(){
 			let tdate = $(this).children(":eq(0)").html();
 			let ttime = $(this).children(":eq(1)").html();
+			let tiotype = $(this).children(":eq(2)").html();
 			let tamt = $(this).children(":eq(4)").html();
 			let tmoney = $(this).children(":eq(5)").html();
 			$(this).children(":eq(0)").html(tdate.substr(0,4)+"/"+tdate.substr(4,2)+"/"+tdate.substr(6));
 			$(this).children(":eq(1)").html(ttime.substr(0,2)+":"+ttime.substr(2,2)+":"+ttime.substr(4));
-			$(this).children(":eq(4)").html(tamt.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",")+"원");
+			if(tiotype == "출금"){
+				$(this).children(":eq(4)").html("-" + tamt.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",") + "원");
+			}else{
+				$(this).children(":eq(4)").html(tamt.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",")+"원");
+			}
 			$(this).children(":eq(5)").html(tmoney.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",")+"원");
 		})
 	}

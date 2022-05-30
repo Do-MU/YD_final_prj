@@ -2,15 +2,10 @@ package com.keumbi.prj.prd.web;
 
 import java.util.List;
 
-import javax.servlet.http.HttpSession;
-
-import org.apache.ibatis.annotations.Param;
-import org.apache.tiles.autotag.core.runtime.annotation.Parameter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.keumbi.prj.account.service.AccountService;
@@ -31,7 +26,6 @@ import com.keumbi.prj.prd.vo.PrdCardVO;
 import com.keumbi.prj.prd.vo.PrdChallengeVO;
 import com.keumbi.prj.prd.vo.SavingBaseVO;
 import com.keumbi.prj.prd.vo.SavingOptionVO;
-import com.keumbi.prj.user.vo.UserVO;
 
 @Controller
 public class PrdController {
