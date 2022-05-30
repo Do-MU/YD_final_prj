@@ -52,8 +52,8 @@ public class PrdController {
 	// 예금 상품추천 화면 출력
 	@RequestMapping("/prdDepositList")
 	public String prdDepositList(Model model) {
-		model.addAttribute("depList",dep.selectAllDepBase());
-		
+		model.addAttribute("depList", dep.selectAllDepBase());
+		model.addAttribute("depBestList", dep.selectBestDepBase());
 		return "product/depositList";
 	}
 
@@ -61,7 +61,6 @@ public class PrdController {
 	@RequestMapping("/prdDepBase")
 	@ResponseBody
 	public DepositBaseVO prdDepBaseList(int dep_id) {
-		
 		return dep.selectOneDepBase(dep_id);
 	}
 
@@ -72,6 +71,7 @@ public class PrdController {
 		
 		return dep.selectAllDepOpt(dep_id);
 	}
+	
   
   
 	
@@ -125,7 +125,7 @@ public class PrdController {
 		return "product/loanList";
 	}
 	
-	// 적금정보 불러오기
+	// 대출정보 불러오기
 		@RequestMapping("/prdLoanBase")
 		@ResponseBody
 		public LoanBaseVO prdLanBaseList(int loan_id) {
@@ -133,7 +133,7 @@ public class PrdController {
 			return loa.selectOneLoanBase(loan_id);
 		}
 		
-		// 선택된 적금상품 옵션 보여주기
+		// 선택된 대출상품 옵션 보여주기
 		@RequestMapping("/prdLoanOpt")
 		@ResponseBody
 		public List<LoanOptionVO> prdLoanOptList(int loan_id) {

@@ -37,7 +37,7 @@
 		DELETE FROM PRD_DEP_OPTIONS
 	</delete>
 	
-	<select id="selectAllDepBase" resultType="DepositBaseVO">
+	<select id="selectAllDepBase" resultType="DepositBaseVO" >
       	SELECT *
       	FROM PRD_DEP_BASES
 	</select>
@@ -63,5 +63,17 @@
 							FROM	COMMON_CODE
 							WHERE 	VAL = #{kor_co_nm}
 							AND		PRE_CODE = 'PB')
+	</select>
+	
+	<select id="selectBestDepBase" resultType="DepositBaseVO">
+		SELECT P.*, COUNT(PRODUCT_NAME)AS COUNT
+		FROM PRD_DEP_BASES P
+		JOIN ACCOUNTS A ON P.BANK_CODE = A.BANK_CODE_STD
+		JOIN USERS U ON A.USER_ID = U.ID
+		WHERE ROUND(MONTHS_BETWEEN(SYSDATE, BIRTH)/12)+1 BETWEEN TRUNC(ROUND(MONTHS_BETWEEN(SYSDATE, birth)/12)+1,-1) AND TO_NUMBER(SUBSTR(TO_CHAR(ROUND(MONTHS_BETWEEN(SYSDATE, birth)/12)+1),0,1)+1)*10
+		AND P.FIN_PRDT_NM = A.PRODUCT_NAME
+		AND ROWNUM  <![CDATA[ <=3 ]]> 
+		GROUP BY  P.DEP_ID, P.DCLS_MONTH, P.FIN_CO_NO, P.FIN_PRDT_CD, P.KOR_CO_NM, P.FIN_PRDT_NM, P.JOIN_WAY, P.MTRT_INT, P.SPCL_CND, P.JOIN_DENY, P.JOIN_MEMBER, P.ETC_NOTE, P.MAX_LIMIT, P.BANK_CODE
+		ORDER BY COUNT DESC
 	</select>
 </mapper>
