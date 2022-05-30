@@ -22,6 +22,13 @@
 		VALUES( #{re_num}, #{user_id}, #{bod_num}, #{pre_re_num}, #{re_contents}, to_char(sysdate,'yyyy-MM-dd'), #{re_code} )
 	</insert>
 	
+	<insert id="rorInsert" parameterType="com.keumbi.prj.reply.vo.ReplyVO">
+		<selectKey keyProperty="pre_re_num" resultType="int" order="BEFORE">
+			SELECT NVL(MAX(PRE_RE_NUM),0)+1
+			FROM REPLIES
+		</selectKey>
+	</insert>
+	
 	<update id="replyUpdate" parameterType="com.keumbi.prj.reply.vo.ReplyVO">
 		UPDATE REPLIES 
 		SET RE_CONTENTS = #{re_contents}

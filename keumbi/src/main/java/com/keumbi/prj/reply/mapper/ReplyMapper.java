@@ -11,4 +11,6 @@ public interface ReplyMapper {
 	int replyInsert(ReplyVO vo);
 	int replyUpdate(ReplyVO vo);
 	int replyDelete(int re_num);
+	
+	int rorInsert(ReplyVO vo);
 }
