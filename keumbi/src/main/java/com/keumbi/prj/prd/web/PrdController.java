@@ -154,6 +154,19 @@ public class PrdController {
 	public List<PrdCardVO> totalPrd() {
 		return card.selectRandomCard();
 	}
+	// 카드 상세보기
+	@RequestMapping("/cardDetail")
+	@ResponseBody
+	public PrdCardVO cardDetail(PrdCardVO vo) {		
+		
+		return card.selectOneCard(vo);
+	}
+	// 카드사별 리스트 출력
+	@RequestMapping("companyCard")
+	@ResponseBody
+	public List<PrdCardVO> companyCard(PrdCardVO vo){
+		return card.selectCompanyCard(vo);
+	}
 	
 	
 	
