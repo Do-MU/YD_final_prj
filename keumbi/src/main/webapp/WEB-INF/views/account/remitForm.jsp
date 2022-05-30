@@ -176,7 +176,7 @@
 		</div>
 	</div>
 
-	<script type="text/javascript">
+	<script>
 		// 페이지 로드시 
 		document.addEventListener("DOMContentLoaded", function() {
 			$("#wit_balance_amt").html($("#wit_balance_amt").html().toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",")+"원");
@@ -245,6 +245,9 @@
 			if ($("#wit_fintech_use_num").val() == ""|| $("#dep_fintech_use_num").val() == "") {
 				alert("은행을 선택해 주세요.");
 				$('#dep_fintech_use_num').focus();
+				return false;
+			}else if($("#wit_fintech_use_num").val() == $("#dep_fintech_use_num").val()){
+				alert("입금계좌와 출금계좌가 같습니다.");
 				return false;
 			}
 			
