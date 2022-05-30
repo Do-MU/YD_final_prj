@@ -1,15 +1,13 @@
 package com.keumbi.prj.ledger.serviceImpl;
 
 import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import com.keumbi.prj.ledger.mapper.LedgerMapper;
 import com.keumbi.prj.ledger.service.LedgerService;
 import com.keumbi.prj.ledger.vo.LedgerMonthVO;
 import com.keumbi.prj.ledger.vo.LedgerVO;
-import com.keumbi.prj.prd.vo.PrdChallengeVO;
+
 
 @Service
 public class LedgerServiceImpl implements LedgerService {
@@ -58,8 +56,13 @@ public class LedgerServiceImpl implements LedgerService {
 	}
 
 	@Override
-	public List<LedgerVO> avgAmt(PrdChallengeVO vo) {
-		return m.avgAmt(vo);
+	public List<LedgerVO> avgAmtA(String category,String user_id) {
+		return m.avgAmtA(category, user_id);
+	}
+
+	@Override
+	public List<LedgerVO> avgAmtB(String category, String user_id) {
+		return m.avgAmtB(category, user_id);
 	}
 
 }

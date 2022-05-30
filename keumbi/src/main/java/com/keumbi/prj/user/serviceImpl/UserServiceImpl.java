@@ -1,5 +1,6 @@
 package com.keumbi.prj.user.serviceImpl;
 
+import java.util.List;
 import java.util.Random;
 
 import javax.mail.internet.MimeMessage;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import com.keumbi.prj.user.mapper.UserMapper;
 import com.keumbi.prj.user.service.UserService;
+import com.keumbi.prj.user.vo.UserManageVO;
 import com.keumbi.prj.user.vo.UserVO;
 
 @Service
@@ -19,7 +21,7 @@ public class UserServiceImpl implements UserService {
 	@Autowired 	UserMapper m;
 	@Autowired	private JavaMailSender mailSender;
 	
-	//회원 전체리스트, 회원 조회, 아이디/비밀번호 찾기시 입력한 정보와 DB비교
+	//회원 리스트, 회원 조회, 아이디/비밀번호 찾기시 입력한 정보와 DB비교
 	@Override
 	public UserVO userSelect(UserVO vo) {
 		return m.userSelect(vo);
@@ -49,8 +51,13 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public int userKwdInsert(String id, String keyword) {
-		return m.userKwdInsert(id, keyword);
+	public int userKwdInsert(String id, String[] keyword) {
+		if (keyword != null) {
+			for (String kwd : keyword) {
+				m.userKwdInsert(id, kwd);
+			}
+		}
+		return 1;
 	}
 
 	@Override
@@ -103,5 +110,11 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public int userKwdDelete(String id) {
 		return m.userKwdDelete(id);
+	}
+	
+	// 전체 회원정보 (관리자)
+	@Override
+	public List<UserManageVO> userList() {
+		return m.userList();
 	}
 }

@@ -80,17 +80,25 @@
 		AND NUM = #{num}
 	</delete>
 	
-	<select id="avgAmt" resultType="LedgerVO">
-       <![CDATA[
-       SELECT USER_ID, CONTENT, SUM(AMT) SUM
-       FROM   TOTAL_TRANS
-       WHERE CAT_CODE = (SELECT VAL
-                         FROM COMMON_CODE
-                         WHERE CODE = #{category})
-       
-       AND ROWNUM <= 4
-       group by user_id, content
-       ORDER BY 3 DESC
-       ]]>
+	<select id="avgAmtA" resultType="LedgerVO" parameterType="String">
+       SELECT USER_ID, CONTENT, SUM(AMT) AMT
+	   FROM   TOTAL_TRANS
+	   WHERE  CAT_CODE = ( SELECT VAL
+                           FROM COMMON_CODE
+                           WHERE CODE = #{category})
+	   AND USER_ID = #{user_id}
+	   GROUP BY USER_ID, CONTENT
+	   ORDER BY 3 DESC
+   </select>
+   
+   <select id="avgAmtB" resultType="LedgerVO">
+       SELECT USER_ID, CONTENT, SUM(AMT) AMT
+	   FROM   TOTAL_TRANS
+	   WHERE  CONTENT LIKE CONCAT(CONCAT('%',( SELECT VAL
+	                              FROM COMMON_CODE
+		                          WHERE CODE = #{category})),'%')
+	   AND USER_ID = #{user_id}
+	   GROUP BY USER_ID, CONTENT
+	   ORDER BY 3 DESC
    </select>
 </mapper>  

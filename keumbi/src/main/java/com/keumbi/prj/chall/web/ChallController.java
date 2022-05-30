@@ -1,7 +1,6 @@
 package com.keumbi.prj.chall.web;
 
 import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,7 +16,8 @@ public class ChallController {
 	@Autowired ChallService mychall;
 	@Autowired PrdChallengeService prdchall;
 	
-	// 나의 챌린지 폼
+	
+	// 나의 챌린지 폼 
 	@RequestMapping("/challengeList")
 	public String userChallengeList() {	
 		return "challenge/challengeList";
@@ -42,6 +42,7 @@ public class ChallController {
 		return 0;
 	}
 	
+	// 챌린지 도전자
 	@RequestMapping("/challTotalUser")
 	@ResponseBody
 	public int challTotalUser(int chall_num) {

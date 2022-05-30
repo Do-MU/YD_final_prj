@@ -65,4 +65,17 @@
 		SET 	USER_SEQ_NUM = #{user_seq_num}, ACCESS_TOKEN = #{access_token}, REFRESH_TOKEN = #{refresh_token}
 		WHERE 	ID = #{id}
 	</update>
+	
+	<!-- 전체 유저리스트 -->
+	
+	
+	
+	<!-- 전체 유저리스트 -->
+	<select id="userList" resultType="UserManageVO">
+		SELECT U.ID, UC.VAL UVAL, S.SDATE, SC.VAL SVAL
+		FROM USERS U, COMMON_CODE UC, SANCTIONS S, COMMON_CODE SC
+		WHERE U.USER_CODE = UC.CODE
+		AND S.SANC_CODE = SC.CODE
+		AND U.ID = S.USER_ID
+	</select>
 </mapper>
