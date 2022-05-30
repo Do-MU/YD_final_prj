@@ -1,6 +1,7 @@
 package com.keumbi.prj.prd.serviceImpl;
 
 import java.util.List;
+import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,6 +25,86 @@ public class PrdCardSertviceImpl implements PrdCardService {
 	@Override
 	public List<PrdCardVO> selectRandomCard() {
 		return mapper.selectRandomCard();
+	}
+
+	// 카드 단건 상세보기 출력
+	@Override
+	public PrdCardVO selectOneCard(PrdCardVO vo) {
+		return mapper.selectOneCard(vo);
+	}
+
+	// 카드사별 상품 리스트
+	@Override
+	public List<PrdCardVO> selectCompanyCard(PrdCardVO vo) {
+		return mapper.selectCompanyCard(vo);
+	}
+
+	// 카드상품 더미 데이터 만들기
+	@Override
+	public int makeDummyCard() {
+		PrdCardVO dummy = new PrdCardVO();
+		Random random = new Random();
+		StringBuffer sb = new StringBuffer();
+		
+		int cardIdLetter = 24;// 카드 식별자 자릿수
+		int cardNumLetter = 16; // 카드 번호 자릿수
+
+		int rand = 0;
+		String resCardID = "";
+		String userID = "test";
+		String resCardNum = "";
+		
+		//카드 식별자
+		for(int i=0; i<cardIdLetter; i++) {
+			int index = random.nextInt(4);
+			switch(index) {
+			case 0 : 
+				sb.append((char)(random.nextInt(26) + 97));
+				break;
+			case 1 : 
+				sb.append((char)(random.nextInt(26) + 65));
+				break;
+			case 2 : 
+				sb.append((char)(random.nextInt(26) + 97));
+				break;
+			case 3 : 
+				sb.append(random.nextInt(10));
+				break;
+			}
+		}
+		//System.out.println("===" + sb);
+		dummy.setCard_id(resCardID);
+		
+		// 계좌소유주 id
+		rand = random.nextInt(1005)+1;
+		if(rand>=1000) {
+			userID += Integer.toString(rand);
+		} else if(rand>=100) {
+			userID += "0"+Integer.toString(rand);
+		} else if(rand>=10) {
+			userID += "00"+Integer.toString(rand);
+		} else {
+			userID += "000"+Integer.toString(rand);
+		}
+		dummy.setUser_id(userID);
+		
+		// 카드번호
+		for (int i=0; i<cardNumLetter; i++) {
+			resCardNum += Integer.toString(random.nextInt(10));
+		}
+		resCardNum += "****";
+		dummy.setCard_num_masked(resCardNum);
+		
+		// 카드상품명, 카드사코드, 회원금융사코드
+		rand = random.nextInt(62);
+		PrdCardVO card = mapper.selectAllPrdCard().get(rand);
+		dummy.setCard_name(card.getCard_name());
+		dummy.setCard_company(card.getCard_company());
+		dummy.setCard_seq(card.getCard_seq());
+		
+		// 발급일자
+		
+		return 0;
 	}
 
 }

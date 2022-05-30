@@ -14,5 +14,19 @@
 					)
 		WHERE ROWNUM  <![CDATA[ <=5 ]]>
 	</select>
+	
+	<select id="selectOneCard" parameterType="PrdCardVO" resultType="PrdCardVO">
+		SELECT	CARD_SEQ, CARD_NAME,  (SELECT VAL FROM COMMON_CODE WHERE CODE = #{card_company}) AS "CARD_COMPANY", 
+				CARD_INFO, CARD_ANNUALFEE, CARD_BENEFIT, CARD_IMAGE, CARD_SEQ
+		FROM 	PRD_CARDS
+		WHERE 	CARD_SEQ = #{card_seq}
+	</select>
+	
+	<select id="selectCompanyCard" parameterType="PrdCardVO" resultType="PrdCardVO">
+		SELECT	*
+		FROM 	PRD_CARDS
+		WHERE	CARD_COMPANY = #{card_company}
+		ORDER BY CARD_SEQ
+	</select>
 
 </mapper>
