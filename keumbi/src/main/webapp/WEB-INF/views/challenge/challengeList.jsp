@@ -218,17 +218,19 @@ $.ajax({
 		}else if(i == "CH3"){
 			html = "실패";
 		}
-		$(".challs").data("chall_num", item.chall_num);			//챌린지 번호 부여
-		$(".div_per").html(item.goal+"원");						//목표금액
-		$(".div_period").children('h3').html("D-"+item.dday);	//남은일자
+		
+		$(".challs").data("chall_num", item.chall_num);											//챌린지 번호 부여
+		
 		$.ajax({
 			type:"GET",
 			url:"prdChall",
 			data:{num: $(".challs").data("chall_num")}
 		}).done(function(pchall){
-			$(".div_title").html(pchall.title);					//챌린지 제목
+			$(".div_title").html(pchall.title);													//챌린지 제목
 			$(".div_title").append($(`<span class='chal_pro chal_pro_i'></span>`).html(html));	//진행,성공,실패
-			$(".div_contents").html(pchall.content);			//챌린지 내용
+			$(".div_contents").html(pchall.content);											//챌린지 내용
+			$(".div_per").html(item.goal+"원");													//목표금액
+			$(".div_period").children('h3').html("D-"+item.dday);								//남은일자
 		})
 	})
 })

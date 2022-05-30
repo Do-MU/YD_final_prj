@@ -193,11 +193,11 @@
 						</div>
 						<div id="mod_goal">
 							<div>추천</div>
-							<input id="slider" type="range" min="0" max="10000"><br>
+							<input id="slider" type="range" min="0" max="0"><br>
 							<div id="goal_price">
 								<div id="goal_min">0</div>
-								<div id="goal_now">5000</div>
-								<div id="goal_max">10000</div>
+								<div id="goal_now">0</div>
+								<div id="goal_max">0</div>
 							</div>
 						</div>
 					</div>
@@ -214,20 +214,21 @@
 	</div>
 </section>
 <script>
-		$(".challs").each(function(){
-			console.log($(this).children($(".div_title")).children().eq(1).data("chall_num"));
-			var challengers = $(this).children($(".div_etc")).children().children().eq(2);
-			$.ajax({
-				url:"challTotalUser",
-				data:{chall_num : $(this).children($(".div_title")).children().eq(1).data("chall_num")}
-			}).done(function(totalUser){
-				challengers.html("- 도전자 : "+ totalUser +"명");
-			})
+	$(".challs").each(function(){
+		var challengers = $(this).children($(".div_etc")).children().children().eq(2);
+		$.ajax({
+			url:"challTotalUser",
+			data:{chall_num : $(this).children($(".div_title")).children().eq(1).data("chall_num")}
+		}).done(function(totalUser){
+			challengers.html("- 도전자 : "+ totalUser +"명");
 		})
-	
-		$(".chalbtn").on('click',this,function(){
+	})
+
+	$(".chalbtn").on('click',this,function(){
 		$("#challengeJoin_modal").modal("show");
 		var chall_num = $(this).data("chall_num");
+		var i = 0;
+		var allSum = 0;
 		$.ajax({
 			url:"prdChall",
 			data:{ num : chall_num }
@@ -243,37 +244,62 @@
 				$("#mod_chal_user").html("도전자 : " + totalUser + "명");				// 챌린지-유저 테이블 count
 			})
 			$("#mod_chal_top3").html("월 평균 소비 TOP 3!!");
-			
-			$.ajax({
-				url:"avgAmt",
-				data:{cat_code : chall.category
-				}
-			}).done(function(data){
-				for(let i = 0; i <= data.length; i++){
-					if(data[i].user_id == "${loginUser.id}"){		
-						$("<div>").html((i+1) + ". " + data[i].content + '   ' + data[i].sum + "원").appendTo($("#mod_chal_top3"));
+			var CK = chall.category.substr(0,3);
+			if(CK == "CKA"){
+				$.ajax({
+					url:"avgAmtA",
+					data:{category : chall.category,
+						  user_id : "${loginUser.id}"
 					}
-				}
-			})
-			
-			
-/* 			for(let i = 1; i < 4; i++){									// 지출내역 테이블 >> userId + 챌린지키워드 or 검색키워드 >> 금액 합계 >> 확장for문 사용
-				if(true){												// 3개 출력시 stop
-					$("<div>").html(i + ". " + "장소" + "금액" + "원").appendTo($("#mod_chal_top3"));
-				}
-			} */
-			// $("#slider").attr("max")									// 불러온 목록의 전체 금액을 다 더하여 max 값으로	
-			$("#goal_max").html($("#slider").attr("max"))				// max값 출력
-		});
-			// slider 초기화
-			$("#slider").val($('#slider').attr('max')/2);					// 슬라이드 바 중앙으로
-			$("#goal_now").html($("#slider").val());						// 하단 금액 추전 금액으로
-			$("#slider").attr("step", $('#slider').attr('max')/100);		// 금액 단위 조정
-			$("#challengeJoinBtn").data("chall_num", chall_num);			// 도전하기 버튼에 챌린지 번호 부여
+				}).done(function(list){
+					for(vo of list){											// 지출내역 테이블 >> userId + 챌린지키워드 or 검색키워드 >> 금액 합계 >> 확장for문 사용
+						if(i<3){												// 3개 출력시 stop
+							$("<div>").html((i+1) + ". " + vo.content + ' ' + vo.amt + "원").appendTo($("#mod_chal_top3"));
+						}
+						allSum += parseInt(vo.amt);							// 불러온 목록의 전체 금액을 다 더함
+						i++;
+					}
+					
+					// slider 초기화
+					$("#slider").val(0);
+					$("#slider").attr("max", allSum);								// max값 설정
+					$("#goal_max").html($("#slider").attr("max"));					// max값 출력
+					$("#slider").val(Math.round(allSum/2));							// 슬라이드 바 중앙으로
+					$("#goal_now").html($("#slider").val());						// 하단 금액 추전 금액으로
+					$("#slider").attr("step", $('#slider').attr('max')/100);		// 금액 단위 조정
+					console.log(allSum+' '+$("#slider").attr("max")+' '+$("#slider").val()+' '+Math.round(allSum/2))
+				})
+			}else{
+				$.ajax({
+					url:"avgAmtB",
+					data:{category : chall.category,
+						  user_id : "${loginUser.id}"
+					}
+				}).done(function(list){
+					for(vo of list){											// 지출내역 테이블 >> userId + 챌린지키워드 or 검색키워드 >> 금액 합계 >> 확장for문 사용
+						if(i<3){												// 3개 출력시 stop
+							$("<div>").html((i+1) + ". " + vo.content + ' ' + vo.amt + "원").appendTo($("#mod_chal_top3"));
+						}
+						allSum += parseInt(vo.amt);								// 불러온 목록의 전체 금액을 다 더함
+						i++;
+					}
+					
+					// slider 초기화
+					$("#slider").val(0);
+					$("#slider").attr("max", allSum);								// max값 설정
+					$("#goal_max").html($("#slider").attr("max"));					// max값 출력
+					$("#slider").val(Math.round(allSum/2));							// 슬라이드 바 중앙으로
+					$("#goal_now").html($("#slider").val());						// 하단 금액 추전 금액으로
+					$("#slider").attr("step", $('#slider').attr('max')/100);		// 금액 단위 조정
+					console.log(allSum+' '+$("#slider").attr("max")+' '+$("#slider").val()+' '+Math.round(allSum/2))
+				})
+			}
+			$("#challengeJoinBtn").data("chall_num", chall_num);					// 도전하기 버튼에 챌린지 번호 부여
 		})
+	})
 	
 	$("#slider").mousemove(function(){
-		$("#goal_now").html($("#slider").val());
+		$("#goal_now").html(Math.round($("#slider").val()));
 	})
 	
  	$("#challengeJoinBtn").click(function(){
@@ -298,10 +324,8 @@
 					}else{
 						alert("이미 진행중인 챌린지 입니다.");
 					}
-				});
+				})
 	 		}
 		}
 	})
-	
-	
 </script>	

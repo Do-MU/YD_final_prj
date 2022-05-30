@@ -59,9 +59,8 @@ public class UserController {
 			out.println("alert('아이디 또는 비밀번호가 일치하지 않습니다.');");
 			out.println("location.href='userLoginForm';");
 			out.println("</script>");
-			out.flush();
-			
-			return "redirect:userLoginForm";
+			out.flush();			
+			return null;
 		}
 	}
 
@@ -78,12 +77,7 @@ public class UserController {
 	@RequestMapping("/userJoin")
 	public String userJoin(UserVO userVO, @RequestParam(required = false) String[] keyword) {
 		service.userInsert(userVO);
-		
-		if (keyword != null) {
-			for (String kwd : keyword) {
-				service.userKwdInsert(userVO.getId(), kwd);
-			}
-		}
+		service.userKwdInsert(userVO.getId(), keyword);
 		return "redirect:home";
 	}
 	
@@ -98,12 +92,10 @@ public class UserController {
 	// 회원 정보 수정 처리
 	@RequestMapping("/userUpdate")
 	public String userUpdate(UserVO userVO, @RequestParam(required = false) String[] keyword,HttpSession session) {
+		
 		service.userUpdate(userVO);
 		service.userKwdDelete(userVO.getId());
-		
-		for(String kwd : keyword) {
-			service.userKwdInsert(userVO.getId(), kwd);
-		}
+		service.userKwdInsert(userVO.getId(), keyword);
 		
 		session.setAttribute("loginUser", service.userSelect(userVO));		// 수정된 회원정보를 세션에 저장
 			
