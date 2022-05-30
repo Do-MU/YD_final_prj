@@ -10,5 +10,5 @@ public class AnalysisThisPrevVO {
 	private int amt2;
 	private String user_id;
 	private String thisMonth;
-	private String lastMonth;
+	private String prevMonth;
 }

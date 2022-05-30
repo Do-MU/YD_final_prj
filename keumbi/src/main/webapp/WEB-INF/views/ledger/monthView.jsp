@@ -94,6 +94,9 @@
 						user_id : "${loginUser.id}"
 					}
 				}).done(function(data) {
+					$("#dayOutTotal").html( '0원');
+					$("#dayInTotal").html(  '0원');
+					
 					for(d of data) {
 						if(d.io_code=='I1') {
 							var outTotal = priceToString(d.amt);
@@ -342,6 +345,7 @@
 			}
 	}
 	
+	// 키워드 검색 
 	function btnSearch(e) {
 		e.preventDefault();
 		var form = document.searchForm;
