@@ -62,5 +62,16 @@ public class ReplyController {
 		
 		return service.replyDelete(re_num);
 	}
+	
+	@RequestMapping(value = "/rorInsert", method = RequestMethod.POST)
+	@ResponseBody
+	private int rorInsert(ReplyVO vo, HttpSession session) {
+		UserVO uvo = (UserVO) session.getAttribute("loginUser");
+		vo.setUser_id(uvo.getId());
+		
+		
+		
+		return service.rorInsert(vo);
+	}
 
 }

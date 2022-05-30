@@ -43,5 +43,10 @@ public class ReplyServiceImpl implements ReplyService {
 		return m.replyDelete(re_num);
 
 	}
+	
+	@Override
+	public int rorInsert(ReplyVO vo) {
+		return m.rorInsert(vo);
+	}
 
 }
