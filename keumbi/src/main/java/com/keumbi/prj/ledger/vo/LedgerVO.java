@@ -14,5 +14,5 @@ public class LedgerVO {
 	private String val;
 	private String cat_code;
 	private String keyword;
-	
+	private String sum;
 }
