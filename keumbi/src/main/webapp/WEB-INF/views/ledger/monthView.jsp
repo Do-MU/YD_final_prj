@@ -28,7 +28,7 @@
 		// 달력 화면 편집
 		var calendarEl = document.getElementById('calendar');
 		var calendar = new FullCalendar.Calendar(calendarEl, {
-			height: 680,
+			height: 800,
 			locale: "ko",
 			selectable : true,
 			dayMaxEvents : true, 
@@ -94,16 +94,16 @@
 						user_id : "${loginUser.id}"
 					}
 				}).done(function(data) {
-					$("#dayOutTotal").html( '0원');
-					$("#dayInTotal").html(  '0원');
+					$("#dayOutTotal").html( '총 지출 : 0원');
+					$("#dayInTotal").html(  '총 수입 : 0원');
 					
 					for(d of data) {
 						if(d.io_code=='I1') {
 							var outTotal = priceToString(d.amt);
-							$("#dayOutTotal").html(outTotal + '원');
+							$("#dayOutTotal").html('총 지출 : '+outTotal + '원');
 						} else {
 							var inTotal = priceToString(d.amt);
-							$("#dayInTotal").html(inTotal + '원');
+							$("#dayInTotal").html('총 수입 : '+inTotal + '원');
 						}
 					}
 				});
@@ -137,7 +137,7 @@
 					yearMonth : prevMonth
 				},
 				success : function(result) {
-					$("#monthTotalAmt").html("이달의 지출 "+priceToString(result)+"원");
+					$("#monthTotalAmt").html(priceToString(result)+" 원");
 				}
 			})
 		})
@@ -152,7 +152,7 @@
 					yearMonth : nextMonth
 				},
 				success : function(result) {
-					$("#monthTotalAmt").html("이달의 지출 "+priceToString(result)+"원");
+					$("#monthTotalAmt").html(priceToString(result)+" 원");
 				}
 			})
 		})
@@ -169,7 +169,7 @@
 				},
 				success : function(result) {
 					var totalAmt = priceToString(result)
-					$("#monthTotalAmt").html("이달의 지출 "+totalAmt+"원");
+					$("#monthTotalAmt").html(totalAmt+" 원");
 				}
 			})
 			
@@ -184,12 +184,15 @@
 				}
 			}).done(function(data) {
 				for(d of data) {
+					$("#dayOutTotal").html( '총 지출 : 0원');
+					$("#dayInTotal").html(  '총 수입 : 0원');
+					
 					if(d.io_code=='I1') {
 						var dayOutTotal = priceToString(d.amt);
-						$("#dayOutTotal").html(dayOutTotal + '원');
+						$("#dayOutTotal").html('총 지출 : '+dayOutTotal + '원');
 					} else {
 						var dayInTotal = priceToString(d.amt);
-						$("#dayInTotal").html(dayInTotal + '원');
+						$("#dayInTotal").html('총 수입 : '+dayInTotal + '원');
 					}
 					console.log(d)
 				}
@@ -270,7 +273,7 @@
 			},
 			success : function(result) {
 				var totalAmt = priceToString(result)
-				$("#monthTotalAmt").html("이달의 지출 "+totalAmt+"원");
+				$("#monthTotalAmt").html(totalAmt+" 원");
 			}
 		})
 		
@@ -285,12 +288,15 @@
 			}
 		}).done(function(data) {
 			for(d of data) {
+				$("#dayOutTotal").html( '총 지출 : 0원');
+				$("#dayInTotal").html(  '총 수입 : 0원');
+				
 				if(d.io_code=='I1') {
 					var dayOutTotal = priceToString(d.amt);
-					$("#dayOutTotal").html(dayOutTotal + '원');
+					$("#dayOutTotal").html('총 지출 : '+dayOutTotal + '원');
 				} else {
 					var dayInTotal = priceToString(d.amt);
-					$("#dayInTotal").html(dayInTotal + '원');
+					$("#dayInTotal").html('총 수입 : '+dayInTotal + '원');
 				}
 				console.log(d)
 			}
@@ -458,10 +464,6 @@ body {
 	font-family: Arial, Helvetica Neue, Helvetica, sans-serif;
 	font-size: 14px;
 }
-#calendar {
-	max-width: 1100px;
-	margin: 0 auto;
-}
 [data-iocode="I1"] {
 	color : red;
 }
@@ -469,7 +471,7 @@ body {
 	color : blue;
 }
 #calendar, #ledgerFooter {
-	width : 850px;
+	width : 100%;
 	margin-left : auto;
 	margin-right : auto;
 }
@@ -484,29 +486,44 @@ body {
 #dayOutTotal, #dayInTotal {
 	padding-right : 5px;
 	padding-left : 5px;
-	position
 }
 #dayInTotal {
 	color : blue;
 	position: absolute;
-	right: 100px;
+	right: 150px;
+	bottom: 0;
 }
 #dayOutTotal {
 	color : red;
 	position: absolute;
 	right: 0;
+	bottom: 0;
 }
 #monthTotalAmt {
-	text-align : center;
-	font-size : 2em;
+	font-size : 4em;
 	font-weight : bold;
-	color : #e2703a;
 }
 .list{
   	overflow-y:  scroll !important;
 	max-height: 300px;
 }
-
+#div_totalAmt{
+	margin: 0 0 50px;
+	color:black;
+}
+#div_totalAmt h3{
+	padding-bottom: 10px;
+}
+#ledgerFooter{
+	margin-top: 50px;
+}
+#div_tableHeader{
+	display:flex;
+	margin-bottom: 20px;
+}
+#div_tableHeader div{
+	height:40px;
+}
 </style>
 <body>
 	<section class="banner_area">
@@ -527,54 +544,57 @@ body {
 	
 	<section class="contact_area p_120">
 		<div class="container">
-			<c:if test="${not empty loginUser.id}">
-				<div><p id="monthTotalAmt"></p></div>
-	      		<div id='calendar'></div>
-	    	</c:if>
+			<div>
+				<c:if test="${not empty loginUser.id}">
+					<div id="div_totalAmt">
+						<h3>총 소비 금액</h3>
+						<p id="monthTotalAmt"></p>
+					</div>
+		      		<div id='calendar'></div>
+		    	</c:if>
+			</div>
+
+			<!-- 가계부 달력 하단 부분 시작 -->
+			<div id="ledgerFooter">
+				<p class="h1 text-center" id="dayTitle"></p>
+				<div id="div_tableHeader">
+					<!-- 가계부 검색창 -->
+					<div id="ledgerSearch">
+						<div class="row">
+							<form id="ledgerSearchFrm" name="searchForm">
+								<input type="hidden" name="user_id" value="${loginUser.id}">
+								<table class="pull-right">
+									<tr>
+										<td><input type="text" class="form-control" placeholder="검색어 입력" name="keyword" maxlength="100" id="keyInput"></td>
+										<td><button class="btn btn-dark" onclick='btnSearch(event)'>검색</button></td>	
+									</tr>
+								</table>
+							</form>
+						</div>
+					</div>
+					
+					<!-- 오늘날짜(디폴트)와 클릭한 날짜의 입출금 내역 출력 되는 곳 -->
+					<div id="dayView" class="container-fluid">
+						<div id="dayTotal">
+							<span id="dayInTotal"></span>
+							<span id="dayOutTotal"></span>
+						</div>
+					</div>
+				</div>
+				<div>
+					<table class="table" id="dayTable">
+				  		<thead class="thead-dark" id="listHead">   
+				  		</thead>
+						<tbody id="listBody">    
+						</tbody>
+					</table>
+					<p class="h2 text-center" id="empty"></p>
+				</div>
+				<!-- 클릭한 날짜 입출금 내역 끝 -->
+			</div>
+			<!-- 가계부 달력 하단 부분 끝 -->
 	    </div>
 	</section>
-
-	<!-- 가계부 달력 하단 부분 시작 -->
-	<div id="ledgerFooter">
-		<!-- 가계부 검색창 -->
-		<div id="ledgerSearch">
-			<div class="row">
-				<form id="ledgerSearchFrm" name="searchForm">
-					<input type="hidden" name="user_id" value="${loginUser.id}">
-					<table class="pull-right">
-						<tr>
-							<td><input type="text" class="form-control" placeholder="검색어 입력" name="keyword" maxlength="100" id="keyInput"></td>
-							<td><button class="btn btn-dark" onclick='btnSearch(event)'>검색</button></td>	
-						</tr>
-					</table>
-				</form>
-			</div>
-		</div>
-		
-		<!-- 오늘날짜(디폴트)와 클릭한 날짜의 입출금 내역 출력 되는 곳 -->
-		<div id="dayView" class="container-fluid">
-			<p class="h2 text-center" id="dayTitle"></p>
-			<div id="dayTotal">
-				<span id="dayInTotal"></span>
-				<span id="dayOutTotal"></span>
- 		<!--	<table>
-					<tr>
-						<td ></td>
-						<td id=""></td>
-					</tr>
-				</table> -->
-			</div>
-			<table class="table" id="dayTable">
-		  		<thead class="thead-dark" id="listHead">   
-		  		</thead>
-				<tbody id="listBody">    
-				</tbody>
-			</table>
-			<p class="h2 text-center" id="empty"></p>
-		</div>
-		<!-- 클릭한 날짜 입출금 내역 끝 -->
-	</div>
-	<!-- 가계부 달력 하단 부분 끝 -->
 
 	<!-- 현금 지출수입내역 입력 Modal 시작 -->
 	<div class="modal fade" id="myModal" tabindex="-1"
@@ -596,15 +616,15 @@ body {
 							<input type="radio" id="choice2" name="io_code" value="I2"> 
 							<label for="choice2">수입</label>
 						</div>
-						<label>날짜 </label> 
+						<label>날짜 </label> <br>
 						<input type="date" name="tdate" id="cashModalDate"> <br><br> 
-						<label>분류 </label> 
+						<label>분류 </label><br>
 						<select id="cat_code" name="cat_code">
 							<option value="">선택</option>
 							<c:forEach var="c" items="${code}">
 								<option value="${c.code}">${c.val}</option>
 							</c:forEach>
-						</select> <br>
+						</select> <br><br>
 						<br> <label>금액 </label> <input type="number" name="amt">
 						<br> <label>내용 </label> <input type="text" name="content">
 						<br>

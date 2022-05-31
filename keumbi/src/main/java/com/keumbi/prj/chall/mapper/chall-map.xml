@@ -25,4 +25,20 @@
 		WHERE	CHALL_NUM = #{chall_num}
 		AND		USER_ID   = #{user_id}
 	</select>
+	
+	<select id="userAmtSumA" resultType="ChallVO" parameterType="Integer">
+       SELECT NVL(SUM(AMT),0) AMT
+	   FROM   TOTAL_TRANS
+	   WHERE  CAT_CODE = ( SELECT 	VAL
+                           FROM 	COMMON_CODE
+                           WHERE 	CODE = ( SELECT 	CATEGORY
+                           				  	 FROM		PRD_CHALLS
+                           				  	 WHERE		NUM = #{chall_num} ) )
+	   AND USER_ID = #{user_id}
+	   AND TDATE BETWEEN #{sdate} AND #{edate}
+	   ORDER BY 3 DESC
+   </select>
+   
+   <select id="userAmtSumB" resultType="LedgerVO" parameterType="String">
+   </select>
 </mapper>
