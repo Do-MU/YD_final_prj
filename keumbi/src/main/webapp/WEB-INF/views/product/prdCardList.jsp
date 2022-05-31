@@ -32,6 +32,19 @@
 	font-size: 1.5em;
 	margin-bottom: 20px;
 }
+.tab{
+	width:100%;
+	margin-bottom: 100px;
+}
+.btn-group{
+	margin: 0 auto;
+	width: 100%;
+}
+
+.btn-group button{
+	width: 20%;
+	height: 4em;
+}
 </style>
 
 </head>
@@ -62,10 +75,7 @@
 				  <button type="button" class="btn btn-secondary" id="C367">현대카드</button>
 				</div>
 			</div>
-		</div>
-	</section>
-	<section class="contact_area p_120">
-		<div class="container">
+
 			<div id="output">
 				<c:forEach items="${cardList}" var="list">
 					<div class="prds" data-company="${list.card_company }">
@@ -94,6 +104,7 @@
 	<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
 		<div class="modal-dialog modal-lg">
 			<div class="modal-content">
+			
 				<div class="modal-header">
 					<h1 class="modal-title" id="card_company"></h1>
 					<button type="button" class="close" data-dismiss="modal"
@@ -101,12 +112,14 @@
 						<span aria-hidden="true">&times;</span>
 					</button>
 				</div>
+				
 				<div class="modal-body">
 					<p class="h3" id="card_name"></p><br/>
 					<p class="h4" id="card_benefit"></p><br/>
 					<p class="h5" id="card_annualfee"></p><br/>
 					<p class="h5" id="card_perfo"></p>
 				</div>
+				
 			</div>
 		</div>
 	</div>
