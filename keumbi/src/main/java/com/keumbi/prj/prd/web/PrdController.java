@@ -1,6 +1,9 @@
 package com.keumbi.prj.prd.web;
 
 import java.util.List;
+
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -25,6 +28,7 @@ import com.keumbi.prj.prd.vo.PrdCardVO;
 import com.keumbi.prj.prd.vo.PrdChallengeVO;
 import com.keumbi.prj.prd.vo.SavingBaseVO;
 import com.keumbi.prj.prd.vo.SavingOptionVO;
+import com.keumbi.prj.user.vo.UserVO;
 
 @Controller
 public class PrdController {
@@ -165,6 +169,12 @@ public class PrdController {
 	@ResponseBody
 	public List<PrdCardVO> companyCard(PrdCardVO vo){
 		return card.selectCompanyCard(vo);
+	}
+	@RequestMapping("recommendedCard")
+	@ResponseBody
+	public List<PrdCardVO> recommendedCard(HttpSession session) {
+		UserVO vo = (UserVO) session.getAttribute("loginUser");
+		return card.selectRecoAge(vo);
 	}
 	
 	

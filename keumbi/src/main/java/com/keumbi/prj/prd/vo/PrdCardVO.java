@@ -14,12 +14,10 @@ public class PrdCardVO {
 	private String card_image;
 	private String card_perfo;
 	
-	//cardsVO
+	//dummyVO
 	private String card_id;
 	private String user_id;
 	private String card_num_masked;
 	private String bank_code_std;
 	private String member_bank_code;
-	private String issue_date;
-	private String state_code;
 }

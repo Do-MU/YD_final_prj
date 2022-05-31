@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.keumbi.prj.prd.mapper.PrdCardMapper;
 import com.keumbi.prj.prd.service.PrdCardService;
 import com.keumbi.prj.prd.vo.PrdCardVO;
+import com.keumbi.prj.user.vo.UserVO;
 
 @Service
 public class PrdCardSertviceImpl implements PrdCardService {
@@ -44,31 +45,30 @@ public class PrdCardSertviceImpl implements PrdCardService {
 	public int makeDummyCard() {
 		PrdCardVO dummy = new PrdCardVO();
 		Random random = new Random();
-		StringBuffer sb = new StringBuffer();
+		String resCardID = ""; // 카드식별자
 		
-		int cardIdLetter = 24;// 카드 식별자 자릿수
-		int cardNumLetter = 16; // 카드 번호 자릿수
+		int cardIdLetter = 24;		// 카드 식별자 자릿수
+		int cardNumLetter = 16; 	// 카드 번호 자릿수
 
 		int rand = 0;
-		String resCardID = "";
 		String userID = "test";
-		String resCardNum = "";
+		String resCardNum = ""; 	// 카드번호
 		
 		//카드 식별자
 		for(int i=0; i<cardIdLetter; i++) {
 			int index = random.nextInt(4);
 			switch(index) {
 			case 0 : 
-				sb.append((char)(random.nextInt(26) + 97));
+				resCardID += ((char)(random.nextInt(26) + 97));
 				break;
 			case 1 : 
-				sb.append((char)(random.nextInt(26) + 65));
+				resCardID += ((char)(random.nextInt(26) + 65));
 				break;
 			case 2 : 
-				sb.append((char)(random.nextInt(26) + 97));
+				resCardID += ((char)(random.nextInt(26) + 97));
 				break;
 			case 3 : 
-				sb.append(random.nextInt(10));
+				resCardID += (random.nextInt(10));
 				break;
 			}
 		}
@@ -93,18 +93,25 @@ public class PrdCardSertviceImpl implements PrdCardService {
 			resCardNum += Integer.toString(random.nextInt(10));
 		}
 		resCardNum += "****";
-		dummy.setCard_num_masked(resCardNum);
+		String cardNum = resCardNum.substring(0, 4) + "-" + resCardNum.substring(4, 8) + "-" 
+							+ resCardNum.substring(8, 12) + "-" + resCardNum.substring(12, 16) + "-" + resCardNum.substring(16);
+		//System.out.println("===" + cardNum);
+		dummy.setCard_num_masked(cardNum);
 		
 		// 카드상품명, 카드사코드, 회원금융사코드
 		rand = random.nextInt(62);
 		PrdCardVO card = mapper.selectAllPrdCard().get(rand);
 		dummy.setCard_name(card.getCard_name());
-		dummy.setCard_company(card.getCard_company());
-		dummy.setCard_seq(card.getCard_seq());
+		dummy.setBank_code_std(card.getCard_company());
+		dummy.setMember_bank_code(card.getCard_seq());
 		
-		// 발급일자
-		
-		return 0;
+		//System.out.println(dummy);
+		return mapper.insertPrdCard(dummy);
+	}
+
+	@Override
+	public List<PrdCardVO> selectRecoAge(UserVO vo) {
+		return mapper.selectRecoAge(vo);
 	}
 
 }

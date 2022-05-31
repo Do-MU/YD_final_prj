@@ -66,13 +66,16 @@
 	<section class="contact_area p_120">
 		<div class="container">
 			<div class="tab">
-				<div class="btn-group" role="group" aria-label="Basic example">
-				  <button type="button" class="btn btn-secondary">전체</button>
-				  <button type="button" class="btn btn-secondary" id="C366">신한카드</button>
-				  <button type="button" class="btn btn-secondary" id="C381">국민카드</button>
-				  <button type="button" class="btn btn-secondary" id="C365">삼성카드</button>
-				  <button type="button" class="btn btn-secondary" id="C361">BC카드</button>
-				  <button type="button" class="btn btn-secondary" id="C367">현대카드</button>
+				<div class="btn-group btn-lg" role="group" aria-label="Basic example">
+				  <button type="button" class="btn btn-secondary btn-lg">전체</button>
+				  <button type="button" class="btn btn-secondary btn-lg" id="age">나이추천카드</button>
+				  <button type="button" class="btn btn-secondary btn-lg" id="totalTrans">소비패턴추천카드</button>
+				  <button type="button" class="btn btn-secondary btn-lg" id="userKeyword">관심사추천카드</button>
+				  <button type="button" class="btn btn-secondary btn-lg" id="C366">신한카드</button>
+				  <button type="button" class="btn btn-secondary btn-lg" id="C381">국민카드</button>
+				  <button type="button" class="btn btn-secondary btn-lg" id="C365">삼성카드</button>
+				  <button type="button" class="btn btn-secondary btn-lg" id="C361">BC카드</button>
+				  <button type="button" class="btn btn-secondary btn-lg" id="C367">현대카드</button>
 				</div>
 			</div>
 
@@ -95,6 +98,27 @@
 					
 					<hr>
 				</c:forEach>
+
+
+
+				<c:forEach items="${cardList}" var="list">
+  <div style="display: inline-block">
+					<div class="card " style="width: 18rem;">
+						<img src="${pageContext.request.contextPath}/resources/img/card/${list.card_image}" class="card-img-top">
+						<div class="card-body">
+							<h5 class="card-title">${list.card_name}</h5>
+							<p class="card-text">${list.card_info}</p>
+							<a href="#" class="btn btn-primary">Go somewhere</a>
+						</div>
+					</div>
+					</div>
+					
+				</c:forEach>
+
+
+
+
+
 			</div>
 			<br>
 		</div>
@@ -162,11 +186,11 @@
 	})
 	
 	
-	// 카드사별 카드 목록 출력
+	// 상단 버튼 -> 해당하는 목록 출력
 	$(".btn-secondary").on("click", this, function(){
 		var companyId = $(this).attr("id");
-		console.log(companyId);
-		if(companyId != null){
+		
+		if(companyId != null && (companyId == "C366"|| companyId == "C381"||companyId =="C365"||companyId =="C361"||companyId =="C367")){	//카드사별 출력
 			$.ajax({
 				url : "companyCard",
 				data : { card_company :  companyId }
@@ -174,16 +198,30 @@
 			.done(function(datas){
 				makeOutput(datas);
 			})
-		} else {		// 전체 목록
+		} else if(companyId == null) {		// 전체 목록
 			$.ajax({
 				url : "totalPrd"
 			})
 			.done(function (datas){
-				//console.log(datas);
 				makeOutput(datas);
 			})
+		} else if(companyId == "age"){		// 추천 목록
+			// 비회원 접근시
+			if (!"${loginUser.id}") {
+				alert('로그인이 필요합니다.');
+				window.location = "userLoginForm";
+			} else{
+				$.ajax({
+					url : "recommendedCard"				
+				})
+				.done(function(datas){
+					makeOutput(datas);
+					let userName = "${loginUser.name}"
+					let h1 = "<h1>" + userName + "님과 비슷한 연령대의 회원들이 보유한 카드입니다.</h1><br/>";
+					$("#output").prepend(h1);
+				})
+			}			
 		}
-		
 	})
 	
 	

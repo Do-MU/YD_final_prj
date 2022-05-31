@@ -64,8 +64,10 @@ public class AdminController {
 	@RequestMapping("/dummyCard")
 	@ResponseBody
 	public int dummyCard() {
-		
-		return c.makeDummyCard();
+		for(int i=0; i<=3000; i++) {
+			c.makeDummyCard();
+		}
+		return 0;
 	}
 	@RequestMapping("/dummyChall")
 	@ResponseBody
