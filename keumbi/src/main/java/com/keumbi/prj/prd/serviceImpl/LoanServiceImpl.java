@@ -12,6 +12,7 @@ import com.keumbi.prj.prd.vo.LoanBaseVO;
 import com.keumbi.prj.prd.vo.LoanOptionVO;
 import com.keumbi.prj.prd.vo.LoanVO;
 import com.keumbi.prj.prd.web.PrdAPI;
+import com.keumbi.prj.user.vo.UserVO;
 
 @Service
 public class LoanServiceImpl implements LoanService {
@@ -61,6 +62,11 @@ public class LoanServiceImpl implements LoanService {
 	public void deleteAllLoans() {
 		l.deleteAllLoanOpt();
 		l.deleteAllLoanBase();
+	}
+
+	@Override
+	public List<LoanBaseVO> selectBestLoanBase(UserVO vo) {
+		return l.selectBestLoanBase(vo);
 	}
 
 }

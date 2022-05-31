@@ -47,7 +47,6 @@
 		SELECT 	*
 		FROM 	PRD_LOAN_BASES
 		WHERE 	LOAN_ID = #{loan_id}
-		ORDER 	BY LOAN_ID
 	</select>
 	
 	<select id="selectAllLoanOpt" resultType="LoanOptionVO">
@@ -63,5 +62,18 @@
 							FROM	COMMON_CODE
 							WHERE 	VAL = #{kor_co_nm}
 							AND		PRE_CODE = 'PB')
+	</select>
+	
+	<select id="selectBestLoanBase" resultType="LoanBaseVO">
+		SELECT *
+		FROM (SELECT P.*, COUNT(PRODUCT_NAME)AS COUNT
+			    FROM PRD_LOAN_BASES P
+			    JOIN ACCOUNTS A ON P.BANK_CODE = A.BANK_CODE_STD
+			    JOIN USERS U ON A.USER_ID = U.ID
+			    WHERE ROUND(MONTHS_BETWEEN(SYSDATE, BIRTH)/12)+1 BETWEEN TRUNC(ROUND(MONTHS_BETWEEN(SYSDATE, #{birth})/12)+1,-1) AND TO_NUMBER(SUBSTR(TO_CHAR(ROUND(MONTHS_BETWEEN(SYSDATE, #{birth})/12)+1),0,1)+1)*10
+			    AND P.FIN_PRDT_NM = A.PRODUCT_NAME
+			    GROUP BY  P.LOAN_ID, P.DCLS_MONTH, P.FIN_CO_NO, P.FIN_PRDT_CD, P.CRDT_PRDT_TYPE, P.KOR_CO_NM, P.FIN_PRDT_NM, P.JOIN_WAY, P.CB_NAME, P.CRDT_PRDT_TYPE_NM, P.BANK_CODE
+			    ORDER BY COUNT DESC)
+		WHERE ROWNUM  <![CDATA[ <=3 ]]>
 	</select>
 </mapper>

@@ -1,12 +1,16 @@
 package com.keumbi.prj.prd.web;
 
 import java.util.List;
+
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+
 import com.keumbi.prj.account.service.AccountService;
 import com.keumbi.prj.chall.service.ChallService;
 import com.keumbi.prj.common.service.CodeService;
@@ -25,6 +29,8 @@ import com.keumbi.prj.prd.vo.PrdCardVO;
 import com.keumbi.prj.prd.vo.PrdChallengeVO;
 import com.keumbi.prj.prd.vo.SavingBaseVO;
 import com.keumbi.prj.prd.vo.SavingOptionVO;
+import com.keumbi.prj.user.service.UserService;
+import com.keumbi.prj.user.vo.UserVO;
 
 @Controller
 public class PrdController {
@@ -50,9 +56,11 @@ public class PrdController {
 
 	// 예금 상품추천 화면 출력
 	@RequestMapping("/prdDepositList")
-	public String prdDepositList(Model model) {
-		model.addAttribute("depList", dep.selectAllDepBase());
-		model.addAttribute("depBestList", dep.selectBestDepBase());
+	public String prdDepositList(Model model, HttpSession session, UserVO userVO) {
+		UserVO loginUser = (UserVO) session.getAttribute("loginUser");
+		model.addAttribute("depList", dep.selectAllDepBase()); // 상품 전체출력
+		model.addAttribute("depBestList", dep.selectBestDepBase(loginUser)); // 사용자가 많은 상품 출력
+
 		return "product/depositList";
 	}
 
@@ -85,9 +93,10 @@ public class PrdController {
 	
 	// 적금 상품추천 화면 출력
 	@RequestMapping("/prdSavingList")
-	public String prdSavingList(Model model) {
+	public String prdSavingList(Model model, HttpSession session, UserVO userVO) {
+		UserVO loginUser = (UserVO) session.getAttribute("loginUser");
 		model.addAttribute("savList", sav.selectAllSavBase());
-		
+		model.addAttribute("savBestList", sav.selectBestSavBase(loginUser));
 		return "product/savingList";
 	}
 	
@@ -118,26 +127,28 @@ public class PrdController {
 
 	// 대출 상품추천 화면 출력
 	@RequestMapping("/prdLoanList")
-	public String prdLoanList(Model model) {
+	public String prdLoanList(Model model, HttpSession session, UserVO userVO) {
+		UserVO loginUser = (UserVO) session.getAttribute("loginUser");
 		model.addAttribute("loanList", loa.selectAllLoanBase());
+		model.addAttribute("loanBestList", loa.selectBestLoanBase(loginUser));
 		
 		return "product/loanList";
 	}
 	
 	// 대출정보 불러오기
-		@RequestMapping("/prdLoanBase")
-		@ResponseBody
-		public LoanBaseVO prdLanBaseList(int loan_id) {
-			
-			return loa.selectOneLoanBase(loan_id);
-		}
+	@RequestMapping("/prdLoanBase")
+	@ResponseBody
+	public LoanBaseVO prdLanBaseList(int loan_id) {
 		
-		// 선택된 대출상품 옵션 보여주기
-		@RequestMapping("/prdLoanOpt")
-		@ResponseBody
-		public List<LoanOptionVO> prdLoanOptList(int loan_id) {
-			return loa.selectAllLoanOpt(loan_id);
-		}
+		return loa.selectOneLoanBase(loan_id);
+	}
+	
+	// 선택된 대출상품 옵션 보여주기
+	@RequestMapping("/prdLoanOpt")
+	@ResponseBody
+	public List<LoanOptionVO> prdLoanOptList(int loan_id) {
+		return loa.selectAllLoanOpt(loan_id);
+	}
 	
 	
 	/* 카드 */

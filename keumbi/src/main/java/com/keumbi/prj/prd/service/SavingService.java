@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.keumbi.prj.prd.vo.SavingBaseVO;
 import com.keumbi.prj.prd.vo.SavingOptionVO;
+import com.keumbi.prj.user.vo.UserVO;
 
 public interface SavingService {
 	List<SavingBaseVO> selectAllSavBase();
@@ -12,5 +13,5 @@ public interface SavingService {
 	
 	String insertAllSavings();
 	void deleteAllSavings();
-	
+	List<SavingBaseVO> selectBestSavBase(UserVO vo);
 }

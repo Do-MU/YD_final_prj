@@ -13,6 +13,7 @@ import com.keumbi.prj.prd.vo.DepositBaseVO;
 import com.keumbi.prj.prd.vo.DepositOptionVO;
 import com.keumbi.prj.prd.vo.DepositVO;
 import com.keumbi.prj.prd.web.PrdAPI;
+import com.keumbi.prj.user.vo.UserVO;
 
 @Service
 public class DepositServiceImpl implements DepositService {
@@ -67,7 +68,9 @@ public class DepositServiceImpl implements DepositService {
 	}
 
 	@Override
-	public List<DepositBaseVO> selectBestDepBase() {
-		return m.selectBestDepBase();
+	public List<DepositBaseVO> selectBestDepBase(UserVO vo) {
+		// TODO Auto-generated method stub
+		return m.selectBestDepBase(vo);
 	}
+
 }
