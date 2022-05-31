@@ -28,5 +28,25 @@
 		WHERE	CARD_COMPANY = #{card_company}
 		ORDER BY CARD_SEQ
 	</select>
+	
+	<insert id="insertPrdCard" parameterType="PrdCardVO">
+		INSERT INTO CARDS
+		VALUES ( #{card_id}, #{user_id}, #{card_num_masked}, #{card_name}, #{bank_code_std}, #{member_bank_code} )
+	</insert>
+	
+	<select id="selectRecoAge" resultType="PrdCardVO">
+		SELECT *
+		FROM (SELECT P.*, COUNT(CARD_SEQ)AS COUNT
+		        FROM PRD_CARDS P
+		        JOIN CARDS C ON P.CARD_COMPANY = C.BANK_CODE_STD
+		        JOIN USERS U ON C.USER_ID = U.ID
+		        WHERE ROUND(MONTHS_BETWEEN(SYSDATE, BIRTH)/12)+1 
+		            BETWEEN TRUNC(ROUND(MONTHS_BETWEEN(SYSDATE, #{birth})/12)+1,-1) 
+		            AND TO_NUMBER(SUBSTR(TO_CHAR(ROUND(MONTHS_BETWEEN(SYSDATE, #{birth})/12)+1),0,1)+1)*10
+		        AND C.CARD_NAME = P.CARD_NAME
+		        GROUP BY P.CARD_SEQ, P.CARD_NAME, P.CARD_COMPANY , P.CARD_INFO, P.CARD_ANNUALFEE, P.CARD_BENEFIT, P.CARD_IMAGE, P.CARD_PERFO
+		        ORDER BY COUNT DESC)
+		WHERE ROWNUM <![CDATA[ <=5 ]]>
+	</select>
 
 </mapper>
