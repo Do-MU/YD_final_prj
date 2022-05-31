@@ -67,15 +67,11 @@
 	</update>
 	
 	<!-- 전체 유저리스트 -->
-	
-	
-	
-	<!-- 전체 유저리스트 -->
-	<select id="userList" resultType="UserManageVO">
-		SELECT U.ID, UC.VAL UVAL, S.SDATE, SC.VAL SVAL
-		FROM USERS U, COMMON_CODE UC, SANCTIONS S, COMMON_CODE SC
-		WHERE U.USER_CODE = UC.CODE
-		AND S.SANC_CODE = SC.CODE
-		AND U.ID = S.USER_ID
+	<select id="allUser" resultType="UserVO">
+		SELECT 		ID, C.VAL USER_CODE
+		FROM 		USERS U, COMMON_CODE C
+		WHERE	 	U.USER_CODE = C.CODE
+		AND 		U.USER_CODE NOT IN ('U0')
+		ORDER BY 	ID ASC
 	</select>
 </mapper>
