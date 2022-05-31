@@ -616,15 +616,15 @@ body {
 							<input type="radio" id="choice2" name="io_code" value="I2"> 
 							<label for="choice2">수입</label>
 						</div>
-						<label>날짜 </label> 
+						<label>날짜 </label> <br>
 						<input type="date" name="tdate" id="cashModalDate"> <br><br> 
-						<label>분류 </label> 
+						<label>분류 </label><br>
 						<select id="cat_code" name="cat_code">
 							<option value="">선택</option>
 							<c:forEach var="c" items="${code}">
 								<option value="${c.code}">${c.val}</option>
 							</c:forEach>
-						</select> <br>
+						</select> <br><br>
 						<br> <label>금액 </label> <input type="number" name="amt">
 						<br> <label>내용 </label> <input type="text" name="content">
 						<br>

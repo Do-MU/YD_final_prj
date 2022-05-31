@@ -32,4 +32,9 @@ public class CodeServiceImpl implements CodeService {
 	public List<CodeVO> selectUserKwdCode(String id) {
 		return m.selectUserKwdCode(id);
 	}
+
+	@Override
+	public String selectChallCode(String chall_code) {
+		return m.selectChallCode(chall_code);
+	}
 }
