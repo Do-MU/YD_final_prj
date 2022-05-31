@@ -3,8 +3,29 @@
 <mapper namespace="com.keumbi.prj.qna.mapper.QnaMapper">
 
 	<select id="qnaListSelectAll" resultType="QnaVO">
-		SELECT * 
-		FROM   QNAS
+		SELECT Q.NUM,
+		Q.USER_ID, Q.TITLE, Q.QCONTENTS, Q.QDATE, Q.ACONTENTS, Q.ADATE, C.VAL
+		FROM QNAS Q
+		JOIN COMMON_CODE C
+		ON Q.ANSWER_CODE = C.CODE
+		WHERE USER_ID =
+		#{id}
+		ORDER BY Q.QDATE DESC
 	</select>
 
+	<insert id="qnaInsert" parameterType="QnaVO">
+		<selectKey keyProperty="num" resultType="int" order="BEFORE">
+			SELECT
+			NVL(MAX(NUM),0) + 1
+			FROM QNAS
+		</selectKey>
+		INSERT INTO QNAS VALUES
+		( #{num}, #{user_id}, #{title}, #{qcontents},
+		sysdate, NULL, NULL, 'Q0' )
+	</insert>
+
+	<delete id="qnaDelete" parameterType="QnaVO">
+		DELETE FROM QNAS
+		WHERE NUM = #{num}
+	</delete>
 </mapper>
