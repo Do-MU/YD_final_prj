@@ -48,5 +48,17 @@ public class ReplyServiceImpl implements ReplyService {
 	public int rorInsert(ReplyVO vo) {
 		return m.rorInsert(vo);
 	}
+	
+	@Override
+	public int rorUpdate(ReplyVO vo) {
+		return m.rorUpdate(vo);
+		
+	}
+	
+	@Override
+	public int rorDelete(int re_num) {
+		return m.rorDelete(re_num);
+
+	}
 
 }

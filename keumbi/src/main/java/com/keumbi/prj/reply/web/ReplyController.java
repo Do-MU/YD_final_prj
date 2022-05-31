@@ -44,6 +44,18 @@ public class ReplyController {
 		return service.replyInsert(vo);
 	}
 	
+	@RequestMapping(value = "/rorInsert", method = RequestMethod.POST)
+	@ResponseBody
+	private int rorInsert(ReplyVO vo, HttpSession session) {
+		UserVO uvo = (UserVO) session.getAttribute("loginUser");
+		vo.setUser_id(uvo.getId());
+		
+		
+		
+		return service.rorInsert(vo);
+		
+	}
+	
 	@RequestMapping("/replyUpdate")
     @ResponseBody 
 	private int replyUpdate(ReplyVO vo) {
@@ -51,6 +63,16 @@ public class ReplyController {
 		
 		
 		return service.replyUpdate(vo);
+		
+	}
+	
+	@RequestMapping("/rorUpdate")
+    @ResponseBody 
+	private int rorUpdate(ReplyVO vo) {
+		
+		
+		
+		return service.rorUpdate(vo);
 		
 	}
 	
@@ -63,15 +85,15 @@ public class ReplyController {
 		return service.replyDelete(re_num);
 	}
 	
-	@RequestMapping(value = "/rorInsert", method = RequestMethod.POST)
+	@RequestMapping("/rorDelete")
 	@ResponseBody
-	private int rorInsert(ReplyVO vo, HttpSession session) {
-		UserVO uvo = (UserVO) session.getAttribute("loginUser");
-		vo.setUser_id(uvo.getId());
+	private int rorDelete(@RequestParam("re_num") int re_num) {
 		
 		
 		
-		return service.rorInsert(vo);
+		return service.rorDelete(re_num);
 	}
+	
+	
 
 }

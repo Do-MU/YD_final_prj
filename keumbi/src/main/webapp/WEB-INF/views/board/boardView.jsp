@@ -12,6 +12,11 @@
 	src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
 <style>
+
+.hi{
+	margin: auto 0;
+}
+
 </style>
 
 </head>
@@ -129,6 +134,14 @@
 		replyInsert(insertData); //Insert 함수호출(아래)});
 	})
 	
+	/* var bod_num = '${view.bod_num}'; //게시글 번호 
+	$('[name=rorInsertBtn]').click(function(){ //대댓글 등록 버튼 클릭시     
+		var insertDataROR = $('[name=rorInsertForm]').serialize(); //commentInsertForm의 내용을 가져옴    
+		console.log
+		rorInsert(insertDataROR); //Insert 함수호출(아래)});
+	
+	}) */
+	
 	//댓글 목록 
 	function replyList(){
 	    $.ajax({
@@ -148,12 +161,22 @@
 					 			 <button type="button" class="btn btn-outline-info" onclick="replyUpdate('\${value.re_num}','\${value.re_contents}');" style="float: right;"> 수정 </button>
 						  		 <button type="button" class="btn btn-outline-success" onclick="replyOfReply('\${value.re_num}');" style="float: right;"> 댓글 </button>` 
 					 }
+					 if(value.pre_re_num == 0){
 					 a += `<div class="commentinfo\${value.re_num}">
-						    ∥ 작성자 : \${value.user_id} ∥&nbsp;  날짜 : \${value.re_date} ∥ <div id="check"></div>
-							\${user}	    
-						    &nbsp; <div class="re_contents\${value.re_num}">&nbsp;<p>&nbsp; &nbsp;&nbsp;\${value.re_contents}</p></div>
-						   		   <div type="hidden" id="rorinput"></div>
-						</div><hr>`         
+						    ∥ 작성자 : \${value.user_id} ∥&nbsp;  날짜 : \${value.re_date} ∥ <div id="check"></div> \${user} 
+						    <div class="re_contents\${value.re_num}">&nbsp;<p>&nbsp; &nbsp;&nbsp;\${value.re_contents}</p></div><hr>`	    
+					 }else{
+						a += `<div class="hi"> 
+							<div type="hidden" name="pre_re_num" class="re_contents\${value.re_num}"  id="ROR">
+							<input type="hidden" name="bod_num" class="re_contents\${value.pre_re_num}">
+							<div class="commentinfo\${value.re_num}">
+							&nbsp;&nbsp; ↳ &nbsp;&nbsp;&nbsp; ∥ 작성자 : \${value.user_id} ∥&nbsp;  날짜 : \${value.re_date} ∥ <div id="check"></div>
+							<button type="button" class="btn btn-outline-dark" onclick="rorDelete('\${value.re_num}');" style="float: right;"> 삭제 </button>
+							<button type="button" class="btn btn-outline-info" onclick="rorUpdate('\${value.re_num}','\${value.re_contents}');" style="float: right;"> 수정 </button>							 
+							<br><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; \${value.re_contents}</p> 				    		   		
+						   	</div></div><hr>`  
+					  
+					}       
 				 }); 
 				
 				 $(".replyList").html(a); 
@@ -179,6 +202,25 @@
 			}    
 		});
 	}
+	
+	//대댓글 등록
+	function rorInsert(re_num){
+		
+		var bod_num = '${view.bod_num}';
+		var pre_re_num = re_num;
+		var re_contents =event.target.parentElement.previousElementSibling.value
+		    $.ajax({
+		        url : 'rorInsert',       
+				type : 'post',        
+				data : {bod_num, pre_re_num, re_contents},        
+				success : function(data){            
+					if(data == 1) {                
+						replyList(); //댓글 작성 후 댓글 목록 reload                
+						$('[name=re_contents]').val('');
+					}        
+				}    
+			});
+		}
 
 	//댓글 수정 - 댓글 내용 출력을 input 폼으로 변경 
 	function replyUpdate(re_num, re_contents){
@@ -209,10 +251,51 @@
 	});
 }
 
+	
+	//대댓글 수정 - 대댓글 내용 출력을 input 폼으로 변경 
+	function rorUpdate(re_num, re_contents){
+	    var a ='';        	
+		a += `<input type="text" class="form-control" name="re_contents\${re_num}" value="\${re_contents}">
+		    <span class="input-group-btn">
+	        <button class="btn btn-outline-info" type="button" onclick="rorUpdateProc('\${re_num}');"> 수정 </button>        
+	        </span>
+	          </input>` 
+		
+		$('.re_contents'+re_num).html(a);    
+	}
+	
+	//대댓글 수정
+	function rorUpdateProc(re_num){   
+		var updateContents = $('[name=re_contents'+re_num+']').val();  
+		//var check = ${'value.Alram'}       		
+		$.ajax({
+	        url : 'rorUpdate?re_num='+re_num,        
+			type : 'post',        
+			data : {'re_contents' : updateContents, 're_num' : re_num },        
+			success : function(data){
+				
+	            if(data == 1) replyList(); //댓글 수정후 목록 출력    
+				var commentinfo = $('.commentinfo'+ re_num).find('#check').html("(수정됨)");
+	
+		}    
+	});
+}
+	
 	//댓글 삭제 
 	function replyDelete(re_num){
 		 $.ajax({
 	        url : 'replyDelete?re_num='+re_num,        
+			type : 'post',        
+			success : function(data){            
+				if(data == 1) replyList(); //댓글 삭제후 목록 출력         
+			}    
+		});
+	}
+		
+	//대댓글 삭제 
+	function rorDelete(re_num){
+		 $.ajax({
+	        url : 'rorDelete?re_num='+re_num,        
 			type : 'post',        
 			success : function(data){            
 				if(data == 1) replyList(); //댓글 삭제후 목록 출력         
@@ -228,9 +311,9 @@
 	function replyOfReply(re_num){
 		$('.commentinfo'+ re_num).find("#ROR").remove()
 		    var a ='';        	
-			a += ` <div id="ROR" action="/boardView/rorInsert" name= "rorInsertForm"> <input type="text" class="form-control" name="re_contents\${re_num}" value="">
-			    <span class="input-group-btn">
-		        <button class="btn btn-outline-info" type="button" onclick=("rorinput")> 댓글달기 </button>        
+			a += ` <div id="ROR" action="/boardView/rorInsert" name= "rorInsertForm"> <input type="hidden" class="form-control" name="bod_num" value="${view.bod_num}">
+				<input name="re_contents" class="form-control"> <span class="input-group-btn">
+		        <button class="btn btn-outline-info" type="button" onclick="rorInsert('\${re_num}');"> 댓글달기 </button>        
 		        </span>
 		        </input></div>` 
 			
