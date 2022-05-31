@@ -26,4 +26,10 @@
 		ON		U.KWD_CODE = C.CODE
 		WHERE	U.USER_ID = #{id}
 	</select>
+	
+	<select id="selectChallCode" parameterType="String" resultType="String">
+		SELECT	VAL
+		FROM	COMMON_CODE
+		WHERE	CODE = #{chall_code}
+	</select>
 </mapper>
