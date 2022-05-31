@@ -20,7 +20,7 @@
 	position: fixed;
 	top:0%;
 	right:0%;
-    transform: translate(33%, 7%);
+    transform: translate(28%, 7%);
 }
 #modal_noti .modal-content{
 	width: 400px;

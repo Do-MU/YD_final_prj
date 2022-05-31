@@ -9,4 +9,6 @@ public interface ChallService {
 	int challSelect(ChallVO vo);				// 단건조회
 	int challInsert(ChallVO vo);				// 등록
 	int challTotalUser(int chall_num);			// 챌린지 도전자 수
+	int makeDummyChall();
+	int userAmtSumA(ChallVO vo);
 }

@@ -33,6 +33,8 @@
 		<button id="dummy_loa" class="btn btn-success">대출 계좌 더미데이터 만들기</button>
 		<br>
 		<button id="dummy_card" class="btn btn-success">카드 번호 더미데이터 만들기</button>
+		<br>
+		<button id="dummy_chall" class="btn btn-success">챌린지 더미데이터 만들기</button>
 	</div>
 </div>
 
@@ -94,4 +96,13 @@
 			console.log(card+"개 카드 생성완료!!!");
 		});
 	});
+	
+	$("#dummy_chall").on("click", function(){
+		$.ajax({
+			url : "dummyChall"
+		}).done(function(chall){
+			console.log(chall+"개 카드 생성완료!!!");
+		});
+	});
+	
 </script>

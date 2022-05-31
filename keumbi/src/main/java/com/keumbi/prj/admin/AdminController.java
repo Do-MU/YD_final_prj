@@ -6,6 +6,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import com.keumbi.prj.account.service.AccountService;
+import com.keumbi.prj.chall.service.ChallService;
+import com.keumbi.prj.user.service.UserService;
 import com.keumbi.prj.prd.service.PrdCardService;
 import com.keumbi.prj.user.service.UserService;
 
@@ -17,6 +19,7 @@ public class AdminController {
 	@Autowired AccountService a;
 	@Autowired UserService us;
 	@Autowired PrdCardService c;
+	@Autowired ChallService ch;
 	
 	// 관리자 메인 화면
 	@RequestMapping("/home")
@@ -64,5 +67,14 @@ public class AdminController {
 		
 		return c.makeDummyCard();
 	}
-	
+	@RequestMapping("/dummyChall")
+	@ResponseBody
+	public int dummyChall() {
+		int cnt=0;
+		for(int i=0;i<4000;i++) {
+			ch.makeDummyChall();
+			cnt++;
+		}
+		return cnt;
+	}
 }

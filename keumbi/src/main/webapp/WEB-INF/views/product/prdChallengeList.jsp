@@ -77,7 +77,7 @@
 		font-size: 30px;
 	}
 	#challengeJoin_modal #mod_chal_cont{
-		margin-bottom: 10px;
+		margin: 20px 0 10px;
 		font-size:1.2em;
 	}
 	#challengeJoin_modal #mod_chal_top3{
@@ -116,6 +116,30 @@
 		width:100%;
 	}
 	
+	#msg_popup .modal-body{
+		height: 250px;
+		background-color: #F2F2F2;
+	}
+	
+	#msg_popup .modal-body .div_mod_content{
+		padding: 50px;
+		font-size: 20px;
+	}
+	
+	#btn_confirm,
+	#btn_alert{
+		width:100%;
+		text-align:right;
+		position:absolute;
+		bottom:30px;
+		right:30px;
+	}
+	.bi-exclamation-octagon-fill,
+	.bi-info-circle-fill,
+	.{
+		color:red;
+		font-size: 1.5em;
+	}
 	
   }
 </style>
@@ -210,6 +234,25 @@
 				</div>
 			</div>
 		</div>
+		
+		<!-- ALERT/CONFIRM MODAL -->
+		<div class="modal" id="msg_popup" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false">
+		    <div class="modal-dialog modal-dialog-centered" role="document">
+		        <div class="modal-content">
+		        
+		            <div class="modal-body">
+		            	<div class="div_mod_content"></div>
+			            <div class="div_btn_confirm" id="btn_confirm">
+			                <button type="button" id="confirm_no"class="btn btn-secondary" data-dismiss="modal">취소</button>
+			                <button type="button" id="confirm_yes" class="btn btn-primary" data-dismiss="modal" >도전하기</button>
+			            </div>
+			            <div class="div_btn_alert" id="btn_alert">
+			                <button type="button" id="alert_ok" class="btn btn-primary" data-dismiss="modal"></button>
+			            </div>
+		            </div>
+		        </div>
+		    </div>
+		</div>
 	
 	</div>
 </section>
@@ -220,7 +263,7 @@
 			url:"challTotalUser",
 			data:{chall_num : $(this).children($(".div_title")).children().eq(1).data("chall_num")}
 		}).done(function(totalUser){
-			challengers.html("- 도전자 : "+ totalUser +"명");
+			challengers.html("- 도전자 : "+ addComm(totalUser) +"명");
 		})
 	})
 
@@ -236,14 +279,14 @@
 			//console.log(chall);
 			$("#mod_chal_img").attr("src","${pageContext.request.contextPath}/resources/img/challenge_img/"+chall.image);
 			$("#mod_chal_title").html(chall.title);
-			$("#mod_chal_cont").html(chall.content);
+			$("#mod_chal_cont").html("<h3>"+chall.content+"</h3>");
 			$.ajax({
 				url:"challTotalUser",
 				data:{chall_num : chall_num}
 			}).done(function(totalUser){
-				$("#mod_chal_user").html("도전자 : " + totalUser + "명");				// 챌린지-유저 테이블 count
+				$("#mod_chal_user").html("도전자 : " + addComm(totalUser) + "명");				// 챌린지-유저 테이블 count
 			})
-			$("#mod_chal_top3").html("월 평균 소비 TOP 3!!");
+			$("#mod_chal_top3").html("<h3>월 평균 소비 TOP 3</h3>");
 			var CK = chall.category.substr(0,3);
 			if(CK == "CKA"){
 				$.ajax({
@@ -254,7 +297,7 @@
 				}).done(function(list){
 					for(vo of list){											// 지출내역 테이블 >> userId + 챌린지키워드 or 검색키워드 >> 금액 합계 >> 확장for문 사용
 						if(i<3){												// 3개 출력시 stop
-							$("<div>").html((i+1) + ". " + vo.content + ' ' + vo.amt + "원").appendTo($("#mod_chal_top3"));
+							$("<div>").html((i+1) + ". " + vo.content + '  ' + addComm(vo.amt) + "원").appendTo($("#mod_chal_top3"));
 						}
 						allSum += parseInt(vo.amt);							// 불러온 목록의 전체 금액을 다 더함
 						i++;
@@ -263,11 +306,10 @@
 					// slider 초기화
 					$("#slider").val(0);
 					$("#slider").attr("max", allSum);								// max값 설정
-					$("#goal_max").html($("#slider").attr("max"));					// max값 출력
+					$("#goal_max").html(addComm($("#slider").attr("max")));			// max값 출력
 					$("#slider").val(Math.round(allSum/2));							// 슬라이드 바 중앙으로
-					$("#goal_now").html($("#slider").val());						// 하단 금액 추전 금액으로
+					$("#goal_now").html(addComm($("#slider").val()));				// 하단 금액 추전 금액으로
 					$("#slider").attr("step", $('#slider').attr('max')/100);		// 금액 단위 조정
-					console.log(allSum+' '+$("#slider").attr("max")+' '+$("#slider").val()+' '+Math.round(allSum/2))
 				})
 			}else{
 				$.ajax({
@@ -291,7 +333,6 @@
 					$("#slider").val(Math.round(allSum/2));							// 슬라이드 바 중앙으로
 					$("#goal_now").html($("#slider").val());						// 하단 금액 추전 금액으로
 					$("#slider").attr("step", $('#slider').attr('max')/100);		// 금액 단위 조정
-					console.log(allSum+' '+$("#slider").attr("max")+' '+$("#slider").val()+' '+Math.round(allSum/2))
 				})
 			}
 			$("#challengeJoinBtn").data("chall_num", chall_num);					// 도전하기 버튼에 챌린지 번호 부여
@@ -299,7 +340,7 @@
 	})
 	
 	$("#slider").mousemove(function(){
-		$("#goal_now").html(Math.round($("#slider").val()));
+		$("#goal_now").html(addComm(Math.round($("#slider").val())));
 	})
 	
  	$("#challengeJoinBtn").click(function(){
@@ -307,25 +348,48 @@
 			alert('로그인이 필요합니다.');
 			window.location = "userLoginForm";
 		}else{
-			var result = confirm("정말로 도전하시겠습니까?"); 
-	 		if(result){
-				$("#challengeJoin_modal").modal("hide");
-				$.ajax({
-					url:"challInsert",
-					data: {
-						goal : $("#goal_now").html(),
-						chall_num : $("#challengeJoinBtn").data("chall_num"),
-						user_id : '${loginUser.id}'
-					}
-				}).done(function(data){
-					if(data == 1){
-						alert("챌린지 도전!!");
-						window.location = "challengeList";
-					}else{
-						alert("이미 진행중인 챌린지 입니다.");
-					}
-				})
-	 		}
+			$("#msg_popup .modal-body .div_mod_content").html(`<i class="bi bi-exclamation-octagon-fill"></i> `+" 챌린지에 도전하시겠습니까?");
+			$("#btn_confirm").removeAttr('hidden');
+			$("#btn_alert").attr("hidden","hidden");
+			$("#msg_popup").modal("show");
 		}
 	})
-</script>	
+	
+	
+	$("#confirm_yes").click(function(){
+		$("#msg_popup").modal("hide");
+		$.ajax({
+			url:"challInsert",
+			data: { goal : $("#goal_now").html(),
+					chall_num : $("#challengeJoinBtn").data("chall_num"),
+					user_id : '${loginUser.id}' }
+		}).done(function(data){
+			if(data == 1){
+				$("#msg_popup .modal-body .div_mod_content").html(`<i class="bi bi-info-circle-fill"></i> `+" 챌린지 도전!!");
+				$("#btn_alert").attr("hidden", false);
+				$("#alert_ok").text("나의 챌린지");
+				$("#btn_confirm").attr("hidden", "hidden");
+				$("#msg_popup").modal("show");
+				$("#alert_ok").addClass("moveToChall");
+			}else{
+				$("#msg_popup .modal-body .div_mod_content").html(`<i class="bi bi-info-circle-fill"></i> `+" 이미 도전중인 챌린지 입니다.");
+				$("#btn_alert").removeAttr('hidden');
+				$("#alert_ok").text("확인");
+				$("#btn_confirm").attr("hidden", "hidden");
+				$("#msg_popup").modal("show");
+			}
+		});
+	});
+	
+	$("#msg_popup").on('click', 'button.moveToChall', function(){
+		$(location).attr("href","challengeList");
+	});
+	
+	$("#msg_popup").on('click', '#alert_ok', function(){
+		$("#challengeJoin_modal").modal("hide");
+	});
+	
+	function addComm(num){
+		return num.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
+	}
+</script>
