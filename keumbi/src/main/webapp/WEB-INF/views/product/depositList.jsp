@@ -1,7 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-
 <script src="http://code.jquery.com/jquery-3.6.0.js"></script>
 <style>
 .prds{
@@ -55,7 +54,7 @@
 }
 
 
-#total, #taxPercent{	
+#total, #taxPercent, .best_intr{	
 	color: red;
 }
 #totalText{
@@ -98,8 +97,21 @@
 }
 .div_bestImg{
 	text-align: left;
-	height:100px;
+	height:50px;
 	flex:1;
+}
+#best_content{
+	font-size: 30px;
+    padding-bottom: 30px;
+    color: black;
+}
+.wel_item{
+	border: 1px solid #212529;
+    padding: 15px 15px;
+    border-radius: 20px
+}
+.row{
+	padding-bottom: 50px
 }
 </style>
 
@@ -121,14 +133,17 @@
 </section>
 <section class="contact_area p_120">
 	<div class="container">
-		<div id="best_content">OO대가 가장 많이사용하는 상품이에요</div>
+		<c:if test="${not empty loginUser.name}">
+			<div id="best_content">${loginUser.name}님과 비슷한 연령대가 많이사용하는 상품이에요</div>
+		</c:if>
 		<div class="row">
 			<c:forEach var="b" items="${depBestList }">
-				<div class="col-md-4">
+				<div class="col-md-4" data-dep_id="${b.dep_id }">
 					<div class="wel_item">
 						<div class="div_bestImg"><img src="${pageContext.request.contextPath}/resources/img/bank_logo/${b.kor_co_nm}.jpg" width="50px" height="50px"></div>
-						<h4 id="best_bank">${b.kor_co_nm }</h4>
-						<p id="best_prdNm">${b.fin_prdt_nm }</p>
+						<div class="best_bank">${b.kor_co_nm }</div>
+						<div class="best_intr"></div>
+						<div class="best_prdNm">${b.fin_prdt_nm }</div>
 					</div>
 				</div>
 			</c:forEach>
@@ -185,13 +200,13 @@
 	</div>
 </section>
 
-<script>	
-	//상세보기시 옵션 출력
+<script>
+	//상품목록 상세보기 출력
 	$(".prds").on("click", ".depView", function(){
 		$("#modal").modal("show"); //modal 창 생성
 		$('.modal-body').animate({scrollTop: 0},400); //스크롤 상단이동
-		
 		$("#depositOpt").html("");
+		
 		var bank_name = $(this).parent().prev().children().eq(0).html();
 		$("#bankName").html(bank_name);
 			
@@ -202,17 +217,7 @@
 			url:"prdDepBase",
 			data:{ dep_id : dep_id }
 		}).done(function(dep){
-			$("#depositBase1").html("<상품명><br>" + dep.fin_prdt_nm
-									+"<br><가입방법><br>" + dep.join_way
-									+"<br><만기 후 이자율><br>" + dep.mtrt_int
-									+"<br><우대조건><br>" + dep.spcl_cnd
-									+"<br>가입대상 : " + dep.join_member
-									+"<br><유의사항><br>" + dep.etc_note)
-			$("#depButton").data("dep_id", dep.dep_id);
-			if(dep.max_limit != null){
-				$("#depositBase2").html("최고한도 : " + dep.max_limit+"원")
-			}
-			
+			makeDepBase(dep);
 		});
 		
 		// 상품 옵션
@@ -220,36 +225,46 @@
 			url:"prdDepOpt",
 			data:{ dep_id : dep_id }
 		}).done(function(result){
-			//console.log(result);
-			
-	         $('#date').empty();
-	         let opthtml = '<option value="">선택</option>';
-	         
-			for(opt of result){
-				$("<div>").append( $("<hr>") )
-						  .append( $("<div>").html("저축기간 : " + opt.save_trm + "개월"))
-						  .append( $("<div>").html("최소 " + opt.intr_rate + "%") )
-						  .append( $("<div>").html("최대 " + opt.intr_rate2 + "%") )
-						  .append( $("<div style='display:none;' id='type'>").html(opt.intr_rate_type))
-						  .appendTo($("#depositOpt"));
-
-	            opthtml += "<option value='"+opt.intr_rate2+"' name='"+opt.save_trm+"'>"+opt.save_trm+"개월</option>"
-			}
-
-	         $("#date").html(opthtml);
-	         $("#date").niceSelect("update");
+			makeDepOpt(result);
 		});
 		
 		/*modal 닫기 이벤트*/
-		$("#modal").on("hidden.bs.modal", function(){
-			$(".list > li").remove(); // select개월수 초기화
-			$("#date > option").remove(); // select개월수 초기화
-			$("#totalText").html(""); // 만기금액 초기화
-			$(".depOpt > #depMoney").val(""); // 입력금액 초기화
-		})
+		closeModal();
 	});
 	
-	// 상품리스트 최고금리 출력
+	//인기상품 상세보기 출력
+	$(".row").on("click", ".col-md-4", function(){
+		$("#modal").modal("show"); //modal 창 생성
+		$('.modal-body').animate({scrollTop: 0},400); //스크롤 상단이동
+		$("#depositOpt").html("");
+		
+		var bank_name = $(this).children().children().next().html();
+		$("#bankName").html(bank_name);
+			
+		var dep_id = $(this).data("dep_id");
+		
+		// 상품 정보
+		$.ajax({
+			url:"prdDepBase",
+			data:{ dep_id : dep_id }
+		}).done(function(dep){
+			makeDepBase(dep);
+		});
+		
+		// 상품 옵션
+		$.ajax({
+			url:"prdDepOpt",
+			data:{ dep_id : dep_id }
+		}).done(function(result){
+			makeDepOpt(result);
+		});
+		
+		/*modal 닫기 이벤트*/
+		closeModal();
+	})
+	
+	
+	// 상품목록 최고금리 출력
 	for(prd of $("#list").find(".prds")){
 		var dep_id = prd.getAttribute("data-dep_id");
 
@@ -261,6 +276,23 @@
 			for(opt of result){
 				if(dep_id == opt.dep_id){
 					prd.children[1].children[2].innerText = "최고금리 " + opt.intr_rate2 + "%";
+				}
+			}
+		});
+	};
+	
+	// 인기상품 최고금리 출력
+	for(prd of $(".row").find(".col-md-4")){
+		var dep_id = prd.getAttribute("data-dep_id");
+
+		$.ajax({
+			url:"prdDepOpt",
+			data:{dep_id : dep_id},
+			async: false
+		}).done(function(result){
+			for(opt of result){
+				if(dep_id == opt.dep_id){
+					prd.children[0].children[2].innerText = "최고금리 " + opt.intr_rate2 + "%"; //자식관계때문에 못합쳤음
 				}
 			}
 		});
@@ -317,4 +349,48 @@
          }
       })
    })
+   
+   // 상품 상세보기 정보
+   function makeDepBase(dep){
+	   	$("#depositBase1").html("<상품명><br>" + dep.fin_prdt_nm
+							   +"<br><가입방법><br>" + dep.join_way
+							   +"<br><만기 후 이자율><br>" + dep.mtrt_int
+							   +"<br><우대조건><br>" + dep.spcl_cnd
+							   +"<br>가입대상 : " + dep.join_member
+							   +"<br><유의사항><br>" + dep.etc_note)
+							   $("#depButton").data("dep_id", dep.dep_id);
+		if(dep.max_limit != null){
+			$("#depositBase2").html("최고한도 : " + dep.max_limit+"원")
+		}
+	}
+	
+	// 상품 상세보기 옵션
+	function makeDepOpt(result){
+		$('#date').empty();
+        let opthtml = '<option value="">선택</option>';
+        
+		for(opt of result){
+			$("<div>").append( $("<hr>") )
+					  .append( $("<div>").html("저축기간 : " + opt.save_trm + "개월"))
+					  .append( $("<div>").html("최소 " + opt.intr_rate + "%") )
+					  .append( $("<div>").html("최대 " + opt.intr_rate2 + "%") )
+					  .append( $("<div style='display:none;' id='type'>").html(opt.intr_rate_type))
+					  .appendTo($("#depositOpt"));
+
+           opthtml += "<option value='"+opt.intr_rate2+"' name='"+opt.save_trm+"'>"+opt.save_trm+"개월</option>"
+		}
+
+        $("#date").html(opthtml);
+        $("#date").niceSelect("update");
+	}
+	
+	// modal창 닫기이벤트
+	function closeModal(){
+		$("#modal").on("hidden.bs.modal", function(){
+			$(".list > li").remove(); // select개월수 초기화
+			$("#date > option").remove(); // select개월수 초기화
+			$("#totalText").html(""); // 만기금액 초기화
+			$(".depOpt > #depMoney").val(""); // 입력금액 초기화
+		})
+	}
 </script>

@@ -5,6 +5,7 @@ import java.util.List;
 import com.keumbi.prj.common.vo.CodeVO;
 import com.keumbi.prj.prd.vo.DepositBaseVO;
 import com.keumbi.prj.prd.vo.DepositOptionVO;
+import com.keumbi.prj.user.vo.UserVO;
 
 public interface DepositMapper {
 	int insertDepBase(DepositBaseVO vo);
@@ -15,5 +16,5 @@ public interface DepositMapper {
 	DepositBaseVO selectOneDepBase(int dep_id);
 	List<DepositOptionVO> selectAllDepOpt(int dep_id);
 	CodeVO selectBankName(String kor_co_nm);
-	List<DepositBaseVO> selectBestDepBase();
+	List<DepositBaseVO> selectBestDepBase(UserVO vo);
 }

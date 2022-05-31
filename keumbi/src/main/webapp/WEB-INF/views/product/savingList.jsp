@@ -57,7 +57,7 @@
 }
 
 
-#total{	
+#total, #taxPercent, .best_intr{	
 	color: red;
 }
 #totalText{
@@ -88,6 +88,34 @@
     font-size: 20px;
     color: black;
 }
+.prds{
+   display: none;
+}
+
+#read{
+	width: 500px;
+    margin: auto;
+    display: block;
+    margin-top: 30px;
+}
+.div_bestImg{
+	text-align: left;
+	height:50px;
+	flex:1;
+}
+#best_content{
+	font-size: 30px;
+    padding-bottom: 30px;
+    color: black;
+}
+.wel_item{
+	border: 1px solid #212529;
+    padding: 15px 15px;
+    border-radius: 20px
+}
+.row{
+	padding-bottom: 50px
+}
 </style>
 
 <section class="banner_area">
@@ -107,6 +135,21 @@
 </section>
 <section class="contact_area p_120">
 	<div class="container">
+		<c:if test="${not empty loginUser.name}">
+			<div id="best_content">${loginUser.name}님과비슷한 연령대가 많이사용하는 상품이에요</div>
+		</c:if>
+		<div class="row">
+			<c:forEach var="b" items="${savBestList }">
+				<div class="col-md-4" data-sav_id="${b.sav_id }">
+					<div class="wel_item">
+						<div class="div_bestImg"><img src="${pageContext.request.contextPath}/resources/img/bank_logo/${b.kor_co_nm}.jpg" width="50px" height="50px"></div>
+						<div class="best_bank">${b.kor_co_nm }</div>
+						<div class="best_intr"></div>
+						<div class="best_prdNm">${b.fin_prdt_nm }</div>
+					</div>
+				</div>
+			</c:forEach>
+		</div>
 		<div id="list">
 			<c:forEach var="s" items="${savList}">
 				<div class="prds" data-sav_id="${s.sav_id}">
@@ -120,9 +163,12 @@
 					<div class="div_btn">
 						<button class="savView">자세히 보기</button>
 					</div>
+					<hr>
 				</div>
-				<hr>
 			</c:forEach>
+			<div id="read_more">
+				<button type="button" class="btn btn-outline-primary" id="read">더보기</button>
+			</div>
 		</div>
 	</div>
 	<div class="modal fade" id="modal" role="dialog">
@@ -141,7 +187,7 @@
 				</div>
 				
 				<div class="modal-footer" style="display: inline;">
-					<div id="cal" style="float: left;">금리 계산기<br><p id="tax">일반세율 <span id="total">15.4%</span>가 적용됩니다.</p></div>
+					<div id="cal" style="float: left;">금리 계산기<br><p id="tax">일반세율 <span id="taxPercent">15.4%</span>가 적용됩니다.</p></div>
 					<div class="savOpt" style="float: right" onchange="savMoney()">
 						<select id="date">
 							<option value="" selected>선택</option>
@@ -156,11 +202,12 @@
 </section>
 
 <script>
+	//상품 상세보기 출력
 	$(".prds").on("click", ".savView", function(){
 		$("#modal").modal("show");
 		$(".modal-body").animate({scrollTop: 0}, 400);
-		
 		$("#savingOpt").html("");
+		
 		var bank_name = $(this).parent().prev().children().eq(0).html();
 		$("#bankName").html(bank_name);
 		
@@ -170,49 +217,47 @@
 			url:"prdSavBase",
 			data:{ sav_id : sav_id }
 		}).done(function(sav){
-			$("#savingBase1").html("<상품명><br>" + sav.fin_prdt_nm
-									+"<br><가입방법><br>" + sav.join_way
-									+"<br><만기 후 이자율><br>" + sav.mtrt_int
-									+"<br><우대조건><br>" + sav.spcl_cnd
-									+"<br>가입대상 : " + sav.join_member
-									+"<br><유의사항><br>" + sav.etc_note)
-			if(sav.max_limit != null){
-				$("#savingBase2").html("최고한도 : " + sav.max_limit+"원")
-			}
-			
+			makeSavBase(sav);
 		});
-		
 		
 		$.ajax({
 			url:"prdSavOpt",
 			data:{ sav_id : sav_id }
 		}).done(function(result){
-	        $('#date').empty();
-	        let opthtml = '<option value="">선택</option>';
-	        
-			for(opt of result){
-				$("<div>").append( $("<hr>") )
-						  .append( $("<div>").html("적립유형명 : " + opt.rsrv_type_nm))
-						  .append( $("<div>").html("저축기간 : " + opt.save_trm + "개월"))
-						  .append( $("<div>").html("최소 " + opt.intr_rate + "%") )
-						  .append( $("<div>").html("최대 " + opt.intr_rate2 + "%") )
-						  .append( $("<div style='display:none;' id='type'>").html(opt.intr_rate_type))
-						  .appendTo($("#savingOpt"));
-
-	            opthtml += "<option value='"+opt.intr_rate2+"' name='"+opt.save_trm+"'>"+opt.rsrv_type_nm+" "+opt.save_trm+"개월</option>"
-			}
-			
-	        $("#date").html(opthtml);
-	        $("#date").niceSelect("update");
+			makeSavOpt(result);
 		});
 		
 		// modal 닫기 이벤트
-		$("#modal").on("hidden.bs.modal", function(){
-			$(".list > li").remove(); // select개월수 초기화
-			$("#date > option").remove(); // select개월수 초기화
-			$("#totalText").html(""); // 만기금액 초기화
-			$(".depOpt > #depMoney").val(""); // 입력금액 초기화
-		})
+		closeModal();
+	})
+	
+	// 인기상품 상세보기 출력
+	$(".row").on("click", ".col-md-4", function(){
+		$("#modal").modal("show");
+		$(".modal-body").animate({scrollTop: 0}, 400);
+		$("#savingOpt").html("");
+		
+		var bank_name = $(this).children().children().next().html();
+		$("#bankName").html(bank_name);
+			
+		var sav_id = $(this).data("sav_id");
+		
+		$.ajax({
+			url:"prdSavBase",
+			data:{ sav_id : sav_id }
+		}).done(function(sav){
+			makeSavBase(sav);
+		});
+		
+		$.ajax({
+			url:"prdSavOpt",
+			data:{ sav_id : sav_id }
+		}).done(function(result){
+			makeSavOpt(result);
+		});
+		
+		// modal 닫기 이벤트
+		closeModal();
 	})
 	
 		// 상품리스트 최고금리 출력
@@ -232,6 +277,22 @@
 			});
 		};
 		
+		// 인기상품 최고금리 출력
+		for(prd of $(".row").find(".col-md-4")){
+			var sav_id = prd.getAttribute("data-sav_id");
+
+			$.ajax({
+				url:"prdSavOpt",
+				data:{sav_id : sav_id},
+				async: false
+			}).done(function(result){
+				for(opt of result){
+					if(sav_id == opt.sav_id){
+						prd.children[0].children[2].innerText = "최고금리 " + opt.intr_rate2 + "%";
+					}
+				}
+			});
+		};
 		// 적금 계산 공식
 		function calculator(){
 			var type = $("#type").text(); //금리유형 추출
@@ -270,5 +331,61 @@
 				calculator();
 			})
 		}
+		// 상품 상세보기 정보
+		function makeSavBase(sav){
+			$("#savingBase1").html("<상품명><br>" + sav.fin_prdt_nm
+								  +"<br><가입방법><br>" + sav.join_way
+								  +"<br><만기 후 이자율><br>" + sav.mtrt_int
+								  +"<br><우대조건><br>" + sav.spcl_cnd
+								  +"<br>가입대상 : " + sav.join_member
+								  +"<br><유의사항><br>" + sav.etc_note)
+			if(sav.max_limit != null){
+				$("#savingBase2").html("최고한도 : " + sav.max_limit+"원")
+			}
+		}
+		
+		// 상품 상세보기 옵션
+		function makeSavOpt(result){
+			$('#date').empty();
+	        let opthtml = '<option value="">선택</option>';
+	        
+			for(opt of result){
+				$("<div>").append( $("<hr>") )
+						  .append( $("<div>").html("적립유형명 : " + opt.rsrv_type_nm))
+						  .append( $("<div>").html("저축기간 : " + opt.save_trm + "개월"))
+						  .append( $("<div>").html("최소 " + opt.intr_rate + "%") )
+						  .append( $("<div>").html("최대 " + opt.intr_rate2 + "%") )
+						  .append( $("<div style='display:none;' id='type'>").html(opt.intr_rate_type))
+						  .appendTo($("#savingOpt"));
 
+	            opthtml += "<option value='"+opt.intr_rate2+"' name='"+opt.save_trm+"'>"+opt.rsrv_type_nm+" "+opt.save_trm+"개월</option>"
+			}
+			
+	        $("#date").html(opthtml);
+	        $("#date").niceSelect("update");
+		}
+		
+		// 모달 창 닫기 이벤트
+		function closeModal(){
+			$("#modal").on("hidden.bs.modal", function(){
+				$(".list > li").remove(); // select개월수 초기화
+				$("#date > option").remove(); // select개월수 초기화
+				$("#totalText").html(""); // 만기금액 초기화
+				$(".depOpt > #depMoney").val(""); // 입력금액 초기화
+			})
+		}
+		// 더보기
+		   $(window).ready(function(){
+		      $("#list").children("div").slice(0,10).show().css("display", "flex");
+		      
+		      $("#read").click(function(e){
+		         console.log($("#list").children("div:hidden").length)
+		         if( $("#list").children("div:hidden").length == 0){
+		        	 $("#read").hide();
+		         }else{
+			         e.preventDefault();
+			         $("#list").children("div:hidden").slice(0,10).show().css("display", "flex");
+		         }
+		      })
+		   })
 </script>

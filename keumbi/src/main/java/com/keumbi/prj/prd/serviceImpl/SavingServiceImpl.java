@@ -12,6 +12,7 @@ import com.keumbi.prj.prd.vo.SavingBaseVO;
 import com.keumbi.prj.prd.vo.SavingOptionVO;
 import com.keumbi.prj.prd.vo.SavingVO;
 import com.keumbi.prj.prd.web.PrdAPI;
+import com.keumbi.prj.user.vo.UserVO;
 
 @Service
 public class SavingServiceImpl implements SavingService {
@@ -61,6 +62,11 @@ public class SavingServiceImpl implements SavingService {
 	public void deleteAllSavings() {
 		s.deleteAllSavOpt();
 		s.deleteAllSavBase();
+	}
+
+	@Override
+	public List<SavingBaseVO> selectBestSavBase(UserVO vo) {
+		return s.selectBestSavBase(vo);
 	}
 	
 

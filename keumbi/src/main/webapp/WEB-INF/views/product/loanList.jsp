@@ -60,7 +60,34 @@
 	color: black;
 	font-size: 25px;
 }
+.prds{
+   display: none;
+}
 
+#read{
+	width: 500px;
+    margin: auto;
+    display: block;
+    margin-top: 30px;
+}
+.div_bestImg{
+	text-align: left;
+	height:50px;
+	flex:1;
+}
+#best_content{
+	font-size: 30px;
+    padding-bottom: 30px;
+    color: black;
+}
+.wel_item{
+	border: 1px solid #212529;
+    padding: 15px 15px;
+    border-radius: 20px
+}
+.row{
+	padding-bottom: 50px
+}
 </style>
 
 <section class="banner_area">
@@ -80,6 +107,21 @@
 </section>
 <section class="contact_area p_120">
 	<div class="container">
+		<c:if test="${not empty loginUser.name}">
+			<div id="best_content">${loginUser.name}님과비슷한연령대가 많이사용하는 상품이에요</div>
+		</c:if>
+		<div class="row">
+			<c:forEach var="b" items="${loanBestList }">
+				<div class="col-md-4" data-loan_id="${b.loan_id }">
+					<div class="wel_item">
+						<div class="div_bestImg"><img src="${pageContext.request.contextPath}/resources/img/bank_logo/${b.kor_co_nm}.jpg" width="50px" height="50px"></div>
+						<div class="best_bank">${b.kor_co_nm }</div>
+						<div class="best_intr"></div>
+						<div class="best_prdNm">${b.fin_prdt_nm }</div>
+					</div>
+				</div>
+			</c:forEach>
+		</div>
 		<div id="list">
 			<c:forEach var="l" items="${loanList}">
 				<div class="prds" data-loan_id="${l.loan_id}">
@@ -93,9 +135,12 @@
 					<div class="div_btn">
 						<button class="loanView">자세히 보기</button>
 					</div>
+					<hr>
 				</div>
-				<hr>
 			</c:forEach>
+			<div id="read_more">
+				<button type="button" class="btn btn-outline-primary" id="read">더보기</button>
+			</div>
 		</div>
 	</div>
 	<div class="modal fade" id="modal" role="dialog">
@@ -137,64 +182,126 @@
 			url:"prdLoanBase",
 			data:{ loan_id : loan_id }
 		}).done(function(loa){
-			$("#loanBase1").html("<상품명><br>" + loa.fin_prdt_nm
-								+"<br><대출종류명><br>" + loa.crdt_prdt_type_nm
-								+"<br><가입방법><br>" + loa.join_way)
+			makeLoanBase(loa);
 		});
-		
 		
 		$.ajax({
 			url:"prdLoanOpt",
 			data:{ loan_id : loan_id }
 		}).done(function(result){
-			for(opt of result){
-				$("<div>").append( $("<hr>") )
-				  .append( $("<div>").html("금리구분 : " + opt.crdt_lend_rate_type_nm)).appendTo($("#loanOpt"))
-				 if(opt.crdt_grad_1 != null){
-					  $("<div>").html("900점 초과   : " + opt.crdt_grad_1 + "%").appendTo($("#loanOpt"));
-			      }
-				if(opt.crdt_grad_4 != null){
-					  $("<div>").html("801 ~ 900점 : " + opt.crdt_grad_4 + "%").appendTo($("#loanOpt"));
-			      }
-				if(opt.crdt_grad_5 != null){
-					  $("<div>").html("701 ~ 800점 : " + opt.crdt_grad_5 + "%").appendTo($("#loanOpt"));
-			      }
-				if(opt.crdt_grad_6 != null){
-					  $("<div>").html("601 ~ 700점 : " + opt.crdt_grad_6 + "%").appendTo($("#loanOpt"));
-			      }
-				if(opt.crdt_grad_10 != null){
-					  $("<div>").html("501 ~ 600점 : " + opt.crdt_grad_10 + "%").appendTo($("#loanOpt"));
-			      }
-				if(opt.crdt_grad_11 != null){
-					  $("<div>").html("401 ~ 500점 : " + opt.crdt_grad_11 + "%").appendTo($("#loanOpt"));
-			      }
-				if(opt.crdt_grad_12 != null){
-					  $("<div>").html("301 ~ 400점 : " + opt.crdt_grad_12 + "%").appendTo($("#loanOpt"));
-			      }
-				if(opt.crdt_grad_13 != null){
-					  $("<div>").html("300점 이하   : " + opt.crdt_grad_13 + "%").appendTo($("#loanOpt"));
-			      }
-				  $("<div>").html("평균 금리 : " + opt.crdt_grad_avg + "%").appendTo($("#loanOpt"));
-				}
+			makeLoanOpt(result);
 		});
 	})
 	
+	// 인기상품 상세보기 출력
+	$(".row").on("click", ".col-md-4", function(){
+		$("#modal").modal("show");
+		$(".modal-body").animate({scrollTop: 0}, 400);
+		$("#savingOpt").html("");
+		
+		var bank_name = $(this).children().children().next().html();
+		$("#bankName").html(bank_name);
+			
+		var loan_id = $(this).data("loan_id");
+		
+		$.ajax({
+			url:"prdLoanBase",
+			data:{ loan_id : loan_id }
+		}).done(function(loa){
+			makeLoanBase(loa);
+		});
+		
+		$.ajax({
+			url:"prdLoanOpt",
+			data:{ loan_id : loan_id }
+		}).done(function(result){
+			makeLoanOpt(result);
+		});
+	})
 	
-		// 상품리스트 평균금리 출력
-		for(prd of $("#list").find(".prds")){
-			var loan_id = prd.getAttribute("data-loan_id");
+	// 상품리스트 평균금리 출력
+	for(prd of $("#list").find(".prds")){
+		var loan_id = prd.getAttribute("data-loan_id");
 
-			$.ajax({
-				url:"prdLoanOpt",
-				data:{loan_id : loan_id},
-				async: false
-			}).done(function(result){
-				for(opt of result){
-					if(loan_id == opt.loan_id){
-						prd.children[1].children[2].innerText = "평균금리 " + opt.crdt_grad_avg + "%";
-					}
+		$.ajax({
+			url:"prdLoanOpt",
+			data:{loan_id : loan_id},
+			async: false
+		}).done(function(result){
+			for(opt of result){
+				if(loan_id == opt.loan_id){
+					prd.children[1].children[2].innerText = "평균금리 " + opt.crdt_grad_avg + "%";
 				}
-			});
-		};
+			}
+		});
+	};
+	
+	for(prd of $(".row").find(".col-md-4")){
+		var loan_id = prd.getAttribute("data-loan_id");
+
+		$.ajax({
+			url:"prdLoanOpt",
+			data:{loan_id : loan_id},
+			async: false
+		}).done(function(result){
+			for(opt of result){
+				if(loan_id == opt.loan_id){
+					prd.children[0].children[2].innerText = "평균금리 " + opt.crdt_grad_avg + "%";
+				}
+			}
+		});
+	};
+	
+	function makeLoanBase(loa){
+		$("#loanBase1").html("<상품명><br>" + loa.fin_prdt_nm
+				+"<br><대출종류명><br>" + loa.crdt_prdt_type_nm
+				+"<br><가입방법><br>" + loa.join_way)
+	}
+	
+	function makeLoanOpt(result){
+		for(opt of result){
+			$("<div>").append( $("<hr>") )
+			  .append( $("<div>").html("금리구분 : " + opt.crdt_lend_rate_type_nm)).appendTo($("#loanOpt"))
+			 if(opt.crdt_grad_1 != null){
+				  $("<div>").html("900점 초과   : " + opt.crdt_grad_1 + "%").appendTo($("#loanOpt"));
+		      }
+			if(opt.crdt_grad_4 != null){
+				  $("<div>").html("801 ~ 900점 : " + opt.crdt_grad_4 + "%").appendTo($("#loanOpt"));
+		      }
+			if(opt.crdt_grad_5 != null){
+				  $("<div>").html("701 ~ 800점 : " + opt.crdt_grad_5 + "%").appendTo($("#loanOpt"));
+		      }
+			if(opt.crdt_grad_6 != null){
+				  $("<div>").html("601 ~ 700점 : " + opt.crdt_grad_6 + "%").appendTo($("#loanOpt"));
+		      }
+			if(opt.crdt_grad_10 != null){
+				  $("<div>").html("501 ~ 600점 : " + opt.crdt_grad_10 + "%").appendTo($("#loanOpt"));
+		      }
+			if(opt.crdt_grad_11 != null){
+				  $("<div>").html("401 ~ 500점 : " + opt.crdt_grad_11 + "%").appendTo($("#loanOpt"));
+		      }
+			if(opt.crdt_grad_12 != null){
+				  $("<div>").html("301 ~ 400점 : " + opt.crdt_grad_12 + "%").appendTo($("#loanOpt"));
+		      }
+			if(opt.crdt_grad_13 != null){
+				  $("<div>").html("300점 이하   : " + opt.crdt_grad_13 + "%").appendTo($("#loanOpt"));
+		      }
+			  $("<div>").html("평균 금리 : " + opt.crdt_grad_avg + "%").appendTo($("#loanOpt"));
+		}
+	}
+	// 더보기
+	   $(window).ready(function(){
+	      $("#list").children("div").slice(0,10).show().css("display", "flex");
+	      
+	      $("#read").click(function(e){
+	         console.log($("#list").children("div:hidden").length)
+	         if( $("#list").children("div:hidden").length == 0){
+	        	 $("#read").hide();
+	         }else{
+		         e.preventDefault();
+		         $("#list").children("div:hidden").slice(0,10).show().css("display", "flex");
+	         }
+	      })
+	   })
 </script>
 

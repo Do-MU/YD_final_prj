@@ -5,6 +5,7 @@ import java.util.List;
 import com.keumbi.prj.common.vo.CodeVO;
 import com.keumbi.prj.prd.vo.LoanBaseVO;
 import com.keumbi.prj.prd.vo.LoanOptionVO;
+import com.keumbi.prj.user.vo.UserVO;
 
 public interface LoanMapper {
 	int insertLoanBase(LoanBaseVO vo);
@@ -17,4 +18,5 @@ public interface LoanMapper {
 	List<LoanOptionVO> selectAllLoanOpt(int loan_id);
 	
 	CodeVO selectBankName(String kor_co_nm);
+	List<LoanBaseVO> selectBestLoanBase(UserVO vo);
 }

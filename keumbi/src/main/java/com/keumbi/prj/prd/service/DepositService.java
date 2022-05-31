@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.keumbi.prj.prd.vo.DepositBaseVO;
 import com.keumbi.prj.prd.vo.DepositOptionVO;
+import com.keumbi.prj.user.vo.UserVO;
 
 public interface DepositService {
 	List<DepositBaseVO> selectAllDepBase();
@@ -11,5 +12,5 @@ public interface DepositService {
 	List<DepositOptionVO> selectAllDepOpt(int dep_id);
 	String insertAllDeposits();
 	void deleteAllDeposits();
-	List<DepositBaseVO> selectBestDepBase();
+	List<DepositBaseVO> selectBestDepBase(UserVO vo);
 }
