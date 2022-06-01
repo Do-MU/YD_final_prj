@@ -69,4 +69,9 @@ public class LoanServiceImpl implements LoanService {
 		return l.selectBestLoanBase(vo);
 	}
 
+	@Override
+	public List<LoanBaseVO> selectRandomLoanBase() {
+		return l.selectRandomLoanBase();
+	}
+
 }

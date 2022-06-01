@@ -13,4 +13,5 @@ public interface LoanService {
 	List<LoanBaseVO> selectBestLoanBase(UserVO vo);
 	String insertAllLoans();
 	void deleteAllLoans();
+	List<LoanBaseVO> selectRandomLoanBase();
 }

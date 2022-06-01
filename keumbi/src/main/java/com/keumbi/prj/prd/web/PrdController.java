@@ -60,7 +60,7 @@ public class PrdController {
 		UserVO loginUser = (UserVO) session.getAttribute("loginUser");
 		model.addAttribute("depList", dep.selectAllDepBase()); // 상품 전체출력
 		model.addAttribute("depBestList", dep.selectBestDepBase(loginUser)); // 사용자가 많은 상품 출력
-		model.addAttribute("depRandomList", dep.selectRandomDepBase());
+		model.addAttribute("depRandomList", dep.selectRandomDepBase()); // 전체상품중 랜덤상품 출력
 
 		return "product/depositList";
 	}
@@ -98,6 +98,7 @@ public class PrdController {
 		UserVO loginUser = (UserVO) session.getAttribute("loginUser");
 		model.addAttribute("savList", sav.selectAllSavBase());
 		model.addAttribute("savBestList", sav.selectBestSavBase(loginUser));
+		model.addAttribute("savRandomList", sav.selectRandomSavBase());
 		return "product/savingList";
 	}
 	
@@ -132,7 +133,7 @@ public class PrdController {
 		UserVO loginUser = (UserVO) session.getAttribute("loginUser");
 		model.addAttribute("loanList", loa.selectAllLoanBase());
 		model.addAttribute("loanBestList", loa.selectBestLoanBase(loginUser));
-		
+		model.addAttribute("loanRandomList", loa.selectRandomLoanBase());
 		return "product/loanList";
 	}
 	

@@ -68,6 +68,11 @@ public class SavingServiceImpl implements SavingService {
 	public List<SavingBaseVO> selectBestSavBase(UserVO vo) {
 		return s.selectBestSavBase(vo);
 	}
+
+	@Override
+	public List<SavingBaseVO> selectRandomSavBase() {
+		return s.selectRandomSavBase();
+	}
 	
 
 }
