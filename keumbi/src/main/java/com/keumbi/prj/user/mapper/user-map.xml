@@ -74,4 +74,18 @@
 		AND 		U.USER_CODE NOT IN ('U0')
 		ORDER BY 	ID ASC
 	</select>
+	
+	<select id="userSearch" resultType="map">
+		SELECT 	U.ID, TO_CHAR(S.SDATE, 'YYYY-MM-DD') SDATE, TO_CHAR(S.EDATE, 'YYYY-MM-DD') EDATE, SC.VAL SVAL, UC.VAL UVAL
+		FROM 	USERS U, SANCTIONS S, COMMON_CODE UC, COMMON_CODE SC
+		WHERE	U.USER_CODE = UC.CODE
+		AND 	U.ID = S.USER_ID(+)
+		AND		S.SANC_CODE = SC.CODE(+)
+		<if test="searchOp == '아이디'"> 
+			AND U.ID LIKE '%'||#{searchVal}||'%'
+		</if>
+		<if test="searchOp == '제재일자'">
+			AND S.SDATE LIKE '%'||#{searchVal}||'%'
+		</if>
+	</select>
 </mapper>

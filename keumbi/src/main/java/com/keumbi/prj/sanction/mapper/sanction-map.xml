@@ -3,8 +3,8 @@
 <mapper namespace="com.keumbi.prj.sanction.mapper.SanctionMapper">
 	<!-- 제재 유저리스트 -->
 	<select id="sanUser" resultType="SanctionVO">
-		SELECT	s.user_id, c.val sanc_code, s.sdate, s.edate, s.sanc_reason
-		FROM	SANCTIONS s, common_code c
-		WHERE	s.sanc_code = c.code
+		SELECT	S.USER_ID, C.VAL SANC_CODE, S.SDATE, S.EDATE, S.SANC_REASON
+		FROM	SANCTIONS S, COMMON_CODE C
+		WHERE	S.SANC_CODE = C.CODE
 	</select>
 </mapper>
