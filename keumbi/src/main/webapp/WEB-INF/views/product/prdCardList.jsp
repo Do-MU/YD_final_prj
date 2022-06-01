@@ -7,10 +7,6 @@
 <meta charset="UTF-8">
 
 <style>
-.prds{
-	display:flex;
-	padding: 20px;
-}
 .div_img{
 	text-align: center;
 	height:150px;
@@ -45,6 +41,14 @@
 	width: 20%;
 	height: 4em;
 }
+.cardCol {
+	display: inline-block;
+	margin-right: 30px;
+	margin-bottom: 30px;;
+}
+.card {
+	width : 18rem;
+}
 </style>
 
 </head>
@@ -66,11 +70,11 @@
 	<section class="contact_area p_120">
 		<div class="container">
 			<div class="tab">
-				<div class="btn-group btn-lg" role="group" aria-label="Basic example">
+				<div class="btn-group btn-lg " role="group" aria-label="Basic example">
 				  <button type="button" class="btn btn-secondary btn-lg">전체</button>
 				  <button type="button" class="btn btn-secondary btn-lg" id="age">나이추천카드</button>
-				  <button type="button" class="btn btn-secondary btn-lg" id="totalTrans">소비패턴추천카드</button>
-				  <button type="button" class="btn btn-secondary btn-lg" id="userKeyword">관심사추천카드</button>
+				  <button type="button" class="btn btn-secondary btn-lg" id="consum">소비패턴추천카드</button>
+				  <button type="button" class="btn btn-secondary btn-lg" id="keyword">관심사추천카드</button>
 				  <button type="button" class="btn btn-secondary btn-lg" id="C366">신한카드</button>
 				  <button type="button" class="btn btn-secondary btn-lg" id="C381">국민카드</button>
 				  <button type="button" class="btn btn-secondary btn-lg" id="C365">삼성카드</button>
@@ -79,47 +83,40 @@
 				</div>
 			</div>
 
-			<div id="output">
+			<div id="output" align="center">
 				<c:forEach items="${cardList}" var="list">
-					<div class="prds" data-company="${list.card_company }">
-						<div class="div_img">
+					<div class="cardCol">
+						<div class="card" data-company="${list.card_company }">
 							<img
 								src="${pageContext.request.contextPath}/resources/img/card/${list.card_image}"
-								width="250px" height="150px">
-						</div>
-						<div class="div_exp">
-							<div class="card_name" data-seq="${list.card_seq }">${list.card_name}</div>
-							<div class="card_info">${list.card_info}</div>
-							<div class="div_btn">
-								<button class="cardModalView">자세히 보기</button>
+								class="card-img-top">
+							<div class="card-body">
+								<h4 class="card-title" id="${list.card_seq }">${list.card_name}</h4>
+								<p class="card-text">${list.card_info}</p>
+								<button class="cardModalView btn btn-primary btn-sm">자세히 보기</button>
 							</div>
 						</div>
 					</div>
-					
-					<hr>
 				</c:forEach>
-
-
-
-				<c:forEach items="${cardList}" var="list">
-  <div style="display: inline-block">
-					<div class="card " style="width: 18rem;">
-						<img src="${pageContext.request.contextPath}/resources/img/card/${list.card_image}" class="card-img-top">
-						<div class="card-body">
-							<h5 class="card-title">${list.card_name}</h5>
-							<p class="card-text">${list.card_info}</p>
-							<a href="#" class="btn btn-primary">Go somewhere</a>
-						</div>
-					</div>
-					</div>
-					
-				</c:forEach>
-
-
-
-
-
 			</div>
+			<%-- 			<c:forEach items="${cardList}" var="list"> --%>
+<%-- 					<div class="prds" data-company="${list.card_company }"> --%>
+<!-- 						<div class="div_img"> -->
+<!-- 							<img -->
+<%-- 								src="${pageContext.request.contextPath}/resources/img/card/${list.card_image}" --%>
+<!-- 								width="250px" height="150px"> -->
+<!-- 						</div> -->
+<!-- 						<div class="div_exp"> -->
+<%-- 							<div class="card_name" data-seq="${list.card_seq }">${list.card_name}</div> --%>
+<%-- 							<div class="card_info">${list.card_info}</div> --%>
+<!-- 							<div class="div_btn"> -->
+<!-- 								<button class="cardModalView">자세히 보기</button> -->
+<!-- 							</div> -->
+<!-- 						</div> -->
+<!-- 					</div> -->
+					
+<!-- 					<hr> -->
+<%-- 				</c:forEach> --%>
 			<br>
 		</div>
 	</section>
@@ -128,7 +125,6 @@
 	<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
 		<div class="modal-dialog modal-lg">
 			<div class="modal-content">
-			
 				<div class="modal-header">
 					<h1 class="modal-title" id="card_company"></h1>
 					<button type="button" class="close" data-dismiss="modal"
@@ -136,14 +132,12 @@
 						<span aria-hidden="true">&times;</span>
 					</button>
 				</div>
-				
 				<div class="modal-body">
 					<p class="h3" id="card_name"></p><br/>
 					<p class="h4" id="card_benefit"></p><br/>
 					<p class="h5" id="card_annualfee"></p><br/>
 					<p class="h5" id="card_perfo"></p>
 				</div>
-				
 			</div>
 		</div>
 	</div>
@@ -152,8 +146,9 @@
 <script type="text/javascript">	
 	// 카드 상세보기 Modal func
 	$("#output").on("click", ".cardModalView", function(){
-		var company = $(this).parent().parent().parent().data("company");
-		var seqNum = $(this).parent().prev().prev().data("seq");
+		var company = $(this).parent().parent().data("company");
+		var seqNum = $(this).prev().prev().attr("id");
+		console.log(company + "  " + seqNum)
 		
 		$.ajax({
 			url : "cardDetail",
@@ -205,14 +200,14 @@
 			.done(function (datas){
 				makeOutput(datas);
 			})
-		} else if(companyId == "age"){		// 추천 목록
+		} else if(companyId == "age"){		// 연령별 추천 목록
 			// 비회원 접근시
 			if (!"${loginUser.id}") {
 				alert('로그인이 필요합니다.');
 				window.location = "userLoginForm";
-			} else{
+			} else {
 				$.ajax({
-					url : "recommendedCard"				
+					url : "recommendedAge"				
 				})
 				.done(function(datas){
 					makeOutput(datas);
@@ -221,30 +216,60 @@
 					$("#output").prepend(h1);
 				})
 			}			
+		} else if(companyId == "consum"){	// 소비패턴별 추천 목록
+			// 비회원 접근시
+			if (!"${loginUser.id}") {
+				alert('로그인이 필요합니다.');
+				window.location = "userLoginForm";
+			} else {
+				$.ajax({
+					url : "recommendedConsum"				
+				})
+				.done(function(datas){
+					console.log(datas)
+					makeOutput(datas);
+					
+					let userName = "${loginUser.name}"
+					let h1 = "<h1>" + userName + "님의 최근 3개월 간 소비지출에 대한 추천 카드입니다.</h1><br/>";
+					$("#output").prepend(h1);
+					
+				})
+			}
+		} else if(companyId == "keyword") {		// 관심사별 추천 목록
+			// 비회원 접근시
+			if (!"${loginUser.id}") {
+				alert('로그인이 필요합니다.');
+				window.location = "userLoginForm";
+			} else {
+				$.ajax({
+					url : "recommendedKey"
+				})
+				.done(function(datas){
+					makeOutput(datas);
+					let userName = "${loginUser.name}"
+						let h1 = "<h1>" + userName + "님의 관심사에 대한 추천 카드입니다.</h1><br/>";
+						$("#output").prepend(h1);
+				})
+			}
 		}
 	})
-	
-	
 	
 	// 목록 초기화 후 결과 뿌려주는 공통 function
 	function makeOutput(datas){
 		$("#output").empty();
 		for(list of datas) {
-			let result = ` <div class="prds" data-company="\${list.card_company }">
-							<div class="div_img">
+			let result = ` <div class="cardCol">
+								<div class="card" data-company="\${list.card_company }">
 								<img
 									src="${pageContext.request.contextPath}/resources/img/card/\${list.card_image}"
-									width="250px" height="150px">
-							</div>
-							<div class="div_exp">
-								<div class="card_name" data-seq="\${list.card_seq }" >\${list.card_name}</div>
-								<div class="card_info">\${list.card_info}</div>
-								<div class="div_btn">
-									<button class="cardModalView">자세히 보기</button>
+									class="card-img-top">
+								<div class="card-body">
+									<h4 class="card-title" id="\${list.card_seq }"\>${list.card_name}</h4>
+									<p class="card-text">\${list.card_info}</p>
+									<button class="cardModalView btn btn-primary btn-sm">자세히 보기</button>
 								</div>
 							</div>
-						</div>
-						<hr> `;		
+						</div> `;		
 			$("#output").append(result);
 		}
 	}

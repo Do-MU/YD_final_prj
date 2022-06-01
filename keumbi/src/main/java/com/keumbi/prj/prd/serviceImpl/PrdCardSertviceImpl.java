@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.keumbi.prj.prd.mapper.PrdCardMapper;
 import com.keumbi.prj.prd.service.PrdCardService;
 import com.keumbi.prj.prd.vo.PrdCardVO;
+import com.keumbi.prj.prd.vo.PrdCardRecoVO;
 import com.keumbi.prj.user.vo.UserVO;
 
 @Service
@@ -109,9 +110,22 @@ public class PrdCardSertviceImpl implements PrdCardService {
 		return mapper.insertPrdCard(dummy);
 	}
 
+	// 연령대별 카드 추천
 	@Override
 	public List<PrdCardVO> selectRecoAge(UserVO vo) {
 		return mapper.selectRecoAge(vo);
+	}
+
+	// 소비패턴별 카드 추천
+	@Override
+	public List<PrdCardRecoVO> selectCousum(UserVO vo) {
+		return mapper.selectConsum(vo);
+	}
+
+	// 소비패턴별 카드 추천
+	@Override
+	public List<PrdCardRecoVO> selectKeyword(UserVO vo) {
+		return mapper.selectKeyword(vo);
 	}
 
 }

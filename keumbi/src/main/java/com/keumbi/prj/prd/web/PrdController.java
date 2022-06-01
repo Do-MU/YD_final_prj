@@ -25,11 +25,11 @@ import com.keumbi.prj.prd.vo.DepositBaseVO;
 import com.keumbi.prj.prd.vo.DepositOptionVO;
 import com.keumbi.prj.prd.vo.LoanBaseVO;
 import com.keumbi.prj.prd.vo.LoanOptionVO;
+import com.keumbi.prj.prd.vo.PrdCardRecoVO;
 import com.keumbi.prj.prd.vo.PrdCardVO;
 import com.keumbi.prj.prd.vo.PrdChallengeVO;
 import com.keumbi.prj.prd.vo.SavingBaseVO;
 import com.keumbi.prj.prd.vo.SavingOptionVO;
-import com.keumbi.prj.user.service.UserService;
 import com.keumbi.prj.user.vo.UserVO;
 
 @Controller
@@ -177,11 +177,26 @@ public class PrdController {
 	public List<PrdCardVO> companyCard(PrdCardVO vo){
 		return card.selectCompanyCard(vo);
 	}
-	@RequestMapping("recommendedCard")
+	// 연령대별 카드 추천
+	@RequestMapping("recommendedAge")
 	@ResponseBody
-	public List<PrdCardVO> recommendedCard(HttpSession session) {
+	public List<PrdCardVO> recommendedAge(HttpSession session) {
 		UserVO vo = (UserVO) session.getAttribute("loginUser");
 		return card.selectRecoAge(vo);
+	}
+	// 소비패턴별 카드 추천
+	@RequestMapping("/recommendedConsum")
+	@ResponseBody
+	public List<PrdCardRecoVO> recommendedConsum(HttpSession session){
+		UserVO vo = (UserVO) session.getAttribute("loginUser");
+		return card.selectCousum(vo);
+	}
+	// 키워드별 카드 추천
+	@RequestMapping("/recommendedKey")
+	@ResponseBody
+	public List<PrdCardRecoVO> recommendedKey(HttpSession session){
+		UserVO vo = (UserVO) session.getAttribute("loginUser");
+		return card.selectKeyword(vo);
 	}
 	
 	
