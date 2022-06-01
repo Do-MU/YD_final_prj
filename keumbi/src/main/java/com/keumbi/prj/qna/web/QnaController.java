@@ -22,8 +22,7 @@ public class QnaController {
 	@RequestMapping("/qnaList")
 	public String qnaList(HttpSession session, Model model) {
 		UserVO user = (UserVO) session.getAttribute("loginUser");
-		model.addAttribute("qnas", service.qnaListSelectAll(user.getId()));
-		
+		model.addAttribute("qnas", service.qnaListSelectAll(user.getId()));	
 		return "qna/qnaList";
 	}
 
@@ -37,7 +36,6 @@ public class QnaController {
 	@PostMapping("/qnaInsert")
 	public String qnaInsert(QnaVO vo) {
 		service.qnaInsert(vo);
-		System.out.println(vo.getQdate());
 		return "redirect:qnaList";
 	}
 	
@@ -46,6 +44,5 @@ public class QnaController {
 	public String qnaDelete(@RequestParam("num") int num) {
 		service.qnaDelete(num);
 		return "redirect:qnaList";
-	}
-	
+	}	
 }

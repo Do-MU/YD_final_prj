@@ -13,4 +13,6 @@ public class QnaVO {
 	private String acontents;
 	private String adate;
 	private String val;
+	private String name;
+	private String email;
 }
