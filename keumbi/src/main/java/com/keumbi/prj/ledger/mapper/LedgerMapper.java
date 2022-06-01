@@ -2,8 +2,6 @@ package com.keumbi.prj.ledger.mapper;
 
 import java.util.List;
 
-import org.apache.ibatis.annotations.Param;
-
 import com.keumbi.prj.ledger.vo.LedgerMonthVO;
 import com.keumbi.prj.ledger.vo.LedgerVO;
 
@@ -17,6 +15,4 @@ public interface LedgerMapper {
 	List<LedgerVO> ledgerSearch(LedgerVO vo);
 	int ledgerUpdate(LedgerVO vo); // 가계부 거래내역 수정 처리
 	int ledgerDelete(LedgerVO vo); // 가계부 서래내역 삭제 처리
-	List<LedgerVO> avgAmtA(@Param("category") String category,@Param("user_id") String user_id);	//소비목록 가져오기
-	List<LedgerVO> avgAmtB(@Param("category") String category,@Param("user_id") String user_id);	//소비목록 가져오기
 }

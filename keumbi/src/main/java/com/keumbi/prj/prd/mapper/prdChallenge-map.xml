@@ -3,13 +3,47 @@
 <mapper namespace="com.keumbi.prj.prd.mapper.PrdChallengeMapper">
 
 	<select id="prdChallengeList" resultType="PrdChallengeVO">
-		SELECT	*
-		FROM	PRD_CHALLS
+		SELECT 	*
+		FROM 	PRD_CHALLS
 	</select>
-	
+
 	<select id="prdChallengeSelect" resultType="PrdChallengeVO">
 		SELECT 	*
 		FROM	PRD_CHALLS
 		WHERE	NUM = #{num}
+	</select>
+
+	<select id="transListByCatA" resultType="LedgerVO">
+		SELECT 		CONTENT, SUM(AMT) AMT
+		FROM 		TOTAL_TRANS
+		WHERE 		CAT_CODE = (	SELECT 	VAL
+									FROM 	COMMON_CODE
+									WHERE 	CODE = #{category} )
+		AND 		USER_ID = #{user_id}
+		<if test='edate != null'>
+			AND		TDATE BETWEEN #{sdate} AND #{edate}		
+		</if>
+		<if test='edate == null'>
+			AND		TDATE BETWEEN ADD_MONTHS(SYSDATE, -1) AND SYSDATE
+		</if>
+		GROUP BY 	CONTENT
+		ORDER BY 	2 DESC
+	</select>
+
+	<select id="transListByCatB" resultType="LedgerVO">
+		SELECT 		CONTENT, SUM(AMT) AMT
+		FROM 		TOTAL_TRANS
+		WHERE 		CONTENT LIKE CONCAT( CONCAT( '%', (	SELECT VAL
+														FROM COMMON_CODE
+														WHERE CODE = #{category} ) ), '%' )
+		AND 		USER_ID = #{user_id}
+		<if test='edate != null'>
+			AND		TDATE BETWEEN #{sdate} AND #{edate}
+		</if>
+		<if test='edate == null'>
+			AND		TDATE BETWEEN ADD_MONTHS(SYSDATE, -1) AND SYSDATE
+		</if>
+		GROUP BY 	CONTENT
+		ORDER BY 	2 DESC
 	</select>
 </mapper>
