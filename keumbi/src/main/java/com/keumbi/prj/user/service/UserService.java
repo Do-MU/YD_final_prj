@@ -1,6 +1,9 @@
 package com.keumbi.prj.user.service;
 
 import java.util.List;
+import java.util.Map;
+
+import com.keumbi.prj.user.vo.SancUserSearchVO;
 import com.keumbi.prj.user.vo.UserVO;
 
 public interface UserService {
@@ -12,6 +15,7 @@ public interface UserService {
 	int userUpdate(UserVO vo);
 	int userDelete(UserVO vo);
 	String userEmailChenk(String email);
+	List<Map> userSearch(SancUserSearchVO vo);
 	
 	// 토큰 저장
 	int selectToken(UserVO vo);

@@ -1,14 +1,19 @@
 package com.keumbi.prj.user.serviceImpl;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
+
 import javax.mail.internet.MimeMessage;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
+
 import com.keumbi.prj.user.mapper.UserMapper;
 import com.keumbi.prj.user.service.UserService;
+import com.keumbi.prj.user.vo.SancUserSearchVO;
 import com.keumbi.prj.user.vo.UserVO;
 
 @Service
@@ -112,5 +117,10 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public List<UserVO> allUser() {
 		return m.allUser();
+	}
+
+	@Override
+	public List<Map> userSearch(SancUserSearchVO vo) {
+		return m.userSearch(vo);
 	}
 }

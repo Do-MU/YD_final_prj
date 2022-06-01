@@ -29,7 +29,7 @@ td{
 }
 
 #san_select{
-	padding-left:565px;
+	padding-left:550px;
 	padding-right:5px;
 }
 
@@ -43,11 +43,20 @@ td{
 }
 
 .sanCon{
-	width:400px;
+	
+	width:300px;
+}
+
+.userId{
+	width:250px;
+}
+
+.userState{
+	width:150px;
 }
 
 .sanDate{
-	width:200px;
+	width:150px;
 }
 
 .trhidden{
@@ -60,7 +69,7 @@ td{
 	<div class="input-group">
 		<div id="user_select">
 			<select id="selectboxA" style="height:30px;">
-				<option value="all">전체회원</option>
+				<option value="all" selected>전체회원</option>
 				<option value="U1">일반회원</option>
 				<option value="U2">제재회원</option>
 				<option value="U3">탈퇴예정회원</option>
@@ -70,11 +79,10 @@ td{
 			<select id="selectboxB" style="height:30px;">
 				<option value="id">아이디</option>
 				<option value="sdate">제재일자</option>
-				<option value="date">제재기간</option>
 			</select>
 		</div>
-		<input id="search" type="text" placeholder="내용을 입력해주세요.">
-		<button type="button">검색</button>
+		<input id="searchVal" type="text" placeholder="내용을 입력해주세요.">
+		<button id="searchBtn" type="button">검색</button>
 	</div>
 	<div>
 		<table class="sanList">
@@ -88,7 +96,7 @@ td{
 		</thead>
 		<tbody>
 			<c:forEach var="allu" items="${allUser}">
-				<tr>
+				<tr class="userList">
 					<td class="userId">${allu.id}</td>
 					<td class="userState">${allu.user_code}</td>
 					<td class="sanContent"></td>
@@ -155,6 +163,8 @@ td{
 	
 	//회원목록 선택
 	$("#selectboxA").on("change",function(){
+		$("#selectboxB option:eq(0)").prop("selected", true);
+		$("#searchVal").val("");
 		var opt = $("#selectboxA option:selected").text();
 		$(".trhidden").removeClass("trhidden");
 		if(opt != '전체회원'){
@@ -166,5 +176,25 @@ td{
 		}
 	})
 	
+	//검색
+	$("#searchBtn").click(function(){
+		$("#selectboxA option:eq(0)").prop("selected", true);
+		$.ajax({
+			url:"userSearch",
+			data:{
+				searchOp: $("#selectboxB option:selected").text(),
+				searchVal: $("#searchVal").val()
+			}
+		}).done(function(list){
+			$(".userList").addClass("trhidden");
+			for(user of list){
+				$(".userId").each(function(){
+					if($(this).text() == user.ID){
+						$(this).parent().removeClass("trhidden");
+					}
+				})
+			}
+		})
+	})
 	
 </script>

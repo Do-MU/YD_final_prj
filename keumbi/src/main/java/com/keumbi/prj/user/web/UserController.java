@@ -2,6 +2,8 @@ package com.keumbi.prj.user.web;
 
 import java.io.PrintWriter;
 import java.util.List;
+import java.util.Map;
+
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
@@ -16,6 +18,7 @@ import com.keumbi.prj.common.service.CodeService;
 import com.keumbi.prj.common.service.TermService;
 import com.keumbi.prj.common.vo.CodeVO;
 import com.keumbi.prj.user.service.UserService;
+import com.keumbi.prj.user.vo.SancUserSearchVO;
 import com.keumbi.prj.user.vo.UserVO;
 
 @Controller
@@ -164,5 +167,10 @@ public class UserController {
 		return code.selectUserKwdCode(vo.getId());
 	}
 	
-	
+	// 회원 검색 (관리자)
+	@RequestMapping("/admin/userSearch")
+	@ResponseBody
+	public List<Map> userSearch(SancUserSearchVO vo){
+		return service.userSearch(vo);
+	}
 }
