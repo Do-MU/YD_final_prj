@@ -22,36 +22,42 @@ public class ChallServiceImpl implements ChallService {
 	
 	@Override
 	public List<ChallVO> challList(UserVO user) {
-		for(ChallVO ch : chM.selectChallList(user)) {		// 해당 유저의 모든 챌린지를 가져온다 
-			PrdChallengeVO prd = new PrdChallengeVO();
-			prd.setNum(ch.getChall_num());					// chall_num을 통해 해당 챌린지를 가져온다
-			prd = prdM.prdChallengeSelect(prd);
-			
-			TransSearchVO vo = new TransSearchVO();
-			vo.setUser_id(ch.getUser_id());					// 유저의 ID
-			vo.setCategory(prd.getCategory());				// 해당 챌린지의 카테고리
-			vo.setSdate(ch.getSdate());						// 챌린지 시작일
-			vo.setEdate(ch.getEdate());						// 챌린지 종료일
-			
-			String ck = vo.getCategory().substring(0,3);
-			List<LedgerVO> list = null;
-			if(ck.equals("CKA")) {							// 챌린지의 카테고리가 CKA인지 CKB인지 확인
-				list = prdM.transListByCatA(vo);			// 지출 카테고리로 검색
-			}else if(ck.equals("CKB")) {
-				list = prdM.transListByCatB(vo);			// 지출 키워드로 검색
+		for(ChallVO ch : chM.selectChallList(user)) {			// 해당 유저의 모든 챌린지를 가져온다
+			if(ch.getChall_code().equals("CH1")) {				// 그 중 진행중인 챌린지에 대해서
+				PrdChallengeVO prd = new PrdChallengeVO();		
+				prd.setNum(ch.getChall_num());					// chall_num을 통해 해당 챌린지를 가져온다
+				prd = prdM.prdChallengeSelect(prd);
+				
+				TransSearchVO vo = new TransSearchVO();
+				vo.setUser_id(ch.getUser_id());					// 유저의 ID
+				vo.setSdate(ch.getSdate());						// 챌린지 시작일
+				vo.setEdate(ch.getEdate());						// 챌린지 종료일
+				vo.setCategory(prd.getCategory());				// 해당 챌린지의 카테고리
+				
+				String ck = vo.getCategory().substring(0,3);
+				List<LedgerVO> list = null;
+				if(ck.equals("CKA")) {							// 챌린지의 카테고리가 CKA인지 CKB인지 확인
+					list = prdM.transListByCatA(vo);			// 지출 카테고리로 검색
+				}else if(ck.equals("CKB")) {
+					list = prdM.transListByCatB(vo);			// 지출 키워드로 검색
+				}
+				int sum = 0;
+				for(LedgerVO t : list) {
+					sum += t.getAmt();
+				}
+				ch.setAccum_amt(sum);							// 챌린지 기간동안 지출내역 합계 저장
+				if(sum>ch.getGoal()) {							// 지출금액 > 목표금액 일 때
+					ch.setChall_code("CH3");					// 실패로 변경
+				}else {											// 진행률 저장
+					ch.setProgress( Math.round( (double) sum/ch.getGoal()*1000 ) / 10.0 );
+					if(ch.getDday()<=0) {
+						ch.setDday(0);
+						ch.setChall_code("CH2");				// 성공으로 변경
+					}
+				}
+				
+				chM.challUpdate(ch);
 			}
-			int sum = 0;
-			for(LedgerVO t : list) {
-				sum += t.getAmt();
-			}
-			ch.setAccum_amt(sum);
-			if(sum>ch.getGoal()) {
-				ch.setProgress(0);
-			}else {
-				ch.setProgress( Math.round( (double) sum/ch.getGoal()*1000 ) / 10.0 );				
-			}
-			
-			chM.challUpdate(ch);
 		}
 		
 		return chM.selectChallList(user);

@@ -23,7 +23,7 @@
 	<insert id="challInsert" parameterType="ChallVO">
 		INSERT INTO CHALLS
 		VALUES ((SELECT NVL(MAX(NUM), 0) + 1 FROM CHALLS)
-				, #{user_id}, TO_CHAR(SYSDATE, 'YYYY-MM-DD'), TO_CHAR(SYSDATE+30, 'YYYY-MM-DD'), #{goal}, 'CH1', #{chall_num}, 0)   
+				, #{user_id}, TO_CHAR(SYSDATE, 'YYYY-MM-DD'), TO_CHAR(ADD_MONTHS(SYSDATE, 1), 'YYYY-MM-DD'), #{goal}, 'CH1', #{chall_num}, 0, 0)
 	</insert>
 	
 	<select id="challCount" parameterType="ChallVO" resultType="int">
@@ -36,7 +36,7 @@
 	
 	<update id="challUpdate" parameterType="ChallVO">
 		UPDATE	CHALLS
-		SET		PROGRESS = #{progress}
+		SET		PROGRESS = #{progress}, ACCUM_AMT = #{accum_amt}, CHALL_CODE = #{chall_code}
 		WHERE	NUM= #{num}
 	</update>
 	

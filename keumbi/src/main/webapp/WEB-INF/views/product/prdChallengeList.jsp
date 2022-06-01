@@ -135,8 +135,7 @@
 		right:30px;
 	}
 	.bi-exclamation-octagon-fill,
-	.bi-info-circle-fill,
-	.{
+	.bi-info-circle-fill{
 		color:red;
 		font-size: 1.5em;
 	}
@@ -305,7 +304,7 @@
 				$("#slider").val(0);
 				$("#slider").attr("max", allSum);								// max값 설정
 				$("#goal_max").html(addComm($("#slider").attr("max")));			// max값 출력
-				$("#slider").val(Math.round(allSum/2));							// 슬라이드 바 중앙으로
+				$("#slider").val(Math.round($("#slider").attr("max")/2));							// 슬라이드 바 중앙으로
 				$("#goal_now").html(addComm($("#slider").val()));				// 하단 금액 추천 금액으로
 				$("#slider").attr("step", $('#slider').attr('max')/100);		// 금액 단위 조정
 			});
@@ -335,14 +334,14 @@
 		$("#msg_popup").modal("hide");
 		$.ajax({
 			url:"challInsert",
-			data: { goal : $("#goal_now").html(),
-					chall_num : $("#challengeJoinBtn").data("chall_num"),
-					user_id : '${loginUser.id}' }
+			data: { user_id : '${loginUser.id}',
+					goal : removeComm($("#goal_now").html()),
+					chall_num : $("#challengeJoinBtn").data("chall_num")}
 		}).done(function(data){
 			if(data == 1){
 				$("#msg_popup .modal-body .div_mod_content").html(`<i class="bi bi-info-circle-fill"></i> `+" 챌린지 도전!!");
-				$("#btn_alert").attr("hidden", false);
-				$("#alert_ok").text("나의 챌린지");
+				$("#btn_alert").removeAttr("hidden");
+				$("#alert_ok").text("나의 챌린지로");
 				$("#btn_confirm").attr("hidden", "hidden");
 				$("#msg_popup").modal("show");
 				$("#alert_ok").addClass("moveToChall");
@@ -366,5 +365,8 @@
 	
 	function addComm(num){
 		return num.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
+	}
+	function removeComm(num){
+		return num.replace(/,/g, "");
 	}
 </script>
