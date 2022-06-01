@@ -17,4 +17,5 @@ public interface DepositMapper {
 	List<DepositOptionVO> selectAllDepOpt(int dep_id);
 	CodeVO selectBankName(String kor_co_nm);
 	List<DepositBaseVO> selectBestDepBase(UserVO vo);
+	List<DepositBaseVO> selectRandomDepBase();
 }

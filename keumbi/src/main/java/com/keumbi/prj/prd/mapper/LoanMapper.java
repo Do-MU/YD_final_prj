@@ -19,4 +19,5 @@ public interface LoanMapper {
 	
 	CodeVO selectBankName(String kor_co_nm);
 	List<LoanBaseVO> selectBestLoanBase(UserVO vo);
+	List<LoanBaseVO> selectRandomLoanBase();
 }

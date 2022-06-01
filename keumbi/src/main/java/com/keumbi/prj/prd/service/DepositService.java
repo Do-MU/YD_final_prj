@@ -13,4 +13,5 @@ public interface DepositService {
 	String insertAllDeposits();
 	void deleteAllDeposits();
 	List<DepositBaseVO> selectBestDepBase(UserVO vo);
+	List<DepositBaseVO> selectRandomDepBase();
 }

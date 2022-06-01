@@ -2,14 +2,17 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <head>
+<style>
+	#banner{
+		border-radius: 20px;
+	}
+</style>
 </head>
 <body>
 	<section class="banner_area">
 		<div class="container box_1620">
-			<div class="banner_inner d-flex align-items-center">
-				<div class="container" align="center">
-						<h1>금융비서 금비</h1>
-				</div>
+			<div class="banner_inner">
+				<img src="${pageContext.request.contextPath}/resources/img/banner.png" alt="" id="banner">
 			</div>
 		</div>
 	</section>
@@ -115,139 +118,33 @@
 		</div>
 	</section>
 
-	<section class="mytabs_area p_120">
-		<div class="container">
-			<div class="tabs_inner">
-				<ul class="nav nav-tabs" id="myTab" role="tablist">
-					<li class="nav-item"><a class="nav-link active" id="home-tab"
-						data-toggle="tab" href="#home" role="tab" aria-controls="home"
-						aria-selected="true">My Experiences</a></li>
-					<li class="nav-item"><a class="nav-link" id="profile-tab"
-						data-toggle="tab" href="#profile" role="tab"
-						aria-controls="profile" aria-selected="false">My Education</a></li>
-				</ul>
-				<div class="tab-content" id="myTabContent">
-					<div class="tab-pane fade show active" id="home" role="tabpanel"
-						aria-labelledby="home-tab">
-						<ul class="list">
-							<li><span></span>
-								<div class="media">
-									<div class="d-flex">
-										<p>March 2017 to present</p>
-									</div>
-									<div class="media-body">
-										<h4>Colorlib</h4>
-										<p>
-											Senior Web Developer <br />Santa monica, Los angeles
-										</p>
-									</div>
-								</div></li>
-							<li><span></span>
-								<div class="media">
-									<div class="d-flex">
-										<p>March 2017 to present</p>
-									</div>
-									<div class="media-body">
-										<h4>Colorlib</h4>
-										<p>
-											Senior Web Developer <br />Santa monica, Los angeles
-										</p>
-									</div>
-								</div></li>
-							<li><span></span>
-								<div class="media">
-									<div class="d-flex">
-										<p>March 2017 to present</p>
-									</div>
-									<div class="media-body">
-										<h4>Colorlib</h4>
-										<p>
-											Senior Web Developer <br />Santa monica, Los angeles
-										</p>
-									</div>
-								</div></li>
-						</ul>
-					</div>
-					<div class="tab-pane fade" id="profile" role="tabpanel"
-						aria-labelledby="profile-tab">
-						<ul class="list">
-							<li><span></span>
-								<div class="media">
-									<div class="d-flex">
-										<p>March 2017 to present</p>
-									</div>
-									<div class="media-body">
-										<h4>Colorlib</h4>
-										<p>
-											Senior Web Developer <br />Santa monica, Los angeles
-										</p>
-									</div>
-								</div></li>
-							<li><span></span>
-								<div class="media">
-									<div class="d-flex">
-										<p>March 2017 to present</p>
-									</div>
-									<div class="media-body">
-										<h4>Colorlib</h4>
-										<p>
-											Senior Web Developer <br />Santa monica, Los angeles
-										</p>
-									</div>
-								</div></li>
-							<li><span></span>
-								<div class="media">
-									<div class="d-flex">
-										<p>March 2017 to present</p>
-									</div>
-									<div class="media-body">
-										<h4>Colorlib</h4>
-										<p>
-											Senior Web Developer <br />Santa monica, Los angeles
-										</p>
-									</div>
-								</div></li>
-						</ul>
-					</div>
-				</div>
-			</div>
-		</div>
-	</section>
 
 	<section class="feature_area p_120">
 		<div class="container">
 			<div class="main_title">
-				<h2>offerings to my clients</h2>
-				<p>If you are looking at blank cassettes on the web, you may be
-					very confused at the difference in price. You may see some for as
-					low as $.17 each.</p>
+				<h2>KEUMBI는 이런것도 할수있어요</h2>
+				<p>나랑 맞는 금융상품은 뭘까? 이 상품은 이자가 어떻게되지?<br>빠르고 쉽게 KEUMBI가 알려줄수있어요</p>
 			</div>
 			<div class="feature_inner row">
 				<div class="col-lg-4 col-md-6">
 					<div class="feature_item">
 						<i class="flaticon-city"></i>
-						<h4>Architecture</h4>
-						<p>If you are looking at blank cassettes on the web, you may
-							be very confused at the difference in price. You may see some for
-							as low as $17 each.</p>
+						<h4>금융상품추천</h4>
+						<p>다른사람은 어떤 금융상품을 사용할까? <br>사용자의 생년월일을 기반으로 추천해드려요! <br>이자계산기까지있으니 돈계산도 끄떡없다구요</p>
 					</div>
 				</div>
 				<div class="col-lg-4 col-md-6">
 					<div class="feature_item">
 						<i class="flaticon-skyline"></i>
-						<h4>Interior Design</h4>
-						<p>If you are looking at blank cassettes on the web, you may
-							be very confused at the difference in price. You may see some for
-							as low as $17 each.</p>
+						<h4>가계부</h4>
+						<p>거래/이체/결제내역까지 가계부는 금비가쓸테니 걱정마세요! 당일 지출내역부터 당월 총 지출액까지!</p>
 					</div>
 				</div>
 				<div class="col-lg-4 col-md-6">
 					<div class="feature_item">
 						<i class="flaticon-sketch"></i>
-						<h4>Concept Design</h4>
-						<p>If you are looking at blank cassettes on the web, you may
-							be very confused at the difference in price. You may see some for
-							as low as $17 each.</p>
+						<h4>챌린지</h4>
+						<p>소비가 많은 사용자를 위해 지출을 줄일수있는 챌린지가 있어요! 첫 시작이 어렵지만 막상 시작하면 할만할껄요? <br>우리같이 소비를 줄여보자구요</p>
 					</div>
 				</div>
 			</div>
