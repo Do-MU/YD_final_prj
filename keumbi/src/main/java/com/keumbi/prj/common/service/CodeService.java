@@ -9,4 +9,5 @@ public interface CodeService {
 	List<CodeVO> categoryCode();
 	List<CodeVO> bankCode();
 	List<CodeVO> selectUserKwdCode(String id);
+	String selectChallCode(String chall_code);
 }

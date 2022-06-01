@@ -1,7 +1,5 @@
 package com.keumbi.prj.qna.vo;
 
-import java.util.Date;
-
 import lombok.Data;
 
 @Data
@@ -11,8 +9,8 @@ public class QnaVO {
 	private String user_id;
 	private String title;
 	private String qcontents;
-	private Date qdate;
+	private String qdate;
 	private String acontents;
-	private Date adate;
-	private String answer_code;
+	private String adate;
+	private String val;
 }

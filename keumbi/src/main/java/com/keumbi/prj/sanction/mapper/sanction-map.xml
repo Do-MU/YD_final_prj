@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.keumbi.prj.sanction.mapper.SanctionMapper">
-
+	<!-- 제재 유저리스트 -->
+	<select id="sanUser" resultType="SanctionVO">
+		SELECT	s.user_id, c.val sanc_code, s.sdate, s.edate, s.sanc_reason
+		FROM	SANCTIONS s, common_code c
+		WHERE	s.sanc_code = c.code
+	</select>
 </mapper>

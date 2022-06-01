@@ -8,10 +8,13 @@
 <title>Insert title here</title>
 </head>
 <style>
-#btn-primary {
-	align: right;
-}
 </style>
+<script>
+	if (!'${loginUser.id}') {
+		alert('로그인이 필요합니다.');
+		window.location = "userLoginForm";
+	}
+</script>
 <body>
 
 	<section class="banner_area">
@@ -26,30 +29,47 @@
 		</div>
 	</section>
 
-	<div class="row">
-			<table class="table table-striped"
-				style="text-align: center; border: 1px solid #dddddd">
-				<thead>
-					<tr>
-						<th style="background-color: #eeeeee; text-align: center;">번호</th>
-						<th style="background-color: #eeeeee; text-align: center;">제목</th>
-						<th style="background-color: #eeeeee; text-align: center;">날짜</th>
-						<th style="background-color: #eeeeee; text-align: center;">작성자</th>
-						<th style="background-color: #eeeeee; text-align: center;">답변여부</th>
-					</tr>
-				</thead>
-				<tbody>
-					<c:forEach var="q" items="${qnas}">
+	<br>
+	<br>
+
+	<div class="container">
+		<div class="accordion" id="accordionExample">
+			<span id="insertBtn"><a href="qnaInsertForm" role="button"
+				class="btn btn-dark">1:1문의 쓰기</a></span>
+			<div class="row">
+				<table class="table table-striped"
+					style="text-align: center; border: 1px solid #dddddd">
+					<thead>
 						<tr>
-							<td><c:out value="${q.num}" /></td>
-							<td><c:out value="${q.title}" /></td>
-							<td><c:out value="${q.qdate}" /></td>
-							<td><c:out value="${q.user_id}" /></td>
-							<td><c:out value="${q.answer_code}" /></td>
+							<th style="background-color: #eeeeee; text-align: center;">제목</th>
+							<th style="background-color: #eeeeee; text-align: center;">작성일</th>
+							<th style="background-color: #eeeeee; text-align: center;">답변유무</th>
+							<th style="background-color: #eeeeee; text-align: center;"></th>
 						</tr>
-					</c:forEach>
-				</tbody>
-			</table>
+					</thead>
+					<tbody>
+						<c:forEach var="q" items="${qnas}">
+							<tr class="card-header">
+								<td data-toggle="collapse" data-target="#collapse-${q.num}"
+									aria-expanded="true" aria-controls="collapseOne"><c:out
+										value="${q.title}" /></td>
+								<td><c:out value="${q.qdate}" /></td>
+								<td><c:out value="${q.val}" /></td>
+								<td><a href="qnaDelete?num=${q.num}" role="button"
+									class="btn btn-light"
+									onclick="return confirm('문의글을 삭제하시겠습니까?')">삭제</a></td>
+							</tr>
+							<tr class="card-body">
+								<td colspan="3" id="collapse-${q.num}" class="collapse"
+									aria-labelledby="headingOne" data-parent="#accordionExample">
+									${q.qcontents}</td>
+							</tr>
+						</c:forEach>
+					</tbody>
+				</table>
+			</div>
+
 		</div>
+	</div>
 </body>
 </html>

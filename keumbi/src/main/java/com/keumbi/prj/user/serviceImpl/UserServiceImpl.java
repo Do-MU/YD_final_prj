@@ -2,17 +2,13 @@ package com.keumbi.prj.user.serviceImpl;
 
 import java.util.List;
 import java.util.Random;
-
 import javax.mail.internet.MimeMessage;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
-
 import com.keumbi.prj.user.mapper.UserMapper;
 import com.keumbi.prj.user.service.UserService;
-import com.keumbi.prj.user.vo.UserManageVO;
 import com.keumbi.prj.user.vo.UserVO;
 
 @Service
@@ -114,7 +110,7 @@ public class UserServiceImpl implements UserService {
 	
 	// 전체 회원정보 (관리자)
 	@Override
-	public List<UserManageVO> userList() {
-		return m.userList();
+	public List<UserVO> allUser() {
+		return m.allUser();
 	}
 }

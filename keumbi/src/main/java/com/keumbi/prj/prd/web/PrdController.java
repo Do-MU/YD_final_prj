@@ -178,6 +178,12 @@ public class PrdController {
 	public List<PrdCardVO> companyCard(PrdCardVO vo){
 		return card.selectCompanyCard(vo);
 	}
+	@RequestMapping("recommendedCard")
+	@ResponseBody
+	public List<PrdCardVO> recommendedCard(HttpSession session) {
+		UserVO vo = (UserVO) session.getAttribute("loginUser");
+		return card.selectRecoAge(vo);
+	}
 	
 	
 	

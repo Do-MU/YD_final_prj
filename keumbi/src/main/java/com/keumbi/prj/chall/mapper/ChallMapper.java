@@ -9,4 +9,5 @@ public interface ChallMapper {
 	int challSelect(ChallVO vo);
 	int challInsert(ChallVO vo);
 	int challTotalUser(int chall_num);
+	int userAmtSumA(ChallVO vo);
 }
