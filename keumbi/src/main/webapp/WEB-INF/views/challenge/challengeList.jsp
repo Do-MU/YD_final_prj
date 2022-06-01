@@ -110,7 +110,8 @@
 				<div class="banner_content text-center">
 					<h2>나의 챌린지</h2>
 					<div class="page_link">
-						<a href="home">Home</a> <a href="challengeList">나의 챌린지</a>
+						<a href="home">Home</a>
+						<a href="challengeList">나의 챌린지</a>
 					</div>
 				</div>
 			</div>
@@ -138,10 +139,9 @@
 		<div id="list">
 			<!-- 챌린지 출력 -->
 			<c:forEach var="ch" items="${list}">
-				<div class="challs" data-chall_num="${ch.chall_num}">
+				<div class="challs" data-chall_num="${ch.chall_num}" data-num="${ch.num}">
 					<div class="div_img">
-						<img src="${pageContext.request.contextPath}/resources/img/challenge_img/coffee.png"
-							style="height: 180px; width: 180px;"><br>
+						<img src="" style="height: 180px; width: 180px;"><br>
 						<div class="div_period">
 							<h3>D-${ch.dday}</h3>
 						</div>
@@ -152,8 +152,9 @@
 						<div class="div_contents"></div>
 				
 						<div class="progress">
-							<div class="progress-label bg-info" style="width: 50%;" data-goal="${ch.goal}">%</div>
+							<div class="progress-label bg-success" style="width: ${ch.progress}%;" data-progress="${ch.progress}"></div>
 						</div>
+						<div class="div_per">${ch.accum_amt}/${ch.goal} (${ch.progress}%)</div>
 					</div>
 				</div>
 				<hr>
@@ -165,7 +166,7 @@
 	if (!'${loginUser.id}') {
 		alert('로그인이 필요합니다.');
 		window.location = "userLoginForm";
-	} 
+	}
 	
 	$(".challs").each(function(){
 		let div = $(this);
@@ -179,12 +180,7 @@
 			div.children(".div_detail").children(".div_title").prepend($("<span>").text(chall.title));
 			// 챌린지 내용
 			div.children(".div_detail").children(".div_contents").text(chall.content);
-			// 챌린지 진행상환
-			/* div.children(".div_detail").children(".progress").children(".progress-label").removeClass("bg-info");
-			div.children(".div_detail").children(".progress").children(".progress-label").text("50%");
-			div.children(".div_detail").children(".progress").children(".progress-label").css('width', 60 + '%')
-			div.children(".div_detail").children(".progress").children(".progress-label").addClass("bg-danger"); */
-		})
+		});
 	});
 	
 	$(".chal_pro").each(function(){
@@ -196,16 +192,24 @@
 			div.html(val.substr(4));
 			
 			if(val.substr(4)=="성공"){
+				div.removeClass("chal_pro_i");
 				div.addClass("chal_pro_s");
 			}else if(val.substr(4)=="실패"){
+				div.removeClass("chal_pro_i");
 				div.addClass("chal_pro_f");
-			}else{
-				
-				div.closest(".div_detail").children(".progress").children(".progress-label").css('width', 60 + '%');
 			}
 		});
 	});
 	
-	
-	
+	$(".progress-label").each(function(){
+		let progress = $(this).data("progress");
+		console.log(progress);
+		if(progress>=80){
+			$(this).removeClass("bg-success");
+			$(this).addClass("bg-danger");
+		}else if(progress>=50){
+			$(this).removeClass("bg-success");
+			$(this).addClass("bg-warning");
+		}
+	});
 </script>

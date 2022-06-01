@@ -1,7 +1,5 @@
 package com.keumbi.prj.chall.web;
 
-import java.util.List;
-
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+
 import com.keumbi.prj.chall.service.ChallService;
 import com.keumbi.prj.chall.vo.ChallVO;
 import com.keumbi.prj.common.service.CodeService;
@@ -22,20 +21,13 @@ public class ChallController {
 	@Autowired PrdChallengeService prdchall;
 	@Autowired CodeService code;
 	
-	// 나의 챌린지 폼 
+	// 나의 챌린지 목록 
 	@RequestMapping("/challengeList")
 	public String userChallengeList(Model model, HttpSession session) {
 		UserVO userVO = (UserVO)session.getAttribute("loginUser");
-		model.addAttribute("list",mychall.challList(userVO.getId()));
+		model.addAttribute("list", mychall.challList(userVO));
 		
 		return "challenge/challengeList";
-	}
-	
-	// 유저 챌린지 리스트
-	@RequestMapping("/userChallList")
-	@ResponseBody
-	public List<ChallVO> userChallList(UserVO userVO) {
-		return mychall.challList(userVO.getId());
 	}
 	
 	// 챌린지 가입
@@ -43,7 +35,7 @@ public class ChallController {
 	@ResponseBody
 	public int challInsert(ChallVO challVO) {
 		
-		if(mychall.challSelect(challVO) == 0) {
+		if(mychall.challCount(challVO) == 0) {
 			return mychall.challInsert(challVO);
 		}
 		
@@ -65,10 +57,11 @@ public class ChallController {
 		return code.selectChallCode(chall_code);
 	}
 	
-	// 챌린지 이후 해당 카테고리의 결제 금액 반환
-	@RequestMapping("/challAmtA")
+	// 챌린지 기간 동안 지출 금액 가져오기
+	@RequestMapping("/challTransAmt")
 	@ResponseBody
-	public int challAmtA(ChallVO vo) {
-		return mychall.userAmtSumA(vo);
+	public int challTransAmt(ChallVO vo) {
+		
+		return mychall.challTransAmt(vo);
 	}
 }

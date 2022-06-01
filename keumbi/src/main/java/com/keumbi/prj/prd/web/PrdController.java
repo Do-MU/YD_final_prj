@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.keumbi.prj.account.service.AccountService;
@@ -29,7 +28,7 @@ import com.keumbi.prj.prd.vo.PrdCardVO;
 import com.keumbi.prj.prd.vo.PrdChallengeVO;
 import com.keumbi.prj.prd.vo.SavingBaseVO;
 import com.keumbi.prj.prd.vo.SavingOptionVO;
-import com.keumbi.prj.user.service.UserService;
+import com.keumbi.prj.prd.vo.TransSearchVO;
 import com.keumbi.prj.user.vo.UserVO;
 
 @Controller
@@ -207,17 +206,10 @@ public class PrdController {
 	
 	
 	// 소비목록 가져오기
-	@RequestMapping("/avgAmtA")
+	@RequestMapping("/prdChalltransList")
 	@ResponseBody
-	public List<LedgerVO> avgAmtA(@RequestParam("category") String category,@RequestParam("user_id") String user_id){
+	public List<LedgerVO> transList(TransSearchVO vo){
 		
-	    return led.avgAmtA(category, user_id);
-	}
-	
-	// 소비목록 가져오기 
-	@RequestMapping("/avgAmtB")
-	@ResponseBody
-	public List<LedgerVO> avgAmtB(@RequestParam("category") String category,@RequestParam("user_id") String user_id){
-		return led.avgAmtB(category, user_id);
+	    return chal.transList(vo);
 	}
 }

@@ -55,14 +55,4 @@ public class LedgerServiceImpl implements LedgerService {
 		return m.ledgerDelete(vo);
 	}
 
-	@Override
-	public List<LedgerVO> avgAmtA(String category,String user_id) {
-		return m.avgAmtA(category, user_id);
-	}
-
-	@Override
-	public List<LedgerVO> avgAmtB(String category, String user_id) {
-		return m.avgAmtB(category, user_id);
-	}
-
 }

@@ -9,35 +9,106 @@ import org.springframework.stereotype.Service;
 import com.keumbi.prj.chall.mapper.ChallMapper;
 import com.keumbi.prj.chall.service.ChallService;
 import com.keumbi.prj.chall.vo.ChallVO;
+import com.keumbi.prj.ledger.vo.LedgerVO;
+import com.keumbi.prj.prd.mapper.PrdChallengeMapper;
+import com.keumbi.prj.prd.vo.PrdChallengeVO;
+import com.keumbi.prj.prd.vo.TransSearchVO;
+import com.keumbi.prj.user.vo.UserVO;
 
 @Service
 public class ChallServiceImpl implements ChallService {
-	@Autowired ChallMapper m;
+	@Autowired ChallMapper chM;
+	@Autowired PrdChallengeMapper prdM;
 	
 	@Override
-	public List<ChallVO> challList(String id) {
-		return m.challList(id);
+	public List<ChallVO> challList(UserVO user) {
+		for(ChallVO ch : chM.selectChallList(user)) {		// 해당 유저의 모든 챌린지를 가져온다 
+			PrdChallengeVO prd = new PrdChallengeVO();
+			prd.setNum(ch.getChall_num());					// chall_num을 통해 해당 챌린지를 가져온다
+			prd = prdM.prdChallengeSelect(prd);
+			
+			TransSearchVO vo = new TransSearchVO();
+			vo.setUser_id(ch.getUser_id());					// 유저의 ID
+			vo.setCategory(prd.getCategory());				// 해당 챌린지의 카테고리
+			vo.setSdate(ch.getSdate());						// 챌린지 시작일
+			vo.setEdate(ch.getEdate());						// 챌린지 종료일
+			
+			String ck = vo.getCategory().substring(0,3);
+			List<LedgerVO> list = null;
+			if(ck.equals("CKA")) {							// 챌린지의 카테고리가 CKA인지 CKB인지 확인
+				list = prdM.transListByCatA(vo);			// 지출 카테고리로 검색
+			}else if(ck.equals("CKB")) {
+				list = prdM.transListByCatB(vo);			// 지출 키워드로 검색
+			}
+			int sum = 0;
+			for(LedgerVO t : list) {
+				sum += t.getAmt();
+			}
+			ch.setAccum_amt(sum);
+			if(sum>ch.getGoal()) {
+				ch.setProgress(0);
+			}else {
+				ch.setProgress( Math.round( (double) sum/ch.getGoal()*1000 ) / 10.0 );				
+			}
+			
+			chM.challUpdate(ch);
+		}
+		
+		return chM.selectChallList(user);
 	}
 
 	@Override
-	public int challSelect(ChallVO vo) {
-		return m.challSelect(vo);
+	public int challCount(ChallVO vo) {
+		return chM.challCount(vo);
 	}
 
 	@Override
 	public int challInsert(ChallVO vo) {
-		return m.challInsert(vo);
+		return chM.challInsert(vo);
 	}
 	
-	//챌린지 도전자 수
+	// 챌린지 도전자 수
 	@Override
 	public int challTotalUser(int chall_num) {
-		return m.challTotalUser(chall_num);
+		return chM.challTotalUser(chall_num);
 	}
+
+	// 챌린지 진행 이후 해당 챌린지의 카테고리에 해당하는 지출 총합
+	@Override
+	public int challTransAmt(ChallVO ch) {
+		ch = chM.selectChall(ch);
+		
+		PrdChallengeVO prd = new PrdChallengeVO();
+		prd.setNum(ch.getChall_num());
+		prd = prdM.prdChallengeSelect(prd);
+		
+		TransSearchVO vo = new TransSearchVO();
+		vo.setUser_id(ch.getUser_id());
+		vo.setCategory(prd.getCategory());
+		vo.setSdate(ch.getSdate());
+		vo.setEdate(ch.getEdate());
+		
+		String ck = vo.getCategory().substring(0,3);
+		List<LedgerVO> list = null;
+		if(ck.equals("CKA")) {
+			list = prdM.transListByCatA(vo);
+		}else if(ck.equals("CKB")) {
+			list = prdM.transListByCatB(vo);
+		}else {
+			return 0;
+		}
+		int sum = 0;
+		for(LedgerVO t : list) {
+			sum += t.getAmt();
+		}
+		return sum;
+	}
+	
+	
 
 	
 	
-	// 예금상품 더미 데이터 만들기
+	// 챌린지 더미 데이터 만들기
 	@Override
 	public int makeDummyChall() {
 		ChallVO dummy = new ChallVO();
@@ -61,12 +132,6 @@ public class ChallServiceImpl implements ChallService {
 		dummy.setChall_num(random.nextInt(8)+1);
 		
 //		System.out.println(dummy);
-		return m.challInsert(dummy);
+		return chM.challInsert(dummy);
 	}
-
-	@Override
-	public int userAmtSumA(ChallVO vo) {
-		return m.userAmtSumA(vo);
-	}
-
 }

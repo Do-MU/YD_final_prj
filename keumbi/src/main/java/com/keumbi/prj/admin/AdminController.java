@@ -9,7 +9,6 @@ import com.keumbi.prj.account.service.AccountService;
 import com.keumbi.prj.chall.service.ChallService;
 import com.keumbi.prj.user.service.UserService;
 import com.keumbi.prj.prd.service.PrdCardService;
-import com.keumbi.prj.user.service.UserService;
 
 
 @Controller
@@ -64,19 +63,13 @@ public class AdminController {
 	@RequestMapping("/dummyCard")
 	@ResponseBody
 	public int dummyCard() {
-		for(int i=0; i<=3000; i++) {
-			c.makeDummyCard();
-		}
-		return 0;
+
+		return c.makeDummyCard();
 	}
 	@RequestMapping("/dummyChall")
 	@ResponseBody
 	public int dummyChall() {
-		int cnt=0;
-		for(int i=0;i<4000;i++) {
-			ch.makeDummyChall();
-			cnt++;
-		}
-		return cnt;
+
+		return ch.makeDummyChall();
 	}
 }
