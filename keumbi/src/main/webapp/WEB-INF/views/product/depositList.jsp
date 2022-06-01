@@ -133,6 +133,9 @@
     font-weight: bold;
     margin-bottom: 50px;
 }
+.testimonials_area, .testi_inner{
+	background-color: white;
+}
 </style>
 
 
@@ -176,7 +179,7 @@
 			<c:if test="${not empty loginUser.name}">
 			<div class="main_title">
 				<div id="div_content">이런 상품은 어떠신가요?</div>
-				<p>${loginUser.name}과 비슷한 연령대가 많이 이용하는 상품이에요</p>
+				<p>${loginUser.name} 님과 비슷한 연령대가 많이 이용하는 상품이에요</p>
 			</div>
 			<div class="testi_inner">
 				<div class="testi_slider owl-carousel">
