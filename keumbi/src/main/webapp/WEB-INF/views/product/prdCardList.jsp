@@ -72,9 +72,9 @@
 			<div class="tab">
 				<div class="btn-group btn-lg " role="group" aria-label="Basic example">
 				  <button type="button" class="btn btn-secondary btn-lg">전체</button>
-				  <button type="button" class="btn btn-secondary btn-lg" id="age">나이추천카드</button>
-				  <button type="button" class="btn btn-secondary btn-lg" id="consum">소비패턴추천카드</button>
-				  <button type="button" class="btn btn-secondary btn-lg" id="keyword">관심사추천카드</button>
+				  <button type="button" class="btn btn-secondary btn-lg" id="age">연령대별 추천</button>
+				  <button type="button" class="btn btn-secondary btn-lg" id="consum">소비패턴별 추천</button>
+				  <button type="button" class="btn btn-secondary btn-lg" id="keyword">관심사별 추천</button>
 				  <button type="button" class="btn btn-secondary btn-lg" id="C366">신한카드</button>
 				  <button type="button" class="btn btn-secondary btn-lg" id="C381">국민카드</button>
 				  <button type="button" class="btn btn-secondary btn-lg" id="C365">삼성카드</button>
