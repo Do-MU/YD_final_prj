@@ -69,8 +69,12 @@ public class DepositServiceImpl implements DepositService {
 
 	@Override
 	public List<DepositBaseVO> selectBestDepBase(UserVO vo) {
-		// TODO Auto-generated method stub
 		return m.selectBestDepBase(vo);
+	}
+
+	@Override
+	public List<DepositBaseVO> selectRandomDepBase() {
+		return m.selectRandomDepBase();
 	}
 
 }

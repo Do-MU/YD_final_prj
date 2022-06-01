@@ -31,7 +31,7 @@
 .div_joinway{
 	font-size:1.5em;
 }
-.depView{
+#depView{
 	margin-top:100%;
 	
 }
@@ -54,7 +54,7 @@
 }
 
 
-#total, #taxPercent, .best_intr{	
+#total, #taxPercent, .div_intr2{	
 	color: red;
 }
 #totalText{
@@ -100,7 +100,7 @@
 	height:50px;
 	flex:1;
 }
-#best_content{
+#div_content{
 	font-size: 30px;
     padding-bottom: 30px;
     color: black;
@@ -133,21 +133,36 @@
 </section>
 <section class="contact_area p_120">
 	<div class="container">
-		<c:if test="${not empty loginUser.name}">
-			<div id="best_content">${loginUser.name}님과 비슷한 연령대가 많이사용하는 상품이에요</div>
-		</c:if>
+		<c:if test="${empty loginUser.name }">
+		<div id="div_content">이런 상품은 어떠신가요?</div>
 		<div class="row">
-			<c:forEach var="b" items="${depBestList }">
+			<c:forEach var="b" items="${depRandomList }">
 				<div class="col-md-4" data-dep_id="${b.dep_id }">
 					<div class="wel_item">
-						<div class="div_bestImg"><img src="${pageContext.request.contextPath}/resources/img/bank_logo/${b.kor_co_nm}.jpg" width="50px" height="50px"></div>
-						<div class="best_bank">${b.kor_co_nm }</div>
-						<div class="best_intr"></div>
-						<div class="best_prdNm">${b.fin_prdt_nm }</div>
+						<div class="div_Img"><img src="${pageContext.request.contextPath}/resources/img/bank_logo/${b.kor_co_nm}.jpg" width="50px" height="50px"></div>
+						<div class="div_bank">${b.kor_co_nm }</div>
+						<div class="div_intr2"></div>
+						<div class="div_prdNm">${b.fin_prdt_nm }</div>
 					</div>
 				</div>
 			</c:forEach>
 		</div>
+		</c:if>
+		<c:if test="${not empty loginUser.name}">
+			<div id="div_content">${loginUser.name}님과 비슷한 연령대가 많이사용하는 상품이에요</div>
+			<div class="row">
+				<c:forEach var="b" items="${depBestList }">
+					<div class="col-md-4" data-dep_id="${b.dep_id }">
+						<div class="wel_item">
+							<div class="div_bestImg"><img src="${pageContext.request.contextPath}/resources/img/bank_logo/${b.kor_co_nm}.jpg" width="50px" height="50px"></div>
+							<div class="div_bank">${b.kor_co_nm }</div>
+							<div class="div_intr2"></div>
+							<div class="div_prdNm">${b.fin_prdt_nm }</div>
+						</div>
+					</div>
+				</c:forEach>
+			</div>
+		</c:if>
 		<div id="list">
 			<c:forEach var="d" items="${depList}">
 				<div class="prds" data-dep_id="${d.dep_id}">
@@ -159,13 +174,13 @@
 						<div class="div_joinway">${d.join_way}</div>
 					</div>
 					<div class="div_btn">
-						<button class="depView">자세히 보기</button>
+						<button type="button" class="btn btn-outline-primary" id="depView">더보기</button>
 					</div>
 					<hr>
 				</div>
 			</c:forEach>
 			<div id="read_more">
-				<button type="button" class="btn btn-outline-primary" id="read">더보기</button>
+				<button type="button" class="btn btn-outline-primary" id="read">10개 더보기</button>
 			</div>
 		</div>
 	</div>
@@ -202,7 +217,7 @@
 
 <script>
 	//상품목록 상세보기 출력
-	$(".prds").on("click", ".depView", function(){
+	$(".prds").on("click", "#depView", function(){
 		$("#modal").modal("show"); //modal 창 생성
 		$('.modal-body').animate({scrollTop: 0},400); //스크롤 상단이동
 		$("#depositOpt").html("");
