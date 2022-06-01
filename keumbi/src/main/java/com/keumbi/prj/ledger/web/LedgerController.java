@@ -24,7 +24,7 @@ public class LedgerController {
 	@RequestMapping("/monthView")
 	public String monthView(Model model) {
 		model.addAttribute("code", code.categoryCode());
-		return "ledger/monthView";
+		return "ledger/ledgerList";
 	}
 	
 	// 월지출 총액 출력

@@ -4,7 +4,8 @@
 	
 	<select id="selectBoardList" resultType="BoardVO">
 		SELECT *
-		FROM BOARDS			
+		FROM BOARDS
+		ORDER BY BOD_NUM ASC			
 	</select>
 
 	

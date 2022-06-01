@@ -8,7 +8,15 @@
 	
 	<select id="replyList" resultType="com.keumbi.prj.reply.vo.ReplyVO">
 		SELECT * FROM REPLIES
-		WHERE BOD_NUM = #{bod_num}		
+		WHERE BOD_NUM = #{bod_num}
+		 AND PRE_RE_NUM = 0
+		ORDER BY RE_NUM ASC 				
+	</select>
+	
+	<select id="preReplyList" resultType="com.keumbi.prj.reply.vo.ReplyVO">
+		SELECT * FROM REPLIES
+		WHERE  PRE_RE_NUM = #{re_num}
+		ORDER BY RE_NUM ASC 				
 	</select>
 	
 	<insert id="replyInsert" parameterType="com.keumbi.prj.reply.vo.ReplyVO">
@@ -19,7 +27,7 @@
 	
 		INSERT INTO
 		REPLIES ( RE_NUM, USER_ID, BOD_NUM, PRE_RE_NUM, RE_CONTENTS, RE_DATE, RE_CODE )
-		VALUES( #{re_num}, #{user_id}, #{bod_num}, #{pre_re_num}, #{re_contents}, to_char(sysdate,'yyyy-MM-dd'), #{re_code} )
+		VALUES( #{re_num}, #{user_id}, #{bod_num}, 0, #{re_contents}, LOCALTIMESTAMP, #{re_code} )
 	</insert>
 	
 	<insert id="rorInsert" parameterType="com.keumbi.prj.reply.vo.ReplyVO">
@@ -30,7 +38,7 @@
 		
 		INSERT INTO
 		REPLIES ( RE_NUM, USER_ID, BOD_NUM, PRE_RE_NUM, RE_CONTENTS, RE_DATE, RE_CODE )
-		VALUES( #{re_num}, #{user_id}, #{bod_num}, #{pre_re_num}, #{re_contents}, to_char(sysdate,'yyyy-MM-dd'), #{re_code} )		
+		VALUES( #{re_num}, #{user_id}, #{bod_num}, #{pre_re_num}, #{re_contents}, LOCALTIMESTAMP, #{re_code} )		
 	</insert>
 	
 	<update id="replyUpdate" parameterType="com.keumbi.prj.reply.vo.ReplyVO">
@@ -53,6 +61,11 @@
 	<delete id="rorDelete" parameterType="int">
 		DELETE FROM REPLIES 
 		WHERE RE_NUM = #{re_num}
+	</delete>
+	
+	<delete id="preReplyDelete" parameterType="int">
+		DELETE FROM REPLIES 
+		WHERE PRE_RE_NUM = #{pre_re_num}
 	</delete>
 	
 </mapper>

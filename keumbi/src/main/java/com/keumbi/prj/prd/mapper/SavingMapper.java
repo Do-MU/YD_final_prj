@@ -18,4 +18,5 @@ public interface SavingMapper {
 	List<SavingOptionVO> selectAllSavOpt(int sav_id);
 	CodeVO selectBankName(String kor_co_nm);
 	List<SavingBaseVO> selectBestSavBase(UserVO vo);
+	List<SavingBaseVO> selectRandomSavBase();
 }

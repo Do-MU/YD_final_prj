@@ -12,7 +12,7 @@
 						SELECT * FROM PRD_CARDS
 						ORDER BY DBMS_RANDOM.RANDOM 
 					)
-		WHERE ROWNUM  <![CDATA[ <=5 ]]>
+		WHERE ROWNUM  <![CDATA[ <=6 ]]>
 	</select>
 	
 	<select id="selectOneCard" parameterType="PrdCardVO" resultType="PrdCardVO">
@@ -46,7 +46,33 @@
 		        AND C.CARD_NAME = P.CARD_NAME
 		        GROUP BY P.CARD_SEQ, P.CARD_NAME, P.CARD_COMPANY , P.CARD_INFO, P.CARD_ANNUALFEE, P.CARD_BENEFIT, P.CARD_IMAGE, P.CARD_PERFO
 		        ORDER BY COUNT DESC)
-		WHERE ROWNUM <![CDATA[ <=5 ]]>
+		WHERE ROWNUM <![CDATA[ <=6 ]]>
+	</select>
+	
+	<select id="selectConsum" resultType="PrdCardRecoVO">
+		SELECT *
+		FROM (	SELECT  M.VAL, T.CAT_CODE, COUNT(CASE WHEN T.CAT_CODE  <![CDATA[ <> ]]> 'D016' THEN 0 END) AS COUNT, C.CARD_CODE, P.*
+		        FROM    TOTAL_TRANS T, CARD_CATEGORY C, PRD_CARDS P, COMMON_CODE M
+		        WHERE   M.CODE = T.CAT_CODE
+		        AND     T.CAT_CODE = C.CAT_CODE
+		        AND     C.CARD_CODE = P.CARD_SEQ
+		        AND     USER_ID = #{id}
+		        AND     TDATE BETWEEN TRUNC(ADD_MONTHS(TO_DATE(SYSDATE),-2)+1) - TO_CHAR(TO_DATE(SYSDATE),'DD')
+		                        AND TRUNC(LAST_DAY(TO_DATE(SYSDATE))) + 0.99999421
+		        GROUP BY  M.VAL, T. CAT_CODE, C.CARD_CODE, P.CARD_SEQ, P.CARD_NAME, P.CARD_COMPANY, P.CARD_INFO, P.CARD_ANNUALFEE, P.CARD_BENEFIT, P.CARD_IMAGE, P.CARD_PERFO
+		        HAVING COUNT(CASE WHEN T.CAT_CODE <![CDATA[ <> ]]> 'D016' THEN 0 END) >= 3
+		        )
+		ORDER BY COUNT DESC
+	</select>
+	
+	<select id="selectKeyword" resultType="PrdCardRecoVO">
+		SELECT  C.CODE, C.VAL ,K.CARD_CODE, P.*
+		FROM    USER_KWD U, COMMON_CODE C, CARD_KWD K, PRD_CARDS P
+		WHERE   U.KWD_CODE = C.CODE
+		AND     C.CODE = K.KWD_CODE
+		AND     K.CARD_CODE = P.CARD_SEQ
+		AND     USER_ID = #{id}
+		ORDER BY C.VAL
 	</select>
 
 </mapper>
