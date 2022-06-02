@@ -49,6 +49,9 @@
 .card {
 	width : 18rem;
 }
+.card-body {
+	height : 190px;
+}
 </style>
 
 </head>
@@ -133,10 +136,28 @@
 					</button>
 				</div>
 				<div class="modal-body">
-					<p class="h3" id="card_name"></p><br/>
-					<p class="h4" id="card_benefit"></p><br/>
-					<p class="h5" id="card_annualfee"></p><br/>
-					<p class="h5" id="card_perfo"></p>
+					<table>
+						<tr>
+							<th width="100px">카드이름</th>
+							<td id="card_name"></td>
+						</tr>
+						<tr>
+							<th>카드혜택</th>
+							<td id="card_benefit"></td>
+						</tr>
+						<tr>
+							<th>연회비</th>
+							<td id="card_annualfee"></td>
+						</tr>
+						<tr>
+							<th>전월실적</th>
+							<td id="card_perfo"></td>
+						</tr>
+					</table>
+<!-- 					<p class="h3" id="card_name"></p><br/> -->
+<!-- 					<p class="h4" id="card_benefit"></p><br/> -->
+<!-- 					<p class="h5" id="card_annualfee"></p><br/> -->
+<!-- 					<p class="h5" id="card_perfo"></p> -->
 				</div>
 			</div>
 		</div>
@@ -226,12 +247,27 @@
 					url : "recommendedConsum"				
 				})
 				.done(function(datas){
-					console.log(datas)
+					//console.log(datas);
 					makeOutput(datas);
 					
 					let userName = "${loginUser.name}"
 					let h1 = "<h1>" + userName + "님의 최근 3개월 간 소비지출에 대한 추천 카드입니다.</h1><br/>";
 					$("#output").prepend(h1);
+					
+// 					for(let i=0; i<datas.length; i++){
+// 						//console.log(datas[i].val);
+						
+// 						if(!datas[i+1]){
+// 							console.log("값이 없어요")
+// 						} else if (datas[i].val == datas[i+1].val){
+// 							console.log(datas[i].val)
+// 							var cateVal = datas[i].val
+// 							$("#cateVal").text(cateVal);
+// 						} else if(datas[i].val != datas[i+1].val){
+// 							console.log("달라요")
+// 						}
+// 					}
+					
 					
 				})
 			}

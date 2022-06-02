@@ -10,6 +10,8 @@ import com.keumbi.prj.chall.mapper.ChallMapper;
 import com.keumbi.prj.chall.service.ChallService;
 import com.keumbi.prj.chall.vo.ChallVO;
 import com.keumbi.prj.ledger.vo.LedgerVO;
+import com.keumbi.prj.noti.service.NotiService;
+import com.keumbi.prj.noti.vo.NotiVO;
 import com.keumbi.prj.prd.mapper.PrdChallengeMapper;
 import com.keumbi.prj.prd.vo.PrdChallengeVO;
 import com.keumbi.prj.prd.vo.TransSearchVO;
@@ -19,6 +21,7 @@ import com.keumbi.prj.user.vo.UserVO;
 public class ChallServiceImpl implements ChallService {
 	@Autowired ChallMapper chM;
 	@Autowired PrdChallengeMapper prdM;
+	@Autowired NotiService noti;
 	
 	@Override
 	public List<ChallVO> challList(UserVO user) {
@@ -48,11 +51,22 @@ public class ChallServiceImpl implements ChallService {
 				ch.setAccum_amt(sum);							// 챌린지 기간동안 지출내역 합계 저장
 				if(sum>ch.getGoal()) {							// 지출금액 > 목표금액 일 때
 					ch.setChall_code("CH3");					// 실패로 변경
+					
+					NotiVO nvo = new NotiVO();					// 챌린지 실패 알림
+					nvo.setUser_id(user.getId());
+					nvo.setNoti_code("N8");
+					nvo.setChallTitle(prd.getTitle());
+					noti.notiInsert(nvo);	
 				}else {											// 진행률 저장
 					ch.setProgress( Math.round( (double) sum/ch.getGoal()*1000 ) / 10.0 );
 					if(ch.getDday()<=0) {
 						ch.setDday(0);
 						ch.setChall_code("CH2");				// 성공으로 변경
+						NotiVO nvo = new NotiVO();				// 챌린지 성공 알림
+						nvo.setUser_id(user.getId());
+						nvo.setNoti_code("N9");
+						nvo.setChallTitle(prd.getTitle());
+						noti.notiInsert(nvo);
 					}
 				}
 				
@@ -70,7 +84,15 @@ public class ChallServiceImpl implements ChallService {
 
 	@Override
 	public int challInsert(ChallVO vo) {
-		return chM.challInsert(vo);
+		int result = chM.challInsert(vo);
+		if (result == 1) {
+			// 챌린지등록 알림 -> userId
+			NotiVO nvo = new NotiVO();
+			nvo.setUser_id(vo.getUser_id());
+			nvo.setNoti_code("N7");
+			noti.notiInsert(nvo);
+		}
+		return result;
 	}
 	
 	// 챌린지 도전자 수

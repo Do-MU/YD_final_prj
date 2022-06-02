@@ -30,8 +30,8 @@ public class NotiServiceImpl implements NotiService {
 	}
 
 	@Override
-	public int notiInsert(NotiVO VO) {
-		return m.notiInsert(VO);
+	public int notiInsert(NotiVO vo) {
+		return m.notiInsert(vo);
 	}
 
 	@Override

@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.keumbi.prj.common.service.CodeService;
 import com.keumbi.prj.common.service.TermService;
 import com.keumbi.prj.common.vo.CodeVO;
+import com.keumbi.prj.noti.service.NotiService;
+import com.keumbi.prj.noti.vo.NotiVO;
 import com.keumbi.prj.user.service.UserService;
 import com.keumbi.prj.user.vo.SancUserSearchVO;
 import com.keumbi.prj.user.vo.UserVO;
@@ -27,6 +29,7 @@ public class UserController {
 	@Autowired	UserService service;
 	@Autowired	CodeService code;
 	@Autowired	TermService term;
+	@Autowired	NotiService noti;
 	
 	
 
@@ -81,6 +84,12 @@ public class UserController {
 	public String userJoin(UserVO userVO, @RequestParam(required = false) String[] keyword) {
 		service.userInsert(userVO);
 		service.userKwdInsert(userVO.getId(), keyword);
+		
+		// 회원가입 알림 -> userId
+		NotiVO nvo = new NotiVO();
+		nvo.setUser_id(userVO.getId());
+		nvo.setNoti_code("N11");
+		noti.notiInsert(nvo);
 		return "redirect:home";
 	}
 	
