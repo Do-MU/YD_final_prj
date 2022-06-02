@@ -32,6 +32,7 @@ public class AccountController {
 			// 인증된 회원일 시
 			if(user.getUser_seq_num() != null && !user.getUser_seq_num().isEmpty()) {
 				List<AccountVO> myAccList = accService.selectfirstAccount(user);
+				
 				if(myAccList != null) {
 					model.addAttribute("acc", myAccList);
 				}else {

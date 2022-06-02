@@ -177,6 +177,12 @@
 	</div>
 
 	<script>
+		// 비회원 접근시
+		if (!"${loginUser.id}") {
+			alert('로그인이 필요합니다.');
+			window.location = "userLoginForm";
+		}
+	
 		// 페이지 로드시 
 		document.addEventListener("DOMContentLoaded", function() {
 			$("#wit_balance_amt").html($("#wit_balance_amt").html().toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",")+"원");

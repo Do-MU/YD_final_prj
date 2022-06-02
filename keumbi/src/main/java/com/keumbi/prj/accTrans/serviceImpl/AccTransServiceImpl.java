@@ -14,6 +14,8 @@ import com.keumbi.prj.accTrans.vo.AccTransVO;
 import com.keumbi.prj.accTrans.vo.RemitVO;
 import com.keumbi.prj.account.mapper.AccountMapper;
 import com.keumbi.prj.account.vo.AccountVO;
+import com.keumbi.prj.noti.service.NotiService;
+import com.keumbi.prj.noti.vo.NotiVO;
 import com.keumbi.prj.user.vo.UserVO;
 
 @Service
@@ -21,6 +23,8 @@ public class AccTransServiceImpl implements AccTransService {
 
 	@Autowired AccTransMapper transMapper;
 	@Autowired AccountMapper accMapper;
+	
+	@Autowired NotiService noti;
 
 	// 거래내역 전체 조회
 	@Override
@@ -66,5 +70,11 @@ public class AccTransServiceImpl implements AccTransService {
 		dvo.setFintech_use_num(rem.getDep_fintech_use_num());
 		dvo.setBalance_amt(depAftBal);
 		accMapper.updateAccount(dvo);
+		
+		// 이체 알림 -> userId
+		NotiVO nvo = new NotiVO();
+		nvo.setUser_id(user.getId());
+		nvo.setNoti_code("N2");
+		noti.notiInsert(nvo);
 	}
 }
