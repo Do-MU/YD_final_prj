@@ -1,10 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.keumbi.prj.chall.mapper.ChallMapper">
-	<select id="challList" resultType="ChallVO" parameterType="String">
-		SELECT	NUM, USER_ID, GOAL, CHALL_CODE, CHALL_NUM, CEIL(EDATE-SYSDATE) "dDay"
+
+	<select id="selectChallList" resultType="ChallVO">
+		SELECT	NUM, USER_ID, GOAL, CHALL_CODE, CHALL_NUM, CEIL(EDATE-SYSDATE) "dDay", PROGRESS, SDATE, EDATE, ACCUM_AMT
 		FROM	CHALLS
 		WHERE	USER_ID = #{id}
+	</select>
+	
+	<select id="selectChall" resultType="ChallVO">
+		SELECT	*
+		FROM	CHALLS
+		WHERE	NUM = #{num}
 	</select>
 	
 	<select id="challTotalUser" resultType="int">
@@ -16,29 +23,21 @@
 	<insert id="challInsert" parameterType="ChallVO">
 		INSERT INTO CHALLS
 		VALUES ((SELECT NVL(MAX(NUM), 0) + 1 FROM CHALLS)
-				, #{user_id}, TO_CHAR(SYSDATE, 'YYYY-MM-DD'), TO_CHAR(SYSDATE+30, 'YYYY-MM-DD'), #{goal}, 'CH1', #{chall_num})   
+				, #{user_id}, TO_CHAR(SYSDATE, 'YYYY-MM-DD'), TO_CHAR(ADD_MONTHS(SYSDATE, 1), 'YYYY-MM-DD'), #{goal}, 'CH1', #{chall_num}, 0, 0)
 	</insert>
 	
-	<select id="challSelect" parameterType="ChallVO" resultType="int">
+	<select id="challCount" parameterType="ChallVO" resultType="int">
 		SELECT	COUNT(*)
 		FROM	CHALLS
 		WHERE	CHALL_NUM = #{chall_num}
 		AND		USER_ID   = #{user_id}
+		AND		CHALL_CODE = 'CH1'
 	</select>
 	
-	<select id="userAmtSumA" resultType="ChallVO" parameterType="Integer">
-       SELECT NVL(SUM(AMT),0) AMT
-	   FROM   TOTAL_TRANS
-	   WHERE  CAT_CODE = ( SELECT 	VAL
-                           FROM 	COMMON_CODE
-                           WHERE 	CODE = ( SELECT 	CATEGORY
-                           				  	 FROM		PRD_CHALLS
-                           				  	 WHERE		NUM = #{chall_num} ) )
-	   AND USER_ID = #{user_id}
-	   AND TDATE BETWEEN #{sdate} AND #{edate}
-	   ORDER BY 3 DESC
-   </select>
-   
-   <select id="userAmtSumB" resultType="LedgerVO" parameterType="String">
-   </select>
+	<update id="challUpdate" parameterType="ChallVO">
+		UPDATE	CHALLS
+		SET		PROGRESS = #{progress}, ACCUM_AMT = #{accum_amt}, CHALL_CODE = #{chall_code}
+		WHERE	NUM= #{num}
+	</update>
+	
 </mapper>

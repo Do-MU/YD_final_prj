@@ -11,8 +11,9 @@
 }
 .div_img{
 	text-align: center;
-	height:150px;
 	flex:1;
+	display: block;
+	width: 50px;
 }
 .div_exp{
 	flex:3;
@@ -33,7 +34,7 @@
 .div_joinway{
 	font-size:1.5em;
 }
-.savView{
+#savView{
 	margin-top:100%;
 	
 }
@@ -53,11 +54,10 @@
 
 .modal-footer>:not(:first-child){
 	text-align: right;
-	margin-top: 10px
 }
 
 
-#total, #taxPercent, .best_intr{	
+#total, #taxPercent, .div_intr2{	
 	color: red;
 }
 #totalText{
@@ -103,7 +103,7 @@
 	height:50px;
 	flex:1;
 }
-#best_content{
+#div_content{
 	font-size: 30px;
     padding-bottom: 30px;
     color: black;
@@ -115,6 +115,29 @@
 }
 .row{
 	padding-bottom: 50px
+}
+.div_sav{
+	flex: 0 0 33.333333%;
+}
+.main_title{
+	text-align: center;
+    max-width: 670px;
+    margin: 0px auto 30px;
+}
+.p_121{
+	padding-top: 100px;
+	padding-bottom: 0px;
+}
+#titleList{
+	text-align: center;
+    font-size: 30px;
+    color: black;
+    font-weight: bold;
+    margin-bottom: 50px;
+}
+
+.testimonials_area, .testi_inner{
+	background-color: white;
 }
 </style>
 
@@ -133,23 +156,53 @@
 		</div>
 	</div>
 </section>
+<section class="testimonials_area p_121">
+		<div class="container">
+			<c:if test="${empty loginUser.name}">
+			<div class="main_title">
+				<div id="div_content">이런 상품은 어떠신가요?</div>
+				<p>회원들이 가장 많이 이용하는 상품이에요</p>
+			</div>
+			<div class="testi_inner">
+				<div class="testi_slider owl-carousel">
+					<c:forEach var="b" items="${savRandomList }">
+						<div class="div_sav" data-sav_id="${b.sav_id }">
+							<div class="wel_item">
+								<div class="div_img"><img src="${pageContext.request.contextPath}/resources/img/bank_logo/${b.kor_co_nm}.jpg" width="50px" height="50px"></div>
+								<div class="div_bank">${b.kor_co_nm }</div>
+								<div class="div_intr2"></div>
+								<div class="div_prdNm">${b.fin_prdt_nm }</div>
+							</div>
+						</div>
+					</c:forEach>
+				</div>
+			</div>
+			</c:if>
+			<c:if test="${not empty loginUser.name}">
+			<div class="main_title">
+				<div id="div_content">이런 상품은 어떠신가요?</div>
+				<p>${loginUser.name} 님과 비슷한 연령대가 많이 이용하는 상품이에요</p>
+			</div>
+			<div class="testi_inner">
+				<div class="testi_slider owl-carousel">
+					<c:forEach var="b" items="${depBestList }">
+						<div class="div_sav" data-sav_id="${b.sav_id }">
+							<div class="wel_item">
+								<div class="div_img"><img src="${pageContext.request.contextPath}/resources/img/bank_logo/${b.kor_co_nm}.jpg" width="50px" height="50px"></div>
+								<div class="div_bank">${b.kor_co_nm }</div>
+								<div class="div_intr2"></div>
+								<div class="div_prdNm">${b.fin_prdt_nm }</div>
+							</div>
+						</div>
+					</c:forEach>
+				</div>
+			</div>
+		</c:if>
+	</div>
+</section>
 <section class="contact_area p_120">
 	<div class="container">
-		<c:if test="${not empty loginUser.name}">
-			<div id="best_content">${loginUser.name}님과비슷한 연령대가 많이사용하는 상품이에요</div>
-		</c:if>
-		<div class="row">
-			<c:forEach var="b" items="${savBestList }">
-				<div class="col-md-4" data-sav_id="${b.sav_id }">
-					<div class="wel_item">
-						<div class="div_bestImg"><img src="${pageContext.request.contextPath}/resources/img/bank_logo/${b.kor_co_nm}.jpg" width="50px" height="50px"></div>
-						<div class="best_bank">${b.kor_co_nm }</div>
-						<div class="best_intr"></div>
-						<div class="best_prdNm">${b.fin_prdt_nm }</div>
-					</div>
-				</div>
-			</c:forEach>
-		</div>
+		<div id="titleList">전체 적금상품</div>
 		<div id="list">
 			<c:forEach var="s" items="${savList}">
 				<div class="prds" data-sav_id="${s.sav_id}">
@@ -161,13 +214,13 @@
 						<div class="div_joinway">${s.join_way}</div>
 					</div>
 					<div class="div_btn">
-						<button class="savView">자세히 보기</button>
+						<button type="button" class="btn btn-outline-primary" id="savView">상세보기</button>
 					</div>
 					<hr>
 				</div>
 			</c:forEach>
 			<div id="read_more">
-				<button type="button" class="btn btn-outline-primary" id="read">더보기</button>
+				<button type="button" class="btn btn-outline-primary" id="read">10개 더보기</button>
 			</div>
 		</div>
 	</div>
@@ -203,7 +256,7 @@
 
 <script>
 	//상품 상세보기 출력
-	$(".prds").on("click", ".savView", function(){
+	$(".prds").on("click", "#savView", function(){
 		$("#modal").modal("show");
 		$(".modal-body").animate({scrollTop: 0}, 400);
 		$("#savingOpt").html("");
@@ -232,7 +285,7 @@
 	})
 	
 	// 인기상품 상세보기 출력
-	$(".row").on("click", ".col-md-4", function(){
+	$(".testi_inner").on("click", ".div_sav", function(){
 		$("#modal").modal("show");
 		$(".modal-body").animate({scrollTop: 0}, 400);
 		$("#savingOpt").html("");
@@ -278,7 +331,7 @@
 		};
 		
 		// 인기상품 최고금리 출력
-		for(prd of $(".row").find(".col-md-4")){
+		for(prd of $(".testi_inner").find(".div_sav")){
 			var sav_id = prd.getAttribute("data-sav_id");
 
 			$.ajax({

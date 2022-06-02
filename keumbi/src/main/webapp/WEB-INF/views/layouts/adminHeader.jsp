@@ -25,6 +25,8 @@
         <a class="nav-link" href="prdUpdate">상품관리</a>
         <a class="nav-link" href="admUserMng">회원목록 관리</a>
         <a class="nav-link" href="admReportList">신고목록 관리</a>
+        <a class="nav-link" href="admQnaList">고객센터 관리</a>
+>>>>>>> branch 'main' of https://github.com/Do-MU/YD_final_prj
       </li>
     </ul>
     </div>

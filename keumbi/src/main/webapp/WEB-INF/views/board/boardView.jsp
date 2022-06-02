@@ -13,9 +13,15 @@
 
 <style>
 
-.hi{
-	margin: auto 0;
-}
+	.st{
+	
+		margin-left: 70px;
+	}
+	
+	.stt{
+	
+		margin-left: 50px;
+	}
 
 </style>
 
@@ -155,28 +161,43 @@
 				$.each(data, function(key, value){
 	                 	
 					 var user = '';
-					 if('${loginUser.id}'== value.user_id){ 
+					 
+					 if('${loginUser.id}'== value.user_id){
 					 
 						 user =	`<button type="button" class="btn btn-outline-dark" onclick="replyDelete('\${value.re_num}');" style="float: right;"> 삭제 </button>
-					 			 <button type="button" class="btn btn-outline-info" onclick="replyUpdate('\${value.re_num}','\${value.re_contents}');" style="float: right;"> 수정 </button>
-						  		 <button type="button" class="btn btn-outline-success" onclick="replyOfReply('\${value.re_num}');" style="float: right;"> 댓글 </button>` 
-					 }
-					 if(value.pre_re_num == 0){
-					 a += `<div class="commentinfo\${value.re_num}">
-						    ∥ 작성자 : \${value.user_id} ∥&nbsp;  날짜 : \${value.re_date} ∥ <div id="check"></div> \${user} 
-						    <div class="re_contents\${value.re_num}">&nbsp;<p>&nbsp; &nbsp;&nbsp;\${value.re_contents}</p></div><hr>`	    
-					 }else{
-						a += `<div class="hi"> 
-							<div type="hidden" name="pre_re_num" class="re_contents\${value.re_num}"  id="ROR">
-							<input type="hidden" name="bod_num" class="re_contents\${value.pre_re_num}">
-							<div class="commentinfo\${value.re_num}">
-							&nbsp;&nbsp; ↳ &nbsp;&nbsp;&nbsp; ∥ 작성자 : \${value.user_id} ∥&nbsp;  날짜 : \${value.re_date} ∥ <div id="check"></div>
-							<button type="button" class="btn btn-outline-dark" onclick="rorDelete('\${value.re_num}');" style="float: right;"> 삭제 </button>
-							<button type="button" class="btn btn-outline-info" onclick="rorUpdate('\${value.re_num}','\${value.re_contents}');" style="float: right;"> 수정 </button>							 
-							<br><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; \${value.re_contents}</p> 				    		   		
-						   	</div></div><hr>`  
-					  
-					}       
+					 			 <button type="button" class="btn btn-outline-info" onclick="replyUpdate('\${value.re_num}','\${value.re_contents}');" style="float: right;"> 수정 </button>`					 							  		  					 								 
+					 
+				     }					 					 
+						          
+      				 a += `<div class="commentinfo\${value.re_num}">
+   						  ∥ 작성자 : \${value.user_id} ∥&nbsp;  날짜 : \${value.re_date} ∥ <div id="check"></div> 
+   						  \${user}<button type="button" class="btn btn-outline-success" onclick="replyOfReply('\${value.re_num}');" style="float: right;"> 댓글 </button>
+   						  <div class="re_contents\${value.re_num}">&nbsp;<p>&nbsp; &nbsp;&nbsp;\${value.re_contents}</p></div><hr>`
+   						  
+						  
+   					//대댓글
+   					$.each(value.pre_re, function(index, item){
+   						
+   						var users ='';
+   						
+   						if('${loginUser.id}'== item.user_id){
+   							
+   							users = `<button type="button" class="btn btn-outline-dark" onclick="rorDelete('\${item.re_num}');" style="float: right;"> 삭제 </button>
+					                 <button type="button" class="btn btn-outline-info" onclick="rorUpdate('\${item.re_num}','\${item.re_contents}');" style="float: right;"> 수정 </button>`							
+   							
+   						}
+   						
+   						a += `
+							
+							<div type="hidden" name="bod_num" class="re_contents\${item.re_num}">
+							<div class="commentinfo\${item.re_num}">
+							<div class="st">
+							↳ &nbsp;&nbsp;&nbsp; ∥ 작성자 : \${item.user_id} ∥&nbsp;  날짜 : \${item.re_date} ∥ <div id="check"></div>
+							\${users}
+							<div class="stt">
+							<br><p> \${item.re_contents}</p> 				    		   		
+						   	</div></div></div></div><hr>`
+   					});
 				 }); 
 				
 				 $(".replyList").html(a); 
@@ -223,13 +244,12 @@
 		}
 
 	//댓글 수정 - 댓글 내용 출력을 input 폼으로 변경 
-	function replyUpdate(re_num, re_contents){
+	function replyUpdate(re_num, re_contents){		
 	    var a ='';        	
 		a += `<input type="text" class="form-control" name="re_contents\${re_num}" value="\${re_contents}">
 		    <span class="input-group-btn">
 	        <button class="btn btn-outline-info" type="button" onclick="replyUpdateProc('\${re_num}');"> 수정 </button>        
-	        </span>
-	          </input>` 
+	        </span>` 
 		
 		$('.re_contents'+re_num).html(a);    
 	}
@@ -254,12 +274,12 @@
 	
 	//대댓글 수정 - 대댓글 내용 출력을 input 폼으로 변경 
 	function rorUpdate(re_num, re_contents){
+		
 	    var a ='';        	
 		a += `<input type="text" class="form-control" name="re_contents\${re_num}" value="\${re_contents}">
 		    <span class="input-group-btn">
 	        <button class="btn btn-outline-info" type="button" onclick="rorUpdateProc('\${re_num}');"> 수정 </button>        
-	        </span>
-	          </input>` 
+	        </span>` 
 		
 		$('.re_contents'+re_num).html(a);    
 	}

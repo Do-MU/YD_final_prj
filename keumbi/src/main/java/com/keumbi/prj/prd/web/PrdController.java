@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.keumbi.prj.account.service.AccountService;
@@ -25,11 +24,12 @@ import com.keumbi.prj.prd.vo.DepositBaseVO;
 import com.keumbi.prj.prd.vo.DepositOptionVO;
 import com.keumbi.prj.prd.vo.LoanBaseVO;
 import com.keumbi.prj.prd.vo.LoanOptionVO;
+import com.keumbi.prj.prd.vo.PrdCardRecoVO;
 import com.keumbi.prj.prd.vo.PrdCardVO;
 import com.keumbi.prj.prd.vo.PrdChallengeVO;
 import com.keumbi.prj.prd.vo.SavingBaseVO;
 import com.keumbi.prj.prd.vo.SavingOptionVO;
-import com.keumbi.prj.user.service.UserService;
+import com.keumbi.prj.prd.vo.TransSearchVO;
 import com.keumbi.prj.user.vo.UserVO;
 
 @Controller
@@ -60,6 +60,7 @@ public class PrdController {
 		UserVO loginUser = (UserVO) session.getAttribute("loginUser");
 		model.addAttribute("depList", dep.selectAllDepBase()); // 상품 전체출력
 		model.addAttribute("depBestList", dep.selectBestDepBase(loginUser)); // 사용자가 많은 상품 출력
+		model.addAttribute("depRandomList", dep.selectRandomDepBase()); // 전체상품중 랜덤상품 출력
 
 		return "product/depositList";
 	}
@@ -97,6 +98,7 @@ public class PrdController {
 		UserVO loginUser = (UserVO) session.getAttribute("loginUser");
 		model.addAttribute("savList", sav.selectAllSavBase());
 		model.addAttribute("savBestList", sav.selectBestSavBase(loginUser));
+		model.addAttribute("savRandomList", sav.selectRandomSavBase());
 		return "product/savingList";
 	}
 	
@@ -131,7 +133,7 @@ public class PrdController {
 		UserVO loginUser = (UserVO) session.getAttribute("loginUser");
 		model.addAttribute("loanList", loa.selectAllLoanBase());
 		model.addAttribute("loanBestList", loa.selectBestLoanBase(loginUser));
-		
+		model.addAttribute("loanRandomList", loa.selectRandomLoanBase());
 		return "product/loanList";
 	}
 	
@@ -177,11 +179,26 @@ public class PrdController {
 	public List<PrdCardVO> companyCard(PrdCardVO vo){
 		return card.selectCompanyCard(vo);
 	}
-	@RequestMapping("recommendedCard")
+	// 연령대별 카드 추천
+	@RequestMapping("recommendedAge")
 	@ResponseBody
-	public List<PrdCardVO> recommendedCard(HttpSession session) {
+	public List<PrdCardVO> recommendedAge(HttpSession session) {
 		UserVO vo = (UserVO) session.getAttribute("loginUser");
 		return card.selectRecoAge(vo);
+	}
+	// 소비패턴별 카드 추천
+	@RequestMapping("/recommendedConsum")
+	@ResponseBody
+	public List<PrdCardRecoVO> recommendedConsum(HttpSession session){
+		UserVO vo = (UserVO) session.getAttribute("loginUser");
+		return card.selectCousum(vo);
+	}
+	// 키워드별 카드 추천
+	@RequestMapping("/recommendedKey")
+	@ResponseBody
+	public List<PrdCardRecoVO> recommendedKey(HttpSession session){
+		UserVO vo = (UserVO) session.getAttribute("loginUser");
+		return card.selectKeyword(vo);
 	}
 	
 	
@@ -207,17 +224,10 @@ public class PrdController {
 	
 	
 	// 소비목록 가져오기
-	@RequestMapping("/avgAmtA")
+	@RequestMapping("/prdChalltransList")
 	@ResponseBody
-	public List<LedgerVO> avgAmtA(@RequestParam("category") String category,@RequestParam("user_id") String user_id){
+	public List<LedgerVO> transList(TransSearchVO vo){
 		
-	    return led.avgAmtA(category, user_id);
-	}
-	
-	// 소비목록 가져오기 
-	@RequestMapping("/avgAmtB")
-	@ResponseBody
-	public List<LedgerVO> avgAmtB(@RequestParam("category") String category,@RequestParam("user_id") String user_id){
-		return led.avgAmtB(category, user_id);
+	    return chal.transList(vo);
 	}
 }

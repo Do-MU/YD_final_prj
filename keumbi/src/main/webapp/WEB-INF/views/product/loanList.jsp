@@ -11,8 +11,9 @@
 }
 .div_img{
 	text-align: center;
-	height:150px;
 	flex:1;
+	display: block;
+	width: 50px;
 }
 .div_exp{
 	flex:3;
@@ -33,7 +34,7 @@
 .div_joinway{
 	font-size:1.5em;
 }
-.loanView{
+#loanView{
 	margin-top:100%;
 	
 }
@@ -75,7 +76,7 @@
 	height:50px;
 	flex:1;
 }
-#best_content{
+#div_content{
 	font-size: 30px;
     padding-bottom: 30px;
     color: black;
@@ -87,6 +88,31 @@
 }
 .row{
 	padding-bottom: 50px
+}
+.div_intr2{
+	color: red;
+}
+.div_dep{
+	flex: 0 0 33.333333%;
+}
+.main_title{
+	text-align: center;
+    max-width: 670px;
+    margin: 0px auto 30px;
+}
+.p_121{
+	padding-top: 100px;
+	padding-bottom: 0px;
+}
+#titleList{
+	text-align: center;
+    font-size: 30px;
+    color: black;
+    font-weight: bold;
+    margin-bottom: 50px;
+}
+.testimonials_area, .testi_inner{
+	background-color: white;
 }
 </style>
 
@@ -105,23 +131,53 @@
 		</div>
 	</div>
 </section>
+<section class="testimonials_area p_121">
+		<div class="container">
+			<c:if test="${empty loginUser.name}">
+			<div class="main_title">
+				<div id="div_content">이런 상품은 어떠신가요?</div>
+				<p>회원들이 가장 많이 이용하는 상품이에요</p>
+			</div>
+			<div class="testi_inner">
+				<div class="testi_slider owl-carousel">
+					<c:forEach var="b" items="${loanRandomList }">
+						<div class="div_loan" data-loan_id="${b.loan_id }">
+							<div class="wel_item">
+								<div class="div_img"><img src="${pageContext.request.contextPath}/resources/img/bank_logo/${b.kor_co_nm}.jpg" width="50px" height="50px"></div>
+								<div class="div_bank">${b.kor_co_nm }</div>
+								<div class="div_intr2"></div>
+								<div class="div_prdNm">${b.fin_prdt_nm }</div>
+							</div>
+						</div>
+					</c:forEach>
+				</div>
+			</div>
+			</c:if>
+			<c:if test="${not empty loginUser.name}">
+			<div class="main_title">
+				<div id="div_content">이런 상품은 어떠신가요?</div>
+				<p>${loginUser.name} 님과 비슷한 연령대가 많이 이용하는 상품이에요</p>
+			</div>
+			<div class="testi_inner">
+				<div class="testi_slider owl-carousel">
+					<c:forEach var="b" items="${loanBestList}">
+						<div class="div_loan" data-loan_id="${b.loan_id}">
+							<div class="wel_item">
+								<div class="div_img"><img src="${pageContext.request.contextPath}/resources/img/bank_logo/${b.kor_co_nm}.jpg" width="50px" height="50px"></div>
+								<div class="div_bank">${b.kor_co_nm }</div>
+								<div class="div_intr2"></div>
+								<div class="div_prdNm">${b.fin_prdt_nm }</div>
+							</div>
+						</div>
+					</c:forEach>
+				</div>
+			</div>
+		</c:if>
+	</div>
+</section>
 <section class="contact_area p_120">
 	<div class="container">
-		<c:if test="${not empty loginUser.name}">
-			<div id="best_content">${loginUser.name}님과비슷한연령대가 많이사용하는 상품이에요</div>
-		</c:if>
-		<div class="row">
-			<c:forEach var="b" items="${loanBestList }">
-				<div class="col-md-4" data-loan_id="${b.loan_id }">
-					<div class="wel_item">
-						<div class="div_bestImg"><img src="${pageContext.request.contextPath}/resources/img/bank_logo/${b.kor_co_nm}.jpg" width="50px" height="50px"></div>
-						<div class="best_bank">${b.kor_co_nm }</div>
-						<div class="best_intr"></div>
-						<div class="best_prdNm">${b.fin_prdt_nm }</div>
-					</div>
-				</div>
-			</c:forEach>
-		</div>
+		<div id="titleList">전체 대출상품</div>
 		<div id="list">
 			<c:forEach var="l" items="${loanList}">
 				<div class="prds" data-loan_id="${l.loan_id}">
@@ -133,13 +189,13 @@
 						<div class="div_joinway">${l.join_way}</div>
 					</div>
 					<div class="div_btn">
-						<button class="loanView">자세히 보기</button>
+						<button type="button" class="btn btn-outline-primary" id="loanView">상세보기</button>
 					</div>
 					<hr>
 				</div>
 			</c:forEach>
 			<div id="read_more">
-				<button type="button" class="btn btn-outline-primary" id="read">더보기</button>
+				<button type="button" class="btn btn-outline-primary" id="read">10개 더보기</button>
 			</div>
 		</div>
 	</div>
@@ -168,7 +224,7 @@
 
 
 <script>
-	$(".prds").on("click", ".loanView", function(){
+	$(".prds").on("click", "#loanView", function(){
 		$("#modal").modal("show");
 		$(".modal-body").animate({scrollTop: 0}, 400);
 		
@@ -194,7 +250,7 @@
 	})
 	
 	// 인기상품 상세보기 출력
-	$(".row").on("click", ".col-md-4", function(){
+	$(".testi_inner").on("click", ".div_loan", function(){
 		$("#modal").modal("show");
 		$(".modal-body").animate({scrollTop: 0}, 400);
 		$("#savingOpt").html("");
@@ -236,7 +292,7 @@
 		});
 	};
 	
-	for(prd of $(".row").find(".col-md-4")){
+	for(prd of $(".testi_inner").find(".div_loan")){
 		var loan_id = prd.getAttribute("data-loan_id");
 
 		$.ajax({

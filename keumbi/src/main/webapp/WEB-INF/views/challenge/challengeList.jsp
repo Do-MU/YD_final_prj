@@ -4,6 +4,9 @@
 <script src="http://code.jquery.com/jquery-3.6.0.js"></script>
 
 <style>
+.contact_area .container{
+	min-height: 660px;
+}
 /* 챌린지 출력 선택 목록 */
 #div_challSelect {
 	display: flex;
@@ -43,12 +46,14 @@
 	margin-top: 10px;
 }
 
-.div_period>h3 {
+.div_period>h3,
+.div_period>h5{
 	margin:0 auto;
 	width: 70px;
 	height: 30px;
 	color: white;
 	background-color: #1E90FF;
+	line-height:30px;
 }
 
 .div_detail {
@@ -110,7 +115,8 @@
 				<div class="banner_content text-center">
 					<h2>나의 챌린지</h2>
 					<div class="page_link">
-						<a href="home">Home</a> <a href="challengeList">나의 챌린지</a>
+						<a href="home">Home</a>
+						<a href="challengeList">나의 챌린지</a>
 					</div>
 				</div>
 			</div>
@@ -138,12 +144,18 @@
 		<div id="list">
 			<!-- 챌린지 출력 -->
 			<c:forEach var="ch" items="${list}">
-				<div class="challs" data-chall_num="${ch.chall_num}">
+				<div class="challs" data-chall_num="${ch.chall_num}" data-num="${ch.num}">
 					<div class="div_img">
-						<img src="${pageContext.request.contextPath}/resources/img/challenge_img/coffee.png"
-							style="height: 180px; width: 180px;"><br>
+						<img src="" style="height: 180px; width: 180px;"><br>
 						<div class="div_period">
-							<h3>D-${ch.dday}</h3>
+							<c:choose>
+								<c:when test="${ch.dday>0}">
+									<h3>D-${ch.dday}</h3>
+								</c:when>
+								<c:otherwise>
+									<h5>기간만료</h5>
+								</c:otherwise>
+							</c:choose>
 						</div>
 					</div>
 
@@ -152,11 +164,18 @@
 						<div class="div_contents"></div>
 				
 						<div class="progress">
-							<div class="progress-label bg-info" style="width: 50%;" data-goal="${ch.goal}">%</div>
+							<c:choose>
+								<c:when test="${ch.progress>=100}">
+									<div class="progress-label bg-success" style="width: 100%;" data-progress="${ch.progress}"></div>
+								</c:when>
+								<c:otherwise>
+									<div class="progress-label bg-success" style="width: ${ch.progress}%;" data-progress="${ch.progress}"></div>
+								</c:otherwise>
+							</c:choose>
 						</div>
+						<div class="div_per" data-accum_amt="${ch.accum_amt}" data-goal="${ch.goal}" data-progress="${ch.progress}">${ch.accum_amt}/${ch.goal} (${ch.progress}%)</div>
 					</div>
 				</div>
-				<hr>
 			</c:forEach>
 		</div>
 	</div>
@@ -165,7 +184,7 @@
 	if (!'${loginUser.id}') {
 		alert('로그인이 필요합니다.');
 		window.location = "userLoginForm";
-	} 
+	}
 	
 	$(".challs").each(function(){
 		let div = $(this);
@@ -179,16 +198,12 @@
 			div.children(".div_detail").children(".div_title").prepend($("<span>").text(chall.title));
 			// 챌린지 내용
 			div.children(".div_detail").children(".div_contents").text(chall.content);
-			// 챌린지 진행상환
-			/* div.children(".div_detail").children(".progress").children(".progress-label").removeClass("bg-info");
-			div.children(".div_detail").children(".progress").children(".progress-label").text("50%");
-			div.children(".div_detail").children(".progress").children(".progress-label").css('width', 60 + '%')
-			div.children(".div_detail").children(".progress").children(".progress-label").addClass("bg-danger"); */
-		})
+		});
 	});
 	
 	$(".chal_pro").each(function(){
 		let div = $(this);
+		let div_ch = $(this).closest("div.challs");
 		$.ajax({
 			url:"challCode",
 			data:{chall_code:$(this).html()}
@@ -196,16 +211,57 @@
 			div.html(val.substr(4));
 			
 			if(val.substr(4)=="성공"){
+				div.removeClass("chal_pro_i");
 				div.addClass("chal_pro_s");
+				div_ch.addClass("ch_s");
 			}else if(val.substr(4)=="실패"){
+				div.removeClass("chal_pro_i");
 				div.addClass("chal_pro_f");
+				div_ch.addClass("ch_f");
 			}else{
-				
-				div.closest(".div_detail").children(".progress").children(".progress-label").css('width', 60 + '%');
+				div_ch.addClass("ch_i");
 			}
 		});
 	});
 	
+	$(".progress-label").each(function(){
+		let progress = $(this).data("progress");
+		if(progress>=80){
+			$(this).removeClass("bg-success");
+			$(this).addClass("bg-danger");
+		}else if(progress>=50){
+			$(this).removeClass("bg-success");
+			$(this).addClass("bg-warning");
+		}
+	});
 	
+	$(".div_per").each(function(){
+		var accum_amt = $(this).data("accum_amt");
+		var goal = $(this).data("goal");
+		var progress = $(this).data("progress")
+		$(this).text(addComm(accum_amt)+'원 / '+addComm(goal) +'원 ('+progress+'%)');
+	});
 	
+	$("#ch_a").on('click',function(){
+		$("div.challs").removeAttr("hidden");
+	});
+	
+	$("#ch_i").on('click',function(){
+		$("div.challs").attr("hidden","hidden");
+		$("div.ch_i").removeAttr("hidden");
+	});
+	
+	$("#ch_s").on('click',function(){
+		$("div.challs").attr("hidden","hidden");
+		$("div.ch_s").removeAttr("hidden");		
+	});
+	
+	$("#ch_f").on('click',function(){
+		$("div.challs").attr("hidden","hidden");
+		$("div.ch_f").removeAttr("hidden");
+	});
+	
+	function addComm(num){
+		return num.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
+	}
 </script>

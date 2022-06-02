@@ -2,30 +2,55 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.keumbi.prj.qna.mapper.QnaMapper">
 
+	<!-- 사용자 -->
 	<select id="qnaListSelectAll" resultType="QnaVO">
-		SELECT Q.NUM,
-		Q.USER_ID, Q.TITLE, Q.QCONTENTS, Q.QDATE, Q.ACONTENTS, Q.ADATE, C.VAL
+		SELECT Q.NUM, Q.USER_ID, Q.TITLE, Q.QCONTENTS, Q.QDATE, Q.ACONTENTS, Q.ADATE, C.VAL
 		FROM QNAS Q
 		JOIN COMMON_CODE C
 		ON Q.ANSWER_CODE = C.CODE
-		WHERE USER_ID =
-		#{id}
+		WHERE USER_ID = #{id}
 		ORDER BY Q.QDATE DESC
 	</select>
 
 	<insert id="qnaInsert" parameterType="QnaVO">
 		<selectKey keyProperty="num" resultType="int" order="BEFORE">
-			SELECT
-			NVL(MAX(NUM),0) + 1
+			SELECT NVL(MAX(NUM),0) + 1
 			FROM QNAS
 		</selectKey>
 		INSERT INTO QNAS VALUES
-		( #{num}, #{user_id}, #{title}, #{qcontents},
-		sysdate, NULL, NULL, 'Q0' )
+		( #{num}, #{user_id}, #{title}, #{qcontents}, sysdate, NULL, NULL, 'Q0' )
 	</insert>
 
 	<delete id="qnaDelete" parameterType="QnaVO">
 		DELETE FROM QNAS
 		WHERE NUM = #{num}
 	</delete>
+
+	<!-- 관리자 -->
+	<select id="qnaAdminList" resultType="QnaVO">
+		SELECT Q.NUM, Q.USER_ID, U.NAME, Q.TITLE, Q.QDATE, C.VAL
+		FROM QNAS Q
+		JOIN COMMON_CODE C
+		ON Q.ANSWER_CODE = C.CODE
+		JOIN USERS U
+		ON Q.USER_ID = U.ID
+		ORDER BY Q.QDATE
+	</select>
+	
+	<select id="qnaAdminSelectOne" resultType="QnaVO">
+		SELECT 	Q.NUM, U.NAME, Q.USER_ID, U.EMAIL, Q.TITLE, Q.QCONTENTS, Q.QDATE, Q.ACONTENTS, Q.ADATE, Q.ANSWER_CODE
+		FROM 	QNAS Q
+		JOIN 	USERS U
+		ON 		Q.USER_ID = U.ID
+		WHERE 	Q.NUM = #{num}
+	</select>
+	
+	<update id="qnaAdminUpdate" parameterType="QnaVO">
+		UPDATE 	QNAS
+		SET 	ACONTENTS = #{acontents},
+				ADATE = SYSDATE,
+				ANSWER_CODE = 'Q1'
+		WHERE 	NUM = #{num}
+	</update>
+	
 </mapper>

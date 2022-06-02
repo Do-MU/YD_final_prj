@@ -36,4 +36,19 @@ public class QnaServiceImpl implements QnaService {
 		m.qnaDelete(num);		
 	}
 
+	@Override
+	public List<QnaVO> qnaAdminList() {
+		return m.qnaAdminList();
+	}
+
+	@Override
+	public QnaVO qnaAdminSelectOne(int num) {
+		return m.qnaAdminSelectOne(num);
+	}
+
+	@Override
+	public void qnaAdminUpdate(QnaVO vo) {
+		m.qnaAdminUpdate(vo);
+		
+	}
 }

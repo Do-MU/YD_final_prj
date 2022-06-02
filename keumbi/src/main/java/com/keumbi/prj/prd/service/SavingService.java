@@ -14,4 +14,5 @@ public interface SavingService {
 	String insertAllSavings();
 	void deleteAllSavings();
 	List<SavingBaseVO> selectBestSavBase(UserVO vo);
+	List<SavingBaseVO> selectRandomSavBase();
 }

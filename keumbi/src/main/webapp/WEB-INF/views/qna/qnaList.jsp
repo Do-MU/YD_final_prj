@@ -60,15 +60,23 @@
 									onclick="return confirm('문의글을 삭제하시겠습니까?')">삭제</a></td>
 							</tr>
 							<tr class="card-body">
-								<td colspan="3" id="collapse-${q.num}" class="collapse"
+
+								<td colspan="4" id="collapse-${q.num}" class="collapse"
 									aria-labelledby="headingOne" data-parent="#accordionExample">
-									${q.qcontents}</td>
+									<span>문의내용</span> 
+									<span>${q.qcontents}</span></td>
 							</tr>
+							<c:if test="${not empty q.acontents}">
+								<td colspan="4" id="collapse-${q.num}" class="collapse"
+									aria-labelledby="headingOne" data-parent="#accordionExample">
+									<span>답변내용</span>
+									<span>${q.acontents}</span>
+									<span>${q.adate}</span></td>
+							</c:if>
 						</c:forEach>
 					</tbody>
 				</table>
 			</div>
-
 		</div>
 	</div>
 </body>

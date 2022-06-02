@@ -11,6 +11,6 @@ public class CardVO {
 	private String card_name;
 	private String bank_code_std;
 	private String member_bank_code;
-	private String issue_date;
-	private String state_code; 
+	private String card_image;
+	private String val;
 }

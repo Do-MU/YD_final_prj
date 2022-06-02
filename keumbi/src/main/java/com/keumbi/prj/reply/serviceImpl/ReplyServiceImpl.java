@@ -22,7 +22,11 @@ public class ReplyServiceImpl implements ReplyService {
 
 	@Override
 	public List<ReplyVO> replyList(ReplyVO vo) {
-		return m.replyList(vo);
+		List<ReplyVO> list = m.replyList(vo);
+		for(int i = 0; i < list.size(); i++) {
+			list.get(i).setPre_re(m.preReplyList(list.get(i)));
+		}
+		return list;
 	}
 
 	@Override
@@ -40,6 +44,7 @@ public class ReplyServiceImpl implements ReplyService {
 
 	@Override
 	public int replyDelete(int re_num) {
+		m.preReplyDelete(re_num);
 		return m.replyDelete(re_num);
 
 	}
@@ -60,5 +65,8 @@ public class ReplyServiceImpl implements ReplyService {
 		return m.rorDelete(re_num);
 
 	}
-
+	@Override
+	public int preReplyDelete(int re_num) {		
+		return m.preReplyDelete(re_num);
+	}
 }

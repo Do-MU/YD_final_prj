@@ -4,13 +4,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+
 import com.keumbi.prj.account.service.AccountService;
 import com.keumbi.prj.chall.service.ChallService;
-import com.keumbi.prj.user.service.UserService;
 import com.keumbi.prj.prd.service.PrdCardService;
+import com.keumbi.prj.qna.service.QnaService;
+import com.keumbi.prj.qna.vo.QnaVO;
 import com.keumbi.prj.user.service.UserService;
-
 
 @Controller
 @RequestMapping("/admin")
@@ -20,6 +22,7 @@ public class AdminController {
 	@Autowired UserService us;
 	@Autowired PrdCardService c;
 	@Autowired ChallService ch;
+	@Autowired QnaService qna;
 	
 	// 관리자 메인 화면
 	@RequestMapping("/home")
@@ -47,6 +50,27 @@ public class AdminController {
 	public String admReportList() {
 		return "admin/admReportList";
 	}
+		
+	// 고객센터 관리 페이지
+	@RequestMapping("/admQnaList")
+	public String qnaAdminList(Model model) {
+		model.addAttribute("qnas", qna.qnaAdminList());
+		return "admin/admQnaList";
+	}
+	
+	// 고객센터 문의글 조회
+	@RequestMapping("/admQnaView")
+	public String qnaAdminView(@RequestParam("num") int num, Model model) {
+		model.addAttribute("qna", qna.qnaAdminSelectOne(num));
+		return "admin/admQnaView";
+	}
+	
+	// 고객센터 문의글 답변 등록
+	@RequestMapping("/admQnaUpdate")
+	public String admQnaUpdate(QnaVO vo) {
+		qna.qnaAdminUpdate(vo);
+		return "redirect:admQnaView?num="+vo.getNum();
+	}
 	
 	// 더미 데이터 만들기
 	@RequestMapping("/dummyDep")
@@ -70,19 +94,13 @@ public class AdminController {
 	@RequestMapping("/dummyCard")
 	@ResponseBody
 	public int dummyCard() {
-		for(int i=0; i<=3000; i++) {
-			c.makeDummyCard();
-		}
-		return 0;
+
+		return c.makeDummyCard();
 	}
 	@RequestMapping("/dummyChall")
 	@ResponseBody
 	public int dummyChall() {
-		int cnt=0;
-		for(int i=0;i<4000;i++) {
-			ch.makeDummyChall();
-			cnt++;
-		}
-		return cnt;
+
+		return ch.makeDummyChall();
 	}
 }

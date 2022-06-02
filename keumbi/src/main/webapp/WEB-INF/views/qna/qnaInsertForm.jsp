@@ -29,13 +29,13 @@
 			<div class="form-group">
 				<label for="exampleFormControlTextarea1">제목</label> <input
 					type="text" class="form-control" id="titleArea"
-					placeholder="제목을 입력하세요." name="title"></input>
+					placeholder="제목을 입력하세요." name="title" required="required"></input>
 			</div>
 
 			<div class="form-group">
 				<label for="exampleFormControlTextarea1">내용</label>
 				<textarea class="form-control" id="exampleFormControlTextarea1"
-					placeholder="내용을 입력하세요." name="qcontents" rows="7"></textarea>
+					placeholder="내용을 입력하세요." name="qcontents" rows="7" required="required"></textarea>
 			</div>
 		</form>
 		<button id="backBtn" type="button" class="btn btn-secondary">뒤로가기</button>
