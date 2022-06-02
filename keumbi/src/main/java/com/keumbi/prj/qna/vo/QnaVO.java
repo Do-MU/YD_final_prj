@@ -15,4 +15,5 @@ public class QnaVO {
 	private String val;
 	private String name;
 	private String email;
+	private String code;
 }
