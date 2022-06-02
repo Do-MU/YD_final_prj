@@ -17,4 +17,6 @@ public interface ReplyMapper {
 	int rorDelete(int re_num);
 	int preReplyDelete(int re_num);
 	List<ReplyVO> preReplyList(ReplyVO vo);
+	
+	ReplyVO SelectOneReply(int re_num);			//댓글 단건 조회
 }

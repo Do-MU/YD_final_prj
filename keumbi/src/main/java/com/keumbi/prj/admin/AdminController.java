@@ -13,6 +13,8 @@ import com.keumbi.prj.common.vo.PageVO;
 import com.keumbi.prj.prd.service.PrdCardService;
 import com.keumbi.prj.qna.service.QnaService;
 import com.keumbi.prj.qna.vo.QnaVO;
+import com.keumbi.prj.report.service.ReportService;
+import com.keumbi.prj.report.vo.ReportVO;
 import com.keumbi.prj.user.service.UserService;
 
 @Controller
@@ -24,6 +26,7 @@ public class AdminController {
 	@Autowired PrdCardService c;
 	@Autowired ChallService ch;
 	@Autowired QnaService qna;
+	@Autowired ReportService rep;
 	
 	// 관리자 메인 화면
 	@RequestMapping("/home")
@@ -41,9 +44,17 @@ public class AdminController {
 	
 	// 회원목록 페이지
 	@RequestMapping("/admUserMng")
-	public String adm_userMng(Model model) {
+	public String admUserMng(Model model) {
 		model.addAttribute("allUser", us.allUser());
 		return "admin/admUserMng";
+	}
+	
+	// 관리자 신고관리 페이지
+	@RequestMapping("/admReportList")
+	public String admReportList(Model model) {
+		model.addAttribute("reportList", rep.reportList());
+		System.out.println(rep.reportList());
+		return "admin/admReportList";
 	}
 	
 	// 고객센터 관리 페이지

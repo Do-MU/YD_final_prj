@@ -17,6 +17,7 @@ table{
 
 th{
 	border:1px solid;
+	background-color:#e9ecef;
 }
 
 td{

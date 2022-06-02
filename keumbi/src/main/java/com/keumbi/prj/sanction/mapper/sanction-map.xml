@@ -7,4 +7,9 @@
 		FROM	SANCTIONS S, COMMON_CODE C
 		WHERE	S.SANC_CODE = C.CODE
 	</select>
+	
+	<insert id="sanInsert" parameterType="int">
+		INSERT INTO	SANC_NUM, USER_ID, SANC_CODE, SDATE, EDATE, SANC_REASON
+		VALUES		
+	</insert>
 </mapper>

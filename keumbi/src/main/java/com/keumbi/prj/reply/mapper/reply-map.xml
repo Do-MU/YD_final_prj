@@ -13,6 +13,12 @@
 		ORDER BY RE_NUM ASC 				
 	</select>
 	
+	<select id="SelectOneReply" resultType="ReplyVO">
+		SELECT	*
+		FROM	REPLIES
+		WHERE	RE_NUM = #{re_num}
+	</select>
+	
 	<select id="preReplyList" resultType="com.keumbi.prj.reply.vo.ReplyVO">
 		SELECT * FROM REPLIES
 		WHERE  PRE_RE_NUM = #{re_num}
