@@ -9,4 +9,6 @@ public class NotiVO {
 	private String noti_code;			// N
 	private String noti_contents;
 	private String noti_read_code;		// AR
+	
+	private String challTitle;			// 챌린지 이름
 }

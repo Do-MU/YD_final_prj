@@ -16,4 +16,5 @@ public class UserVO {
 	private String user_seq_num;
 	private String access_token;
 	private String refresh_token;
+	
 }

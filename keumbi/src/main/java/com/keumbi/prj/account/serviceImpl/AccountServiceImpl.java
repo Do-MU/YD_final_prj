@@ -13,6 +13,8 @@ import com.keumbi.prj.account.service.AccountService;
 import com.keumbi.prj.account.vo.AccountVO;
 import com.keumbi.prj.common.mapper.CodeMapper;
 import com.keumbi.prj.ledger.vo.LedgerVO;
+import com.keumbi.prj.noti.service.NotiService;
+import com.keumbi.prj.noti.vo.NotiVO;
 import com.keumbi.prj.openBank.BankAPI;
 import com.keumbi.prj.prd.mapper.DepositMapper;
 import com.keumbi.prj.prd.mapper.LoanMapper;
@@ -34,6 +36,8 @@ public class AccountServiceImpl implements AccountService {
 	@Autowired DepositMapper depMapper;
 	@Autowired SavingMapper savMapper;
 	@Autowired LoanMapper loaMapper;
+	
+	@Autowired NotiService noti;
 	
 	// API를 통해 계좌목록/잔액/계좌거래내역을 가져와 각각 비교 후 DB에 저장
 	// 회원 보유 계좌전체조회(API) -> DB저장(최초 1회)
@@ -102,6 +106,12 @@ public class AccountServiceImpl implements AccountService {
 					}
 				}
 			}
+			
+			// 계좌불러오기 알림 -> userId
+			NotiVO nvo = new NotiVO();
+			nvo.setUser_id(user.getId());
+			nvo.setNoti_code("N5");
+			noti.notiInsert(nvo);
 		}
 		else {
 			accMapper.deleteAccounts(user);

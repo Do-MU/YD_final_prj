@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.keumbi.prj.common.vo.PageVO;
+import com.keumbi.prj.noti.service.NotiService;
+import com.keumbi.prj.noti.vo.NotiVO;
 import com.keumbi.prj.qna.mapper.QnaMapper;
 import com.keumbi.prj.qna.service.QnaService;
 import com.keumbi.prj.qna.vo.QnaVO;
@@ -16,6 +18,7 @@ import com.keumbi.prj.qna.vo.QnaVO;
 public class QnaServiceImpl implements QnaService {
 
 	@Autowired QnaMapper m;
+	@Autowired NotiService noti;
 	
 	@Override
 	public List<QnaVO> qnaListSelectAll(String id) {
@@ -48,8 +51,13 @@ public class QnaServiceImpl implements QnaService {
 	}
 
 	@Override
-	public void qnaAdminUpdate(QnaVO vo) {
+	public void qnaAdminUpdate(QnaVO vo) {		
 		m.qnaAdminUpdate(vo);
+		
+		NotiVO nvo = new NotiVO();
+		//nvo.setUser_id(vo.);
+		nvo.setNoti_code("N3");
+		noti.notiInsert(nvo);
 		
 	}
 

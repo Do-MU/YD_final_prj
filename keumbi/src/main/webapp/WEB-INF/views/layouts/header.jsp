@@ -188,6 +188,7 @@
 		$.ajax({
 			url:"notiSelect"
 		}).done(function(notis){
+			console.log(notis);
 			if(notis.length != 0){
 				for(n of notis){
 					if(n.noti_read_code == 'AR0'){

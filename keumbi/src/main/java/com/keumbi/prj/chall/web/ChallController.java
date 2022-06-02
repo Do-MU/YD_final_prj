@@ -53,8 +53,9 @@ public class ChallController {
 	// 챌린지 진행여부
 	@RequestMapping(value = "/challCode", produces = "application/text; charset=utf8")
 	@ResponseBody
-	public String challCode(String chall_code) {
-		return code.selectChallCode(chall_code);
+	public String challCode(HttpSession session, String chall_code) {
+		UserVO userVO = (UserVO)session.getAttribute("loginUser");
+		return code.selectChallCode(userVO.getId(), chall_code);
 	}
 	
 	// 챌린지 기간 동안 지출 금액 가져오기
