@@ -24,9 +24,14 @@
 		year = date.getFullYear();
 		month = date.getMonth();
 	 	day = date.getDate();
-	 	console.log(year+"---"+month+"---"+day)
+	 	//console.log(year+"---"+month+"---"+day)
 	}
-
+	
+	$(document).ready(function() {
+		let print = year+'-'+(month+1);
+		$("#thisMonth").html(year+'년 '+(month+1)+'월');
+	});
+	
 	// 이전달 연월 구하는 함수 -> 영역차트
 	function getPrevMonth() {
 		var tdate = new Date(year, month, day);
@@ -64,7 +69,7 @@
 	function drawChart() {
 		drawPieChart();
 		drawAreaChart();
-		drawColumnChart1();
+		//drawColumnChart1();
 		drawColumnChart2();
 		//drawColumnChart3(); 
 	}
@@ -93,13 +98,19 @@
 		}
 
 		data.addRows(arr);
-
+		let tt = '';
+		if(obj[0] != null){
+			tt = "이번 달에는 #"+obj[0].val+' 에 가장 많이 썼어요!!';			
+		}else{
+			tt = '이번 달에는 거래내역이 없어요!!';
+		}
 		var options = {
-			title : yearMonth + ' 지출 통계'
+				fontSize : 15,
+				title : tt,
+				titleFontSize : 20
 		};
-
-		var chart = new google.visualization.PieChart(document
-				.getElementById('piechart'));
+		
+		var chart = new google.visualization.PieChart(document.getElementById('piechart'));
 
 		chart.draw(data, options);
 	}
@@ -123,26 +134,57 @@
 		data.addColumn('number', thisMonth);
 		data.addColumn('number', prevMonth);
 		var arr = [];
-		for (let i = 0; i < obj.length; i++) {
-			arr.push([ obj[i].dt, obj[i].amt1, obj[i].amt2 ]);
+		var today = new Date();
+		let tt = '';
+		if(year == today.getFullYear() && month == today.getMonth()){
+			for (let i = 0; i < obj.length; i++) {
+				if(i<today.getDate()&&i%2==0){
+					arr.push([ obj[i].dt, obj[i].amt1, obj[i].amt2 ]);
+				}else if(i>=today.getDate()&&i%2==0){
+					arr.push([ obj[i].dt, null, obj[i].amt2 ]);
+				}else if(i<today.getDate() && i%2 != 0){
+					arr.push([ '', obj[i].amt1, obj[i].amt2 ]);
+				}else{
+					arr.push([ '', null, obj[i].amt2 ]);
+				}
+			}
+			
+			if( Math.round( obj[today.getDate()-1].amt1/10000) > Math.round( obj[today.getDate()-1].amt2/10000) ){
+				tt = '오늘까지 '+obj[today.getDate()-1].amt1/10000+'만원 썼어요.\n';
+				tt += '지난달 이맘때보다 '+( obj[today.getDate()-1].amt1/10000 - obj[today.getDate()-1].amt2/10000 )+'만원 더 썼어요.';
+			}else if( Math.round( obj[today.getDate()-1].amt1/10000) < Math.round( obj[today.getDate()-1].amt2/10000) ){
+				tt = '오늘까지 '+obj[today.getDate()-1].amt1/10000+'만원 썼어요.\n';
+				tt += '지난달 이맘때보다 '+( Math.round( obj[today.getDate()-1].amt1/10000 ) - Math.round( obj[today.getDate()-1].amt2/10000 ) )+'만원 덜 썼어요.';
+			}else{
+				tt = '오늘까지 '+Math.round( obj[today.getDate()-1].amt1/10000)+'만원 썼어요.\n';
+				tt += '지난달 이맘때와 비슷하게 썼어요.';
+			}
+		}else{
+			for (let i = 0; i < obj.length; i++) {
+				if(i%2==0){
+					arr.push([ obj[i].dt, obj[i].amt1, obj[i].amt2 ]);
+				}else{
+					arr.push([ '', obj[i].amt1, obj[i].amt2 ]);
+				}
+			}
+			tt = (month+1)+'월에는 '+Math.round( obj[obj.length-1].amt1/10000 )+'만원 썼어요.\n';
 		}
 		data.addRows(arr);
-
+		
 		var options = {
-			title : '당월-전월 지출액 누적 비교',
-			hAxis : {
-				title : 'day',
-				titleTextStyle : {
-					color : '#333'
-				}
-			},
+			title : tt,
+			titleFontSize: 20,
 			vAxis : {
-				minValue : 0
-			}
+				minValue : 100000
+			},
+			colors: ['#2E64FE', '#848484'],
+			animation:{
+		        duration: 1000,
+		        easing: 'in',
+		      }
 		};
 
-		var chart = new google.visualization.AreaChart(document
-				.getElementById('areachart'));
+		var chart = new google.visualization.AreaChart(document.getElementById('areachart'));
 		chart.draw(data, options);
 	}
 	
@@ -150,7 +192,7 @@
 	function drawColumnChart1() {
 		var firstday = year + '-'+('0'+(month+1)).slice(-2) + '-01';
 		var lastday = getLastDay();
-		console.log(firstday + "^^^^^^^^^^^^^^^^^^" + lastday)
+		
 		var jsonData = $.ajax({
 			url : "columnChart1",
 			data : {
@@ -162,7 +204,7 @@
 		}).responseText;
 		var obj = jQuery.parseJSON(jsonData);
 		var data = new google.visualization.DataTable();
-		data.addColumn('string', 'day');
+		data.addColumn('string', '');
 		data.addColumn('number', '지출');
 		var arr = [];
 		for (let i = 0; i < obj.length; i++) {
@@ -177,8 +219,7 @@
 			}
 		};
 
-		var chart = new google.charts.Bar(document
-				.getElementById('columnchart1'));
+		var chart = new google.charts.Bar(document.getElementById('columnchart'));
 
 		chart.draw(data, google.charts.Bar.convertOptions(options));
 	}
@@ -201,7 +242,7 @@
 		}).responseText;
 		var obj = jQuery.parseJSON(jsonData);
 		var data = new google.visualization.DataTable();
-		data.addColumn('string', 'month');
+		data.addColumn('string', '');
 		data.addColumn('number', '지출');
 		var arr = [];
 		for (let i = 0; i < obj.length; i++) {
@@ -216,119 +257,188 @@
 			}
 		};
 
-		var chart = new google.charts.Bar(document
-				.getElementById('columnchart2'));
+		var chart = new google.charts.Bar(document.getElementById('columnchart'));
 
 		chart.draw(data, google.charts.Bar.convertOptions(options));
 	}
-	
-	//컬럼차트 3번 : 연도별 지출 통계 
-	/* function drawColumnChart3() {
-		
-		var now = new Date();	
-		var firstYear = '2012-01-01';
-		var lastYear = '2022-12-31';
-
-		var jsonData = $.ajax({
-			url : "columnChart3",
-			data : {
-				user_id : "${loginUser.id}",
-				firstYear : firstYear,
-				lastYear : lastYear
-			},
-			async : false
-		}).responseText;
-		var obj = jQuery.parseJSON(jsonData);
-		var data = new google.visualization.DataTable();
-		data.addColumn('string', 'year');
-		data.addColumn('number', '지출');
-		var arr = [];
-		for (let i = 0; i < obj.length; i++) {
-			arr.push([ obj[i].year, obj[i].amt]);
-		}
-		data.addRows(arr);
-		
-		var options = {
-			chart : {
-				title : '연도별 지출 차트',
-				subtitle : '최근 10년 간 연도별 지출 총액을 확인해보세요.',
-			}
-		};
-
-		var chart = new google.charts.Bar(document
-				.getElementById('columnchart3'));
-
-		chart.draw(data, google.charts.Bar.convertOptions(options));
-	} */
 </script>
+<style>
+.chart-group div{
+	margin: 0 auto;
+}
+
+.tabnav{
+	background-color:#f8f8f8;
+	width: 80%;
+	font-size:0;
+	padding:0;
+	margin:0 auto;
+	display:flex;
+	justify-content: center;
+}
+.tabnav li{
+	display: inline-block;
+	height:46px;
+	width: 50%;
+	text-align:center;
+}
+.tabnav li a:before{
+	content:""; 
+	position:absolute; 
+	left:0; 
+	top:0px; 
+	width:100%; 
+	height:3px; 
+}
+.tabnav li a.active:before{
+	background:#2E2EFE;
+}
+.tabnav li a{ 
+	position:relative;
+	display:block;
+	background: #f8f8f8;
+	color: #000;
+	padding:0 30px;
+	line-height:46px;
+	text-decoration:none;
+	font-size:16px;
+}
+.tabnav li a:hover,
+.tabnav li a.active{
+	background:#fff; 
+	color:#2E2EFE; 
+}
+.tabcontent{
+	padding: 20px;
+}
+
+#thisMonth{
+	color: black;
+	font-size:45px;
+	font-weight:bold;
+}
+#thisMonth:hover{
+	cursor:pointer;
+}
+#div_boxs{
+	display: flex;
+}
+#div_boxs div{
+	line-height: 70px;
+	margin: 0 20px;
+}
+#div_boxs button{
+	border:none;
+	background-color: white;
+	font-size: 45px;
+	padding: 0;
+}
+</style>
 <body>
 	<section class="banner_area">
 		<div class="box_1620">
 			<div class="banner_inner d-flex align-items-center">
 				<div class="container">
 					<div class="banner_content text-center">
-						<h3>지출분석</h3>
+						<h2>지출분석</h2>
+					<div class="page_link">
+						<a href="home">Home</a>
+						<a href="expendAnal">지출분석</a>
+					</div>
 					</div>
 				</div>
 			</div>
 		</div>
 	</section>
-
-	<!-- 버튼&차트 영역 -->
-	<div id="myStatistics">
-		<!-- 전월-당월-익월 버튼 -->
-		<div class="btn-group" role="group" aria-label="Basic example">
-			<button type="button" class="btn btn-secondary" id="prevMonth">지난달</button>
-			<button type="button" class="btn btn-secondary" id="thisMonth">이번달</button>
-			<button type="button" class="btn btn-secondary" id="nextMonth">다음달</button>
-		</div>
-	
-		<div class="chart-group">
-			<!-- pie chart : 카테코리별 지출 통계 -->
-			<div id="piechart" style="width: 900px; height: 500px;"></div>
-		
-			<!-- area chart : 당월-전월 지출 누적 비교 통계 -->
-			<div id="areachart" style="width: 100%; height: 500px;"></div>
-		
-			<!-- column chart1 : 일별 지출 통계 -->
-			<div id="columnchart1" style="width: 800px; height: 500px;"></div>
+	<section class="contact_area p_120">
+		<div class="container">
+			<!-- 버튼&차트 영역 -->
+			<div id="myStatistics">
+				<div id="div_boxs">
+					<div><button type="button" class="btn" id="prevMonth"><i class="bi bi-caret-left-fill"></i></button></div>
+					<div id="thisMonth"></div>
+					<div><button type="button" class="btn" id="nextMonth" disabled><i class="bi bi-caret-right-fill"></i></button></div>
+				</div>
 			
-			<!-- column chart2 : 월별 지출 통계 -->
-			<div id="columnchart2" style="width: 800px; height: 500px;"></div>
-			
-			<!-- column chart3 : 연도별 지출 통계 -->
-			<div id="columnchart3" style="width: 800px; height: 500px;"></div>
+				<div class="chart-group">
+					<!-- pie chart : 카테코리별 지출 통계 -->
+					<div id="piechart" style="width: 900px; height: 500px;"></div>
+				
+					<!-- area chart : 당월-전월 지출 누적 비교 통계 -->
+					<div id="areachart" style="width: 100%; height: 500px;"></div>
+					
+					<div class="tab">
+						<div class="tabcontent">
+							<div id="tab">
+								<!-- column chart : 월별/일별 지출 통계 -->
+								<div id="columnchart" style="width: 800px; height: 500px;"></div>
+							</div>
+						</div>
+						<ul class="tabnav">
+							<li><a href="#tab1">월별</a></li>
+							<li><a href="#tab2">일별</a></li>
+						</ul>
+					</div>
+				</div>
+			</div>
 		</div>
-	</div>
+	</section>
 	
 
 <script>
-
-	
 	//전월-당월-익월 버튼 function
 	$("#prevMonth").on("click", function() {
 		month-- 
 		var date = new Date(year, month, 1);
 		year = date.getFullYear();
 		month = date.getMonth();
-		day = date.getDate();		
-		
-		drawChart();			
+		day = date.getDate();
+		$("#thisMonth").html(year+'년 '+(month+1)+'월');
+		drawChart();
+		$("#nextMonth").removeAttr("disabled");
+		$('.tabnav a').removeClass('active');
+		$('.tabnav a').eq(0).addClass('active');
 	})
 	
 	$("#thisMonth").on("click", function() {
 		getToday();
+		$("#thisMonth").html(year+'년 '+(month+1)+'월');
+		$("#nextMonth").attr("disabled","disabled");
 		drawChart();
+		$('.tabnav a').removeClass('active');
+		$('.tabnav a').eq(0).addClass('active');
 	})
 	
 	$("#nextMonth").on("click", function() {
 		month++ 
 		var date = new Date(year, month, day);
+		var today = new Date();
 		year = date.getFullYear();
 		month = date.getMonth();
 		day = date.getDate();
+		if(year == today.getFullYear() && month == today.getMonth()){
+			$("#nextMonth").attr("disabled","disabled");
+		}
+		$("#thisMonth").html(year+'년 '+(month+1)+'월');
 		drawChart();
+		$('.tabnav a').removeClass('active');
+		$('.tabnav a').eq(0).addClass('active');
 	})
+	
+	$('.tabnav a').on('click', function() {
+		$('.tabnav a').removeClass('active');
+		$(this).addClass('active');
+		let url = $(this).attr("href");
+		tab = url.substr(1, url.length);
+		//console.log(tab)
+		if(tab=='tab1'){
+			drawColumnChart2();
+		}else{
+			drawColumnChart1();				
+		}
+	}).filter(':eq(0)').click();
+	
+	
 </script>
 </body>
 </html>
