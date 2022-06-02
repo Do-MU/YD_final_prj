@@ -185,7 +185,7 @@
 			</div>
 			<div class="testi_inner">
 				<div class="testi_slider owl-carousel">
-					<c:forEach var="b" items="${depBestList }">
+					<c:forEach var="b" items="${savBestList }">
 						<div class="div_sav" data-sav_id="${b.sav_id }">
 							<div class="wel_item">
 								<div class="div_img"><img src="${pageContext.request.contextPath}/resources/img/bank_logo/${b.kor_co_nm}.jpg" width="50px" height="50px"></div>

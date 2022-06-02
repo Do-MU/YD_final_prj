@@ -3,9 +3,18 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <head>
 <style>
-	#banner{
-		border-radius: 20px;
-	}
+#banner{
+	border-radius: 20px;
+}
+.feature_item{
+	padding: 30px 30px;
+    border-radius: 10px;
+    transition: all 300ms linear 0s;
+    background: #fff;
+    margin-bottom: 30px;
+    box-shadow: 0px 20px 80px 0px #eeeeee;
+    height: 350px;
+}
 </style>
 </head>
 <body>
@@ -16,38 +25,38 @@
 			</div>
 		</div>
 	</section>
-
+	${countPrd }
 	<section class="welcome_area p_120">
 		<div class="container">
 			<div class="row welcome_inner">
 				<div class="col-lg-6">
 					<div class="welcome_text">
-						<h4>About Myself</h4>
-						<p>inappropriate behavior is often laughed off as “boys will
-							be boys,” women face higher conduct standards especially in the
-							workplace. That’s why it’s crucial that, as women, our behavior
-							on the job is beyond reproach. inappropriate behavior is often
-							laughed.</p>
+						<h4>KEUMBI INFORMATION</h4>
+						<p>바쁜 현대사회 퇴근하면 은행업무는 종료 
+						<br>금융과 자산관리는 어떻게 해야될까?
+						<br>이번달 지출이 너무많은데 어떻게 관리해야하지?
+						<br>여러은행과 카드사 수십 수백의 상품을 소비에 맞게 추천해드립니다!
+						<br>나와 가장 알맞는 금융상품은 무엇인지 <span style="color:red">금비</span>를통해 확인하세요</p>
 						<div class="row">
 							<div class="col-md-4">
 								<div class="wel_item">
-									<i class="lnr lnr-database"></i>
-									<h4>$2.5M</h4>
-									<p>Total Donation</p>
+									<i class="bi bi-bank"></i>
+									<h4>${cntFinance.cntfinance}</h4>
+									<p>금융 상품</p>
 								</div>
 							</div>
 							<div class="col-md-4">
 								<div class="wel_item">
-									<i class="lnr lnr-book"></i>
-									<h4>1465</h4>
-									<p>Total Projects</p>
+									<i class="bi bi-credit-card"></i>
+									<h4>${cntPrd.cntcard }</h4>
+									<p>카드 상품</p>
 								</div>
 							</div>
 							<div class="col-md-4">
 								<div class="wel_item">
-									<i class="lnr lnr-users"></i>
-									<h4>3965</h4>
-									<p>Total Volunteers</p>
+									<i class="bi bi-card-checklist"></i>
+									<h4>${cntPrd.cntchal}</h4>
+									<p>챌린지 수</p>
 								</div>
 							</div>
 						</div>
@@ -57,57 +66,42 @@
 					<div class="tools_expert">
 						<div class="skill_main">
 							<div class="skill_item">
-								<h4>
-									After Effects <span class="counter">85</span>%
-								</h4>
+								<h4>20대사용자 <span class="counter">${cntUser.twenty}</span>%</h4>
 								<div class="progress_br">
 									<div class="progress">
-										<div class="progress-bar" role="progressbar"
-											aria-valuenow="85" aria-valuemin="0" aria-valuemax="100"></div>
+										<div class="progress-bar" role="progressbar" aria-valuenow="${cntUser.twenty}" aria-valuemin="0" aria-valuemax="100"></div>
 									</div>
 								</div>
 							</div>
 							<div class="skill_item">
-								<h4>
-									Photoshop <span class="counter">90</span>%
-								</h4>
+								<h4>30대사용자 <span class="counter">${cntUser.thirty}</span>%</h4>
 								<div class="progress_br">
 									<div class="progress">
-										<div class="progress-bar" role="progressbar"
-											aria-valuenow="90" aria-valuemin="0" aria-valuemax="100"></div>
+										<div class="progress-bar" role="progressbar" aria-valuenow="${cntUser.thirty}" aria-valuemin="0" aria-valuemax="100"></div>
 									</div>
 								</div>
 							</div>
 							<div class="skill_item">
-								<h4>
-									Illustrator <span class="counter">70</span>%
-								</h4>
+								<h4>40대사용자 <span class="counter">${cntUser.fourty}</span>%</h4>
 								<div class="progress_br">
 									<div class="progress">
-										<div class="progress-bar" role="progressbar"
-											aria-valuenow="70" aria-valuemin="0" aria-valuemax="100"></div>
+										<div class="progress-bar" role="progressbar" aria-valuenow="${cntUser.fourty}" aria-valuemin="0" aria-valuemax="100"></div>
 									</div>
 								</div>
 							</div>
 							<div class="skill_item">
-								<h4>
-									Sublime <span class="counter">95</span>%
-								</h4>
+								<h4>50대사용자 <span class="counter">${cntUser.fifty}</span>%</h4>
 								<div class="progress_br">
 									<div class="progress">
-										<div class="progress-bar" role="progressbar"
-											aria-valuenow="95" aria-valuemin="0" aria-valuemax="100"></div>
+										<div class="progress-bar" role="progressbar" aria-valuenow="${cntUser.fifty}" aria-valuemin="0" aria-valuemax="100"></div>
 									</div>
 								</div>
 							</div>
 							<div class="skill_item">
-								<h4>
-									Sketch <span class="counter">75</span>%
-								</h4>
+								<h4>60대이상 <span class="counter">${cntUser.over}</span>%</h4>
 								<div class="progress_br">
 									<div class="progress">
-										<div class="progress-bar" role="progressbar"
-											aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
+										<div class="progress-bar" role="progressbar" aria-valuenow="${cntUser.over}" aria-valuemin="0" aria-valuemax="100"></div>
 									</div>
 								</div>
 							</div>
@@ -128,147 +122,25 @@
 			<div class="feature_inner row">
 				<div class="col-lg-4 col-md-6">
 					<div class="feature_item">
-						<i class="flaticon-city"></i>
+						<i class="bi bi-bank"></i>
 						<h4>금융상품추천</h4>
-						<p>다른사람은 어떤 금융상품을 사용할까? <br>사용자의 생년월일을 기반으로 추천해드려요! <br>이자계산기까지있으니 돈계산도 끄떡없다구요</p>
+						<p>다른사람은 어떤 금융상품을 사용할까? <br>사용자의 정보를 기반으로 추천해드려요! <br>계산기도 있어서 이자계산도 끄떡없다구요</p>
 					</div>
 				</div>
 				<div class="col-lg-4 col-md-6">
 					<div class="feature_item">
-						<i class="flaticon-skyline"></i>
+						<i class="bi bi-calendar"></i>
 						<h4>가계부</h4>
 						<p>거래/이체/결제내역까지 가계부는 금비가쓸테니 걱정마세요! 당일 지출내역부터 당월 총 지출액까지!</p>
 					</div>
 				</div>
 				<div class="col-lg-4 col-md-6">
 					<div class="feature_item">
-						<i class="flaticon-sketch"></i>
+						<i class="bi bi-card-checklist"></i>
 						<h4>챌린지</h4>
-						<p>소비가 많은 사용자를 위해 지출을 줄일수있는 챌린지가 있어요! 첫 시작이 어렵지만 막상 시작하면 할만할껄요? <br>우리같이 소비를 줄여보자구요</p>
+						<p>소비가 많은 사용자를 위해 <br>지출을 줄일수있는 챌린지가 있어요! <br>시작이 어렵지만 도전하면 할만할껄요? <br>우리같이 소비를 줄여보자구요</p>
 					</div>
 				</div>
-			</div>
-		</div>
-	</section>
-
-	<section class="home_gallery_area p_120">
-		<div class="container">
-			<div class="main_title">
-				<h2>Our Latest Featured Projects</h2>
-				<p>Who are in extremely love with eco friendly system.</p>
-			</div>
-			<div class="isotope_fillter">
-				<ul class="gallery_filter list">
-					<li class="active" data-filter="*"><a href="#">All</a></li>
-					<li data-filter=".brand"><a href="#">Vector</a></li>
-					<li data-filter=".manipul"><a href="#">Raster</a></li>
-					<li data-filter=".creative"><a href="#">UI/UX</a></li>
-					<li data-filter=".design"><a href="#">Printing</a></li>
-				</ul>
-			</div>
-		</div>
-		<div class="container">
-			<div class="gallery_f_inner row imageGallery1">
-				<div class="col-lg-4 col-md-4 col-sm-6 brand manipul design print">
-					<div class="h_gallery_item">
-						<div class="g_img_item">
-							<img class="img-fluid"
-								src="${pageContext.request.contextPath}/resources/img/gallery/project-1.jpg"
-								alt=""> <a class="light"
-								href="${pageContext.request.contextPath}/resources/img/gallery/project-1.jpg"><img
-								src="${pageContext.request.contextPath}/resources/img/gallery/icon.png"
-								alt=""></a>
-						</div>
-						<div class="g_item_text">
-							<h4>3D Helmet Design</h4>
-							<p>Client Project</p>
-						</div>
-					</div>
-				</div>
-				<div class="col-lg-4 col-md-4 col-sm-6 brand manipul creative">
-					<div class="h_gallery_item">
-						<div class="g_img_item">
-							<img class="img-fluid"
-								src="${pageContext.request.contextPath}/resources/img/gallery/project-2.jpg"
-								alt=""> <a class="light"
-								href="${pageContext.request.contextPath}/resources/img/gallery/project-2.jpg"><img
-								src="${pageContext.request.contextPath}/resources/img/gallery/icon.png"
-								alt=""></a>
-						</div>
-						<div class="g_item_text">
-							<h4>2D Vinyl Design</h4>
-							<p>Client Project</p>
-						</div>
-					</div>
-				</div>
-				<div
-					class="col-lg-4 col-md-4 col-sm-6 manipul creative design print">
-					<div class="h_gallery_item">
-						<div class="g_img_item">
-							<img class="img-fluid"
-								src="${pageContext.request.contextPath}/resources/img/gallery/project-3.jpg"
-								alt=""> <a class="light"
-								href="${pageContext.request.contextPath}/resources/img/gallery/project-3.jpg"><img
-								src="${pageContext.request.contextPath}/resources/img/gallery/icon.png"
-								alt=""></a>
-						</div>
-						<div class="g_item_text">
-							<h4>Creative Poster Design</h4>
-							<p>Client Project</p>
-						</div>
-					</div>
-				</div>
-				<div class="col-lg-4 col-md-4 col-sm-6 brand creative print">
-					<div class="h_gallery_item">
-						<div class="g_img_item">
-							<img class="img-fluid"
-								src="${pageContext.request.contextPath}/resources/img/gallery/project-4.jpg"
-								alt=""> <a class="light"
-								href="${pageContext.request.contextPath}/resources/img/gallery/project-4.jpg"><img
-								src="${pageContext.request.contextPath}/resources/img/gallery/icon.png"
-								alt=""></a>
-						</div>
-						<div class="g_item_text">
-							<h4>Embosed Logo Design</h4>
-							<p>Client Project</p>
-						</div>
-					</div>
-				</div>
-				<div class="col-lg-4 col-md-4 col-sm-6 brand manipul design">
-					<div class="h_gallery_item">
-						<div class="g_img_item">
-							<img class="img-fluid"
-								src="${pageContext.request.contextPath}/resources/img/gallery/project-5.jpg"
-								alt=""> <a class="light"
-								href="${pageContext.request.contextPath}/resources/img/gallery/project-5.jpg"><img
-								src="${pageContext.request.contextPath}/resources/img/gallery/icon.png"
-								alt=""></a>
-						</div>
-						<div class="g_item_text">
-							<h4>3D Disposable Bottle</h4>
-							<p>Client Project</p>
-						</div>
-					</div>
-				</div>
-				<div class="col-lg-4 col-md-4 col-sm-6 brand creative">
-					<div class="h_gallery_item">
-						<div class="g_img_item">
-							<img class="img-fluid"
-								src="${pageContext.request.contextPath}/resources/img/gallery/project-6.jpg"
-								alt=""> <a class="light"
-								href="${pageContext.request.contextPath}/resources/img/gallery/project-6.jpg"><img
-								src="${pageContext.request.contextPath}/resources/img/gallery/icon.png"
-								alt=""></a>
-						</div>
-						<div class="g_item_text">
-							<h4>3D Logo Design</h4>
-							<p>Client Project</p>
-						</div>
-					</div>
-				</div>
-			</div>
-			<div class="more_btn">
-				<a class="main_btn" href="#">Load More Items</a>
 			</div>
 		</div>
 	</section>
@@ -276,47 +148,59 @@
 	<section class="testimonials_area p_120">
 		<div class="container">
 			<div class="main_title">
-				<h2>Testimonials</h2>
-				<p>If you are looking at blank cassettes on the web, you may be
-					very confused at the difference in price. You may see some for as
-					low as $.17 each.</p>
+				<h2>금비가 처음이신가요?</h2>
+				<p>금비는 사용자의 데이터를 기반으로 금융상품을 추천하고있습니다. <br>회원들의 데이터를 종합하여 금융상품을 추천하는 금비 <br>지금바로 시작하세요</p>
 			</div>
 			<div class="testi_inner">
 				<div class="testi_slider owl-carousel">
 					<div class="item">
 						<div class="testi_item">
-							<p>As conscious traveling Paup ers we must always be oncerned
-								about our dear Mother Earth. If you think about it, you travel
-								across her face</p>
-							<h4>Fanny Spencer</h4>
+							<p>금융상품을 쉽게 비교하고 이자까지 계산되니까 간편하고 좋네요! 챌린지까지 할수있어서 절약도 되는것같아요</p>
+							<h4>rks*****</h4>
 							<a href="#"><i class="fa fa-star"></i></a> <a href="#"><i
 								class="fa fa-star"></i></a> <a href="#"><i class="fa fa-star"></i></a>
 							<a href="#"><i class="fa fa-star"></i></a> <a href="#"><i
-								class="fa fa-star-half-o"></i></a>
+								class="fa fa-star"></i></a>
 						</div>
 					</div>
 					<div class="item">
 						<div class="testi_item">
-							<p>As conscious traveling Paup ers we must always be oncerned
-								about our dear Mother Earth. If you think about it, you travel
-								across her face</p>
-							<h4>Fanny Spencer</h4>
+							<p>가계부없이 돈을 썼었는데 자동으로 기입되니 어디에 많이썼는지 보이고 절약도 되는것같아서 괜찮네요</p>
+							<h4>min*****</h4>
 							<a href="#"><i class="fa fa-star"></i></a> <a href="#"><i
 								class="fa fa-star"></i></a> <a href="#"><i class="fa fa-star"></i></a>
 							<a href="#"><i class="fa fa-star"></i></a> <a href="#"><i
-								class="fa fa-star-half-o"></i></a>
+								class="fa fa-star"></i></a>
 						</div>
 					</div>
 					<div class="item">
 						<div class="testi_item">
-							<p>As conscious traveling Paup ers we must always be oncerned
-								about our dear Mother Earth. If you think about it, you travel
-								across her face</p>
-							<h4>Fanny Spencer</h4>
+							<p>챌린지가 진짜 대박대박 저 이거하고 돈 엄청 아꼈잖아요 돈모아서 여행갈거에요! 가계부도 짱!</p>
+							<h4>iam*****</h4>
 							<a href="#"><i class="fa fa-star"></i></a> <a href="#"><i
 								class="fa fa-star"></i></a> <a href="#"><i class="fa fa-star"></i></a>
 							<a href="#"><i class="fa fa-star"></i></a> <a href="#"><i
-								class="fa fa-star-half-o"></i></a>
+								class="fa fa-star"></i></a>
+						</div>
+					</div>
+					<div class="item">
+						<div class="testi_item">
+							<p>요즘 바빠서 은행갈시간도 없었는데 알아보기도 쉽고 간편해서 좋습니다. 근데 카드는 이게 다인가요?</p>
+							<h4>par*****</h4>
+							<a href="#"><i class="fa fa-star"></i></a> <a href="#"><i
+								class="fa fa-star"></i></a> <a href="#"><i class="fa fa-star"></i></a>
+							<a href="#"><i class="fa fa-star"></i></a> <a href="#"><i
+								class="fa fa-star-o"></i></a>
+						</div>
+					</div>
+					<div class="item">
+						<div class="testi_item">
+							<p>통장추천은 괜찮은데 카드수가 많이없네요 그래도 추천은 내 지출이랑 맞아서 괜찮은것같아요 </p>
+							<h4>hyo*****</h4>
+							<a href="#"><i class="fa fa-star"></i></a> <a href="#"><i
+								class="fa fa-star"></i></a> <a href="#"><i class="fa fa-star"></i></a>
+							<a href="#"><i class="fa fa-star"></i></a> <a href="#"><i
+								class="fa fa-star"></i></a>
 						</div>
 					</div>
 				</div>
