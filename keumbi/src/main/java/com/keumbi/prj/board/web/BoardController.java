@@ -44,6 +44,7 @@ public class BoardController {
 		vo.setUser_id(uvo.getId());
 		service.insertBoard(vo);
 		
+		
 		return "redirect:boardList";
 	}
 
@@ -51,7 +52,9 @@ public class BoardController {
 	public String boardView(BoardVO vo, Model model, @RequestParam("bod_num") int bod_num) {
 		BoardVO view = service.view(bod_num);
 		service.boardHit(bod_num);
+		List<BoardVO> tags = service.tagSelect(bod_num);
 		model.addAttribute("view", view);
+		model.addAttribute("tags", tags);
 
 		return "board/boardView";
 	}

@@ -17,6 +17,11 @@ public class BoardServiceImpl implements BoardService {
 	@Override
 	public void insertBoard(BoardVO vo) {
 		m.insertBoard(vo);
+		
+		for(int i = 0; i < vo.getTag().length; i++) {
+			vo.setKwd_code(vo.getTag()[i]);
+			m.tagInsert(vo);		
+			}
 	}
 	
 	@Override
@@ -27,11 +32,13 @@ public class BoardServiceImpl implements BoardService {
 	@Override
 	public void update(BoardVO vo) {
 		m.update(vo);
+		m.tagUpdate(vo);
 	}
-	
+		
 	@Override
 	public void delete(int bod_num) {
 		m.delete(bod_num);
+		m.tagDelete(bod_num);
 	}
 	
 	public BoardVO view(int bod_num) {
@@ -52,6 +59,11 @@ public class BoardServiceImpl implements BoardService {
 	@Override
 	public List<BoardVO> boardSelectList(int page) {
 		return m.boardSelectList(page);
+	}
+
+	@Override
+	public List<BoardVO> tagSelect(int bod_num) {	
+		return m.tagSelect(bod_num);
 	}
 	
 	

@@ -16,4 +16,7 @@ public class BoardVO {
 	private Date wdate;
 	private String bod_code;
 	private int hit;
+	
+	private String tag[]; //태그
+	private String kwd_code;
 }
