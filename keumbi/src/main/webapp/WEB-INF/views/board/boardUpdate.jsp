@@ -28,8 +28,8 @@
 
 	<div class="container">
 		<div class="row">
-			<form method="post" action="update?bod_num=${up.bod_num}"
-				style="width: 1180px; text-align: center;">
+			<form id="frm" name="frm" method="post" action="update?bod_num=${up.bod_num}"
+				style="width: 1180px; text-align: center;" onsubmit="call_submit2()">
 				<input type="hidden" id="user_id" name="user_id"
 					value="${up.user_id}">
 
@@ -52,14 +52,14 @@
 						<tr>
 							<td style="width: 20%;">글 제목</td>
 							<td colspan="2"><input type="text" style="width: 900px;"
-								value="${up.title}" name="title"> <input type="hidden"
-								name="contents" value="${up.contents}"></td>
+								value="${up.title}" name="title"> 
+								<input type="hidden" name="contents"></td>
 						</tr>
 						<tr>
 							<td>내용</td>
 							<td>
 								<div id="editor"
-									style="width: 900px; height: 100px; text-align: left;"></div>
+									style="width: 900px; height: 100px; text-align: left;">${up.contents}</div>
 
 								<div>
 									<ul id="tag-list" style="float: left;"></ul>
@@ -163,13 +163,12 @@
 			height : '500px',
 			initialValue : '',
 			initialEditType : 'wysiwyg',
-			language : 'ko-KR',
-			addImageBlobHook : 'onUploadImage'
+			language : 'ko-KR'			
 		});
 		// !!여기!! editor.getHtml()을 사용해서 에디터 내용 받아오기
 		//document.querySelector('#contents').insertAdjacentHTML('afterbegin' ,editor.getHtml()); 
 
-		function call_submit() {
+		function call_submit2() {
 			//event.preventDefault();
 			frm.contents.value = editor.getHTML();
 			frm.submit();

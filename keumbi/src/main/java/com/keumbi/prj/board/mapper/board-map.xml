@@ -35,7 +35,16 @@
          <if test="key == '내용'">CONTENTS LIKE '%' || #{val } || '%'</if>   
          <if test="key == '제목내용'">TITLE LIKE '%' || #{val } || '%' OR CONTENTS LIKE '%' || #{val } || '%'</if>  
          ORDER BY BOD_NUM ASC 
-   </select>      
+   </select> 
+   
+   <select id="tagSelect" resultType="BoardVO">
+
+	SELECT c.code , c.val kwd_code
+	FROM bod_kwd bk, common_code c
+	where bk.kwd_code = c.code
+	and bk.bod_num = #{bod_num}
+   
+   </select>     
 	
 	<insert id="insertBoard" parameterType="BoardVO">
 		<selectKey keyProperty="bod_num" resultType="int" order="BEFORE">
@@ -54,6 +63,13 @@
 		VALUES ( #{bod_num}, #{user_id}, #{title}, #{contents}, TO_CHAR(SYSDATE, 'YYYY-MM-DD'), #{bod_code}, #{hit} )
 	</insert>
 	
+	<insert id="tagInsert" parameterType="BoardVO">
+	
+	INSERT INTO BOD_KWD( KWD_CODE, BOD_NUM )
+	VALUES ( #{kwd_code}, #{bod_num})
+	
+	</insert>
+	
 	<update id="boardHit">
 		UPDATE BOARDS SET
 		HIT = NVL(HIT,0)+1
@@ -66,10 +82,23 @@
 	CONTENTS = #{contents}
 	WHERE BOD_NUM = #{bod_num}
     </update>
+    
+    <update id="tagUpdate" parameterType="BoardVO">
+    UPDATE BOARD_KWD SET
+    KWD_CODE = #{kwd_code}
+    WHERE BOD_NUM = #{bod_num}
+    </update>
 	
 	<delete id="delete" parameterType="int">
 		DELETE FROM BOARDS 
 		WHERE BOD_NUM = #{bod_num}
+	</delete>
+	
+	<delete id="tagDelete" parameterType="int">
+	
+	DELETE FROM BOD_KWD
+	WHERE BOD_NUM = #{bod_num}
+	
 	</delete>
 	
 	

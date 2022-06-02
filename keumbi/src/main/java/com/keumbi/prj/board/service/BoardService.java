@@ -10,6 +10,7 @@ public interface BoardService{
 	void update(BoardVO vo);
 	void delete(int bod_num);
 	BoardVO view(int bod_num);
+	List<BoardVO> tagSelect(int bod_num);	
 	List<BoardVO> selectBoardList();
 	List<BoardVO> boardSelectList(int page);
 	List<BoardVO> boardSearchList(String key, String val);

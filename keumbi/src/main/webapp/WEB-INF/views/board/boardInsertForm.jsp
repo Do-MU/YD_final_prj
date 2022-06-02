@@ -97,7 +97,7 @@ ul li.tag-item {
 	<div class="container" style="margin: auto;">
 		<div class="row">
 			<form id="frm" name="frm" method="post" action="insertBoard"
-				style="width: 1180px; text-align: center;" onsubmit="call_submit()">
+				style="width: 1180px; text-align: center;" onsubmit="return call_submit()">
 				<table class="table table-striped"
 					style="text-align: center; border: 1px solid #dddddd;">
 					<tbody>
@@ -214,12 +214,29 @@ ul li.tag-item {
 		function call_submit() {
 			//event.preventDefault();
 			frm.contents.value = editor.getHTML();
+			
+			var tagObj = $("#tag-list").find("li");
+			
+			for(i = 0; i < tagObj.length; i++){
+			
+			var input1 = document.createElement('input');
+			input1.setAttribute("name", "tag");
+			input1.setAttribute("value",tagObj.eq(i).data('code'));
+			
+			frm.appendChild(input1);
+			
+			}
+			
 			frm.submit();
+			
+			return true;
+			
+			
 		}
 	</script>
-
-
+	
 	<script>
+	
 		$(document)
 				.ready(
 						function() {
@@ -247,7 +264,8 @@ ul li.tag-item {
 											function() {
 
 												var tagValue = this.value; // 값 가져오기
-
+												var tagCodeValue = $(this).data('code')
+										
 												// 값이 없으면 동작 안합니다.
 												if (tagValue !== "") {
 
@@ -264,7 +282,7 @@ ul li.tag-item {
 													if (result.length == 0) {
 														$("#tag-list")
 																.append(
-																		"<li class='tag-item'>"
+																		"<li class='tag-item' data-code='"+ tagCodeValue  +"'>"
 																				+ tagValue
 																				+ "<span class='del-btn' idx='" + counter + "'>x</span></li>");
 														addTag(tagValue);
@@ -287,8 +305,8 @@ ul li.tag-item {
 														|| e.keyCode == 32) {
 
 													var tagValue = self.val(); // 값 가져오기
-
-													// 값이 없으면 동작 안합니다.
+    
+												// 값이 없으면 동작 안합니다.
 													if (tagValue !== "") {
 
 														// 같은 태그가 있는지 검사한다. 있다면 해당값이 array 로 return 된다.
@@ -304,9 +322,9 @@ ul li.tag-item {
 														if (result.length == 0) {
 															$("#tag-list")
 																	.append(
-																			"<li class='tag-item'>"
+																			"<li class='tag-item' data-code='"+ tagCodeValue  +"'>"
 																					+ tagValue
-																					+ "<span class='del-btn' idx='" + counter + "'>x</span></li>");
+																					+ "<span class='del-btn'  idx='" + counter + "'>x</span></li>");
 															addTag(tagValue);
 															self.val("");
 														} else {

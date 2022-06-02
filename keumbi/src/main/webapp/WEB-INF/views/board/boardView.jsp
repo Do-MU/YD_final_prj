@@ -72,7 +72,10 @@
 						</tr>
 						<tr>
 							<td>해시태그</td>
-							<td colspan="2" style="text-align: center;" id="Hash"></td>
+							<td colspan="2" style="text-align: center;">
+							<c:forEach var="t" items="${tags}">
+							#<c:out value="${t.kwd_code }"/>&nbsp;&nbsp;&nbsp;
+							</c:forEach></td>
 						</tr>
 					</tbody>
 				</table>
@@ -132,6 +135,7 @@
 	<br>
 	<br>
 
+	
 	<script>
 	
 	var bod_num = '${view.bod_num}'; //게시글 번호 
