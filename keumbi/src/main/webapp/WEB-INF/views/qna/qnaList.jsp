@@ -8,6 +8,9 @@
 <title>Insert title here</title>
 </head>
 <style>
+.btn-dark {
+	float: right;
+}
 </style>
 <script>
 	if (!'${loginUser.id}') {
@@ -34,8 +37,7 @@
 
 	<div class="container">
 		<div class="accordion" id="accordionExample">
-			<span id="insertBtn"><a href="qnaInsertForm" role="button"
-				class="btn btn-dark">1:1문의 쓰기</a></span>
+
 			<div class="row">
 				<table class="table table-striped"
 					style="text-align: center; border: 1px solid #dddddd">
@@ -63,19 +65,19 @@
 
 								<td colspan="4" id="collapse-${q.num}" class="collapse"
 									aria-labelledby="headingOne" data-parent="#accordionExample">
-									<span>문의내용</span> 
-									<span>${q.qcontents}</span></td>
+									<span>문의내용</span> <span>${q.qcontents}</span>
+								</td>
 							</tr>
 							<c:if test="${not empty q.acontents}">
 								<td colspan="4" id="collapse-${q.num}" class="collapse"
 									aria-labelledby="headingOne" data-parent="#accordionExample">
-									<span>답변내용</span>
-									<span>${q.acontents}</span>
-									<span>${q.adate}</span></td>
+									<span>답변내용</span> <span>${q.acontents}</span> <span>${q.adate}</span>
+								</td>
 							</c:if>
 						</c:forEach>
 					</tbody>
 				</table>
+		<a href="qnaInsertForm" role="button" class="btn btn-dark">1:1문의 쓰기</a>
 			</div>
 		</div>
 	</div>

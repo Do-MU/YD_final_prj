@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.keumbi.prj.account.service.AccountService;
 import com.keumbi.prj.chall.service.ChallService;
+import com.keumbi.prj.common.vo.PageVO;
 import com.keumbi.prj.prd.service.PrdCardService;
 import com.keumbi.prj.qna.service.QnaService;
 import com.keumbi.prj.qna.vo.QnaVO;
@@ -47,8 +48,33 @@ public class AdminController {
 	
 	// 고객센터 관리 페이지
 	@RequestMapping("/admQnaList")
-	public String qnaAdminList(Model model) {
-		model.addAttribute("qnas", qna.qnaAdminList());
+	public String qnaAdminList(Model model, PageVO pvo) {
+		int total = qna.qnaCount();
+		int pageCnt = total/pvo.getPageScale()  + (total%pvo.getPageScale()>0?1:0); 
+		int endPage = ((pvo.getPageNo()-1)/10+1)*10;
+		pvo.setTotalNo(total);
+		pvo.setTotalPage(pageCnt);
+		pvo.setStartPage(((pvo.getPageNo()-1)/10)*10+1);
+		pvo.setEndPage(endPage > pageCnt ? pageCnt : endPage );
+		
+		model.addAttribute("p", pvo);
+		model.addAttribute("qnas", qna.qnaAdminList(pvo));
+		return "admin/admQnaList";
+	}
+	
+	// 문의글 분류별(답변완료/미답변) 정렬
+	@RequestMapping("/admQnaSort")
+	public String qnaAdminSort(Model model, PageVO pvo) {
+		int total = qna.qnaSortCount(pvo.getCode());
+		int pageCnt = total/pvo.getPageScale() + (total%pvo.getPageScale()>0?1:0);
+		int endPage = ((pvo.getPageNo()-1)/10+1)*10;
+		pvo.setTotalNo(total);
+		pvo.setTotalPage(pageCnt);
+		pvo.setStartPage(((pvo.getPageNo()-1)/10)*10+1);
+		pvo.setEndPage(endPage > pageCnt ? pageCnt : endPage);
+		
+		model.addAttribute("p", pvo);
+		model.addAttribute("qnas", qna.qnaAdminSort(pvo));
 		return "admin/admQnaList";
 	}
 	

@@ -7,6 +7,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.keumbi.prj.common.vo.PageVO;
 import com.keumbi.prj.qna.mapper.QnaMapper;
 import com.keumbi.prj.qna.service.QnaService;
 import com.keumbi.prj.qna.vo.QnaVO;
@@ -37,8 +38,8 @@ public class QnaServiceImpl implements QnaService {
 	}
 
 	@Override
-	public List<QnaVO> qnaAdminList() {
-		return m.qnaAdminList();
+	public List<QnaVO> qnaAdminList(PageVO pvo) {
+		return m.qnaAdminList(pvo);
 	}
 
 	@Override
@@ -50,5 +51,20 @@ public class QnaServiceImpl implements QnaService {
 	public void qnaAdminUpdate(QnaVO vo) {
 		m.qnaAdminUpdate(vo);
 		
+	}
+
+	@Override
+	public List<QnaVO> qnaAdminSort(PageVO pvo) {
+		return m.qnaAdminSort(pvo);
+	}
+
+	@Override
+	public int qnaCount() {
+		return m.qnaCount();
+	}
+
+	@Override
+	public int qnaSortCount(String code) {
+		return m.qnaSortCount(code);
 	}
 }

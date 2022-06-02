@@ -27,14 +27,41 @@
 	</delete>
 
 	<!-- 관리자 -->
-	<select id="qnaAdminList" resultType="QnaVO">
-		SELECT Q.NUM, Q.USER_ID, U.NAME, Q.TITLE, Q.QDATE, C.VAL
-		FROM QNAS Q
-		JOIN COMMON_CODE C
-		ON Q.ANSWER_CODE = C.CODE
-		JOIN USERS U
-		ON Q.USER_ID = U.ID
-		ORDER BY Q.QDATE
+	<select id="qnaAdminList" parameterType="PageVO" resultType="QnaVO">
+	<![CDATA[
+		SELECT 		Q.NUM, Q.USER_ID, U.NAME, Q.TITLE, Q.QDATE, C.VAL
+		FROM 		(
+					SELECT ROWNUM AS RNUM, T.*
+					FROM QNAS T
+					WHERE ROWNUM <= #{totalNo} - ((#{pageNo} - 1) * #{pageScale})
+					ORDER BY QDATE DESC
+					) Q
+		JOIN 		COMMON_CODE C
+		ON 			Q.ANSWER_CODE = C.CODE
+		JOIN 		USERS U
+		ON 			Q.USER_ID = U.ID
+		WHERE 		#{totalNo} - (#{pageNo} * #{pageScale}) + 1 <= RNUM
+		ORDER BY 	Q.QDATE
+	]]>
+	</select>
+	
+	<select id="qnaAdminSort" parameterType="PageVO" resultType="QnaVO">
+	<![CDATA[
+		SELECT 		Q.NUM, Q.USER_ID, U.NAME, Q.TITLE, Q.QDATE, C.VAL
+		FROM 	(
+					SELECT ROWNUM AS RNUM, T.*
+					FROM QNAS T
+					WHERE ROWNUM <= #{totalNo} - ((#{pageNo} - 1) * #{pageScale})
+					ORDER BY QDATE DESC
+				) 	Q
+		JOIN 		COMMON_CODE C
+		ON 			Q.ANSWER_CODE = C.CODE
+		JOIN 		USERS U
+		ON 			Q.USER_ID = U.ID
+		WHERE 		Q.ANSWER_CODE =#{code}
+		AND 		#{totalNo} - (#{pageNo} * #{pageScale}) + 1 <= RNUM
+		ORDER BY 	Q.QDATE
+	]]>
 	</select>
 	
 	<select id="qnaAdminSelectOne" resultType="QnaVO">
@@ -52,5 +79,16 @@
 				ANSWER_CODE = 'Q1'
 		WHERE 	NUM = #{num}
 	</update>
+	
+	<select id="qnaCount" resultType="int">
+		SELECT 	COUNT(*)
+		FROM 	QNAS
+	</select>
+	
+	<select id="qnaSortCount" resultType="int">
+		SELECT 	COUNT(*)
+		FROM 	QNAS
+		WHERE 	ANSWER_CODE = #{code}
+	</select>
 	
 </mapper>
