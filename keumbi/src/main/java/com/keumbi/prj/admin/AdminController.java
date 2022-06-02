@@ -37,9 +37,15 @@ public class AdminController {
 	
 	// 회원목록 페이지
 	@RequestMapping("/admUserMng")
-	public String adm_userMng(Model model) {
+	public String admUserMng(Model model) {
 		model.addAttribute("allUser", us.allUser());
 		return "admin/admUserMng";
+	}
+	
+	// 관리자 신고관리 페이지
+	@RequestMapping("/admReportList")
+	public String admReportList() {
+		return "admin/admReportList";
 	}
 	
 	// 더미 데이터 만들기

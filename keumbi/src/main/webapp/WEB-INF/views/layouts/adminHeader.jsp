@@ -24,6 +24,7 @@
       <li class="nav-item">
         <a class="nav-link" href="prdUpdate">상품관리</a>
         <a class="nav-link" href="admUserMng">회원목록 관리</a>
+        <a class="nav-link" href="admReportList">신고목록 관리</a>
       </li>
     </ul>
     </div>
