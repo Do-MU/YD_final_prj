@@ -8,6 +8,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.keumbi.prj.noti.service.NotiService;
+import com.keumbi.prj.noti.vo.NotiVO;
 import com.keumbi.prj.user.mapper.UserMapper;
 import com.keumbi.prj.user.vo.UserVO;
 
@@ -15,6 +17,7 @@ import com.keumbi.prj.user.vo.UserVO;
 public class BankAuthController {
 	
 	@Autowired UserMapper userMapper;
+	@Autowired NotiService noti;
 	
 	// 사용자 인증요청
 	@RequestMapping("/bankAuth")
@@ -56,6 +59,12 @@ public class BankAuthController {
 			
 			// 로그인한 사용자를 사용자일련번호와 액세스 토큰을 가진 객체로 교체
 			session.setAttribute("loginUser", uvo);
+
+			// 계좌불러오기 알림 -> userId
+			NotiVO nvo = new NotiVO();
+			nvo.setUser_id(uvo.getId());
+			nvo.setNoti_code("N5");
+			noti.notiInsert(nvo);
 		}
 
 		return "redirect:accountList";
