@@ -11,6 +11,27 @@
 .btn-dark {
 	float: right;
 }
+.question, .answer {
+	font-family: fantasy;
+	font-size: 200%;
+	width: 100px;
+	float : left;
+
+}
+.qnabox {
+	margin: 40px;
+}
+
+.abox {
+	margin: 40px 0px 0px 0px;
+}
+
+.btn-dark {
+	margin: 0px 0px 50px 0px;
+}
+.qbody {
+	display : none;
+}
 </style>
 <script>
 	if (!'${loginUser.id}') {
@@ -36,10 +57,10 @@
 	<br>
 
 	<div class="container">
-		<div class="accordion" id="accordionExample">
-
+		<div >
 			<div class="row">
-				<table class="table table-striped"
+
+				<table class="table qlist"
 					style="text-align: center; border: 1px solid #dddddd">
 					<thead>
 						<tr>
@@ -49,11 +70,11 @@
 							<th style="background-color: #eeeeee; text-align: center;"></th>
 						</tr>
 					</thead>
+
 					<tbody>
 						<c:forEach var="q" items="${qnas}">
-							<tr class="card-header">
-								<td data-toggle="collapse" data-target="#collapse-${q.num}"
-									aria-expanded="true" aria-controls="collapseOne"><c:out
+							<tr>
+								<td ><c:out
 										value="${q.title}" /></td>
 								<td><c:out value="${q.qdate}" /></td>
 								<td><c:out value="${q.val}" /></td>
@@ -61,25 +82,36 @@
 									class="btn btn-light"
 									onclick="return confirm('문의글을 삭제하시겠습니까?')">삭제</a></td>
 							</tr>
-							<tr class="card-body">
+							<tr class="card-body qbody">
 
-								<td colspan="4" id="collapse-${q.num}" class="collapse"
-									aria-labelledby="headingOne" data-parent="#accordionExample">
-									<span>문의내용</span> <span>${q.qcontents}</span>
+								<td colspan="4" >
+									<div class="qnabox">
+										<div class="qbox">
+											<span class="question">Q. </span> 
+											<span><pre>${q.qcontents}</pre></span>
+										</div>
+										<c:if test="${not empty q.acontents}">
+											<div class="abox">
+												<span class="answer">A. </span> 
+												<span><pre>${q.acontents}</pre></span>
+											</div>
+										</c:if>
+									</div>
 								</td>
 							</tr>
-							<c:if test="${not empty q.acontents}">
-								<td colspan="4" id="collapse-${q.num}" class="collapse"
-									aria-labelledby="headingOne" data-parent="#accordionExample">
-									<span>답변내용</span> <span>${q.acontents}</span> <span>${q.adate}</span>
-								</td>
-							</c:if>
 						</c:forEach>
 					</tbody>
 				</table>
-		<a href="qnaInsertForm" role="button" class="btn btn-dark">1:1문의 쓰기</a>
+				<span><a href="qnaInsertForm" role="button" class="btn btn-dark">1:1문의
+					쓰기</a></span>
 			</div>
 		</div>
 	</div>
+	<script>
+		$(".qlist tr").on("click", function() {
+			$(".qbody").hide();
+			$(this).next().toggle(1000);
+		})
+	</script>
 </body>
 </html>

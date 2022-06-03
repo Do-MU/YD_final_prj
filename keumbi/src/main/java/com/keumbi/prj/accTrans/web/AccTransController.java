@@ -39,11 +39,15 @@ public class AccTransController {
 	@RequestMapping("/accRemitForm")
 	public String accDepositView(HttpSession session, Model model, AccountVO acc) {
 		UserVO user = (UserVO) session.getAttribute("loginUser");
-		//System.out.println(fintech_use_num);
 		
-		model.addAttribute("accList", accountS.selectAllAccount(user)); 	// 계좌목록 호출
-		model.addAttribute("finBal", accountS.selectOneAccount(acc)); 		// 단건 계좌 정보
-		return "account/remitForm";
+		if(user == null) {
+			model.addAttribute("loginMsg", "로그인이 필요합니다.");
+			return "user/userLoginForm";
+		} else {
+			model.addAttribute("accList", accountS.selectAllAccount(user)); 	// 계좌목록 호출
+			model.addAttribute("finBal", accountS.selectOneAccount(acc)); 		// 단건 계좌 정보
+			return "account/remitForm";			
+		}
 	}
 	
 	// view -> 각 vo로 받기 -> service 호출

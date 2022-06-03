@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
 
+import com.keumbi.prj.sanction.vo.SanctionVO;
 import com.keumbi.prj.user.vo.SancUserSearchVO;
 import com.keumbi.prj.user.vo.UserVO;
 
@@ -16,8 +17,10 @@ public interface UserMapper {
 	int userInsert(UserVO vo);
 	int userUpdate(UserVO vo);
 	int userDelete(UserVO vo);
+	int userCancle(UserVO vo);
 	List<Map> userSearch(SancUserSearchVO vo);
-	
+	int schedulerUpdateUser(List<UserVO> list);
+	int schedulerDeleteUser(List<UserVO> list);
 	// 토큰 저장
 	int selectToken(UserVO vo);
 	int updateToken(UserVO vo);

@@ -7,14 +7,6 @@
 <meta charset="UTF-8">
 
 <style>
-.div_img{
-	text-align: center;
-	height:150px;
-	flex:1;
-}
-.div_exp{
-	flex:3;
-}
 .card_name{
 	font-size:1.5em;
 	margin-bottom: 20px;
@@ -51,6 +43,13 @@
 }
 .card-body {
 	height : 190px;
+	position: relative;
+}
+.detailBtn > button {
+	position: absolute;
+	bottom: 10px;
+	left: 50%;
+	transform: translate(-50%, 0);
 }
 </style>
 
@@ -74,15 +73,17 @@
 		<div class="container">
 			<div class="tab">
 				<div class="btn-group btn-lg " role="group" aria-label="Basic example">
-				  <button type="button" class="btn btn-secondary btn-lg">전체</button>
-				  <button type="button" class="btn btn-secondary btn-lg" id="age">연령대별 추천</button>
-				  <button type="button" class="btn btn-secondary btn-lg" id="consum">소비패턴별 추천</button>
-				  <button type="button" class="btn btn-secondary btn-lg" id="keyword">관심사별 추천</button>
-				  <button type="button" class="btn btn-secondary btn-lg" id="C366">신한카드</button>
-				  <button type="button" class="btn btn-secondary btn-lg" id="C381">국민카드</button>
-				  <button type="button" class="btn btn-secondary btn-lg" id="C365">삼성카드</button>
-				  <button type="button" class="btn btn-secondary btn-lg" id="C361">BC카드</button>
-				  <button type="button" class="btn btn-secondary btn-lg" id="C367">현대카드</button>
+				  <button type="button" class="btn btn-outline-primary">전체</button>
+				  <c:if test="${not empty loginUser }">
+					  <button type="button" class="btn btn-outline-primary" id="age">연령대별 추천</button>
+					  <button type="button" class="btn btn-outline-primary" id="consum">소비패턴별 추천</button>
+					  <button type="button" class="btn btn-outline-primary" id="keyword">관심사별 추천</button>
+				  </c:if>
+				  <button type="button" class="btn btn-outline-primary" id="C366">신한카드</button>
+				  <button type="button" class="btn btn-outline-primary" id="C381">국민카드</button>
+				  <button type="button" class="btn btn-outline-primary" id="C365">삼성카드</button>
+				  <button type="button" class="btn btn-outline-primary" id="C361">BC카드</button>
+				  <button type="button" class="btn btn-outline-primary" id="C367">현대카드</button>
 				</div>
 			</div>
 
@@ -96,30 +97,14 @@
 							<div class="card-body">
 								<h4 class="card-title" id="${list.card_seq }">${list.card_name}</h4>
 								<p class="card-text">${list.card_info}</p>
-								<button class="cardModalView btn btn-primary btn-sm">자세히 보기</button>
+								<div class="detailBtn">
+									<button class="cardModalView btn btn-outline-primary btn-sm">자세히 보기</button>
+								</div>
 							</div>
 						</div>
 					</div>
 				</c:forEach>
 			</div>
-			<%-- 			<c:forEach items="${cardList}" var="list"> --%>
-<%-- 					<div class="prds" data-company="${list.card_company }"> --%>
-<!-- 						<div class="div_img"> -->
-<!-- 							<img -->
-<%-- 								src="${pageContext.request.contextPath}/resources/img/card/${list.card_image}" --%>
-<!-- 								width="250px" height="150px"> -->
-<!-- 						</div> -->
-<!-- 						<div class="div_exp"> -->
-<%-- 							<div class="card_name" data-seq="${list.card_seq }">${list.card_name}</div> --%>
-<%-- 							<div class="card_info">${list.card_info}</div> --%>
-<!-- 							<div class="div_btn"> -->
-<!-- 								<button class="cardModalView">자세히 보기</button> -->
-<!-- 							</div> -->
-<!-- 						</div> -->
-<!-- 					</div> -->
-					
-<!-- 					<hr> -->
-<%-- 				</c:forEach> --%>
 			<br>
 		</div>
 	</section>
@@ -154,10 +139,6 @@
 							<td id="card_perfo"></td>
 						</tr>
 					</table>
-<!-- 					<p class="h3" id="card_name"></p><br/> -->
-<!-- 					<p class="h4" id="card_benefit"></p><br/> -->
-<!-- 					<p class="h5" id="card_annualfee"></p><br/> -->
-<!-- 					<p class="h5" id="card_perfo"></p> -->
 				</div>
 			</div>
 		</div>
@@ -167,9 +148,8 @@
 <script type="text/javascript">	
 	// 카드 상세보기 Modal func
 	$("#output").on("click", ".cardModalView", function(){
-		var company = $(this).parent().parent().data("company");
-		var seqNum = $(this).prev().prev().attr("id");
-		console.log(company + "  " + seqNum)
+		var company = $(this).closest('.card').data("company");
+		var seqNum = $(this).closest('.card-body').children().attr('id');
 		
 		$.ajax({
 			url : "cardDetail",
@@ -203,7 +183,7 @@
 	
 	
 	// 상단 버튼 -> 해당하는 목록 출력
-	$(".btn-secondary").on("click", this, function(){
+	$(".btn-outline-primary").on("click", this, function(){
 		var companyId = $(this).attr("id");
 		
 		if(companyId != null && (companyId == "C366"|| companyId == "C381"||companyId =="C365"||companyId =="C361"||companyId =="C367")){	//카드사별 출력
@@ -302,7 +282,9 @@
 								<div class="card-body">
 									<h4 class="card-title" id="\${list.card_seq }"\>${list.card_name}</h4>
 									<p class="card-text">\${list.card_info}</p>
-									<button class="cardModalView btn btn-primary btn-sm">자세히 보기</button>
+									<div class="detailBtn">
+										<button class="cardModalView btn btn-outline-primary btn-sm">자세히 보기</button>
+									</div>
 								</div>
 							</div>
 						</div> `;		

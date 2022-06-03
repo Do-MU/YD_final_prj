@@ -8,6 +8,7 @@
 <title><tiles:getAsString name="title" /></title>
 <link rel="icon" href="${pageContext.request.contextPath}/resources/img/favicon.png" type="image/png">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css">
+<script src="http://code.jquery.com/jquery-3.6.0.js"></script>
 </head>
 <body>
 	<tiles:insertAttribute name="header"/>

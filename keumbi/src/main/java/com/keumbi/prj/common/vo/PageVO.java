@@ -10,5 +10,5 @@ public class PageVO {
 	private int endPage = 10;		// 마지막 페이지
 	private int pageScale = 10;		// 한 페이지에 보여질 수
 	private int totalNo;			// 전체 수
-	private String code;
+	private String code;			// 답변/미답변 분류코드
 }
