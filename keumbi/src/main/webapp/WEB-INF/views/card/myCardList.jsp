@@ -7,56 +7,20 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <style>
-.div_view{
-	border-radius: 15px;
-	padding: 40px;
-	background-color: #E0F8F7;
-	margin-bottom: 50px;
-    box-shadow: 3px 3px 3px 3px #dadce0;
-    color:black;
-}
-.div_acc{
-	display:flex;
-	margin-bottom: 30px;
-	background-color: #CEECF5;
-}
-
-.div_acc:nth-child(2n){
-	background-color: #E0ECF8;
-}
-.div_acc:hover{
-	cursor:pointer;
-}
-.div_acc .div_img{
-	margin-right: 30px;
-	width:100px;
-	height:100px;
-	background-color:white;
-	border-radius:50%;
-}
-.div_acc .div_img img{
-	margin: 15px;
-}
-.div_data1{
-	flex-grow: 1;
-}
-.div_acc .div_data1 .div_title{
-	font-size: 30px;
-	margin: 20px 0;
-}
-.div_acc .div_data1 .div_num{
-	font-size: 24px;
-	margin: 20px 0;
-}
-.div_acc .div_data2{
-	text-align: right;
-}
-.div_acc .div_data2 .div_amt{
-	font-size: 36px;
-	margin-top: 80px;
-}
 .div_submenu{
 	display:none;
+}
+.cardCol {
+	display: inline-block;
+	margin-right: 30px;
+	margin-bottom: 30px;;
+}
+.card {
+	width : 18rem;
+}
+.card-body {
+	height : 130px;
+	position: relative;
 }
 </style>
 </head>
@@ -78,21 +42,41 @@
 
 	<section class="contact_area p_120">
 		<div class="container">
-			<div id="output">
+		
+		<div id="output" align="center">
 				<c:forEach items="${cardList}" var="list">
-					<div class="div_acc div_view">
-						<div class="div_img">
+					<div class="cardCol">
+						<div class="card">
 							<img
 								src="${pageContext.request.contextPath}/resources/img/card/${list.card_image}"
-								width="100px" height="70px">
-						</div>
-						<div class="div_data1">
-							<div class="div_title">${list.val}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${list.card_name}</div>
-							<div class="div_num">${list.card_num_masked}</div>
+								class="card-img-top">
+							<div class="card-body">
+								<h4 class="card-title">${list.card_name}</h4>
+								<p class="card-text">${list.card_num_masked}</p>
+							</div>
 						</div>
 					</div>
 				</c:forEach>
 			</div>
+				
+		
+		
+		
+<!-- 			<div id="output"> -->
+<%-- 				<c:forEach items="${cardList}" var="list"> --%>
+<!-- 					<div class="div_acc div_view"> -->
+<!-- 						<div class="div_img"> -->
+<!-- 							<img -->
+<%-- 								src="${pageContext.request.contextPath}/resources/img/card/${list.card_image}" --%>
+<!-- 								width="100px" height="70px"> -->
+<!-- 						</div> -->
+<!-- 						<div class="div_data1"> -->
+<%-- 							<div class="div_title">${list.val}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${list.card_name}</div> --%>
+<%-- 							<div class="div_num">${list.card_num_masked}</div> --%>
+<!-- 						</div> -->
+<!-- 					</div> -->
+<%-- 				</c:forEach> --%>
+<!-- 			</div> -->
 		</div>
 	</section>
 

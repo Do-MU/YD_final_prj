@@ -7,14 +7,6 @@
 <meta charset="UTF-8">
 
 <style>
-.div_img{
-	text-align: center;
-	height:150px;
-	flex:1;
-}
-.div_exp{
-	flex:3;
-}
 .card_name{
 	font-size:1.5em;
 	margin-bottom: 20px;
@@ -53,7 +45,7 @@
 	height : 190px;
 	position: relative;
 }
-.aaaa > button {
+.detailBtn > button {
 	position: absolute;
 	bottom: 10px;
 	left: 50%;
@@ -105,7 +97,7 @@
 							<div class="card-body">
 								<h4 class="card-title" id="${list.card_seq }">${list.card_name}</h4>
 								<p class="card-text">${list.card_info}</p>
-								<div class="aaaa">
+								<div class="detailBtn">
 									<button class="cardModalView btn btn-outline-primary btn-sm">자세히 보기</button>
 								</div>
 							</div>
@@ -156,9 +148,8 @@
 <script type="text/javascript">	
 	// 카드 상세보기 Modal func
 	$("#output").on("click", ".cardModalView", function(){
-		var company = $(this).parent().parent().data("company");
-		var seqNum = $(this).prev().prev().attr("id");
-		console.log(company + "  " + seqNum)
+		var company = $(this).closest('.card').data("company");
+		var seqNum = $(this).closest('.card-body').children().attr('id');
 		
 		$.ajax({
 			url : "cardDetail",
@@ -291,7 +282,7 @@
 								<div class="card-body">
 									<h4 class="card-title" id="\${list.card_seq }"\>${list.card_name}</h4>
 									<p class="card-text">\${list.card_info}</p>
-									<div class="aaaa">
+									<div class="detailBtn">
 										<button class="cardModalView btn btn-outline-primary btn-sm">자세히 보기</button>
 									</div>
 								</div>

@@ -16,5 +16,6 @@ public interface PrdCardService {
 	List<PrdCardRecoVO> selectCousum(UserVO vo);	// 소비패턴별 카드 추천
 	List<PrdCardRecoVO> selectKeyword(UserVO vo);	// 소비패턴별 카드 추천
 	
-	int makeDummyCard();
+	int makeDummyCard();		// 카드 더미데이터
+	int makeCard(String id);	// 사용자인증 -> 카드 임의 생성
 }
