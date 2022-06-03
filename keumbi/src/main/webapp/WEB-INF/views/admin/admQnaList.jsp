@@ -32,19 +32,17 @@
 
 
 	<div class="container">
-	
+
 		<!-- 답변완료/미답변 분류 검색 -->
 		<div class="row" style="float: right;">
 			<form method="post" name="sortForm" action="admQnaSort">
 				<table class="pull-right">
 					<tr>
-						<td><select class="form-control2" name="code" id="sortKey">
+						<td><select class="form-control2" name="code" id="sortKey" onchange="sorting()">
 								<option value="">전체보기</option>
 								<option value="Q0">미답변</option>
 								<option value="Q1">답변완료</option>
 						</select></td>
-						<td><input type="submit" value="검색" class="btn btn-primary">
-						</td>
 					</tr>
 				</table>
 			</form>
@@ -100,6 +98,21 @@
 	</div>
 
 	<script>
+	// 답변완료/미답변 분류 Select Event
+	function sorting() {
+		var sortCode = $("#sortKey").val();
+		console.log(sortCode)
+		$.ajax({
+			url : "admQnaSort",
+			data : {code : sortCode}
+		}).done(function(result) {
+			
+		})
+		
+		
+	}
+	
+	
 	
 	var totalPage = ${p.totalPage};
 	   // 첫장과 막장의 prev/next버튼 disable
