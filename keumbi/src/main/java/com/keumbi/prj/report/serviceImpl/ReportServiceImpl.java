@@ -30,11 +30,17 @@ public class ReportServiceImpl implements ReportService {
 		String repcode = vo.getRep_code();
 		if(repcode.equals("SB")) {
 			BoardVO bvo = b.view(vo.getRep_reason());
-			return "<p><제목></p><p>"+bvo.getTitle() + "</p><p><내용></p>" + bvo.getContents();
+			return "<p><제목></p><p>" + bvo.getTitle() + "</p><p><내용></p>" + bvo.getContents();
 		}else {
 			ReplyVO rvo = r.SelectOneReply(vo.getRep_reason());
 			return rvo.getRe_contents();
 		}
+	}
+
+
+	@Override
+	public int reportDelete(ReportVO vo) {
+		return m.reportDelete(vo);
 	}
 
 }

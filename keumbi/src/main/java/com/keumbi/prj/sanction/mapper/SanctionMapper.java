@@ -6,4 +6,5 @@ import com.keumbi.prj.sanction.vo.SanctionVO;
 
 public interface SanctionMapper {
 	List<SanctionVO> sanUser();
+	int sanInsert(SanctionVO vo);
 }

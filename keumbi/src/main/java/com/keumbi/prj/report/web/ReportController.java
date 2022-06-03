@@ -17,4 +17,10 @@ public class ReportController {
 	public String repReason(ReportVO vo) {
 		return reps.repReason(vo);
 	}
+	
+	@RequestMapping("/admin/reportDelete")
+	@ResponseBody
+	public int reportDelete(ReportVO vo) {
+		return reps.reportDelete(vo);
+	}
 }
