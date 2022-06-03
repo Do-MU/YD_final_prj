@@ -1,14 +1,18 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 
 <!-- jquery CDN -->
 <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
 <!-- fullcalendar -->
-<script src="${pageContext.request.contextPath}/resources/ledger/main.js"></script>
-<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/ledger/main.css">
+<script
+	src="${pageContext.request.contextPath}/resources/ledger/main.js"></script>
+<link rel="stylesheet"
+	href="${pageContext.request.contextPath}/resources/ledger/main.css">
 <!-- fullcalendar 언어 CDN -->
-<script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.0/locales-all.js"></script>
+<script
+	src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.0/locales-all.js"></script>
 <script>
 	if (!'${loginUser.id}') {
 		alert('로그인이 필요합니다.');
@@ -456,73 +460,90 @@
 .out {
 	color: red !important;
 }
+
 .in {
 	color: blue !important;
 }
+
 body {
 	padding: 0;
 	font-family: Arial, Helvetica Neue, Helvetica, sans-serif;
 	font-size: 14px;
 }
+
 [data-iocode="I1"] {
-	color : red;
+	color: red;
 }
+
 [data-iocode="I2"] {
-	color : blue;
+	color: blue;
 }
+
 #calendar, #ledgerFooter {
-	width : 100%;
-	margin-left : auto;
-	margin-right : auto;
+	width: 100%;
+	margin-left: auto;
+	margin-right: auto;
 }
+
 .pull-right {
-	margin-left : 30px;
+	margin-left: 30px;
 }
+
 #dayTotal {
-	width:100%;
+	width: 100%;
 	height: 30px;
 	position: relative;
 }
+
 #dayOutTotal, #dayInTotal {
-	padding-right : 5px;
-	padding-left : 5px;
+	padding-right: 5px;
+	padding-left: 5px;
 }
+
 #dayInTotal {
-	color : blue;
+	color: blue;
 	position: absolute;
 	right: 150px;
 	bottom: 0;
 }
+
 #dayOutTotal {
-	color : red;
+	color: red;
 	position: absolute;
 	right: 0;
 	bottom: 0;
 }
+
 #monthTotalAmt {
-	font-size : 4em;
-	font-weight : bold;
+	font-size: 4em;
+	font-weight: bold;
 }
-.list{
-  	overflow-y:  scroll !important;
+
+.list {
+	overflow-y: scroll !important;
 	max-height: 300px;
 }
-#div_totalAmt{
+
+#div_totalAmt {
 	margin: 0 0 50px;
-	color:black;
+	color: black;
 }
-#div_totalAmt h3{
+
+#div_totalAmt h3 {
 	padding-bottom: 10px;
 }
-#ledgerFooter{
+
+#ledgerFooter {
 	margin-top: 50px;
 }
-#div_tableHeader{
-	display:flex;
+
+#div_tableHeader {
+	display: flex;
 	margin-bottom: 20px;
 }
-#div_tableHeader div{
-	height:40px;
+
+#div_tableHeader div {
+	height: 40px;
 }
 </style>
 <body>
@@ -533,15 +554,14 @@ body {
 					<div class="banner_content text-center">
 						<h2>가계부</h2>
 						<div class="page_link">
-							<a href="home">Home</a>
-							<a href="monthView">가계부</a>
+							<a href="home">Home</a> <a href="monthView">가계부</a>
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
 	</section>
-	
+
 	<section class="contact_area p_120">
 		<div class="container">
 			<div>
@@ -550,8 +570,8 @@ body {
 						<h3>총 소비 금액</h3>
 						<p id="monthTotalAmt"></p>
 					</div>
-		      		<div id='calendar'></div>
-		    	</c:if>
+					<div id='calendar'></div>
+				</c:if>
 			</div>
 
 			<!-- 가계부 달력 하단 부분 시작 -->
@@ -565,27 +585,29 @@ body {
 								<input type="hidden" name="user_id" value="${loginUser.id}">
 								<table class="pull-right">
 									<tr>
-										<td><input type="text" class="form-control" placeholder="검색어 입력" name="keyword" maxlength="100" id="keyInput"></td>
-										<td><button class="btn btn-dark" onclick='btnSearch(event)'>검색</button></td>	
+										<td><input type="text" class="form-control"
+											placeholder="검색어 입력" name="keyword" maxlength="100"
+											id="keyInput"></td>
+										<td><button class="btn btn-dark"
+												onclick='btnSearch(event)'>검색</button></td>
 									</tr>
 								</table>
 							</form>
 						</div>
 					</div>
-					
+
 					<!-- 오늘날짜(디폴트)와 클릭한 날짜의 입출금 내역 출력 되는 곳 -->
 					<div id="dayView" class="container-fluid">
 						<div id="dayTotal">
-							<span id="dayInTotal"></span>
-							<span id="dayOutTotal"></span>
+							<span id="dayInTotal"></span> <span id="dayOutTotal"></span>
 						</div>
 					</div>
 				</div>
 				<div>
 					<table class="table" id="dayTable">
-				  		<thead class="thead-dark" id="listHead">   
-				  		</thead>
-						<tbody id="listBody">    
+						<thead class="thead-dark" id="listHead">
+						</thead>
+						<tbody id="listBody">
 						</tbody>
 					</table>
 					<p class="h2 text-center" id="empty"></p>
@@ -593,7 +615,7 @@ body {
 				<!-- 클릭한 날짜 입출금 내역 끝 -->
 			</div>
 			<!-- 가계부 달력 하단 부분 끝 -->
-	    </div>
+		</div>
 	</section>
 
 	<!-- 현금 지출수입내역 입력 Modal 시작 -->
@@ -603,7 +625,8 @@ body {
 			<div class="modal-content">
 				<div class="modal-header">
 					<h5 class="modal-title" id="exampleModalLabel">현금거래 등록하기</h5>
-					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
 						<span aria-hidden="true">&times;</span>
 					</button>
 				</div>
@@ -611,74 +634,76 @@ body {
 					<form id="cashInsertFrm" name="modalForm">
 						<input type="hidden" name="user_id" value="${loginUser.id}">
 						<div>
-							<input type="radio" id="choice1" name="io_code" value="I1" checked="checked">
-							<label for="choice1">지출</label> 
-							<input type="radio" id="choice2" name="io_code" value="I2"> 
-							<label for="choice2">수입</label>
+							<input type="radio" id="choice1" name="io_code" value="I1"
+								checked="checked"> <label for="choice1">지출</label> <input
+								type="radio" id="choice2" name="io_code" value="I2"> <label
+								for="choice2">수입</label>
 						</div>
-						<label>날짜 </label> <br>
-						<input type="date" name="tdate" id="cashModalDate"> <br><br> 
-						<label>분류 </label><br>
-						<select id="cat_code" name="cat_code">
-							<option value="">선택</option>
-							<c:forEach var="c" items="${code}">
-								<option value="${c.code}">${c.val}</option>
-							</c:forEach>
-						</select> <br><br>
-						<br> <label>금액 </label> <input type="number" name="amt">
-						<br> <label>내용 </label> <input type="text" name="content">
-						<br>
-					</form>
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
-					<button type="button" class="btn btn-primary" onclick="btnInsert()">입출금내역 입력</button>	
-				</div>
-			</div>
-		</div>
-	</div>
-	<!-- 현금 지출수입내역 입력 Modal 끝 -->
-	
-	<!-- 거래내역 수정/삭제 Modal 시작 -->
-	<div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-	  <div class="modal-dialog">
-	    <div class="modal-content">
-	      <div class="modal-header">
-	        <h5 class="modal-title" id="editModalLabel"></h5>
-	        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-	          <span aria-hidden="true">&times;</span>
-	        </button>
-	      </div>
-	      <div class="modal-body">
-	        <form id="ledUpdateFrm" name="updateModalForm">
-						<input type="hidden" name="user_id" value="${loginUser.id}">
-						<input type="hidden" name="num" id="number">
-						<input type="hidden" name="tdate" id="tdate">
-						<div>
-							<input type="radio" id="choice1" name="io_code" value="I1">
-							<label for="choice1">지출</label> 
-							<input type="radio" id="choice2" name="io_code" value="I2"> 
-							<label for="choice2">수입</label>
-						</div>
-						<label>분류 </label> 
-						<select name="cat_code" id="category">
+						<label>날짜 </label> <br> <input type="date" name="tdate"
+							id="cashModalDate"> <br>
+						<br> <label>분류 </label><br> <select id="cat_code"
+							name="cat_code">
 							<option value="">선택</option>
 							<c:forEach var="c" items="${code}">
 								<option value="${c.code}">${c.val}</option>
 							</c:forEach>
 						</select> <br>
-						<br> <label>금액 </label> <input type="number" name="amt" id="editAmt">
-						<br> <label>내용 </label> <input type="text" name="content" id="editCont">
-						<br>
+						<br> <br> <label>금액 </label> <input type="number"
+							name="amt"> <br> <label>내용 </label> <input
+							type="text" name="content"> <br>
 					</form>
-	      </div>
-	      <div class="modal-footer">
-	        <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
-	        <button type="button" class="btn btn-primary" onclick="ledUpdate()">변경</button>
-	        <button type="button" class="btn btn-danger" onclick="ledDelete()">삭제</button>
-	      </div>
-	    </div>
-	  </div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary"
+						data-dismiss="modal">닫기</button>
+					<button type="button" class="btn btn-primary" onclick="btnInsert()">입출금내역
+						입력</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- 현금 지출수입내역 입력 Modal 끝 -->
+
+	<!-- 거래내역 수정/삭제 Modal 시작 -->
+	<div class="modal fade" id="editModal" tabindex="-1"
+		aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="editModalLabel"></h5>
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<form id="ledUpdateFrm" name="updateModalForm">
+						<input type="hidden" name="user_id" value="${loginUser.id}">
+						<input type="hidden" name="num" id="number"> <input
+							type="hidden" name="tdate" id="tdate">
+						<div>
+							<input type="radio" id="choice1" name="io_code" value="I1">
+							<label for="choice1">지출</label> <input type="radio" id="choice2"
+								name="io_code" value="I2"> <label for="choice2">수입</label>
+						</div>
+						<label>분류 </label> <select name="cat_code" id="category">
+							<option value="">선택</option>
+							<c:forEach var="c" items="${code}">
+								<option value="${c.code}">${c.val}</option>
+							</c:forEach>
+						</select> <br> <br> <label>금액 </label> <input type="number"
+							name="amt" id="editAmt"> <br> <label>내용 </label> <input
+							type="text" name="content" id="editCont"> <br>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary"
+						data-dismiss="modal">취소</button>
+					<button type="button" class="btn btn-primary" onclick="ledUpdate()">변경</button>
+					<button type="button" class="btn btn-danger" onclick="ledDelete()">삭제</button>
+				</div>
+			</div>
+		</div>
 	</div>
 	<!-- 거래내역 수정/삭제 Modal 끝 -->
 </body>

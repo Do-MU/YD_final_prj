@@ -15,7 +15,7 @@ public interface QnaMapper {
 	//관리자 고객센터 페이지
 	List<QnaVO> qnaAdminList(PageVO pvo);	//관리자 문의글 전체조회
 	QnaVO qnaAdminSelectOne(int num);		//관리자 문의글 조회
-	List<QnaVO> qnaAdminSort(PageVO pvo);		//문의글 분류(답변완료/미답변)
+	List<QnaVO> qnaAdminSort(PageVO pvo);	//문의글 분류(답변완료/미답변)
 	void qnaAdminUpdate(QnaVO vo);			//관리자 문의글 답변 등록
 	
 	//페이징 처리

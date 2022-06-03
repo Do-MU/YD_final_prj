@@ -6,6 +6,8 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<style>
+</style>
 </head>
 <body>
 
@@ -39,35 +41,38 @@
 					</tr>
 					<tr>
 						<td>문의일시</td>
-						<td colspan="2" style="text-align: left;">${qna.qdate }</td>
+						<td colspan="2" style="text-align: left;" id="qdate">${qna.qdate}</td>
 					</tr>
 					<tr>
 						<td>내용</td>
-						<td colspan="2" style="height: 200px; text-align: left;">${qna.qcontents}</td>
+						<td colspan="2" style="height: 200px; text-align: left;"><pre>${qna.qcontents}</pre></td>
 					</tr>
 					<c:choose>
 						<c:when test="${not empty qna.acontents}">
 							<tr>
-								<td>답변</td>
-								<td colspan="2" style="height: 200px; text-align: left;">
-									<p>${qna.acontents}</p> <br> <span>답변일시:
-										${qna.qdate}</span>
-								</td>
+								<td>답변일시</td>
+								<td style="text-align: left;" id="adate">${qna.adate}</td>
 							</tr>
+							<tr>
+								<td>답변</td>
+								<td colspan="2" style="height: 200px; text-align: left;"><pre>${qna.acontents}</pre>
+									<br></td>
+
+							</tr>
+
 						</c:when>
 						<c:otherwise>
 
 							<tr>
 								<td colspan="3" style="text-align: center;">
-									<!-- <button onclick="displayForm()">답변쓰기</button> -->
 									<form id="amdQnaUpdateFrm" method="POST"
 										action="admQnaUpdate?num=${qna.num}">
-										<p>
-											<textarea cols="140" rows="10" name="acontents"></textarea>
-										</p>
-										<p>
-											<input type="submit" style="text-align: center;" value="등록하기">
-										</p>
+
+										<textarea cols="140" rows="10" name="acontents"
+											id="answerCont"></textarea>
+
+										<input type="submit" style="text-align: center;" value="등록하기">
+
 									</form>
 								</td>
 							</tr>
@@ -80,26 +85,11 @@
 			style="float: right;">목록보기</a>
 	</div>
 
-
-
-
-
 	<script>
-
-		function displayForm() {
-			
-			var makeForm = `<form id="amdQnaUpdateFrm" method="POST" action="admQnaUpdate?num=${qna.num}">
-							<p>
-								<textarea cols="140" rows="10" name="acontents"></textarea>
-							</p>
-							<p>
-								<input type="submit" style="text-align: center;" value="등록하기">
-							</p>
-						</form>`;
-						
-			$(this).parent().append(makeForm);
-			
-		}
+		//문의 날짜
+		$("#qdate").text($("#qdate").text().substring(0, 10));
+		//답변 날짜
+		$("#adate").text($("#adate").text().substring(0, 10));
 	</script>
 </body>
 </html>
