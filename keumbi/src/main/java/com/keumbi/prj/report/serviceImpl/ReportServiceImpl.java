@@ -37,4 +37,17 @@ public class ReportServiceImpl implements ReportService {
 		}
 	}
 
+
+	@Override
+	public void reportInsert(ReportVO vo) {
+		m.reportInsert(vo);
+		
+	}
+	
+	@Override
+	public void reportInsertInsert(ReportVO vo) {
+		m.reportInsertInsert(vo);
+		
+	}
+
 }

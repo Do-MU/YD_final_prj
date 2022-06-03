@@ -19,4 +19,8 @@ public class BoardVO {
 	
 	private String tag[]; //태그
 	private String kwd_code;
+	
+	private String code; //페이징
+	
+	
 }

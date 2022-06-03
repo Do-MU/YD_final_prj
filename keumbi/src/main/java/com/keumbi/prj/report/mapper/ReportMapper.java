@@ -6,4 +6,6 @@ import com.keumbi.prj.report.vo.ReportVO;
 
 public interface ReportMapper {
 	List<ReportVO> reportList();
+	void reportInsert(ReportVO vo);
+	void reportInsertInsert(ReportVO vo);
 }

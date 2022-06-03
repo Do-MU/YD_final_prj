@@ -17,7 +17,9 @@ public interface BoardMapper {
 	BoardVO view(int bod_num);
 	List<BoardVO> tagSelect(int bod_num);	
 	List<BoardVO> selectBoardList();
-	List<BoardVO> boardSelectList(int page);
+	//List<BoardVO> boardSelectList(int page);
+	int boardCount();
+	int boardSortCount(String code);
 	List<BoardVO> boardSearchList(@Param("key") String key, @Param("val") String val);
 	
 	

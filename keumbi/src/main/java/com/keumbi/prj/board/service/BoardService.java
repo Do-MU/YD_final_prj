@@ -12,6 +12,10 @@ public interface BoardService{
 	BoardVO view(int bod_num);
 	List<BoardVO> tagSelect(int bod_num);	
 	List<BoardVO> selectBoardList();
-	List<BoardVO> boardSelectList(int page);
+	//List<BoardVO> boardSelectList(int page);
 	List<BoardVO> boardSearchList(String key, String val);
+	
+	//페이징
+	int boardCount();
+	int boardSortCount(String code);
 }
