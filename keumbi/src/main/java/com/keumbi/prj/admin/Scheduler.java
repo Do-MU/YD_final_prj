@@ -16,7 +16,7 @@ public class Scheduler {
 	@Autowired SavingService savserv;
 	@Autowired LoanService loaserv;
 	
-	@Scheduled(cron = "0 0 10 * * *")
+	//@Scheduled(cron = "0 0 10 * * *")
 	public void autoUpdate() {
 	
 		userserv.schedulerUpdateUser();
