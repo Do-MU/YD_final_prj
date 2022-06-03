@@ -55,10 +55,9 @@ public class QnaServiceImpl implements QnaService {
 		m.qnaAdminUpdate(vo);
 		
 		NotiVO nvo = new NotiVO();
-		//nvo.setUser_id(vo.);
+		nvo.setUser_id(m.qnaAdminSelectOne(vo.getNum()).getUser_id());
 		nvo.setNoti_code("N3");
 		noti.notiInsert(nvo);
-		
 	}
 
 	@Override

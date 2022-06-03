@@ -28,20 +28,27 @@
 
 	<!-- 관리자 -->
 	<select id="qnaAdminList" parameterType="PageVO" resultType="QnaVO">
-	<![CDATA[
 		SELECT 		Q.NUM, Q.USER_ID, U.NAME, Q.TITLE, Q.QDATE, C.VAL
-		FROM 		(
-					SELECT ROWNUM AS RNUM, T.*
-					FROM QNAS T
-					WHERE ROWNUM <= #{totalNo} - ((#{pageNo} - 1) * #{pageScale})
-					ORDER BY QDATE DESC
-					) Q
-		JOIN 		COMMON_CODE C
-		ON 			Q.ANSWER_CODE = C.CODE
-		JOIN 		USERS U
-		ON 			Q.USER_ID = U.ID
-		WHERE 		#{totalNo} - (#{pageNo} * #{pageScale}) + 1 <= RNUM
-		ORDER BY 	Q.QDATE
+		FROM		(	SELECT 		ROWNUM AS RNUM, T.* 
+						FROM 		(	SELECT 		* 
+										FROM 		QNAS
+										<choose>
+											<when test="code=='Q0'">
+												WHERE ANSWER_CODE = 'Q0'
+											</when>
+											<when test="code=='Q1'">
+												WHERE ANSWER_CODE = 'Q1'
+											</when>
+										</choose>
+										ORDER BY 	ANSWER_CODE DESC, QDATE DESC
+									) T
+	<![CDATA[
+			             WHERE 		ROWNUM <= #{totalNo} - ((#{pageNo} - 1) * #{pageScale})
+			             ORDER BY 	ANSWER_CODE) Q, COMMON_CODE C, USERS U
+		WHERE 		Q.ANSWER_CODE = C.CODE
+		AND 		Q.USER_ID = U.ID
+		AND     	#{totalNo} - (#{pageNo} * #{pageScale}) + 1 <= RNUM
+		ORDER BY 	Q.ANSWER_CODE, Q.QDATE
 	]]>
 	</select>
 	
