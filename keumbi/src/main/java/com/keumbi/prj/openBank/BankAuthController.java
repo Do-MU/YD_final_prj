@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.keumbi.prj.noti.service.NotiService;
 import com.keumbi.prj.noti.vo.NotiVO;
+import com.keumbi.prj.prd.service.PrdCardService;
 import com.keumbi.prj.user.mapper.UserMapper;
 import com.keumbi.prj.user.vo.UserVO;
 
@@ -18,7 +19,7 @@ public class BankAuthController {
 	
 	@Autowired UserMapper userMapper;
 	@Autowired NotiService noti;
-	
+	@Autowired PrdCardService prdCard;	
 	// 사용자 인증요청
 	@RequestMapping("/bankAuth")
 	public String bankAuth(AuthVO avo) throws Exception {
@@ -65,6 +66,11 @@ public class BankAuthController {
 			nvo.setUser_id(uvo.getId());
 			nvo.setNoti_code("N5");
 			noti.notiInsert(nvo);
+			
+			// 카드 자동생성
+			for(int i=0; i<3; i++) {
+				prdCard.makeCard(uvo.getId());
+			}
 		}
 
 		return "redirect:accountList";
