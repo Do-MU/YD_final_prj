@@ -10,6 +10,10 @@
 .pagination>li>a {
 	float: none;
 }
+#sortKey {
+	margin : 0px 0px 20px 0px;
+
+}
 </style>
 
 
@@ -27,8 +31,8 @@
 
 
 <div class="container">
-	<!-- 답변완료/미답변 분류 검색 -->
-	<div class="row" style="float: right;">
+	<!-- 답변완료/미답변 Select -->
+	<div>
 		<form method="post" name="sortForm" action="admQnaSort">
 			<table class="pull-right">
 				<tr>
@@ -59,7 +63,8 @@
 				<c:forEach var="q" items="${qnas}">
 					<tr>
 						<td><c:out value="${q.num}" /></td>
-						<td><a href="./admQnaView?num=${q.num}"><c:out value="${q.title}" /></a></td>
+						<td><a href="./admQnaView?num=${q.num}"><c:out
+									value="${q.title}" /></a></td>
 						<td><c:out value="${q.name}" /></td>
 						<td><c:out value="${q.user_id}" /></td>
 						<td><c:out value="${q.qdate}" /></td>
@@ -75,20 +80,16 @@
 <div>
 	<ul class="pagination justify-content-center">
 		<li class="page-item">
-			<a class="page-link" aria-label="Previous" onclick="prev(${p.pageNo})" id="prev_btn">
-				<span aria-hidden="true">&laquo;</span>
-			</a>
-		</li>
+		<a class="page-link" aria-label="Previous" onclick="prev(${p.pageNo})" id="prev_btn"> 
+			<span aria-hidden="true">&laquo;</span>
+		</a></li>
 		<c:forEach begin="${p.startPage}" end="${p.endPage}" var="i">
 			<li class="page-item">
-				<a id="page-num-${i}" class="page-link" data-pageNo="${i}">${i}</a>
-			</li>
+			<a id="page-num-${i}" class="page-link" data-pageNo="${i}">${i}</a></li>
 		</c:forEach>
-		<li class="page-item">
-			<a class="page-link" aria-label="Next" onclick="next(${p.pageNo})" id="next_btn">
-				<span aria-hidden="true">&raquo;</span>
-			</a>
-		</li>
+		<li class="page-item"><a class="page-link" aria-label="Next" onclick="next(${p.pageNo})" id="next_btn"> 
+		<span aria-hidden="true">&raquo;</span>
+		</a></li>
 	</ul>
 </div>
 
