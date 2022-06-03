@@ -6,4 +6,5 @@ import com.keumbi.prj.report.vo.ReportVO;
 
 public interface ReportMapper {
 	List<ReportVO> reportList();
+	int reportDelete(ReportVO vo);
 }

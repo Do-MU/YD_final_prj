@@ -31,7 +31,7 @@ td{
 }
 
 #btn_div{
-	padding:5px 0px 0px 945px;
+	padding:5px 0px 0px 880px;
 }
 </style>
 <div class="container">
@@ -50,16 +50,16 @@ td{
 		</thead>
 		<tbody>
 			<c:forEach var="rep" items="${reportList}">
-				<tr>
-					<td class="check"><input type="checkbox"></td>
+				<tr data-rep_num="${rep.rep_num}">
+					<td><input type="checkbox" class="check"></td>
 					<td class="repId">${rep.rep_id}</td>
 					<td class="repedId">${rep.reped_id}</td>
 					<td class="date">${rep.rep_date}</td>
 					<td class="repCode" data-rep_code="${rep.rep_code}">${rep.rep_code}</td>
 					<td class="reason" data-rep_reason="${rep.rep_reason}"><a href="#">내용보기</a></td>
 					<td>
-						<select style="width:150px;">
-							<option>3일</option>
+						<select class="sanDate" style="width:150px;">
+							<option selected>3일</option>
 							<option>7일</option>
 							<option>14일</option>
 							<option>30일</option>
@@ -70,6 +70,7 @@ td{
 		</tbody>
 	</table>
 	<div id="btn_div">
+		<button type="button" id="deleteBtn" class="btn btn-danger">삭제</button>
 		<button type="button" id="sanInsertBtn" class="btn btn-primary active">저장</button>
 	</div>
 	<!-- Modal -->
@@ -87,6 +88,7 @@ td{
 	</div>
 </div>
 <script>
+	// 제재 내용
 	$(".reason a").on('click', function(){
 		$.ajax({
 			url:"repReason",
@@ -100,28 +102,53 @@ td{
 		$("#reasonModal").modal("show");
 	})
 	
+	// 제재 종류
 	$(".repCode").each(function(){
+		var num = $(this).parent().find(".reason").data("rep_reason");
 		if($(this).text() == 'SB'){
-			$(this).text("게시글");
+			$(this).text("게시글 #" + num);
 		}else if($(this).text() == 'SR'){
-			$(this).text("댓글");
+			$(this).text("댓글 #" + num);
 		}
 	})
 	
+	// 저장 버튼
 	$("#sanInsertBtn").on('click', function(){
-		$(".check").each(function(){
-			if($(this).children().is(":checked")==true){
-				console.log($(this).parent().children(":eq(2)").text());
-				/* $.ajax({
-					url:"sanInsert",
-					data:{
-						user_id:$(this).next().next().text(),
-						sanc_code:$(this).next().next().next().next().text(),
-						edate:$(this).next().next().next().text(),
-						sanc_reason:$(this).next().next().next().next().next().text()
-					}
-				}) */				
-			}
+		$(".check:checked").each(function(){	
+			$.ajax({
+				url:"sanInsert",
+				data:{
+					user_id:$(this).closest("tr").find(".repedId").text(),
+					sanc_code:$(this).closest("tr").find(".repCode").data("rep_code"),
+					edate:$(this).closest("tr").find(".sanDate").val().slice(0, -1),
+					sanc_reason:$(this).closest("tr").find(".reason").data("rep_reason")
+				}
+			}).done(function(data){
+				if(data == 1){
+					alert(data + "건 처리 되었습니다.");
+					window.location.reload();
+				}
+			})
+		})
+	})
+	
+	// 삭제 버튼
+	$("#deleteBtn").on('click', function(){
+		$(".check:checked").each(function(){
+			console.log($(this).closest("tr").data("rep_num"));
+			$.ajax({
+				url:"reportDelete",
+				data:{
+					rep_code:$(this).closest("tr").find(".repCode").data("rep_code"),
+					rep_reason:$(this).closest("tr").find(".reason").data("rep_reason"),
+					rep_num:$(this).closest("tr").data("rep_num")
+				}
+			}).done(function(data){
+				if(data != null){
+					alert(data + "건 처리 되었습니다.");
+					window.location.reload();
+				}
+			})
 		})
 	})
 </script>
