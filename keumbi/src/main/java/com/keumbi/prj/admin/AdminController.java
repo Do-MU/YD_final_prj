@@ -1,5 +1,7 @@
 package com.keumbi.prj.admin;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -62,7 +64,7 @@ public class AdminController {
 		String code = pvo.getCode();
 		int total = 0;
 		if(code != null) {
-			total = qna.qnaSortCount(code);
+			total = qna.qnaSortCount(code);												// 미답변/답변 QNA 수
 		}else {
 			total = qna.qnaCount();                                          			// 전체 QNA수						
 		}
@@ -79,19 +81,25 @@ public class AdminController {
 	}
 	
 	// 문의글 분류별(답변완료/미답변) 정렬
-	@RequestMapping("/admQnaSort")
-	public String qnaAdminSort(Model model, PageVO pvo) {
-		int total = qna.qnaSortCount(pvo.getCode());
-		int pageCnt = total/pvo.getPageScale() + (total%pvo.getPageScale()>0?1:0);
-		int endPage = ((pvo.getPageNo()-1)/10+1)*10;
+	@RequestMapping("/admQnaListSort")
+	@ResponseBody
+	public List<QnaVO> qnaAdminSort(Model model, PageVO pvo) {
+		String code = pvo.getCode();
+		int total = 0;
+		if(code != null) {
+			total = qna.qnaSortCount(code);												// 미답변/답변 QNA 수
+		}else {
+			total = qna.qnaCount();                                          			// 전체 QNA수						
+		}
+		int pageCnt = total/pvo.getPageScale() + (total%pvo.getPageScale()>0?1:0);    	// 전체 페이지 수 = 전체 QNA수/한 페이지 출력수 + 나머지가 있으면 1 없으면 0
+		int endPage = ((pvo.getPageNo()-1)/10+1)*10;                           			// 마지막 페이지 = 현재 페이지 (11 ~ 20)인 경우 > (10~19)/10 > 2*10 > 마지막 페이지 20
 		pvo.setTotalNo(total);
 		pvo.setTotalPage(pageCnt);
-		pvo.setStartPage(((pvo.getPageNo()-1)/10)*10+1);
-		pvo.setEndPage(endPage > pageCnt ? pageCnt : endPage);
+		pvo.setStartPage(((pvo.getPageNo()-1)/10)*10+1);                        		// 시작 페이지 =  현재 페이지 (11 ~ 20)인 경우 > (10~19)/10 > 1*10+1 > 시작 페이지 11
+		pvo.setEndPage(endPage > pageCnt ? pageCnt : endPage);                    	 	// 총 페이지 수가 34페이지까지 일 경우 40페이지가 아니라 34페이지가 마지막 페이지
 		
 		model.addAttribute("p", pvo);
-		model.addAttribute("qnas", qna.qnaAdminSort(pvo));
-		return "admin/admQnaList";
+		return qna.qnaAdminList(pvo);
 	}
 	
 	// 고객센터 문의글 조회
