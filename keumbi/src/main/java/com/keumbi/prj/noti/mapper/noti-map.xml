@@ -32,7 +32,7 @@
 			'이체를 완료했습니다.',
 		</when>
 		<when test="noti_code == 'N3'">
-			'내 문의글에 댓글이 달렸습니다.',
+			'내 문의글에 답글이 달렸습니다.',
 		</when>
 		<when test="noti_code == 'N4'"></when>
 		<when test="noti_code == 'N5'">
