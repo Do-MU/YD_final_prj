@@ -87,7 +87,6 @@
 	<script>
 
 		function displayForm() {
-			console.log("제발!!!")
 			
 			var makeForm = `<form id="amdQnaUpdateFrm" method="POST" action="admQnaUpdate?num=${qna.num}">
 							<p>
