@@ -53,8 +53,8 @@
 					<thead>
 						<tr>
 							<th colspan="2"
-								style="background-color: #eeeeee; text-align: center; height: 50px;"><strong>${view.user_id}</strong>님의
-								&nbsp; 게시글</th>
+								style="background-color: #eeeeee; text-align: center; height: 50px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+								<strong>${view.user_id}</strong>님의 &nbsp; 게시글</th> 
 						</tr>
 					</thead>
 					<tbody>
@@ -75,13 +75,16 @@
 							<td colspan="2" style="text-align: center;">
 							<c:forEach var="t" items="${tags}">
 							#<c:out value="${t.kwd_code }"/>&nbsp;&nbsp;&nbsp;
-							</c:forEach></td>
+							</c:forEach>
+							<input type="button" id="submit" role="button"
+								class="btn btn-outline-danger"
+								onclick="calls_submit()" style="float: right;" value="신고"></td>
 						</tr>
 					</tbody>
 				</table>
 				<a href="boardList" role="button" class="btn btn-outline-secondary"
 					style="float: right;">목록보기</a>
-				<c:if test="${loginUser.id eq view.user_id}">
+				<c:if test="${loginUser.id eq view.user_id}">										
 					<a href="delete?bod_num=${view.bod_num}" role="button"
 						class="btn btn-outline-dark pull-right delete_btn"
 						onclick="return confirm('정말로 삭제하시겠습니까?')" style="float: right;">삭제</a>
@@ -93,7 +96,17 @@
 			</form>
 		</div>
 	</div>
-
+	
+	<form id="frm" name="frm" action="reportInsert" method="post" onsubmit="return calls_submit()">
+	<input type="hidden" name="rep_reason" value='${view.bod_num}'/>
+	<input type="hidden" name="reped_id" value='${view.user_id}'/>	
+	</form>
+	
+	<form id="frmm" name="frmm" action="reportInsertInsert" method="post" onsubmit="return callss_submit()">
+	<input type="hidden" name="rep_reason" value='${view.bod_num}'/>
+	<input type="hidden" name="reped_id" value='${view.user_id}'/>	
+	</form>
+		
 	<br>
 	<br>
 	<br>
@@ -134,7 +147,21 @@
 	<br>
 	<br>
 	<br>
-
+	
+	<script>
+	
+	function calls_submit() {
+		if(confirm("신고하시겠습니까?"))
+		frm.submit();
+	} 
+	
+	function callss_submit() {
+		if(confirm("신고하시겠습니까?"))
+		frmm.submit();
+	}
+	
+	</script>
+	
 	
 	<script>
 	
@@ -143,15 +170,7 @@
 		var insertData = $('[name=replyInsertForm]').serialize(); //commentInsertForm의 내용을 가져옴    
 		replyInsert(insertData); //Insert 함수호출(아래)});
 	})
-	
-	/* var bod_num = '${view.bod_num}'; //게시글 번호 
-	$('[name=rorInsertBtn]').click(function(){ //대댓글 등록 버튼 클릭시     
-		var insertDataROR = $('[name=rorInsertForm]').serialize(); //commentInsertForm의 내용을 가져옴    
-		console.log
-		rorInsert(insertDataROR); //Insert 함수호출(아래)});
-	
-	}) */
-	
+		
 	//댓글 목록 
 	function replyList(){
 	    $.ajax({
@@ -175,7 +194,8 @@
 						          
       				 a += `<div class="commentinfo\${value.re_num}">
    						  ∥ 작성자 : \${value.user_id} ∥&nbsp;  날짜 : \${value.re_date} ∥ <div id="check"></div> 
-   						  \${user}<button type="button" class="btn btn-outline-success" onclick="replyOfReply('\${value.re_num}');" style="float: right;"> 댓글 </button>
+   						  \${user}  <input type="button" id="submit" role="button" class="btn btn-outline-danger" onclick="callss_submit()" style="float: right;" value="신고">
+   						  			<button type="button" class="btn btn-outline-success" onclick="replyOfReply('\${value.re_num}');" style="float: right;"> 댓글 </button>
    						  <div class="re_contents\${value.re_num}">&nbsp;<p>&nbsp; &nbsp;&nbsp;\${value.re_contents}</p></div><hr>`
    						  
 						  
@@ -196,8 +216,7 @@
 							<div type="hidden" name="bod_num" class="re_contents\${item.re_num}">
 							<div class="commentinfo\${item.re_num}">
 							<div class="st">
-							↳ &nbsp;&nbsp;&nbsp; ∥ 작성자 : \${item.user_id} ∥&nbsp;  날짜 : \${item.re_date} ∥ <div id="check"></div>
-							\${users}
+							↳ &nbsp;&nbsp;&nbsp; ∥ 작성자 : \${item.user_id} ∥&nbsp;  날짜 : \${item.re_date} ∥ <div id="check"></div> \${users}
 							<div class="stt">
 							<br><p> \${item.re_contents}</p> 				    		   		
 						   	</div></div></div></div><hr>`

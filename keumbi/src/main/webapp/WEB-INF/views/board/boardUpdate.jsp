@@ -6,8 +6,78 @@
 <html>
 <head>
 <meta charset="UTF-8">
-
+<meta http-equiv='X-UA-Compatible' content='IE=edge'>
 <title>뷰</title>
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+<script type="module" src="/tag_create.js"></script>
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+
+<style>
+.banner_area_login {
+	position: relative;
+	z-index: 1;
+	min-height: 120px;
+	background-image: -moz-linear-gradient(0deg, #766dff 0%, #88f3ff 100%);
+	background-image: -webkit-linear-gradient(0deg, #766dff 0%, #88f3ff 100%);
+	background-image: -ms-linear-gradient(0deg, #766dff 0%, #88f3ff 100%);
+	margin-bottom: 80px;
+}
+
+* {
+	text-align: center;
+}
+
+#editor {
+	border: 1px solid;
+	width: 50%;
+	margin: 0 auto;
+}
+
+#contents {
+	border: 1px solid;
+	width: 50%;
+	margin: 0 auto;
+}
+
+ul {
+	padding: 16px 0;
+}
+
+ul li {
+	display: inline-block;
+	margin: 0 5px;
+	font-size: 14px;
+	letter-spacing: -.5px;
+}
+
+form {
+	padding-top: 16px;
+}
+
+ul li.tag-item {
+	padding: 4px 8px;
+	background-color: #777;
+	color: #000;
+}
+
+.tag-item:hover {
+	background-color: #262626;
+	color: #fff;
+}
+
+.del-btn {
+	font-size: 12px;
+	font-weight: bold;
+	cursor: pointer;
+	margin-left: 8px;
+}
+</style>
+
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.48.4/codemirror.min.css" />
+<link rel="stylesheet"
+	href="https://uicdn.toast.com/editor/latest/toastui-editor.min.css" />
+<link rel="stylesheet" type="text/css" href="/tag_create.css">
 
 </head>
 
@@ -67,6 +137,7 @@
 							</td>
 
 						</tr>
+						
 					</tbody>
 				</table>
 				<br>

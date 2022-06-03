@@ -56,16 +56,25 @@ public class BoardServiceImpl implements BoardService {
 		return m.boardSearchList(key, val);
 	}
 
-	@Override
-	public List<BoardVO> boardSelectList(int page) {
-		return m.boardSelectList(page);
-	}
+	/*
+	 * @Override public List<BoardVO> boardSelectList(int page) { return
+	 * m.boardSelectList(page); }
+	 */
 
 	@Override
 	public List<BoardVO> tagSelect(int bod_num) {	
 		return m.tagSelect(bod_num);
 	}
 	
+	@Override
+	public int boardCount() {
+		return m.boardCount();
+	}
+	
+	@Override
+	public int boardSortCount(String code) {
+		return m.boardSortCount(code);
+	}
 	
 		
 	

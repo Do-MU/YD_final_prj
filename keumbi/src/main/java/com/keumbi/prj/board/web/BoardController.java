@@ -95,14 +95,25 @@ public class BoardController {
 		return "board/boardList";
 
 	}
+	
+	
 
-	@RequestMapping(value = "/boardSelectList", method = RequestMethod.POST)
-	public String boardSelectList(@RequestParam int page, Model model) {
-		List<BoardVO> select = service.boardSelectList(page);
-		model.addAttribute("select", select);
-
-		return "board/boardList";
-	}
+	/*
+	 * @RequestMapping(value = "/boardSelectList", method = RequestMethod.POST)
+	 * public String boardSelectList(@RequestParam int page, Model model) {
+	 * List<BoardVO> select = service.boardSelectList(page);
+	 * model.addAttribute("select", select);
+	 * 
+	 * return "board/boardList"; }
+	 */
+	
+	/*
+	 * @RequestMapping(value = "/reportSelect", method = RequestMethod.POST) public
+	 * String reportSelect(ReportVO vo, HttpSession session) { UserVO uvo = (UserVO)
+	 * session.getAttribute("loginUser"); vo.setRep_id(uvo.getId());
+	 * 
+	 * return "admin/admReportList"; }
+	 */
 	
 	
 

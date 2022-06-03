@@ -6,6 +6,8 @@ import com.keumbi.prj.report.vo.ReportVO;
 
 public interface ReportService {
 	List<ReportVO> reportList();
+	void reportInsert(ReportVO vo);
+	void reportInsertInsert(ReportVO vo);
 	int reportDelete(ReportVO vo);
 	String repReason(ReportVO vo);
 }

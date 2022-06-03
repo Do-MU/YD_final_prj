@@ -122,37 +122,25 @@
 			<a href="boardInsertForm" role="button" class="btn btn-outline-info">게시글
 				작성</a>
 		</c:if>
-		<br> <br> <br> <br>
+		<br> <br>  
 
 
-		<div class="num" id="page">
-			<span>${(empty select.p)? 1 : select.p }</span> / pages &nbsp;&nbsp;
-
-			<c:set var="page" value="${(select.p==null)? 1: select.p}" />
-			<c:set var="startNum" value="${page-(page-1)%5}" />
-			<c:set var="lastNum" value="23" />
-
-			<c:if test="${startNum > 1}">
-				<a href="?p=${startNum-1}&t=&q=">이전</a>
-			</c:if>
-			<c:if test="${startNum <= 1}">
-				<span onclick="alert('이전 페이지가 없습니다.');">이전</span>
-			</c:if>
-
-			<span> <c:forEach var="i" begin="0" end="4">
-					<a
-						class="${((page) == (startNum+i)) ?'text-orange' : '' } text-bold"
-						href="?p=${startNum+i}&f=${select.f}&q=${select.q}">${startNum+i}</a>
-				</c:forEach>
-			</span>
-
-			<c:if test="${startNum+5 < lastNum}">
-				<a href="?p=${startNum+5}&t=&q=">다음</a>
-			</c:if>
-			<c:if test="${startNum+5 >= lastNum}">
-				<span onclick="alert('다음 페이지가 없습니다.');">다음</span>
-			</c:if>
-		</div>
+		<div>
+		<ul class="pagination justify-content-center">
+			<li class="page-item"><a class="page-link" aria-label="Previous"
+				onclick="prev(${p.pageNo})" id="prev_btn"> <span
+					aria-hidden="true">&laquo;</span>
+			</a></li>
+			<c:forEach begin="${p.startPage}" end="${p.endPage}" var="i">
+				<li class="page-item"><a id="page-num-${i}" class="page-link"
+					href="boardList?pageNo=${i}">${i}</a></li>
+			</c:forEach>
+			<li class="page-item"><a class="page-link" aria-label="Next"
+				onclick="next(${p.pageNo})" id="next_btn"> <span
+					aria-hidden="true">&raquo;</span>
+			</a></li>
+		</ul>
+	</div>
 
 
 	</div>
@@ -181,6 +169,27 @@
 				}
 			});
 		}
+		
+		var totalPage = ${p.totalPage};
+		   // 첫장과 막장의 prev/next버튼 disable
+		   if(${p.pageNo} <= 10){
+		      document.getElementById("prev_btn").onclick="location.href='#'";
+		   }
+		   if(${p.startPage} == ((parseInt((totalPage - 1) / 10)) * 10 + 1) ){
+		      document.getElementById("next_btn").onclick="location.href='#'";
+		   }
+		   
+		   document.getElementById("page-num-"+${p.pageNo}).style = "background-color: blue; color: white";
+		      
+		   function next(n){
+		      var x = ((parseInt((n-1)/10)+1)*10)+1;
+		      window.location = "boardList?pageNo=" + x;
+		   }
+		   function prev(n){
+		      var x = ((parseInt((n-1)/10)-1)*10)+1;
+		      window.location = "boardList?pageNo=" + x;
+		   }
+		
 	</script>
 
 </body>

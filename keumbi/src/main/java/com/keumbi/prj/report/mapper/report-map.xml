@@ -8,6 +8,25 @@
 		ORDER BY	4 DESC
 	</select>
 	
+	<insert id="reportInsert" parameterType="ReportVO">
+		<selectKey keyProperty="rep_num" resultType="int" order="BEFORE">
+			SELECT NVL(MAX(REP_NUM),0)+1
+			FROM REPORTS
+		</selectKey>
+		
+		INSERT INTO REPORTS (REP_NUM, REP_ID, REPED_ID, REP_DATE, REP_CODE, REP_REASON)
+		VALUES ( #{rep_num}, #{rep_id}, #{reped_id}, sysdate, 'SB', #{rep_reason} )			   
+	</insert>
+	
+	<insert id="reportInsertInsert" parameterType="ReportVO">
+		<selectKey keyProperty="rep_num" resultType="int" order="BEFORE">
+			SELECT NVL(MAX(REP_NUM),0)+1
+			FROM REPORTS
+		</selectKey>
+		INSERT INTO REPORTS (REP_NUM, REP_ID, REPED_ID, REP_DATE, REP_CODE, REP_REASON)
+		VALUES ( #{rep_num}, #{rep_id}, #{reped_id}, sysdate, 'SR', #{rep_reason} )
+	</insert>
+
 	<delete id="reportDelete" parameterType="ReportVO">
 		DELETE FROM	REPORTS
 		WHERE		REP_REASON = #{rep_reason}
