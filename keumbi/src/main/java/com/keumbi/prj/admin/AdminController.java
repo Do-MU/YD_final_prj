@@ -14,7 +14,6 @@ import com.keumbi.prj.prd.service.PrdCardService;
 import com.keumbi.prj.qna.service.QnaService;
 import com.keumbi.prj.qna.vo.QnaVO;
 import com.keumbi.prj.report.service.ReportService;
-import com.keumbi.prj.report.vo.ReportVO;
 import com.keumbi.prj.user.service.UserService;
 
 @Controller
@@ -60,13 +59,19 @@ public class AdminController {
 	// 고객센터 관리 페이지
 	@RequestMapping("/admQnaList")
 	public String qnaAdminList(Model model, PageVO pvo) {
-		int total = qna.qnaCount();
-		int pageCnt = total/pvo.getPageScale()  + (total%pvo.getPageScale()>0?1:0); 
-		int endPage = ((pvo.getPageNo()-1)/10+1)*10;
-		pvo.setTotalNo(total);
-		pvo.setTotalPage(pageCnt);
-		pvo.setStartPage(((pvo.getPageNo()-1)/10)*10+1);
-		pvo.setEndPage(endPage > pageCnt ? pageCnt : endPage );
+		String code = pvo.getCode();
+		int total = 0;
+		if(code != null) {
+			total = qna.qnaSortCount(code);
+		}else {
+			total = qna.qnaCount();                                          			// 전체 QNA수						
+		}
+	    int pageCnt = total/pvo.getPageScale()  + (total%pvo.getPageScale()>0?1:0);    	// 전체 페이지 수 = 전체 QNA수/한 페이지 출력수 + 나머지가 있으면 1 없으면 0
+	    int endPage = ((pvo.getPageNo()-1)/10+1)*10;                           			// 마지막 페이지 = 현재 페이지 (11 ~ 20)인 경우 > (10~19)/10 > 2*10 > 마지막 페이지 20
+	    pvo.setTotalNo(total);
+	    pvo.setTotalPage(pageCnt);
+	    pvo.setStartPage(((pvo.getPageNo()-1)/10)*10+1);                        		// 시작 페이지 =  현재 페이지 (11 ~ 20)인 경우 > (10~19)/10 > 1*10+1 > 시작 페이지 11
+	    pvo.setEndPage(endPage > pageCnt ? pageCnt : endPage );                     	// 총 페이지 수가 34페이지까지 일 경우 40페이지가 아니라 34페이지가 마지막 페이지
 		
 		model.addAttribute("p", pvo);
 		model.addAttribute("qnas", qna.qnaAdminList(pvo));
