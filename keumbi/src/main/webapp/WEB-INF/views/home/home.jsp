@@ -25,7 +25,6 @@
 			</div>
 		</div>
 	</section>
-	${countPrd }
 	<section class="welcome_area p_120">
 		<div class="container">
 			<div class="row welcome_inner">

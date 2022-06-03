@@ -56,9 +56,13 @@ public class UserController {
 				return "redirect:admin/home";
 			}else {
 				
-				return "redirect:home";
+				if(loginUser.getSignoutdate() != null) {
+					return "redirect:userUpdateForm";
+				}else {
+					return "redirect:home";
+				}
 			}
-		} else {
+		}else{
 			response.setContentType("text/html; charset=UTF-8");
 			PrintWriter out = response.getWriter();
 			out.println("<script type='text/javascript'>");
@@ -122,7 +126,16 @@ public class UserController {
 		session.invalidate();
 		return "home/home";
 	}
-		
+	
+	// 탈퇴 철회 처리
+	@RequestMapping("/userCancle")
+	public String userCancle(HttpSession session, UserVO uservo) {
+		UserVO vo = (UserVO) session.getAttribute("loginUser");
+		service.userCancle(vo);
+		UserVO loginUser = service.userSelect(uservo);
+		session.setAttribute("loginUser", loginUser);
+		return "home/home";
+	}
 	
 	
 	// aJax----------------------------------------------------------------------------------------

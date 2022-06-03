@@ -144,7 +144,12 @@ table {
 		<label class="btn_label">
 			<button type="button" class="btn btn-primary" id="userUpdateBtn">수정</button>
 		</label> <label class="btn_label">
-			<button type="button" class="btn btn-danger" id="userDelete">회원탈퇴</button>
+			<c:if test="${empty loginUser.signoutdate}">
+				<button type="button" class="btn btn-danger" id="userDelete">회원탈퇴</button>
+			</c:if>
+			<c:if test="${not empty loginUser.signoutdate}">
+				<button type="button" class="btn btn-danger" id="userCancle">탈퇴철회</button>
+			</c:if>
 		</label>
 	</div>
 </section>
@@ -293,4 +298,10 @@ $("#userDelete").click(function(){
 	$("#userFrm").submit();
 })
 
+//탈퇴철회
+$("#userCancle").click(function(){
+	confirm("탈퇴를 철회하시겠습니까?");
+	$("#userFrm").attr("action", "userCancle");
+	$("#userFrm").submit();
+})
 </script>

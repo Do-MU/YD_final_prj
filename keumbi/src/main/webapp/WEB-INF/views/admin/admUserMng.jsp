@@ -99,7 +99,7 @@ td{
 			<c:forEach var="allu" items="${allUser}">
 				<tr class="userList">
 					<td class="userId">${allu.id}</td>
-					<td class="userState">${allu.user_code}</td>
+					<td class="userState">${allu.user_alias}</td>
 					<td class="sanContent"></td>
 					<td class="sanDate"></td>
 					<%-- <c:set var="sdate" value="${u.sdate}"/>

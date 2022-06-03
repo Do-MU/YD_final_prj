@@ -14,7 +14,10 @@ public class HomeController {
 	@Autowired MainService main;
 	
 	@RequestMapping("/")
-	public String home(Locale locale) {
+	public String home(Locale locale, Model model) {
+		model.addAttribute("cntUser", main.cntUser());
+		model.addAttribute("cntPrd", main.cntPrd());
+		model.addAttribute("cntFinance", main.cntFinance());
 		return "home/home";
 	}
 	

@@ -16,6 +16,7 @@ import com.keumbi.prj.user.service.UserService;
 import com.keumbi.prj.user.vo.SancUserSearchVO;
 import com.keumbi.prj.user.vo.UserVO;
 
+
 @Service
 public class UserServiceImpl implements UserService {
 
@@ -122,5 +123,22 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public List<Map> userSearch(SancUserSearchVO vo) {
 		return m.userSearch(vo);
+	}
+
+	@Override
+	public int schedulerUpdateUser() {
+		List<UserVO> list = m.allUser();
+		return m.schedulerUpdateUser(list);
+	}
+
+	@Override
+	public int schedulerDeleteUser() {
+		List<UserVO> list = m.allUser();
+		return m.schedulerDeleteUser(list);
+	}
+
+	@Override
+	public int userCancle(UserVO vo) {
+		return m.userCancle(vo);
 	}
 }
