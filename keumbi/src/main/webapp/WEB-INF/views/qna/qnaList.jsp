@@ -8,9 +8,38 @@
 <title>Insert title here</title>
 </head>
 <style>
+@import url(//fonts.googleapis.com/earlyaccess/nanumpenscript.css);
+
+td {
+	font-family: 'Nanum Gothic Coding';
+}
+
 .btn-dark {
 	float: right;
 }
+
+.question, .answer {
+	font-family: fantasy;
+	font-size: 200%;
+	display: inline-block;
+	width: 100px;
+	float: left;
+}
+
+.qnabox {
+	margin: 40px;
+}
+
+.abox {
+	margin: 40px 0px 0px 0px;
+}
+
+.btn-dark {
+	margin: 0px 0px 50px 0px;
+}
+.hide {display:none;}      
+.show {display:table-row;}      
+.item td {cursor:pointer;}
 </style>
 <script>
 	if (!'${loginUser.id}') {
@@ -39,7 +68,7 @@
 		<div class="accordion" id="accordionExample">
 
 			<div class="row">
-				<table class="table table-striped"
+				<table class="qnaTable"
 					style="text-align: center; border: 1px solid #dddddd">
 					<thead>
 						<tr>
@@ -51,9 +80,9 @@
 					</thead>
 					<tbody>
 						<c:forEach var="q" items="${qnas}">
-							<tr class="card-header">
+							<tr class="card-header" id="heading-${q.num}">
 								<td data-toggle="collapse" data-target="#collapse-${q.num}"
-									aria-expanded="true" aria-controls="collapseOne"><c:out
+									aria-expanded="true" aria-controls="collapse-${q.num}"><c:out
 										value="${q.title}" /></td>
 								<td><c:out value="${q.qdate}" /></td>
 								<td><c:out value="${q.val}" /></td>
@@ -64,22 +93,34 @@
 							<tr class="card-body">
 
 								<td colspan="4" id="collapse-${q.num}" class="collapse"
-									aria-labelledby="headingOne" data-parent="#accordionExample">
-									<span>문의내용</span> <span>${q.qcontents}</span>
+									aria-labelledby="heading-${q.num}"
+									data-parent="#accordionExample">
+									<div class="qnabox">
+										<div class="qbox">
+											<span class="question">Q. </span> <span>${q.qcontents}</span>
+										</div>
+										<c:if test="${not empty q.acontents}">
+											<div class="abox">
+												<span class="answer">A. </span> <span>${q.acontents}</span>
+											</div>
+										</c:if>
+									</div>
 								</td>
 							</tr>
-							<c:if test="${not empty q.acontents}">
-								<td colspan="4" id="collapse-${q.num}" class="collapse"
-									aria-labelledby="headingOne" data-parent="#accordionExample">
-									<span>답변내용</span> <span>${q.acontents}</span> <span>${q.adate}</span>
-								</td>
-							</c:if>
 						</c:forEach>
 					</tbody>
 				</table>
-		<a href="qnaInsertForm" role="button" class="btn btn-dark">1:1문의 쓰기</a>
+				<a href="qnaInsertForm" role="button" class="btn btn-dark">1:1문의
+					쓰기</a>
 			</div>
 		</div>
 	</div>
+<script>
+	$(function() {
+		
+	} 
+	qnaTable
+	card-header
+</script>
 </body>
 </html>
