@@ -12,8 +12,7 @@
 	text-align: center;
 }
 
-#noti:hover {
-	font-size: 1.5em;
+#li_noti:hover {
 	cursor: pointer;
 }
 #modal_noti{
@@ -26,7 +25,7 @@
 	width: 400px;
 }
 #mod_notiList{
-	min-height: 100px;
+	min-height: 250px;
 	max-height: 500px;
 	overflow: auto;
 }
@@ -80,6 +79,13 @@
 #modal_noti hr {
 	margin : 0;
 }
+.badge{
+	background-color: red;
+	color: white;
+	position: relative;
+    top: -57%;
+    right: -36%;
+}
 </style>
 <header class="header_area">
 	<div class="main_menu">
@@ -131,7 +137,10 @@
 									<li class="nav-item"><a class="nav-link" href="qnaList">고객센터</a></li>
 								</ul>
 							</li>
-							<li class="nav-item" id="li_noti"><i id="noti" class="nav-link bi bi-bell-fill"></i></li>
+							<li class="nav-item" id="li_noti">
+								<i id="noti" class="nav-link bi bi-bell-fill"></i>
+								<span class="badge badge-number">4</span>
+							</li>
 							<li class="nav-item"><a class="nav-link" href="userLoginForm">로그아웃</a></li>
 							
 							<div class="modal" id="userInfoModal" tabindex="-1">
@@ -185,14 +194,14 @@
 
 <script>
 	function notiSelect(){
+		var cnt = 0;
 		$.ajax({
 			url:"notiSelect"
 		}).done(function(notis){
-			console.log(notis);
 			if(notis.length != 0){
 				for(n of notis){
 					if(n.noti_read_code == 'AR0'){
-						$("#noti").css("color", "red");
+						cnt++;
 						let html = '<div class="mod_data"><div class="mod_title">'+n.noti_code+'</div><div class="mod_contents">'+n.noti_contents+'</div></div>';
 						$("<div>").html(html).addClass("mod_notis").appendTo($("#mod_notiList"));
 						$("#mod_notiList").append($("<hr>"));
@@ -201,11 +210,12 @@
 						$("<div>").html(html).addClass("mod_notis mod_notis_read").appendTo($("#mod_notiList"));
 						$("#mod_notiList").append($("<hr>"));
 					}
-					
 				}
 			}else{
 				$("<div>").html("알림이 없습니다.").css("text-align","center").css("line-height","100px").appendTo($("#mod_notiList"));
+				$(".badge").attr("hidden","hidden");
 			}
+			$(".badge").text(cnt);
 		});
 	}
 
@@ -213,7 +223,7 @@
 		notiSelect();
 	}
 	
-	$("#noti").click(function(){
+	$("#li_noti").click(function(){
 		$("#modal_noti").modal("show");
 	});
 
@@ -224,7 +234,7 @@
 			data:{id:"${loginUser.id}"}
 		}).done(function(){
 			notiSelect();
-			$("#noti").css("color", "white");
+			$(".badge").attr("hidden","hidden");
 		});
 	});
 	

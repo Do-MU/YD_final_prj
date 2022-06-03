@@ -28,13 +28,4 @@ public class HomeController {
 		model.addAttribute("cntFinance", main.cntFinance());
 		return "home/home";
 	}
-	
-	@RequestMapping("/exam")
-	public String exam() {
-		return "example";
-	}
-	@RequestMapping("/exam2")
-	public String exam2() {
-		return "example2";
-	}
 }
