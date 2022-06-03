@@ -8,4 +8,5 @@ public interface ReportMapper {
 	List<ReportVO> reportList();
 	void reportInsert(ReportVO vo);
 	void reportInsertInsert(ReportVO vo);
+	int reportDelete(ReportVO vo);
 }

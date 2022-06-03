@@ -8,8 +8,14 @@
 		WHERE	S.SANC_CODE = C.CODE
 	</select>
 	
-	<insert id="sanInsert" parameterType="int">
-		INSERT INTO	SANC_NUM, USER_ID, SANC_CODE, SDATE, EDATE, SANC_REASON
-		VALUES		
+	<insert id="sanInsert" parameterType="SanctionVO">
+		INSERT INTO	SANCTIONS (SANC_NUM, USER_ID, SANC_CODE, SDATE, EDATE, SANC_REASON)
+		VALUES		( (SELECT NVL(MAX(SANC_NUM), 1) + 1 FROM SANCTIONS)
+					 , #{user_id}
+					 , #{sanc_code}
+					 , TO_CHAR(SYSDATE, 'YYYY-MM-DD')
+					 , TO_CHAR(SYSDATE + #{edate}, 'YYYY-MM-DD')
+					 , #{sanc_reason}
+					)	
 	</insert>
 </mapper>

@@ -247,6 +247,11 @@ footer {
 
 
 <script>
+	// 송금 view -> 로그인메세지
+	if('${loginMsg}'){
+		alert('${loginMsg}');
+	}
+	
 	//아이디 찾기 모달창
 	$("#idFind").click(function() {
 		$("#findIDModal").modal("show");

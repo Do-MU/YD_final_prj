@@ -180,15 +180,6 @@
 	
 		// 페이지 로드시 
 		document.addEventListener("DOMContentLoaded", function() {
-
-			// 비회원 접근시
-			if (!"${loginUser.id}") {
-				alert('로그인이 필요합니다.');
-				window.location = "userLoginForm";
-			}
-			
-			
-			
 			$("#wit_balance_amt").html($("#wit_balance_amt").html().toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",")+"원");
 			$('#wit_bn').text("${finBal.bank_name} ");
 			$('#wit_acc').text("${finBal.account_num_masked}");
@@ -236,7 +227,6 @@
 		// 입금 Select Event
 		function depSelect() {
 			var finNum = $("#dep_fintech_use_num").val();
-			console.log(finNum)
 
 			$.ajax({
 				url : "getAccInfo",
@@ -250,7 +240,6 @@
 
 		// 이체확인 모달
 		function depositFun() {
-			console.log($("#wit_amt").val()+' '+$("#dep_amt").val())
 			// 은행 미선택 시
 			if ($("#wit_fintech_use_num").val() == ""|| $("#dep_fintech_use_num").val() == "") {
 				alert("은행을 선택해 주세요.");
@@ -271,11 +260,11 @@
 			//	-> 은행이름 + 계좌 모달에 고정
 			$("#tr_amt").text($("#tran_amt").val().toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",")+"원"); // 송금액 표시
 
-			if ($("#wit_pc").text() == "") {
+			if ($("#wit_print_content").val() == "") {
 				$('#wit_print_content').val($("#dep_bn").text() + ' ' + '${loginUser.name}');
 			}
 
-			if ($("#dep_pc").text() == "") {
+			if ($("#dep_print_content").val() == "") {
 				$('#dep_print_content').val($("#wit_bn").text() + ' ' + '${loginUser.name}');
 			}
 			

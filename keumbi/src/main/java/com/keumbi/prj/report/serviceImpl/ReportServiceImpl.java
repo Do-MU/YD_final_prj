@@ -30,7 +30,7 @@ public class ReportServiceImpl implements ReportService {
 		String repcode = vo.getRep_code();
 		if(repcode.equals("SB")) {
 			BoardVO bvo = b.view(vo.getRep_reason());
-			return "<p><제목></p><p>"+bvo.getTitle() + "</p><p><내용></p>" + bvo.getContents();
+			return "<p><제목></p><p>" + bvo.getTitle() + "</p><p><내용></p>" + bvo.getContents();
 		}else {
 			ReplyVO rvo = r.SelectOneReply(vo.getRep_reason());
 			return rvo.getRe_contents();
@@ -38,7 +38,7 @@ public class ReportServiceImpl implements ReportService {
 	}
 
 
-	@Override
+  @Override
 	public void reportInsert(ReportVO vo) {
 		m.reportInsert(vo);
 		
@@ -47,7 +47,11 @@ public class ReportServiceImpl implements ReportService {
 	@Override
 	public void reportInsertInsert(ReportVO vo) {
 		m.reportInsertInsert(vo);
-		
+  }
+  
+  @Override
+	public int reportDelete(ReportVO vo) {
+		return m.reportDelete(vo);
 	}
 
 }

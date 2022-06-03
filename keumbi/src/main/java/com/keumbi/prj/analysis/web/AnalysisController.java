@@ -52,11 +52,4 @@ public class AnalysisController {
 	public List<AnalysisMonthlyVO> columnChart2(AnalysisMonthlyVO vo) {
 		return service.columnChartMonthly(vo);
 	}
-	
-	// 컬럼차트3번: 최근10년간 연도별 총 지출금액 데이터 호출
-	@RequestMapping("/columnChart3")
-	@ResponseBody
-	public List<AnalysisYearlyVO> columnChart3(AnalysisYearlyVO vo) {
-		return service.columnChartYearly(vo);
-	}
 }

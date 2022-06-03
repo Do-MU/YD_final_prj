@@ -29,7 +29,6 @@ public class ReportController {
 		vo.setRep_id(uvo.getId());
 		reps.reportInsert(vo);
 		
-		
 		return "redirect:boardView?bod_num="+vo.getRep_reason();
 	}
 	
@@ -39,7 +38,12 @@ public class ReportController {
 		vo.setRep_id(uvo.getId());
 		reps.reportInsertInsert(vo);
 		
-		
 		return "redirect:boardView?bod_num="+vo.getRep_reason();
+  }
+  
+	@RequestMapping("/admin/reportDelete")
+	@ResponseBody
+	public int reportDelete(ReportVO vo) {
+		return reps.reportDelete(vo);
 	}
 }

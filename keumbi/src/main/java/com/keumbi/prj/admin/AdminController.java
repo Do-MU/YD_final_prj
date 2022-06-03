@@ -14,6 +14,9 @@ import com.keumbi.prj.prd.service.PrdCardService;
 import com.keumbi.prj.qna.service.QnaService;
 import com.keumbi.prj.qna.vo.QnaVO;
 import com.keumbi.prj.report.service.ReportService;
+import com.keumbi.prj.report.vo.ReportVO;
+import com.keumbi.prj.sanction.service.SanctionService;
+import com.keumbi.prj.sanction.vo.SanctionVO;
 import com.keumbi.prj.user.service.UserService;
 
 @Controller
@@ -26,6 +29,7 @@ public class AdminController {
 	@Autowired ChallService ch;
 	@Autowired QnaService qna;
 	@Autowired ReportService rep;
+	@Autowired SanctionService san;
 	
 	// 관리자 메인 화면
 	@RequestMapping("/home")
@@ -52,8 +56,15 @@ public class AdminController {
 	@RequestMapping("/admReportList")
 	public String admReportList(Model model) {
 		model.addAttribute("reportList", rep.reportList());
-		System.out.println(rep.reportList());
 		return "admin/admReportList";
+	}
+	
+	// 관리자 제재등록
+	@RequestMapping("/sanInsert")
+	@ResponseBody
+	public int sanInsert(SanctionVO vo) {
+		
+		return san.sanInsert(vo);
 	}
 	
 	// 고객센터 관리 페이지
@@ -62,7 +73,7 @@ public class AdminController {
 		String code = pvo.getCode();
 		int total = 0;
 		if(code != null) {
-			total = qna.qnaSortCount(code);
+			total = qna.qnaSortCount(code);												// 미답변/답변 QNA 수
 		}else {
 			total = qna.qnaCount();                                          			// 전체 QNA수						
 		}
@@ -75,22 +86,6 @@ public class AdminController {
 		
 		model.addAttribute("p", pvo);
 		model.addAttribute("qnas", qna.qnaAdminList(pvo));
-		return "admin/admQnaList";
-	}
-	
-	// 문의글 분류별(답변완료/미답변) 정렬
-	@RequestMapping("/admQnaSort")
-	public String qnaAdminSort(Model model, PageVO pvo) {
-		int total = qna.qnaSortCount(pvo.getCode());
-		int pageCnt = total/pvo.getPageScale() + (total%pvo.getPageScale()>0?1:0);
-		int endPage = ((pvo.getPageNo()-1)/10+1)*10;
-		pvo.setTotalNo(total);
-		pvo.setTotalPage(pageCnt);
-		pvo.setStartPage(((pvo.getPageNo()-1)/10)*10+1);
-		pvo.setEndPage(endPage > pageCnt ? pageCnt : endPage);
-		
-		model.addAttribute("p", pvo);
-		model.addAttribute("qnas", qna.qnaAdminSort(pvo));
 		return "admin/admQnaList";
 	}
 	
@@ -130,8 +125,11 @@ public class AdminController {
 	@RequestMapping("/dummyCard")
 	@ResponseBody
 	public int dummyCard() {
+		for(int i=0; i<=3000; i++) {
+			c.makeDummyCard();
+		}
 
-		return c.makeDummyCard();
+		return 0;
 	}
 	@RequestMapping("/dummyChall")
 	@ResponseBody
