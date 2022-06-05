@@ -7,29 +7,46 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.keumbi.prj.board.service.BoardService;
+import com.keumbi.prj.board.vo.BoardSearchVO;
 import com.keumbi.prj.board.vo.BoardVO;
+import com.keumbi.prj.common.vo.PageVO;
 import com.keumbi.prj.user.vo.UserVO;
 
 @Controller
 public class BoardController {
 
 	@Autowired
-	private BoardService service;
+	private BoardService b;
 
 	@RequestMapping("/boardList")
-	public String boardList(BoardVO vo, Model model) {
-
-		List<BoardVO> list = service.selectBoardList();
-		model.addAttribute("list", list);
+	public String boardList(Model model, PageVO page) {
+		int total = b.boardCount();
+		int pageCnt = total/page.getPageScale()  + (total%page.getPageScale()>0?1:0);
+	    int endPage = ((page.getPageNo()-1)/10+1)*10;
+	    page.setTotalNo(total);
+	    page.setTotalPage(pageCnt);
+	    page.setStartPage(((page.getPageNo()-1)/10)*10+1);
+	    page.setEndPage(endPage > pageCnt ? pageCnt : endPage );  
+		
+		model.addAttribute("p", page);
+		model.addAttribute("boards", b.selectBoardList(page));
 
 		return "board/boardList";
+	}
+
+	@RequestMapping("/boardView")
+	public String boardView(BoardVO bvo, Model model) {
+		b.boardHit(bvo);
+		model.addAttribute("board", b.boradView(bvo));
+		model.addAttribute("tags", b.tagSelect(bvo.getBod_num()));
+
+		return "board/boardView";
 	}
 
 	@RequestMapping("/boardInsertForm")
@@ -38,83 +55,50 @@ public class BoardController {
 		return "board/boardInsertForm";
 	}
 
-	@PostMapping("/insertBoard")
-	public String insertBoard(@ModelAttribute BoardVO vo, HttpSession session) {
+	@PostMapping("/boardInsert")
+	public String boardInsert(BoardVO vo, HttpSession session, @RequestParam(required = false) String[] keyword) {
 		UserVO uvo = (UserVO) session.getAttribute("loginUser");
 		vo.setUser_id(uvo.getId());
-		service.insertBoard(vo);
-		
+		b.boardInsert(vo);
+		b.boardKwdInsert(vo.getBod_num(), keyword);
 		
 		return "redirect:boardList";
 	}
 
-	@RequestMapping("/boardView")
-	public String boardView(BoardVO vo, Model model, @RequestParam("bod_num") int bod_num) {
-		BoardVO view = service.view(bod_num);
-		service.boardHit(bod_num);
-		List<BoardVO> tags = service.tagSelect(bod_num);
-		model.addAttribute("view", view);
-		model.addAttribute("tags", tags);
+	@RequestMapping("/boardUpdateForm")
+	public String update(BoardVO vo, Model model) {
 
-		return "board/boardView";
-	}
+		model.addAttribute("b", b.boradView(vo));
+		model.addAttribute("tags", b.tagSelect(vo.getBod_num()));
 
-	@RequestMapping("/updateForm")
-	public String update(@RequestParam("bod_num") int bod_num, Model model) {
-
-		BoardVO up = service.view(bod_num);
-		model.addAttribute("up", up);
-
-		return "board/boardUpdate";
+		return "board/boardUpdateForm";
 
 	}
 
-	@RequestMapping("/update")
-	public String postUpdate(BoardVO vo) {
+	@RequestMapping("/boardUpdate")
+	public String postUpdate(BoardVO vo, @RequestParam(required = false) String[] keyword) {
+		System.out.println(vo);
+		System.out.println(keyword);
+		b.boardKwdUpdate(vo.getBod_num(), keyword);
+		b.boardUpdate(vo);
 
-		service.update(vo);
-
-		return "redirect:boardList";
+		return "redirect:boardView?bod_num="+vo.getBod_num();
 
 	}
 
-	@RequestMapping("/delete")
-	public String delete(@RequestParam("bod_num") int bod_num) {
+	@RequestMapping("/boardDelete")
+	public String boardDelete(BoardVO vo) {
 
-		service.delete(bod_num);
+		b.boardDelete(vo);
 
 		return "redirect:/boardList";
 	}
 
-	@RequestMapping(value = "/boardSearch", method = RequestMethod.POST)
-	public String boardSearchList(@RequestParam(required = false) String key,
-			@RequestParam(required = false) String val, Model model) {
-		List<BoardVO> list = service.boardSearchList(key, val);
-		model.addAttribute("list", list);
-
-		return "board/boardList";
+	@RequestMapping("/boardSearch")
+	@ResponseBody
+	public List<BoardVO> boardSearch(BoardSearchVO search) {
+		
+		return b.boardSearch(search);
 
 	}
-	
-	
-
-	/*
-	 * @RequestMapping(value = "/boardSelectList", method = RequestMethod.POST)
-	 * public String boardSelectList(@RequestParam int page, Model model) {
-	 * List<BoardVO> select = service.boardSelectList(page);
-	 * model.addAttribute("select", select);
-	 * 
-	 * return "board/boardList"; }
-	 */
-	
-	/*
-	 * @RequestMapping(value = "/reportSelect", method = RequestMethod.POST) public
-	 * String reportSelect(ReportVO vo, HttpSession session) { UserVO uvo = (UserVO)
-	 * session.getAttribute("loginUser"); vo.setRep_id(uvo.getId());
-	 * 
-	 * return "admin/admReportList"; }
-	 */
-	
-	
-
 }

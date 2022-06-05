@@ -14,7 +14,6 @@ import com.keumbi.prj.prd.service.PrdCardService;
 import com.keumbi.prj.qna.service.QnaService;
 import com.keumbi.prj.qna.vo.QnaVO;
 import com.keumbi.prj.report.service.ReportService;
-import com.keumbi.prj.report.vo.ReportVO;
 import com.keumbi.prj.sanction.service.SanctionService;
 import com.keumbi.prj.sanction.vo.SanctionVO;
 import com.keumbi.prj.user.service.UserService;

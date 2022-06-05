@@ -12,15 +12,8 @@ public class BoardVO {
 	private String user_id;
 	private String title;
 	private String contents;
-	@JsonFormat(pattern="yyyy-MM-dd", timezone="Asia/Seoul")
+	@JsonFormat(pattern="yyyy.MM.dd.", timezone="Asia/Seoul")
 	private Date wdate;
 	private String bod_code;
 	private int hit;
-	
-	private String tag[]; //태그
-	private String kwd_code;
-	
-	private String code; //페이징
-	
-	
 }

@@ -2,131 +2,110 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
 
-<title>뷰</title>
 <script
 	src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
 <style>
+.st {
+	margin-left: 70px;
+}
 
-	.st{
-	
-		margin-left: 70px;
-	}
-	
-	.stt{
-	
-		margin-left: 50px;
-	}
+.stt {
+	margin-left: 50px;
+}
+
+.table td {
+	padding: 20px;
+}
+#board{
+	width: 100%;
+}
+#contents{
+	min-height: 300px;
+}
+#btns{
+	width: 100%;
+	margin-top: 50px;
+}
+#btns *{
+	margin: 0 10px;
+	color: black;
+}
+#btns *:hover{
+	cursor: pointer;
+	text-decoration: underline;
+}
+#reply{
+	margin-top: 50px;
+}
+#re_contents{
+	width: 90%;
+	height: 50px;
+}
+#reply form button{
+	height: 50px;
+	width: 8%;
+}
 
 </style>
 
-</head>
-<body>
-	<section class="banner_area">
-		<div class="container box_1620">
-			<div class="banner_inner d-flex align-items-center">
-				<div class="container">
-					<div class="banner_content text-center">
-						<h3>게시판 보기</h3>
+<section class="banner_area">
+	<div class="container box_1620">
+		<div class="banner_inner d-flex align-items-center">
+			<div class="container">
+				<div class="banner_content text-center">
+					<h2>커뮤니티</h2>
+					<div class="page_link">
+						<a href="home">Home</a> <a href="boardList">커뮤니티</a>
 					</div>
 				</div>
 			</div>
 		</div>
-	</section>
-	<br>
-	<br>
-
-	<div class="container">
-		<div class="row">
-			<form id="id" name="id" method="post"
-				style="width: 1180px; text-align: center;">
-
-
-
-				<table class="table table-striped"
-					style="text-align: center; border: 1px solid #dddddd">
-					<thead>
-						<tr>
-							<th colspan="2"
-								style="background-color: #eeeeee; text-align: center; height: 50px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-								<strong>${view.user_id}</strong>님의 &nbsp; 게시글</th> 
-						</tr>
-					</thead>
-					<tbody>
-						<tr>
-							<td>작성일자</td>
-							<td colspan="2">${view.wdate }</td>
-						</tr>
-						<tr>
-							<td style="width: 20%;">글 제목</td>
-							<td colspan="2">${view.title }</td>
-						</tr>
-						<tr>
-							<td>내용</td>
-							<td colspan="2" style="height: 200px; text-align: center;">${view.contents }</td>
-						</tr>
-						<tr>
-							<td>해시태그</td>
-							<td colspan="2" style="text-align: center;">
-							<c:forEach var="t" items="${tags}">
-							#<c:out value="${t.kwd_code }"/>&nbsp;&nbsp;&nbsp;
-							</c:forEach>
-							<input type="button" id="submit" role="button"
-								class="btn btn-outline-danger"
-								onclick="calls_submit()" style="float: right;" value="신고"></td>
-						</tr>
-					</tbody>
-				</table>
-				<a href="boardList" role="button" class="btn btn-outline-secondary"
-					style="float: right;">목록보기</a>
-				<c:if test="${loginUser.id eq view.user_id}">										
-					<a href="delete?bod_num=${view.bod_num}" role="button"
-						class="btn btn-outline-dark pull-right delete_btn"
-						onclick="return confirm('정말로 삭제하시겠습니까?')" style="float: right;">삭제</a>
-					<a href="updateForm?bod_num=${view.bod_num}" role="button"
-						class="btn btn-outline-info" style="float: right;"
-						onclick="return confirm('수정페이지로 이동하시겠습니까?')">수정</a>
-				</c:if>
-
-			</form>
-		</div>
 	</div>
-	
-	<form id="frm" name="frm" action="reportInsert" method="post" onsubmit="return calls_submit()">
-	<input type="hidden" name="rep_reason" value='${view.bod_num}'/>
-	<input type="hidden" name="reped_id" value='${view.user_id}'/>	
-	</form>
-	
-	<form id="frmm" name="frmm" action="reportInsertInsert" method="post" onsubmit="return callss_submit()">
-	<input type="hidden" name="rep_reason" value='${view.bod_num}'/>
-	<input type="hidden" name="reped_id" value='${view.user_id}'/>	
-	</form>
-		
-	<br>
-	<br>
-	<br>
-	<br>
-
+</section>
+<section class="contact_area p_120">
 	<div class="container">
 		<div class="row">
-			<h5 class="card-header" style="height: 150px;">댓글</h5>
-			<div class="card-body">
-				<form name=replyInsertForm action="/boardView/replyInsert"
-					method="post">
-					<div class="form-group">
-						<input type="hidden" name="bod_num" value='${view.bod_num}' /> <input
-							name=re_contents class="form-control">
-					</div>
-					<button type="button" class="btn btn-primary" name=replyInsertBtn
-						style="float: right;" onclick="return confirm('댓글을 등록하시겠습니까?')">등록</button>
+			<div id="board">
+				<h2>${board.title}</h2>
+				<h4>${board.user_id} | ${board.wdate }</h4>
+				<hr>
+				<div id="contents">
+					<pre>${board.contents}</pre>
+				</div>
+				<h3>태그</h3>
+				<hr>
+				<c:forEach var="t" items="${tags}">
+					#${t.val}&nbsp;&nbsp;&nbsp;
+				</c:forEach>
+			</div>
+			
+			<div id="btns">
+				<c:if test="${loginUser.id ne board.user_id}">
+					<a onclick="calls_submit()" style="float: right;">신고</a>
+				</c:if>
+				<a href="boardList" style="float: right;">목록</a>
+				<c:if test="${loginUser.id eq board.user_id}">
+					<a href="boardDelete?bod_num=${board.bod_num}" onclick="return confirm('정말로 삭제하시겠습니까?')" style="float: right;">삭제</a>
+					<a href="boardUpdateForm?bod_num=${board.bod_num}" style="float: right;">수정</a>
+				</c:if>
+			</div>
+		</div>
+
+		<div id="reply">
+			<div>
+				<h4>댓글</h4>
+			</div>
+			<div>
+				<form name=replyInsertForm action="/boardView/replyInsert" method="post">
+					<input type="hidden" name="bod_num" value='${board.bod_num}'>
+					<input id="re_contents" name="re_contents">
+					<button type="button" class="btn btn-primary" name=replyInsertBtn style="float: right;" onclick="return confirm('댓글을 등록하시겠습니까?')">등록</button>
 				</form>
 			</div>
 		</div>
+		
 
 		<br> <br>
 
@@ -141,14 +120,15 @@
 
 	</div>
 
+</section>
 
 
-	<br>
-	<br>
-	<br>
-	<br>
-	
-	<script>
+<br>
+<br>
+<br>
+<br>
+
+<script>
 	
 	function calls_submit() {
 		if(confirm("신고하시겠습니까?"))
@@ -161,9 +141,9 @@
 	}
 	
 	</script>
-	
-	
-	<script>
+
+
+<script>
 	
 	var bod_num = '${view.bod_num}'; //게시글 번호 
 	$('[name=replyInsertBtn]').click(function(){ //댓글 등록 버튼 클릭시     
@@ -365,7 +345,3 @@
 
 	
 	</script>
-
-
-</body>
-</html>

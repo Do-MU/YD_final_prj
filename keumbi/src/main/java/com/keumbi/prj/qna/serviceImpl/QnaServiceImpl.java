@@ -61,11 +61,6 @@ public class QnaServiceImpl implements QnaService {
 	}
 
 	@Override
-	public List<QnaVO> qnaAdminSort(PageVO pvo) {
-		return m.qnaAdminSort(pvo);
-	}
-
-	@Override
 	public int qnaCount() {
 		return m.qnaCount();
 	}

@@ -9,6 +9,7 @@
 
 #li_noti {
 	width: 30px;
+	height:120px;
 	text-align: center;
 }
 
@@ -83,8 +84,11 @@
 	background-color: red;
 	color: white;
 	position: relative;
-    top: -57%;
+    top: -69%;
     right: -36%;
+}
+.navbar_fixed .badge{
+    top: -50%;
 }
 </style>
 <header class="header_area">
@@ -139,7 +143,7 @@
 							</li>
 							<li class="nav-item" id="li_noti">
 								<i id="noti" class="nav-link bi bi-bell-fill"></i>
-								<span class="badge badge-number">4</span>
+								<span class="badge badge-number"></span>
 							</li>
 							<li class="nav-item"><a class="nav-link" href="userLoginForm">로그아웃</a></li>
 							
