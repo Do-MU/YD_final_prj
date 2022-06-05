@@ -9,7 +9,6 @@
 <meta http-equiv='X-UA-Compatible' content='IE=edge'>
 <title>뷰</title>
 <meta name='viewport' content='width=device-width, initial-scale=1'>
-<script type="module" src="/tag_create.js"></script>
 <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 
 <style>
@@ -23,9 +22,6 @@
 	margin-bottom: 80px;
 }
 
-* {
-	text-align: center;
-}
 
 #editor {
 	border: 1px solid;
@@ -77,7 +73,6 @@ ul li.tag-item {
 	href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.48.4/codemirror.min.css" />
 <link rel="stylesheet"
 	href="https://uicdn.toast.com/editor/latest/toastui-editor.min.css" />
-<link rel="stylesheet" type="text/css" href="/tag_create.css">
 
 </head>
 
@@ -87,7 +82,10 @@ ul li.tag-item {
 			<div class="banner_inner d-flex align-items-center">
 				<div class="container">
 					<div class="banner_content text-center">
-						<h3>게시판 수정하기</h3>
+						<h2>커뮤니티</h2>
+						<div class="page_link">
+							<a href="home">Home</a> <a href="boardList">커뮤니티</a>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -95,50 +93,33 @@ ul li.tag-item {
 	</section>
 	<br>
 	<br>
-
+	
+<section class="contact_area p_120">
 	<div class="container">
 		<div class="row">
-			<form id="frm" name="frm" method="post" action="update?bod_num=${up.bod_num}"
-				style="width: 1180px; text-align: center;" onsubmit="call_submit2()">
-				<input type="hidden" id="user_id" name="user_id"
-					value="${up.user_id}">
-
-
-
+			<form id="frm" name="frm" method="post" action="boardUpdate?bod_num=${b.bod_num}" onsubmit="return call_submit()">
+				<input type="hidden" id="user_id" name="user_id" value="${b.user_id}">
 				<table class="table table-striped"
-					style="text-align: center; border: 1px solid #dddddd">
-					<thead>
+					style="border: 1px solid #dddddd">
 						<tr>
-							<th colspan="2"
-								style="background-color: #eeeeee; text-align: center;">게시판
-								글 보기</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr>
-							<td>작성일자</td>
-							<td colspan="2">${up.wdate}</td>
-						</tr>
-						<tr>
-							<td style="width: 20%;">글 제목</td>
-							<td colspan="2"><input type="text" style="width: 900px;"
-								value="${up.title}" name="title"> 
-								<input type="hidden" name="contents"></td>
-						</tr>
-						<tr>
-							<td>내용</td>
 							<td>
-								<div id="editor"
-									style="width: 900px; height: 100px; text-align: left;">${up.contents}</div>
+								<input type="text" style="width: 100%;" value="${b.title}" name="title"> 
+								<input type="hidden" name="contents">
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<div id="editor" style="width: 100%; height: 100px; text-align: left;">${b.contents}</div>
 
 								<div>
-									<ul id="tag-list" style="float: left;"></ul>
+									<ul id="tag-list" style="float: left;">
+									<c:forEach items="${tags}" var="t" varStatus="status">
+										<li class='tag-item' data-code="${t.kwd_code}">#${t.val}<span class='del-btn' idx='${status.index}'>x</span></li>
+									</c:forEach>
+									</ul>
 								</div>
 							</td>
-
 						</tr>
-						
-					</tbody>
 				</table>
 				<br>
 
@@ -209,13 +190,11 @@ ul li.tag-item {
 				</div>
 
 				<br> <br> <input name="bod_num" type="hidden"
-					value="${up.bod_num}"> <a href="boardList" role="button"
-					class="btn btn-outline-info" style="float: right;">목록보기</a> <a
-					href="boardView?bod_num=${up.bod_num}" role="button"
+					value="${b.bod_num}"> <a
+					href="boardView?bod_num=${b.bod_num}" role="button"
 					class="btn btn-outline-info" style="float: right;"
 					onclick="return confirm('수정을 취소하시겠습니까?')">취소</a>
-				<button type="submit" id="submit" class="btn btn-outline-info"
-					onclick="return confirm('수정을 완료하시겠습니까?')" style="float: right;">수정완료</button>
+				<button type="submit" id="submit" class="btn btn-outline-info" style="float: right;">수정완료</button>
 
 			</form>
 		</div>
@@ -223,9 +202,8 @@ ul li.tag-item {
 
 	<br>
 	<br>
-
-	<script
-		src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js"></script>
+</section>
+	<script src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js"></script>
 
 	<script>
 		const editor = new toastui.Editor({
@@ -236,13 +214,30 @@ ul li.tag-item {
 			initialEditType : 'wysiwyg',
 			language : 'ko-KR'			
 		});
+		console.log($("#tag-list").find("li"))
 		// !!여기!! editor.getHtml()을 사용해서 에디터 내용 받아오기
 		//document.querySelector('#contents').insertAdjacentHTML('afterbegin' ,editor.getHtml()); 
 
-		function call_submit2() {
+		function call_submit() {
 			//event.preventDefault();
 			frm.contents.value = editor.getHTML();
+			
+			var tagObj = $("#tag-list").find("li");
+
+			for (i = 0; i < tagObj.length; i++) {
+
+				var input1 = document.createElement('input');
+				input1.setAttribute("name", "keyword");
+				input1.setAttribute("value", tagObj.eq(i).data('code'));
+				input1.setAttribute("hidden", "hidden");
+
+				frm.appendChild(input1);
+
+			}
+			
 			frm.submit();
+			
+			return true;
 		}
 	</script>
 
@@ -253,6 +248,10 @@ ul li.tag-item {
 							//console.log(editor.getHtml()); 
 							var tag = {};
 							var counter = 0;
+							
+							$("#tag-list .tag-item").each(function(){
+								addTag($(this).text().substr(0,$(this).text().length-1))
+							})
 
 							// 태그를 추가한다.
 							function addTag(value) {
@@ -268,30 +267,24 @@ ul li.tag-item {
 										});
 							}
 
-							$(".hashtag")
-									.on(
-											"click",
-											function() {
+							$(".hashtag").on("click",function() {
 
-												var tagValue = this.value; // 값 가져오기
+								var tagValue = this.value; // 값 가져오기
+								var tagCodeValue = $(this).data('code')
 
 												// 값이 없으면 동작 안합니다.
 												if (tagValue !== "") {
 
 													// 같은 태그가 있는지 검사한다. 있다면 해당값이 array 로 return 된다.
-													var result = Object
-															.values(tag)
-															.filter(
-																	function(
-																			word) {
-																		return word === tagValue;
-																	})
+													var result = Object.values(tag).filter(function(word) {
+														return word === tagValue;
+													})
 
 													// 태그 중복 검사
 													if (result.length == 0) {
 														$("#tag-list")
 																.append(
-																		"<li class='tag-item'>"
+																		"<li class='tag-item' data-code='"+ tagCodeValue  +"'>"
 																				+ tagValue
 																				+ "<span class='del-btn' idx='" + counter + "'>x</span></li>");
 														addTag(tagValue);
@@ -331,7 +324,7 @@ ul li.tag-item {
 														if (result.length == 0) {
 															$("#tag-list")
 																	.append(
-																			"<li class='tag-item'>"
+																			"<li class='tag-item' data-code='"+ tagCodeValue  +"'>"
 																					+ tagValue
 																					+ "<span class='del-btn' idx='" + counter + "'>x</span></li>");
 															addTag(tagValue);

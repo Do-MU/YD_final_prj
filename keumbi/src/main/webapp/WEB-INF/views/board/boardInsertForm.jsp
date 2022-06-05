@@ -96,10 +96,8 @@ ul li.tag-item {
 
 	<div class="container" style="margin: auto;">
 		<div class="row">
-			<form id="frm" name="frm" method="post" action="insertBoard"
-				style="width: 1180px; text-align: center;" onsubmit="return call_submit()">
-				<table class="table table-striped"
-					style="text-align: center; border: 1px solid #dddddd;">
+			<form id="frm" name="frm" method="post" action="boardInsert" style="width: 100%;" onsubmit="return call_submit()">
+				<table class="table table-striped" style="text-align: center; border: 1px solid #dddddd;">
 					<tbody>
 						<tr>
 							<td><input type="text" class="form-control"
@@ -187,8 +185,8 @@ ul li.tag-item {
 						data-code="K020" style="width: 95px;">
 				</div>
 				<br> <br> <br> <br> <br> <input
-					type="submit" id="submit" class="btn " value="작성"
-					style="text-align: center; width: 600px;">
+					type="submit" id="submit" class="btn btn-primary" value="작성"
+					style="text-align: center; width: 100px;">
 			</form>
 		</div>
 	</div>
@@ -206,7 +204,7 @@ ul li.tag-item {
 			height : '500px',
 			initialValue : '',
 			initialEditType : 'wysiwyg',
-			language : 'ko-KR'			
+			language : 'ko-KR'
 		});
 		// !!여기!! editor.getHtml()을 사용해서 에디터 내용 받아오기
 		//document.querySelector('#contents').insertAdjacentHTML('afterbegin' ,editor.getHtml()); 
@@ -214,135 +212,105 @@ ul li.tag-item {
 		function call_submit() {
 			//event.preventDefault();
 			frm.contents.value = editor.getHTML();
-			
+
 			var tagObj = $("#tag-list").find("li");
-			
-			for(i = 0; i < tagObj.length; i++){
-			
-			var input1 = document.createElement('input');
-			input1.setAttribute("name", "tag");
-			input1.setAttribute("value",tagObj.eq(i).data('code'));
-			
-			frm.appendChild(input1);
-			
+
+			for (i = 0; i < tagObj.length; i++) {
+
+				var input1 = document.createElement('input');
+				input1.setAttribute("name", "keyword");
+				input1.setAttribute("value", tagObj.eq(i).data('code'));
+				input1.setAttribute("hidden", "hidden");
+				frm.appendChild(input1);
+
 			}
-			
+
 			frm.submit();
-			
+
 			return true;
-			
-			
+
 		}
 	</script>
-	
+
 	<script>
-	
-		$(document)
-				.ready(
-						function() {
-							//console.log(editor.getHtml()); 
-							var tag = {};
-							var counter = 0;
+		$(document).ready(function() {
+			//console.log(editor.getHtml()); 
+			var tag = {};
+			var counter = 0;
 
-							// 태그를 추가한다.
-							function addTag(value) {
-								tag[counter] = value; // 태그를 Object 안에 추가
-								counter++; // counter 증가 삭제를 위한 del-btn 의 고유 id 가 된다.
-							}
+			// 태그를 추가한다.
+			function addTag(value) {
+				tag[counter] = value; // 태그를 Object 안에 추가
+				counter++; // counter 증가 삭제를 위한 del-btn 의 고유 id 가 된다.
+			}
 
-							// 최종적으로 서버에 넘길때 tag 안에 있는 값을 array type 으로 만들어서 넘긴다.
-							function marginTag() {
-								return Object.values(tag).filter(
-										function(word) {
-											return word !== "";
-										});
-							}
+			// 최종적으로 서버에 넘길때 tag 안에 있는 값을 array type 으로 만들어서 넘긴다.
+			function marginTag() {
+				return Object.values(tag).filter(
+						function(word) {
+							return word !== "";
+						});
+			}
 
-							$(".hashtag")
-									.on(
-											"click",
-											function() {
+			$(".hashtag").on("click", function() {
 
-												var tagValue = this.value; // 값 가져오기
-												var tagCodeValue = $(this).data('code')
-										
-												// 값이 없으면 동작 안합니다.
-												if (tagValue !== "") {
+				var tagValue = this.value; // 값 가져오기
+				var tagCodeValue = $(this).data('code')
 
-													// 같은 태그가 있는지 검사한다. 있다면 해당값이 array 로 return 된다.
-													var result = Object
-															.values(tag)
-															.filter(
-																	function(
-																			word) {
-																		return word === tagValue;
-																	})
+				// 값이 없으면 동작 안합니다.
+				if (tagValue !== "") {
+					// 같은 태그가 있는지 검사한다. 있다면 해당값이 array 로 return 된다.
+					var result = Object.values(tag).filter(function(word) {
+						return word === tagValue;
+					})
 
-													// 태그 중복 검사
-													if (result.length == 0) {
-														$("#tag-list")
-																.append(
-																		"<li class='tag-item' data-code='"+ tagCodeValue  +"'>"
-																				+ tagValue
-																				+ "<span class='del-btn' idx='" + counter + "'>x</span></li>");
-														addTag(tagValue);
-													} else {
-														alert("태그값이 중복됩니다.");
-													}
-												}
+					// 태그 중복 검사
+					if (result.length == 0) {
+						$("#tag-list").append("<li class='tag-item' data-code='"+ tagCodeValue  +"'>"+ tagValue+ "<span class='del-btn' idx='" + counter + "'>x</span></li>");
+						addTag(tagValue);
+					} else {
+						alert("태그값이 중복됩니다.");
+					}
+				}
+			})
 
-											})
+			$("#tag").on("keyup",function(e) {
+				var self = $(this);
+				console.log("keypress");
 
-							$("#tag")
-									.on(
-											"keyup",
-											function(e) {
-												var self = $(this);
-												console.log("keypress");
+				// input 에 focus 되있을 때 엔터 및 스페이스바 입력시 구동
+				if (e.key === "Enter"|| e.keyCode == 32) {
 
-												// input 에 focus 되있을 때 엔터 및 스페이스바 입력시 구동
-												if (e.key === "Enter"
-														|| e.keyCode == 32) {
+					var tagValue = self.val(); // 값 가져오기
 
-													var tagValue = self.val(); // 값 가져오기
-    
-												// 값이 없으면 동작 안합니다.
-													if (tagValue !== "") {
-
-														// 같은 태그가 있는지 검사한다. 있다면 해당값이 array 로 return 된다.
-														var result = Object
-																.values(tag)
-																.filter(
-																		function(
-																				word) {
-																			return word === tagValue;
-																		})
-
-														// 태그 중복 검사
-														if (result.length == 0) {
-															$("#tag-list")
-																	.append(
-																			"<li class='tag-item' data-code='"+ tagCodeValue  +"'>"
-																					+ tagValue
-																					+ "<span class='del-btn'  idx='" + counter + "'>x</span></li>");
-															addTag(tagValue);
-															self.val("");
-														} else {
-															alert("태그값이 중복됩니다.");
-														}
-													}
-													e.preventDefault(); // SpaceBar 시 빈공간이 생기지 않도록 방지
-												}
-											});
-
-							// 삭제 버튼
-							// 삭제 버튼은 비동기적 생성이므로 document 최초 생성시가 아닌 검색을 통해 이벤트를 구현시킨다.
-							$(document).on("click", ".del-btn", function(e) {
-								var index = $(this).attr("idx");
-								tag[index] = "";
-								$(this).parent().remove();
-							});
+					// 값이 없으면 동작 안합니다.
+					if (tagValue !== "") {
+						// 같은 태그가 있는지 검사한다. 있다면 해당값이 array 로 return 된다.
+						var result = Object.values(tag).filter(function(word) {
+							return word === tagValue;
 						})
+
+						// 태그 중복 검사
+						if (result.length == 0) {
+							$("#tag-list").append("<li class='tag-item' data-code='"+ tagCodeValue  +"'>"+ tagValue+ "<span class='del-btn'  idx='" + counter + "'>x</span></li>");
+							addTag(tagValue);
+							self.val("");
+						} else {
+							alert("태그값이 중복됩니다.");
+						}
+					}
+					e.preventDefault(); // SpaceBar 시 빈공간이 생기지 않도록 방지
+				}
+			});
+
+			// 삭제 버튼
+			// 삭제 버튼은 비동기적 생성이므로 document 최초 생성시가 아닌 검색을 통해 이벤트를 구현시킨다.
+			$(document).on("click", ".del-btn", function(e) {
+				var index = $(this).attr("idx");
+				tag[index] = "";
+				$(this).parent().remove();
+			});
+		})
 	</script>
 
 </body>

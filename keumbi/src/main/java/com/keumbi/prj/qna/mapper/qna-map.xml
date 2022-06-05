@@ -52,25 +52,6 @@
 	]]>
 	</select>
 	
-	<select id="qnaAdminSort" parameterType="PageVO" resultType="QnaVO">
-	<![CDATA[
-		SELECT 		Q.NUM, Q.USER_ID, U.NAME, Q.TITLE, Q.QDATE, C.VAL
-		FROM 	(
-					SELECT ROWNUM AS RNUM, T.*
-					FROM QNAS T
-					WHERE ROWNUM <= #{totalNo} - ((#{pageNo} - 1) * #{pageScale})
-					ORDER BY QDATE DESC
-				) 	Q
-		JOIN 		COMMON_CODE C
-		ON 			Q.ANSWER_CODE = C.CODE
-		JOIN 		USERS U
-		ON 			Q.USER_ID = U.ID
-		WHERE 		Q.ANSWER_CODE =#{code}
-		AND 		#{totalNo} - (#{pageNo} * #{pageScale}) + 1 <= RNUM
-		ORDER BY 	Q.QDATE
-	]]>
-	</select>
-	
 	<select id="qnaAdminSelectOne" resultType="QnaVO">
 		SELECT 	Q.NUM, U.NAME, Q.USER_ID, U.EMAIL, Q.TITLE, Q.QCONTENTS, Q.QDATE, Q.ACONTENTS, Q.ADATE, Q.ANSWER_CODE
 		FROM 	QNAS Q
