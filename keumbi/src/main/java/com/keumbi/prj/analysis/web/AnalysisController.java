@@ -12,7 +12,6 @@ import com.keumbi.prj.analysis.vo.AnalysisDailyVO;
 import com.keumbi.prj.analysis.vo.AnalysisMonthlyVO;
 import com.keumbi.prj.analysis.vo.AnalysisThisPrevVO;
 import com.keumbi.prj.analysis.vo.AnalysisVO;
-import com.keumbi.prj.analysis.vo.AnalysisYearlyVO;
 
 @Controller
 public class AnalysisController {

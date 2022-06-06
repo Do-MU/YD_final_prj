@@ -21,14 +21,11 @@ public class ReplyController {
 	@Autowired
 	private ReplyService service;
 
-	@RequestMapping(value = "/replyList", method = RequestMethod.GET)
+	@RequestMapping("/replyList")
 	@ResponseBody
 	private List<ReplyVO> replyList(ReplyVO vo) {
 		
-		List<ReplyVO> replyList = service.replyList(vo);		
-		
-		return replyList;
-		
+		return service.replyList(vo);
 	}
 	
 	@RequestMapping(value = "/replyInsert", method = RequestMethod.POST)
@@ -36,10 +33,26 @@ public class ReplyController {
 	private int replyInsert(ReplyVO vo, HttpSession session) {
 		UserVO uvo = (UserVO) session.getAttribute("loginUser");
 		vo.setUser_id(uvo.getId());
-		
-		
-		
+
 		return service.replyInsert(vo);
+	}
+	
+	@RequestMapping("/replyUpdate")
+    @ResponseBody 
+	private int replyUpdate(ReplyVO vo) {
+		return service.replyUpdate(vo);
+	}
+	
+	@RequestMapping("/replyDelete")
+	@ResponseBody
+	private int replyDelete(@RequestParam("re_num") int re_num) {
+		return service.replyDelete(re_num);
+	}
+	
+	@RequestMapping("/rorList")
+	@ResponseBody
+	private List<ReplyVO> rorList(ReplyVO vo){
+		return service.rorList(vo);
 	}
 	
 	@RequestMapping(value = "/rorInsert", method = RequestMethod.POST)
@@ -53,41 +66,17 @@ public class ReplyController {
 		return service.rorInsert(vo);
 		
 	}
-	
-	@RequestMapping("/replyUpdate")
-    @ResponseBody 
-	private int replyUpdate(ReplyVO vo) {
-		
-		
-		
-		return service.replyUpdate(vo);
-		
-	}
-	
 	@RequestMapping("/rorUpdate")
     @ResponseBody 
 	private int rorUpdate(ReplyVO vo) {
-		
-		
-		
+
 		return service.rorUpdate(vo);
 		
-	}
-	
-	@RequestMapping("/replyDelete")
-	@ResponseBody
-	private int replyDelete(@RequestParam("re_num") int re_num) {
-		
-		
-		
-		return service.replyDelete(re_num);
 	}
 	
 	@RequestMapping("/rorDelete")
 	@ResponseBody
 	private int rorDelete(@RequestParam("re_num") int re_num) {
-		
-		
 		
 		return service.rorDelete(re_num);
 	}

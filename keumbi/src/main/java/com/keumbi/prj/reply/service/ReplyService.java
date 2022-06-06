@@ -12,10 +12,10 @@ public interface ReplyService {
 	int replyUpdate(ReplyVO vo);
 	int replyDelete(int re_num);
 	
+	List<ReplyVO> rorList(ReplyVO vo);
 	int rorInsert(ReplyVO vo);
 	int rorUpdate(ReplyVO vo);
 	int rorDelete(int re_num);
-	int preReplyDelete(int re_num);
 	
 	
 }

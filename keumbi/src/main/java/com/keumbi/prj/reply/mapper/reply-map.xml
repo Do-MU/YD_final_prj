@@ -3,14 +3,16 @@
 <mapper namespace="com.keumbi.prj.reply.mapper.ReplyMapper">
 
 	<select id="replyCount" resultType="int">
-		SELECT COUNT(*) FROM REPLIES
+		SELECT COUNT(*)
+		FROM REPLIES
 	</select>
 	
-	<select id="replyList" resultType="com.keumbi.prj.reply.vo.ReplyVO">
-		SELECT * FROM REPLIES
-		WHERE BOD_NUM = #{bod_num}
-		 AND PRE_RE_NUM = 0
-		ORDER BY RE_NUM ASC 				
+	<select id="replyList" resultType="ReplyVO">
+		SELECT 		*
+		FROM 		REPLIES
+		WHERE 		BOD_NUM = #{bod_num}
+		AND 		PRE_RE_NUM = 0
+		ORDER BY 	RE_NUM ASC 				
 	</select>
 	
 	<select id="SelectOneReply" resultType="ReplyVO">
@@ -19,10 +21,11 @@
 		WHERE	RE_NUM = #{re_num}
 	</select>
 	
-	<select id="preReplyList" resultType="com.keumbi.prj.reply.vo.ReplyVO">
-		SELECT * FROM REPLIES
-		WHERE  PRE_RE_NUM = #{re_num}
-		ORDER BY RE_NUM ASC 				
+	<select id="rorList" resultType="ReplyVO">
+		SELECT 		*
+		FROM 		REPLIES
+		WHERE  		PRE_RE_NUM = #{re_num}
+		ORDER BY 	RE_NUM ASC 				
 	</select>
 	
 	<insert id="replyInsert" parameterType="com.keumbi.prj.reply.vo.ReplyVO">
