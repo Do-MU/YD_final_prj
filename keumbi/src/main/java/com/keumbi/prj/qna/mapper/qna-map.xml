@@ -35,12 +35,16 @@
 										<choose>
 											<when test="code=='Q0'">
 												WHERE ANSWER_CODE = 'Q0'
+												ORDER BY 	ANSWER_CODE DESC, QDATE DESC
 											</when>
 											<when test="code=='Q1'">
 												WHERE ANSWER_CODE = 'Q1'
+												ORDER BY 	ANSWER_CODE DESC, QDATE
 											</when>
+											<otherwise>
+												ORDER BY 	ANSWER_CODE DESC, QDATE DESC
+											</otherwise>
 										</choose>
-										ORDER BY 	ANSWER_CODE DESC, QDATE DESC
 									) T
 	<![CDATA[
 			             WHERE 		ROWNUM <= #{totalNo} - ((#{pageNo} - 1) * #{pageScale})
@@ -48,8 +52,18 @@
 		WHERE 		Q.ANSWER_CODE = C.CODE
 		AND 		Q.USER_ID = U.ID
 		AND     	#{totalNo} - (#{pageNo} * #{pageScale}) + 1 <= RNUM
-		ORDER BY 	Q.ANSWER_CODE, Q.QDATE
+		
 	]]>
+		
+	<choose>
+		<when test="code=='Q1'"> 
+			ORDER BY 	Q.ANSWER_CODE, Q.QDATE DESC
+		</when>	
+		<otherwise>
+			ORDER BY 	Q.ANSWER_CODE, Q.QDATE
+		</otherwise>
+	</choose>
+		 
 	</select>
 	
 	<select id="qnaAdminSelectOne" resultType="QnaVO">
