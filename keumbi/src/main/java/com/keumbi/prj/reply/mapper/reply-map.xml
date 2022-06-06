@@ -36,7 +36,7 @@
 	
 		INSERT INTO
 		REPLIES ( RE_NUM, USER_ID, BOD_NUM, PRE_RE_NUM, RE_CONTENTS, RE_DATE, RE_CODE )
-		VALUES( #{re_num}, #{user_id}, #{bod_num}, 0, #{re_contents}, LOCALTIMESTAMP, #{re_code} )
+		VALUES( #{re_num}, #{user_id}, #{bod_num}, 0, #{re_contents}, LOCALTIMESTAMP, 'R1' )
 	</insert>
 	
 	<insert id="rorInsert" parameterType="com.keumbi.prj.reply.vo.ReplyVO">
@@ -47,7 +47,7 @@
 		
 		INSERT INTO
 		REPLIES ( RE_NUM, USER_ID, BOD_NUM, PRE_RE_NUM, RE_CONTENTS, RE_DATE, RE_CODE )
-		VALUES( #{re_num}, #{user_id}, #{bod_num}, #{pre_re_num}, #{re_contents}, LOCALTIMESTAMP, #{re_code} )		
+		VALUES( #{re_num}, #{user_id}, #{bod_num}, #{pre_re_num}, #{re_contents}, LOCALTIMESTAMP, 'R2' )		
 	</insert>
 	
 	<update id="replyUpdate" parameterType="com.keumbi.prj.reply.vo.ReplyVO">
