@@ -109,13 +109,26 @@ th {
 				</thead>
 				<tbody>
 					<c:forEach var="i" items="${boards}">
-						<tr data-num="${i.bod_num}">
-							<td>${i.bod_num}</td>
-							<td align="left">${i.title}</td>
-							<td>${i.user_id}</td>
-							<td>${i.wdate}</td>
-							<td>${i.hit}</td>
-						</tr>
+						<c:choose>
+							<c:when test="${i.bod_code eq 'T2'}">
+								<tr data-num="#">
+									<td>${i.bod_num}</td>
+									<td align="left">${i.title}</td>
+									<td>${i.user_id}</td>
+									<td>${i.wdate}</td>
+									<td>${i.hit}</td>
+								</tr>
+							</c:when>
+							<c:otherwise>
+								<tr data-num="${i.bod_num}">
+									<td>${i.bod_num}</td>
+									<td align="left">${i.title}</td>
+									<td>${i.user_id}</td>
+									<td>${i.wdate}</td>
+									<td>${i.hit}</td>
+								</tr>
+							</c:otherwise>
+						</c:choose>
 					</c:forEach>
 				</tbody>
 			</table>
@@ -200,6 +213,9 @@ th {
 		}
 		
 		$("#tbl_list tbody").on('click', "tr", function(){
+			if($(this).data("num")=='#'){
+				return false;
+			}
 			window.location = "boardView?bod_num="+$(this).data("num");
 		});
 		
