@@ -219,6 +219,9 @@
 				$("<div>").html("알림이 없습니다.").css("text-align","center").css("line-height","100px").appendTo($("#mod_notiList"));
 				$(".badge").attr("hidden","hidden");
 			}
+			if(cnt == 0){
+				$(".badge").attr("hidden","hidden");
+			}
 			$(".badge").text(cnt);
 		});
 	}

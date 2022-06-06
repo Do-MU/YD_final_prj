@@ -87,5 +87,13 @@
          ORDER BY 	BOD_NUM DESC 
    </select>
 	
-
+	<select id="userSelectByKwd" resultType="NotiVO">
+		SELECT 		LISTAGG(C.VAL, ', ') WITHIN GROUP(ORDER BY B.KWD_CODE) AS KWDS, U.USER_ID AS USER_ID
+		FROM 		USER_KWD U, BOD_KWD B, COMMON_CODE C
+		WHERE 		U.KWD_CODE = B.KWD_CODE(+)
+		AND 		B.KWD_CODE = C.CODE
+		AND 		B.BOD_NUM = #{bod_num}
+		AND 		U.USER_ID != (SELECT USER_ID FROM BOARDS WHERE BOD_NUM = #{bod_num})
+		GROUP BY 	U.USER_ID
+	</select>
 </mapper>

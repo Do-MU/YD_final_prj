@@ -7,6 +7,8 @@ import org.springframework.stereotype.Service;
 
 import com.keumbi.prj.board.mapper.BoardMapper;
 import com.keumbi.prj.board.vo.BoardVO;
+import com.keumbi.prj.noti.mapper.NotiMapper;
+import com.keumbi.prj.noti.vo.NotiVO;
 import com.keumbi.prj.reply.mapper.ReplyMapper;
 import com.keumbi.prj.reply.vo.ReplyVO;
 import com.keumbi.prj.report.mapper.ReportMapper;
@@ -21,6 +23,7 @@ public class SanctionServiceImpl implements SanctionService{
 	@Autowired ReportMapper rm;
 	@Autowired BoardMapper bm;
 	@Autowired ReplyMapper rem;
+	@Autowired NotiMapper noti;
 	
 	@Override
 	public List<SanctionVO> sanUser() {
@@ -32,7 +35,6 @@ public class SanctionServiceImpl implements SanctionService{
 		ReportVO repvo = new ReportVO();
 		repvo.setRep_reason(vo.getRep_reason());
 		repvo.setRep_code(vo.getSanc_code());
-		System.out.println(vo);
 		if(m.sanUserCount(vo) == 0) {	
 			if(vo.getSanc_code().equals("SB") || vo.getSanc_code().equals("적절하지 않은 게시글")) {
 				BoardVO bvo = new BoardVO();
@@ -47,9 +49,25 @@ public class SanctionServiceImpl implements SanctionService{
 			}
 			rm.reportDelete(repvo);
 			m.sanUserCodeUpdate(vo);
+			
+			NotiVO nvo = new NotiVO();
+			nvo.setNoti_code("N6");
+			nvo.setSanc_code(vo.getSanc_code());
+			nvo.setEdate(vo.getEdate());
+			nvo.setUser_id(vo.getUser_id());
+			noti.notiInsert(nvo);
+			
 			return m.sanInsert(vo);
 		}else {
 			rm.reportDelete(repvo);
+			
+			NotiVO nvo = new NotiVO();
+			nvo.setNoti_code("N6");
+			nvo.setSanc_code(vo.getSanc_code());
+			nvo.setEdate(vo.getEdate());
+			nvo.setUser_id(vo.getUser_id());
+			noti.notiInsert(nvo);
+			
 			return m.sanUserDayUpdate(vo);
 		}
 	}
