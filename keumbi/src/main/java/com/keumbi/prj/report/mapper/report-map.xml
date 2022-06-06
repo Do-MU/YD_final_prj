@@ -8,24 +8,39 @@
 		ORDER BY	4 DESC
 	</select>
 	
-	<insert id="reportInsert" parameterType="ReportVO">
+	<insert id="reportBoard" parameterType="ReportVO">
 		<selectKey keyProperty="rep_num" resultType="int" order="BEFORE">
 			SELECT NVL(MAX(REP_NUM),0)+1
 			FROM REPORTS
 		</selectKey>
-		
 		INSERT INTO REPORTS (REP_NUM, REP_ID, REPED_ID, REP_DATE, REP_CODE, REP_REASON)
-		VALUES ( #{rep_num}, #{rep_id}, #{reped_id}, sysdate, 'SB', #{rep_reason} )			   
+		VALUES ( #{rep_num}, #{rep_id}, (SELECT USER_ID FROM BOARDS WHERE BOD_NUM=#{rep_reason}), SYSDATE, 'SB', #{rep_reason} )			   
 	</insert>
 	
-	<insert id="reportInsertInsert" parameterType="ReportVO">
+	<select id="repCountBoard" resultType="int">
+		SELECT 	COUNT(REP_ID)
+		FROM 	REPORTS
+		WHERE	REP_ID = #{rep_id}
+		AND 	REP_CODE = 'SB'
+		AND		REP_REASON = #{rep_reason}
+	</select>
+	
+	<insert id="reportReply" parameterType="ReportVO">
 		<selectKey keyProperty="rep_num" resultType="int" order="BEFORE">
 			SELECT NVL(MAX(REP_NUM),0)+1
 			FROM REPORTS
 		</selectKey>
 		INSERT INTO REPORTS (REP_NUM, REP_ID, REPED_ID, REP_DATE, REP_CODE, REP_REASON)
-		VALUES ( #{rep_num}, #{rep_id}, #{reped_id}, sysdate, 'SR', #{rep_reason} )
+		VALUES ( #{rep_num}, #{rep_id}, (SELECT USER_ID FROM REPLIES WHERE RE_NUM=#{rep_reason}), SYSDATE, 'SR', #{rep_reason} )
 	</insert>
+	
+	<select id="repCountReply" resultType="int">
+		SELECT 	COUNT(REP_ID)
+		FROM 	REPORTS
+		WHERE	REP_ID = #{rep_id}
+		AND 	REP_CODE = 'SR'
+		AND		REP_REASON = #{rep_reason}
+	</select>
 
 	<delete id="reportDelete" parameterType="ReportVO">
 		DELETE FROM	REPORTS

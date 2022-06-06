@@ -17,14 +17,13 @@ public class ReplyServiceImpl implements ReplyService {
 	@Override
 	public void replyCount(int re_num) {
 		m.replyCount();
-
 	}
 
 	@Override
 	public List<ReplyVO> replyList(ReplyVO vo) {
 		List<ReplyVO> list = m.replyList(vo);
-		for(int i = 0; i < list.size(); i++) {
-			list.get(i).setPre_re(m.preReplyList(list.get(i)));
+		for(ReplyVO re : list) {
+			re.setPre_re(m.rorList(re));
 		}
 		return list;
 	}
@@ -37,9 +36,6 @@ public class ReplyServiceImpl implements ReplyService {
 	@Override
 	public int replyUpdate(ReplyVO vo) {
 		return m.replyUpdate(vo);
-		
-		
-
 	}
 
 	@Override
@@ -49,6 +45,13 @@ public class ReplyServiceImpl implements ReplyService {
 
 	}
 	
+	
+	
+
+	@Override
+	public List<ReplyVO> rorList(ReplyVO vo) {
+		return m.rorList(vo);
+	}
 	@Override
 	public int rorInsert(ReplyVO vo) {
 		return m.rorInsert(vo);
@@ -64,9 +67,5 @@ public class ReplyServiceImpl implements ReplyService {
 	public int rorDelete(int re_num) {
 		return m.rorDelete(re_num);
 
-	}
-	@Override
-	public int preReplyDelete(int re_num) {		
-		return m.preReplyDelete(re_num);
 	}
 }
