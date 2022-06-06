@@ -121,7 +121,8 @@ td{
 					user_id:$(this).closest("tr").find(".repedId").text(),
 					sanc_code:$(this).closest("tr").find(".repCode").data("rep_code"),
 					edate:$(this).closest("tr").find(".sanDate").val().slice(0, -1),
-					sanc_reason:$(this).closest("tr").find(".reason").data("rep_reason")
+					rep_reason:$(this).closest("tr").find(".reason").data("rep_reason"),
+					sanc_reason:$(".modal-body").html()
 				}
 			}).done(function(data){
 				if(data == 1){

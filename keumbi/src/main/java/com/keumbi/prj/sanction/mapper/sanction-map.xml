@@ -3,11 +3,12 @@
 <mapper namespace="com.keumbi.prj.sanction.mapper.SanctionMapper">
 	<!-- 제재 유저리스트 -->
 	<select id="sanUser" resultType="SanctionVO">
-		SELECT	S.USER_ID, C.VAL SANC_CODE, S.SDATE, S.EDATE, S.SANC_REASON
-		FROM	SANCTIONS S, COMMON_CODE C
-		WHERE	S.SANC_CODE = C.CODE
+		SELECT	S.USER_ID, S.SANC_CODE, S.SDATE, S.SANC_REASON, R.REP_REASON
+		FROM	SANCTIONS S, REPORTS R
+		WHERE	S.SANC_CODE = R.REP_CODE(+)
 	</select>
 	
+	<!-- 제재 등록 -->
 	<insert id="sanInsert" parameterType="SanctionVO">
 		INSERT INTO	SANCTIONS (SANC_NUM, USER_ID, SANC_CODE, SDATE, EDATE, SANC_REASON)
 		VALUES		( (SELECT NVL(MAX(SANC_NUM), 1) + 1 FROM SANCTIONS)
@@ -18,4 +19,26 @@
 					 , #{sanc_reason}
 					)	
 	</insert>
+	
+	<!-- 제재유저 코드 업데이트 -->
+	<update id="sanUserCodeUpdate" parameterType="SanctionVO">
+		UPDATE		USERS
+		SET 		USER_CODE = 'U2'
+		WHERE ID =  #{user_id}
+	</update>
+	
+	<!-- 제재유저 확인 -->
+	<select id="sanUserCount" resultType="int">
+		SELECT COUNT(USER_ID)
+		FROM SANCTIONS
+		WHERE USER_ID = #{id}
+		AND EDATE > SYSDATE
+	</select>
+	
+	<!-- 제재된 유저 제재일자 업데이트 -->
+	<update id="sanUserDayUpdate" parameterType="SanctionVO">
+		UPDATE SANCTIONS
+		SET EDATE = EDATE + #{edate}
+		WHERE USER_ID = #{id}
+	</update>
 </mapper>
