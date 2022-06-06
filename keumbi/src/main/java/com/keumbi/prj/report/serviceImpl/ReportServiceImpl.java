@@ -37,19 +37,25 @@ public class ReportServiceImpl implements ReportService {
 		}
 	}
 
-
-  @Override
-	public void reportInsert(ReportVO vo) {
-		m.reportInsert(vo);
-		
-	}
-	
 	@Override
-	public void reportInsertInsert(ReportVO vo) {
-		m.reportInsertInsert(vo);
-  }
+	public int reportBoard(ReportVO vo) {
+		if(m.repCountBoard(vo)==0) {
+			return m.reportBoard(vo);			
+		}else {
+			return 0;
+		}
+	}
+
+	@Override
+	public int reportReply(ReportVO vo) {
+		if(m.repCountReply(vo)==0) {
+			return m.reportReply(vo);
+		}else {
+			return 0;
+		}
+	}
   
-  @Override
+	@Override
 	public int reportDelete(ReportVO vo) {
 		return m.reportDelete(vo);
 	}

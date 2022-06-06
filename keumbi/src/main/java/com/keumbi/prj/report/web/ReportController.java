@@ -4,8 +4,6 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -23,22 +21,22 @@ public class ReportController {
 		return reps.repReason(vo);
 	}
 	
-	@PostMapping("/reportInsert")
-	public String reportInsert(@ModelAttribute ReportVO vo, HttpSession session) {
+	@RequestMapping("/reportBoard")
+	@ResponseBody
+	public int reportBoard(ReportVO vo, HttpSession session) {
 		UserVO uvo = (UserVO) session.getAttribute("loginUser");
 		vo.setRep_id(uvo.getId());
-		reps.reportInsert(vo);
 		
-		return "redirect:boardView?bod_num="+vo.getRep_reason();
+		return reps.reportBoard(vo);
 	}
 	
-	@PostMapping("/reportInsertInsert")
-	public String reportInsertInsert(@ModelAttribute ReportVO vo, HttpSession session) {
+	@RequestMapping("/reportReply")
+	@ResponseBody
+	public int reportReply(ReportVO vo, HttpSession session) {
 		UserVO uvo = (UserVO) session.getAttribute("loginUser");
 		vo.setRep_id(uvo.getId());
-		reps.reportInsertInsert(vo);
 		
-		return "redirect:boardView?bod_num="+vo.getRep_reason();
+		return reps.reportReply(vo);
   }
   
 	@RequestMapping("/admin/reportDelete")

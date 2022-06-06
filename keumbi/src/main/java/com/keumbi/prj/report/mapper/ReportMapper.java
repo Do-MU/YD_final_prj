@@ -6,7 +6,9 @@ import com.keumbi.prj.report.vo.ReportVO;
 
 public interface ReportMapper {
 	List<ReportVO> reportList();
-	void reportInsert(ReportVO vo);
-	void reportInsertInsert(ReportVO vo);
+	int reportBoard(ReportVO vo);
+	int reportReply(ReportVO vo);
 	int reportDelete(ReportVO vo);
+	int repCountBoard(ReportVO vo);
+	int repCountReply(ReportVO vo);
 }
