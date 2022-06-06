@@ -19,8 +19,10 @@ public class Scheduler {
 	//@Scheduled(cron = "0 0 10 * * *")
 	public void autoUpdate() {
 	
-		userserv.schedulerUpdateUser();
-		userserv.schedulerDeleteUser();
+		userserv.schedulerUpdateUser(); // 제재회원 -> 일반회원 전환
+		userserv.schedulerDeleteUser(); // 탈퇴회원 -> 탈퇴처리
+		
+		/* 금융API 자동 업데이트 */
 		depserv.insertAllDeposits();
 		savserv.insertAllSavings();
 		loaserv.insertAllLoans();

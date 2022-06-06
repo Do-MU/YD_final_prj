@@ -296,6 +296,7 @@ $("#userDelete").click(function(){
 	confirm("정말 탈퇴하시겠습니까?");
 	$("#userFrm").attr("action", "userDelete");
 	$("#userFrm").submit();
+	confirm("7일간의 탈퇴 유예기간 후 모든정보가 삭제됩니다.");
 })
 
 //탈퇴철회
