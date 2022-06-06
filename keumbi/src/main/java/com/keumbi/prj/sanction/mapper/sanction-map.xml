@@ -19,7 +19,7 @@
 					 , #{sanc_reason}
 					)	
 	</insert>
-	
+  
 	<!-- 제재유저 코드 업데이트 -->
 	<update id="sanUserCodeUpdate" parameterType="SanctionVO">
 		UPDATE		USERS

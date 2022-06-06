@@ -51,6 +51,26 @@
 	left: 50%;
 	transform: translate(-50%, 0);
 }
+#card_image_content{
+	font-weight: bold;
+	display: table-cell;
+    vertical-align: inherit;
+}
+#card_image{
+	width: 200px;
+}
+.modal-footer{
+	place-content: center;
+	font-weight: bold;
+	width: 100%;
+}
+
+#term_content{
+	color: red;
+}
+.card_term{
+	font-size: larger;
+}
 </style>
 
 </head>
@@ -121,6 +141,8 @@
 					</button>
 				</div>
 				<div class="modal-body">
+					<p id="card_image_content">카드이미지&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img id="card_image"/></p>
+					
 					<table>
 						<tr>
 							<th width="100px">카드이름</th>
@@ -131,6 +153,10 @@
 							<td id="card_benefit"></td>
 						</tr>
 						<tr>
+							<th width="100px">분류</th>
+							<td id="card_class"></td>
+						</tr>
+						<tr>
 							<th>연회비</th>
 							<td id="card_annualfee"></td>
 						</tr>
@@ -139,6 +165,9 @@
 							<td id="card_perfo"></td>
 						</tr>
 					</table>
+				</div>
+				<div class="modal-footer">
+					<div class="card_term">신용카드 결제는 외상구매라는 본질적 특성을 지니며, <p id="term_content">과도한 신용카드 사용은 가계 빚 증가로 이어집니다.<p></div>
 				</div>
 			</div>
 		</div>
@@ -159,18 +188,20 @@
 		.done(function(data){
 			//console.log(data)
 			if(data != null){
+				$("#card_image").attr("src","${pageContext.request.contextPath}/resources/img/card/"+data.card_image);
 				$("#card_company").html(data.card_company);
 				$("#card_name").html(data.card_name);
 				$("#card_benefit").html(data.card_benefit);
+				$("#card_class").html(data.val);
 				if(data.card_annualfee != null){
-					$("#card_annualfee").html("연 회 비  " + data.card_annualfee + " 원");
+					$("#card_annualfee").html(data.card_annualfee + "원");
 				} else {
 					$("#card_annualfee").html("연회비 없음");
 				}
 				
 				if(data.card_perfo != null){
-					$("#card_perfo").html("전 월 실 적 	" + data.card_perfo + " 만 원");
-				} else {
+					$("#card_perfo").html(data.card_perfo + " 만원부터");
+				} else{
 					$("#card_perfo").html("전월실적 해당사항 없음");
 				}
 				
@@ -280,7 +311,7 @@
 									src="${pageContext.request.contextPath}/resources/img/card/\${list.card_image}"
 									class="card-img-top">
 								<div class="card-body">
-									<h4 class="card-title" id="\${list.card_seq }"\>${list.card_name}</h4>
+									<h4 class="card-title" id="\${list.card_seq }">\${list.card_name}</h4>
 									<p class="card-text">\${list.card_info}</p>
 									<div class="detailBtn">
 										<button class="cardModalView btn btn-outline-primary btn-sm">자세히 보기</button>

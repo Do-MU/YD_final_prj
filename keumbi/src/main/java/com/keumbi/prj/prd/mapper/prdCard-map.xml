@@ -16,10 +16,18 @@
 	</select>
 	
 	<select id="selectOneCard" parameterType="PrdCardVO" resultType="PrdCardVO">
-		SELECT	CARD_SEQ, CARD_NAME,  (SELECT VAL FROM COMMON_CODE WHERE CODE = #{card_company}) AS "CARD_COMPANY", 
-				CARD_INFO, CARD_ANNUALFEE, CARD_BENEFIT, CARD_IMAGE, CARD_SEQ
-		FROM 	PRD_CARDS
-		WHERE 	CARD_SEQ = #{card_seq}
+		SELECT *
+		FROM (SELECT P.CARD_SEQ, P.CARD_NAME,  (SELECT VAL 
+				                                FROM COMMON_CODE 
+				                                WHERE CODE = #{card_company}) AS "CARD_COMPANY", P.CARD_INFO, P.CARD_ANNUALFEE, P.CARD_BENEFIT, P.CARD_IMAGE, P.CARD_PERFO, LISTAGG(CC.VAL, '/') WITHIN GROUP (ORDER BY CC.VAL) AS VAL
+		     FROM PRD_CARDS P
+		     JOIN CARD_CATEGORY C
+		     ON P.CARD_SEQ = C.CARD_CODE
+		     JOIN COMMON_CODE CC
+		     ON C.CAT_CODE = CC.CODE
+		     GROUP BY P.CARD_SEQ, P.CARD_NAME, CARD_COMPANY, P.CARD_INFO, P.CARD_ANNUALFEE, P.CARD_BENEFIT, P.CARD_IMAGE, P.CARD_PERFO
+		)
+		WHERE CARD_SEQ = #{card_seq}
 	</select>
 	
 	<select id="selectCompanyCard" parameterType="PrdCardVO" resultType="PrdCardVO">
