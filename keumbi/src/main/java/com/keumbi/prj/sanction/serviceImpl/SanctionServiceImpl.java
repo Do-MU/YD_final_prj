@@ -29,11 +29,11 @@ public class SanctionServiceImpl implements SanctionService{
 
 	@Override
 	public int sanInsert(SanctionVO vo) {
-		if(m.sanUserCount() == 0) {
-			ReportVO repvo = new ReportVO();
-			repvo.setRep_reason(vo.getRep_reason());
-			repvo.setRep_code(vo.getSanc_code());
-			
+		ReportVO repvo = new ReportVO();
+		repvo.setRep_reason(vo.getRep_reason());
+		repvo.setRep_code(vo.getSanc_code());
+		System.out.println(vo);
+		if(m.sanUserCount(vo) == 0) {	
 			if(vo.getSanc_code().equals("SB") || vo.getSanc_code().equals("적절하지 않은 게시글")) {
 				BoardVO bvo = new BoardVO();
 				bvo.setBod_num(vo.getRep_reason());
@@ -45,13 +45,13 @@ public class SanctionServiceImpl implements SanctionService{
 				revo.setRe_contents("관리자에 의해 삭제된 댓글 입니다.");
 				rem.replyUpdate(revo);
 			}
-			
 			rm.reportDelete(repvo);
 			m.sanUserCodeUpdate(vo);
+			return m.sanInsert(vo);
 		}else {
-			m.sanUserDayUpdate(vo);
+			rm.reportDelete(repvo);
+			return m.sanUserDayUpdate(vo);
 		}
-		return m.sanInsert(vo);
 	}
 	
 }

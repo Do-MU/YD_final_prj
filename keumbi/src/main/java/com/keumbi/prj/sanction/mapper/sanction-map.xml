@@ -31,7 +31,7 @@
 	<select id="sanUserCount" resultType="int">
 		SELECT COUNT(USER_ID)
 		FROM SANCTIONS
-		WHERE USER_ID = #{id}
+		WHERE USER_ID = #{user_id}
 		AND EDATE > SYSDATE
 	</select>
 	
@@ -39,6 +39,6 @@
 	<update id="sanUserDayUpdate" parameterType="SanctionVO">
 		UPDATE SANCTIONS
 		SET EDATE = EDATE + #{edate}
-		WHERE USER_ID = #{id}
+		WHERE USER_ID = #{user_id}
 	</update>
 </mapper>
