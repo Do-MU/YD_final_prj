@@ -8,6 +8,7 @@
 		WHERE	N.USER_ID = #{id} 
 		AND     N.NOTI_CODE = CN.CODE
 		AND		N.NOTI_READ_CODE = CR.CODE
+		ORDER BY N.NUM DESC
 	</select>
 	
 	<update id="notiReadUpdate" parameterType="NotiVO">
@@ -22,42 +23,52 @@
 			FROM	NOTIFICATIONS
 			WHERE	USER_ID = #{user_id}
 		</selectKey>
-		insert into notifications
-		values ( #{num}, #{user_id},#{noti_code}, 
+		INSERT INTO NOTIFICATIONS
+		VALUES ( #{num}, #{user_id},#{noti_code}, 
 		<choose>
-		<when test="noti_code == 'N1'">
-			('내 게시물에 댓글이 달렸습니다.'),
-		</when>
-		<when test="noti_code == 'N2'">
-			'이체를 완료했습니다.',
-		</when>
-		<when test="noti_code == 'N3'">
-			'내 문의글에 답글이 달렸습니다.',
-		</when>
-		<when test="noti_code == 'N4'"></when>
-		<when test="noti_code == 'N5'">
-			'계좌불러오기를 완료했습니다.',
-		</when>
-		<when test="noti_code == 'N6'"></when>
-		<when test="noti_code == 'N7'">
-			( '" ' || ( SELECT TITLE
-			FROM 	(	SELECT *
-			        	FROM CHALLS C, PRD_CHALLS P
-			        	WHERE   C.CHALL_NUM = P. NUM
-			        	AND     USER_ID = #{user_id}
-			        	ORDER BY P.NUM DESC)
-			WHERE ROWNUM  <![CDATA[ <=1 ]]> ) || ' " ' || '챌린지가 등록되었습니다.'),
-		</when>
-		<when test="noti_code == 'N8'">
-			( #{challTitle} || ' 챌린지에 실패했습니다.' ),
-		</when>
-		<when test="noti_code == 'N9'">
-			( #{challTitle} || ' 챌린지에 성공했습니다.' ),
-		</when>
-		<when test="noti_code == 'N10'"></when>
-		<otherwise>
-			( (select name from users where id = #{user_id}) || ' '|| '님 회원가입을 축하합니다.'),
-		</otherwise>
+			<when test="noti_code == 'N1'">
+				'내 게시물에 댓글이 달렸습니다.',
+			</when>
+			<when test="noti_code == 'N2'">
+				'이체를 완료했습니다.',
+			</when>
+			<when test="noti_code == 'N3'">
+				'내 문의에 답변이 달렸습니다.',
+			</when>
+			<when test="noti_code == 'N4'">
+				'관심 키워드 [' || #{kwds} || '] 가 태그된 게시글이 작성되었습니다.', 
+			</when>
+			<when test="noti_code == 'N5'">
+				'계좌 불러오기를 완료했습니다.',
+			</when>
+			<when test="noti_code == 'N6'">
+				'['||(SELECT NAME FROM USERS WHERE ID = #{user_id}) || '] 님은 ['
+				|| (SELECT 	C.VAL
+					FROM 	COMMON_CODE C, SANCTIONS S
+					WHERE 	C.CODE = S.SANC_CODE
+					AND 	SANC_CODE = #{sanc_code}) ||'] 사유로 게시글 및 댓글 작성이 불가합니다.',
+			</when>
+			<when test="noti_code == 'N7'">
+				( '" ' || ( SELECT TITLE
+							FROM 	(	SELECT *
+							        	FROM CHALLS C, PRD_CHALLS P
+							        	WHERE   C.CHALL_NUM = P. NUM
+							        	AND     USER_ID = #{user_id}
+							        	ORDER BY P.NUM DESC)
+							WHERE ROWNUM  <![CDATA[ <=1 ]]> ) || ' " ' || '챌린지가 등록되었습니다.'),
+			</when>
+			<when test="noti_code == 'N8'">
+				( #{challTitle} || ' 챌린지에 실패했습니다.' ),
+			</when>
+			<when test="noti_code == 'N9'">
+				( #{challTitle} || ' 챌린지에 성공했습니다.' ),
+			</when>
+			<when test="noti_code == 'N10'">
+				'내 댓글에 답글이 달렸습니다.',
+			</when>
+			<otherwise>
+				( (SELECT NAME FROM USERS WHERE ID = #{user_id}) || ' '|| '님 회원가입을 축하합니다.'),
+			</otherwise>
 		</choose>
 		 'AR0' )
 	</insert>

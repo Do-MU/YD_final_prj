@@ -76,5 +76,4 @@
 		DELETE FROM REPLIES 
 		WHERE PRE_RE_NUM = #{pre_re_num}
 	</delete>
-	
 </mapper>

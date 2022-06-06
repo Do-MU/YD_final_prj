@@ -6,6 +6,7 @@ import com.keumbi.prj.board.vo.BoardKwdVO;
 import com.keumbi.prj.board.vo.BoardSearchVO;
 import com.keumbi.prj.board.vo.BoardVO;
 import com.keumbi.prj.common.vo.PageVO;
+import com.keumbi.prj.noti.vo.NotiVO;
 
 public interface BoardMapper {
 	List<BoardVO> selectBoardList(PageVO page);
@@ -20,7 +21,7 @@ public interface BoardMapper {
 
 	int boardCount();
 	List<BoardVO> boardSearch(BoardSearchVO search);
-	
+	List<NotiVO> userSelectByKwd(int bod_num);
 	
 	
 }

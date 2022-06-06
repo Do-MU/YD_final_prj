@@ -11,11 +11,14 @@ import com.keumbi.prj.board.vo.BoardKwdVO;
 import com.keumbi.prj.board.vo.BoardSearchVO;
 import com.keumbi.prj.board.vo.BoardVO;
 import com.keumbi.prj.common.vo.PageVO;
+import com.keumbi.prj.noti.mapper.NotiMapper;
+import com.keumbi.prj.noti.vo.NotiVO;
 
 @Service
 public class BoardServiceImpl implements BoardService {
 
 	@Autowired BoardMapper m; 
+	@Autowired NotiMapper noti;
 		
 	@Override
 	public List<BoardVO> selectBoardList(PageVO page) {
@@ -52,7 +55,12 @@ public class BoardServiceImpl implements BoardService {
 				vo.setBod_num(bod_num);
 				vo.setKwd_code(kwd);
 				m.boardKwdInsert(vo);
-			}			
+			}
+			List<NotiVO> nvos = m.userSelectByKwd(bod_num);
+			for(NotiVO nvo : nvos) {
+				nvo.setNoti_code("N4");
+				noti.notiInsert(nvo);
+			}
 		}
 		return 0;
 	}
@@ -71,7 +79,7 @@ public class BoardServiceImpl implements BoardService {
 				vo.setBod_num(bod_num);
 				vo.setKwd_code(kwd);
 				m.boardKwdInsert(vo);
-			}			
+			}
 		}
 		return 0;
 	}

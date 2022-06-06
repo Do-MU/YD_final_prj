@@ -11,4 +11,5 @@ public class NotiVO {
 	private String noti_read_code;		// AR
 	
 	private String challTitle;			// 챌린지 이름
+	private String kwds;				// 키워드 집합
 }
