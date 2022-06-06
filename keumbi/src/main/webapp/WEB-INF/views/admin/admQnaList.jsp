@@ -14,6 +14,31 @@
 	margin : 0px 0px 20px 0px;
 
 }
+table {
+	table-layout:fixed;
+}
+th {
+	background-color: #eeeeee; 
+	text-align: center;
+}
+.th1, .td1 {
+	width : 70px;
+}
+.th2, .td2 {
+	width : 500px;
+}
+.th3, .td3 {
+	width : 150px;
+}
+.th4, .td4 {
+	width : 150px;
+}
+.th5, .td5 {
+	width : 200px;
+}
+.th6, .th6 {
+	width : 100px;
+}
 </style>
 
 
@@ -51,24 +76,24 @@
 			style="text-align: center; border: 1px solid #dddddd">
 			<thead>
 				<tr>
-					<th style="background-color: #eeeeee; text-align: center;">번호</th>
-					<th style="background-color: #eeeeee; text-align: center;">제목</th>
-					<th style="background-color: #eeeeee; text-align: center;">작성자</th>
-					<th style="background-color: #eeeeee; text-align: center;">ID</th>
-					<th style="background-color: #eeeeee; text-align: center;">작성일</th>
-					<th style="background-color: #eeeeee; text-align: center;">답변유무</th>
+					<th class="th1">번호</th>
+					<th class="th2">제목</th>
+					<th class="th3">작성자</th>
+					<th class="th4">ID</th>
+					<th class="th5">작성일</th>
+					<th class="th6">답변유무</th>
 				</tr>
 			</thead>
 			<tbody>
 				<c:forEach var="q" items="${qnas}">
 					<tr>
-						<td><c:out value="${q.num}" /></td>
-						<td><a href="./admQnaView?num=${q.num}"><c:out
+						<td class="td1"><c:out value="${q.num}" /></td>
+						<td class="td2"><a href="./admQnaView?num=${q.num}"><c:out
 									value="${q.title}" /></a></td>
-						<td><c:out value="${q.name}" /></td>
-						<td><c:out value="${q.user_id}" /></td>
-						<td><c:out value="${q.qdate}" /></td>
-						<td><c:out value="${q.val}" /></td>
+						<td class="td3"><c:out value="${q.name}" /></td>
+						<td class="td4"><c:out value="${q.user_id}" /></td>
+						<td class="td5"><c:out value="${q.qdate}" /></td>
+						<td class="td6"><c:out value="${q.val}" /></td>
 					</tr>
 				</c:forEach>
 			</tbody>

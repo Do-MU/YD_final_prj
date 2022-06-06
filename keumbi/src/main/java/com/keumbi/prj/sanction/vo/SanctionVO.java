@@ -14,5 +14,6 @@ public class SanctionVO {
 	@JsonFormat(pattern="yyyy-MM-dd", timezone="Asia/Seoul")
 	private Date sdate;
 	private String edate;
-	private int sanc_reason;
+	private String sanc_reason;
+	private int rep_reason;
 }

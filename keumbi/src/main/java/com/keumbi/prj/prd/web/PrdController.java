@@ -157,14 +157,14 @@ public class PrdController {
 	// 카드전체목록
 	@RequestMapping("/PrdCardListView")
 	public String PrdCardListView(Model model) {
-		model.addAttribute("cardList", card.selectRandomCard());
+		model.addAttribute("cardList", card.selectAllPrdCard());
 		return "product/prdCardList";
 	}
 	// 전체버튼
-	@RequestMapping("totalPrd")
+	@RequestMapping("/totalPrd")
 	@ResponseBody
 	public List<PrdCardVO> totalPrd() {
-		return card.selectRandomCard();
+		return card.selectAllPrdCard();
 	}
 	// 카드 상세보기
 	@RequestMapping("/cardDetail")
@@ -174,13 +174,13 @@ public class PrdController {
 		return card.selectOneCard(vo);
 	}
 	// 카드사별 리스트 출력
-	@RequestMapping("companyCard")
+	@RequestMapping("/companyCard")
 	@ResponseBody
 	public List<PrdCardVO> companyCard(PrdCardVO vo){
 		return card.selectCompanyCard(vo);
 	}
 	// 연령대별 카드 추천
-	@RequestMapping("recommendedAge")
+	@RequestMapping("/recommendedAge")
 	@ResponseBody
 	public List<PrdCardVO> recommendedAge(HttpSession session) {
 		UserVO vo = (UserVO) session.getAttribute("loginUser");

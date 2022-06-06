@@ -13,6 +13,7 @@ public class PrdCardVO {
 	private String card_benefit;
 	private String card_image;
 	private String card_perfo;
+	private String val;
 	
 	//dummyVO
 	private String card_id;

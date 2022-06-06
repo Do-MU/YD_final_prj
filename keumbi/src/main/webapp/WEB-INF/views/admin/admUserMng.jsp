@@ -100,10 +100,8 @@ td{
 				<tr class="userList">
 					<td class="userId">${allu.id}</td>
 					<td class="userState">${allu.user_alias}</td>
-					<td class="sanContent"></td>
+					<td class="sanContent"><a href="#"></a></td>
 					<td class="sanDate"></td>
-					<%-- <c:set var="sdate" value="${u.sdate}"/>
-					<td><fmt:formatDate value="${sdate}" dateStyle="default"/></td> --%>
 				</tr>
 			</c:forEach>
 		</tbody>
@@ -138,24 +136,28 @@ td{
 	$.ajax({
 		url:"sanUser"
 	}).done(function(list){
-		for(sanc of list){		
+		for(sanc of list){
+			console.log(sanc);
 			$(".userId").each(function(){
-				if($(this).text() == sanc.user_id){
-					$(this).next().next().text(sanc.sanc_code);
-					$(this).next().next().next().text(sanc.sdate);
-				}
-			})
-			//제재내용 모달창 열기
-			$(".sanContent").each(function(){
-				$(this).click(function(){
-					if($(this).text() != ""){
-						$("#sanContent_modal").modal("show");
-						$("#mod_body_middle").html(sanc.sanc_reason);
+				var id = $(this);
+				if(id.text() == sanc.user_id){
+					if(sanc.sanc_code == "SB"){
+						id.next().next().children().text("적절하지 않은 게시글");	
+					}else if(sanc.sanc_code == "SR"){
+						id.next().next().children().text("적절하지 않은 댓글");
 					}
-				})
+					id.next().next().data("sanc_reason", sanc.sanc_reason);
+					id.next().next().next().text(sanc.sdate);
+				}
 			})
 		}
 	});
+	
+	//제재 내용
+	$(".sanContent a").on('click',this, function(){
+		$("#sanContent_modal").modal("show");
+		$("#mod_body_middle").html($(this).parent().data("sanc_reason"));
+	})
 	
 	//제재내용 모달창 닫기
 	$("#modal_close").click(function(){

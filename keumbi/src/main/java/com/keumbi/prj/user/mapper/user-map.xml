@@ -37,7 +37,7 @@
 	
 	<delete id="userDelete" parameterType="UserVO">
 		UPDATE USERS
-		SET SIGNOUTDATE = TO_CHAR(SYSDATE + (INTERVAL '2' DAY), 'YY/MM/DD')
+		SET SIGNOUTDATE = TO_CHAR(SYSDATE + (INTERVAL '7' DAY), 'YY/MM/DD')
 		WHERE ID = #{id}
 	</delete>
 	
