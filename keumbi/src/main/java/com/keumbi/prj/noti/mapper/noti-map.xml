@@ -46,7 +46,7 @@
 				|| (SELECT 	C.VAL
 					FROM 	COMMON_CODE C, SANCTIONS S
 					WHERE 	C.CODE = S.SANC_CODE
-					AND 	SANC_CODE = #{sanc_code}) ||'] 사유로 게시글 및 댓글 작성이 불가합니다.',
+					AND 	SANC_CODE = #{sanc_code}) ||'] 사유로 '|| #{edate} ||'일 간 게시글 및 댓글 작성이 불가합니다.',
 			</when>
 			<when test="noti_code == 'N7'">
 				( '" ' || ( SELECT TITLE

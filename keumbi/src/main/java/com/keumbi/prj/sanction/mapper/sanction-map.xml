@@ -29,16 +29,16 @@
 	
 	<!-- 제재유저 확인 -->
 	<select id="sanUserCount" resultType="int">
-		SELECT COUNT(USER_ID)
-		FROM SANCTIONS
-		WHERE USER_ID = #{user_id}
-		AND EDATE > SYSDATE
+		SELECT 	COUNT(USER_ID)
+		FROM 	SANCTIONS
+		WHERE 	USER_ID = #{user_id}
+		AND 	EDATE > SYSDATE
 	</select>
 	
 	<!-- 제재된 유저 제재일자 업데이트 -->
 	<update id="sanUserDayUpdate" parameterType="SanctionVO">
-		UPDATE SANCTIONS
-		SET EDATE = EDATE + #{edate}
-		WHERE USER_ID = #{user_id}
+		UPDATE 	SANCTIONS
+		SET 	EDATE = EDATE + #{edate}
+		WHERE 	USER_ID = #{user_id}
 	</update>
 </mapper>
