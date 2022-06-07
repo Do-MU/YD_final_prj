@@ -105,20 +105,20 @@
 		data.addRows(arr);
 		
 		if(obj[0] != null){
-			let m1 = (month+1)+"월에는 #"+obj[0].val+"에 가장 많이 썼어요!!";
-			let m2 = obj[0].val+"에 지출한 금액은 총"+priceToString(obj[0].amt)+"원이에요.";
-			$(".pie-message1").text(m1);
-			$(".pie-message2").text(m2);
+			let m1 = `<span style='font-weight: bold;'> \${month+1}월</span>에는 <span style="color:red; font-weight: bold;">#\${obj[0].val}</span> 에 가장 많이 썼어요!!`;
+			let m2 = `<span style='font-weight: bold;'>#\${obj[0].val}</span>에 지출한 금액은 총 <span style='color:red; font-weight: bold;'>\${priceToString(obj[0].amt)}원</span>이에요.`;
+			$(".pie-message1").html(m1);
+			$(".pie-message2").html(m2);
 		}else{
 			let m = '이번 달에는 거래내역이 없어요!!';
 		}
 		if(obj[1] != null) {
-			let m3 = "두번 째로 많이 쓴 곳은 #"+obj[1].val+"이며 지출금액은 "+priceToString(obj[1].amt)+"원이에요.";
-			$(".pie-message3").text(m3);	
+			let m3 = `두번 째로 많이 쓴 곳은 <span style='color:blue; font-weight:bold;'>#\${obj[1].val}</span>이며 지출금액은 <span style='color:blue; font-weight: bold;'>\${priceToString(obj[1].amt)}원</span>이에요.`;
+			$(".pie-message3").html(m3);	
 		}
 		if(obj[2] != null) {
-			let m4 = "세번 째로 많이 쓴 곳은 #"+obj[2].val+"이며 지출금액은 "+priceToString(obj[2].amt)+"원이에요.";
-			$(".pie-message4").text(m4);
+			let m4 = `세번 째로 많이 쓴 곳은 <span style='color:green; font-weight: bold;'>#\${obj[2].val}</span>이며 지출금액은 <span style='color:green; font-weight: bold;'>\${priceToString(obj[2].amt)}원</span>이에요.`;
+			$(".pie-message4").html(m4);
 		}
 		var options = {
 				fontSize : 15,

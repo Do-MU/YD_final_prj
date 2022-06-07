@@ -12,7 +12,7 @@
 }
 .cardCol {
 	display: inline-block;
-	margin-right: 30px;
+	margin-right: 50px;
 	margin-bottom: 30px;;
 }
 .card {
@@ -42,8 +42,7 @@
 
 	<section class="contact_area p_120">
 		<div class="container">
-		
-		<div id="output" align="center">
+			<div id="output" align="center">
 				<c:forEach items="${cardList}" var="list">
 					<div class="cardCol">
 						<div class="card">
@@ -58,25 +57,6 @@
 					</div>
 				</c:forEach>
 			</div>
-				
-		
-		
-		
-<!-- 			<div id="output"> -->
-<%-- 				<c:forEach items="${cardList}" var="list"> --%>
-<!-- 					<div class="div_acc div_view"> -->
-<!-- 						<div class="div_img"> -->
-<!-- 							<img -->
-<%-- 								src="${pageContext.request.contextPath}/resources/img/card/${list.card_image}" --%>
-<!-- 								width="100px" height="70px"> -->
-<!-- 						</div> -->
-<!-- 						<div class="div_data1"> -->
-<%-- 							<div class="div_title">${list.val}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${list.card_name}</div> --%>
-<%-- 							<div class="div_num">${list.card_num_masked}</div> --%>
-<!-- 						</div> -->
-<!-- 					</div> -->
-<%-- 				</c:forEach> --%>
-<!-- 			</div> -->
 		</div>
 	</section>
 

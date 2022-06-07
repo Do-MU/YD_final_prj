@@ -157,14 +157,14 @@ public class PrdController {
 	// 카드전체목록
 	@RequestMapping("/PrdCardListView")
 	public String PrdCardListView(Model model) {
-		model.addAttribute("cardList", card.selectAllPrdCard());
+		model.addAttribute("cardList", card.selectRandomCard());
 		return "product/prdCardList";
 	}
 	// 전체버튼
 	@RequestMapping("/totalPrd")
 	@ResponseBody
 	public List<PrdCardVO> totalPrd() {
-		return card.selectAllPrdCard();
+		return card.selectRandomCard();
 	}
 	// 카드 상세보기
 	@RequestMapping("/cardDetail")
