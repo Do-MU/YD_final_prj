@@ -36,6 +36,16 @@ $(window).ready(function(){
 	function stringNumberToInt(stringNumber){
 	    return parseInt(stringNumber.replace(/,/g , ''));
 	}
+	
+	function dateFormat(date) {
+        let month = date.getMonth() + 1;
+        let day = date.getDate();
+
+        month = month >= 10 ? month : '0' + month;
+        day = day >= 10 ? day : '0' + day;
+
+        return date.getFullYear() + '-' + month + '-' + day;
+	}
 
 	document.addEventListener('DOMContentLoaded', function() {
 		
@@ -78,7 +88,63 @@ $(window).ready(function(){
 				})
 			},
 			
-			// 날짜 클릭 후 해당날짜 거래내역 출력
+			// 이벤트 클릭 후 해당날짜 거래내역 출력
+			eventClick : function(info) {
+				$("#dayOutTotal").empty();
+				$("#dayInTotal").empty();
+				$('#empty').empty();
+				
+				var clickDate = info.event._instance.range.start;
+				const date = dateFormat(clickDate);
+			
+				$("#dayTitle").html(date)
+				
+				// 입출금 내역 
+				$.ajax({
+					type : 'GET',
+					url : "dayView",
+					data : {
+						tdate : date,
+						user_id : "${loginUser.id}"
+					}
+				}).done(function(datas) {
+					dayDrawList(datas, "해당 날짜에 거래내역이 없습니다.")
+				});
+				// 입출금 내역 
+				$.ajax({
+					type : 'GET',
+					url : "dayView",
+					data : {
+						tdate : date,
+						user_id : "${loginUser.id}"
+					}
+				}).done(function(datas) {
+					dayDrawList(datas, "해당 날짜에 거래내역이 없습니다.")
+				});
+				
+				//입출금 총액 출력
+				$.ajax({
+					url : "dayTotalAmt",
+					data : {
+						tdate : date,
+						user_id : "${loginUser.id}"
+					}
+				}).done(function(data) {
+					$("#dayOutTotal").html( '총 지출 : 0원');
+					$("#dayInTotal").html(  '총 수입 : 0원');
+					
+					for(d of data) {
+						if(d.io_code=='I1') {
+							var outTotal = priceToString(d.amt);
+							$("#dayOutTotal").html('총 지출 : '+outTotal + '원');
+						} else {
+							var inTotal = priceToString(d.amt);
+							$("#dayInTotal").html('총 수입 : '+inTotal + '원');
+						}
+					}
+				});
+			},
+			// 날짜 클릭 시 해당날짜 거래내역 출력
 			dateClick : function(info) {
 								
 				$("#dayOutTotal").empty();
@@ -555,6 +621,7 @@ body {
 #div_tableHeader div {
 	height: 40px;
 }
+ 
 .swal-modal {
     width: 550px;
     height: 300px;
@@ -573,6 +640,9 @@ body {
 }
 .swal-button {
 	width: 480px;
+
+#dayTable {
+	table-layout:fixed;
 }
 </style>
 <body>
@@ -633,7 +703,7 @@ body {
 					</div>
 				</div>
 				<div>
-					<table class="table" id="dayTable">
+					<table class="table table-hover" id="dayTable">
 						<thead class="thead-dark" id="listHead">
 						</thead>
 						<tbody id="listBody">
@@ -669,16 +739,14 @@ body {
 								for="choice2">수입</label>
 						</div>
 						<label>날짜 </label> <br> <input type="date" name="tdate"
-							id="cashModalDate"> <br>
-						<br> <label>분류 </label><br> <select id="cat_code"
-							name="cat_code">
+							id="cashModalDate"> <br> <br> <label>분류
+						</label><br> <select id="cat_code" name="cat_code">
 							<option value="">선택</option>
 							<c:forEach var="c" items="${code}">
 								<option value="${c.code}">${c.val}</option>
 							</c:forEach>
-						</select> <br>
-						<br> <br> <label>금액 </label> <input type="number"
-							name="amt"> <br> <label>내용 </label> <input
+						</select> <br> <br> <br> <label>금액 </label> <input
+							type="number" name="amt"> <br> <label>내용 </label> <input
 							type="text" name="content"> <br>
 					</form>
 				</div>
@@ -714,13 +782,13 @@ body {
 							<input type="radio" id="choice1" name="io_code" value="I1">
 							<label for="choice1">지출</label> <input type="radio" id="choice2"
 								name="io_code" value="I2"> <label for="choice2">수입</label>
-						</div>
-						<label>분류 </label> <select name="cat_code" id="category">
+						</div> <br>
+						<label>분류 </label> <br> <select name="cat_code" id="category">
 							<option value="">선택</option>
 							<c:forEach var="c" items="${code}">
 								<option value="${c.code}">${c.val}</option>
 							</c:forEach>
-						</select> <br> <br> <label>금액 </label> <input type="number"
+						</select> <br> <br><br> <label>금액 </label> <input type="number"
 							name="amt" id="editAmt"> <br> <label>내용 </label> <input
 							type="text" name="content" id="editCont"> <br>
 					</form>

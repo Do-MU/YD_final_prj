@@ -11,13 +11,14 @@
 .btn-dark {
 	float: right;
 }
+
 .question, .answer {
 	font-family: fantasy;
 	font-size: 200%;
 	width: 100px;
-	float : left;
-
+	float: left;
 }
+
 .qnabox {
 	margin: 40px;
 }
@@ -29,8 +30,33 @@
 .btn-dark {
 	margin: 0px 0px 50px 0px;
 }
+
 .qbody {
-	display : none;
+	display: none;
+}
+
+table {
+	table-layout: fixed;
+}
+
+th {
+	background-color: #eeeeee;
+	text-align: center;
+}
+
+.th-title {
+	width: 600px;
+}
+
+.th-yn {
+	width: 130px;
+}
+
+.th-deleteBtn {
+	width: 100px;
+}
+.contact_area> .container{
+	min-height:410px;
 }
 </style>
 <script>
@@ -53,65 +79,62 @@
 		</div>
 	</section>
 
-	<br>
-	<br>
+	<section class="contact_area p_120">
+		<div class="container">
+			<div>
+				<div class="row">
 
-	<div class="container">
-		<div >
-			<div class="row">
-
-				<table class="table qlist"
-					style="text-align: center; border: 1px solid #dddddd">
-					<thead>
-						<tr>
-							<th style="background-color: #eeeeee; text-align: center;">제목</th>
-							<th style="background-color: #eeeeee; text-align: center;">작성일</th>
-							<th style="background-color: #eeeeee; text-align: center;">답변유무</th>
-							<th style="background-color: #eeeeee; text-align: center;"></th>
-						</tr>
-					</thead>
-
-					<tbody>
-						<c:forEach var="q" items="${qnas}">
+					<table class="table qlist"
+						style="text-align: center; border: 1px solid #dddddd">
+						<thead>
 							<tr>
-								<td ><c:out
-										value="${q.title}" /></td>
-								<td><c:out value="${q.qdate}" /></td>
-								<td><c:out value="${q.val}" /></td>
-								<td><a href="qnaDelete?num=${q.num}" role="button"
-									class="btn btn-light"
-									onclick="return confirm('문의글을 삭제하시겠습니까?')">삭제</a></td>
+								<th class="th-title">제목</th>
+								<th>작성일</th>
+								<th class="th-yn">답변유무</th>
+								<th class="th-deleteBtn"></th>
 							</tr>
-							<tr class="card-body qbody">
+						</thead>
 
-								<td colspan="4" >
-									<div class="qnabox">
-										<div class="qbox">
-											<span class="question">Q. </span> 
-											<span><pre>${q.qcontents}</pre></span>
-										</div>
-										<c:if test="${not empty q.acontents}">
-											<div class="abox">
-												<span class="answer">A. </span> 
-												<span><pre>${q.acontents}</pre></span>
+						<tbody>
+							<c:forEach var="q" items="${qnas}">
+								<tr class="qhead">
+									<td><c:out value="${q.title}" /></td>
+									<td class="qdate"><c:out value="${q.qdate}" /></td>
+									<td><c:out value="${q.val}" /></td>
+									<td><a href="qnaDelete?num=${q.num}" role="button"
+										class="btn btn-light"
+										onclick="return confirm('문의글을 삭제하시겠습니까?')">삭제</a></td>
+								</tr>
+								<tr class="qbody">
+									<td colspan="4">
+										<div class="qnabox">
+											<div class="qbox">
+												<span class="question">Q. </span> <span><pre>${q.qcontents}</pre></span>
 											</div>
-										</c:if>
-									</div>
-								</td>
-							</tr>
-						</c:forEach>
-					</tbody>
-				</table>
-				<span><a href="qnaInsertForm" role="button" class="btn btn-dark">1:1문의
-					쓰기</a></span>
+											<c:if test="${not empty q.acontents}">
+												<div class="abox">
+													<span class="answer">A. </span> <span><pre>${q.acontents}</pre></span>
+												</div>
+											</c:if>
+										</div>
+									</td>
+								</tr>
+							</c:forEach>
+						</tbody>
+					</table>
+					<span><a href="qnaInsertForm" role="button"
+						class="btn btn-dark">1:1문의 쓰기</a></span>
+				</div>
 			</div>
 		</div>
-	</div>
+	</section>
 	<script>
-		$(".qlist tr").on("click", function() {
+		$(".qlist .qhead").on("click", function() {
 			$(".qbody").hide();
-			$(this).next().toggle(1000);
-		})
+			$(this).next().toggle(300);
+		});
+
+		$(".qdate").text($(".qdate").text().substring(0, 10));
 	</script>
 </body>
 </html>
