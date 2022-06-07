@@ -13,7 +13,7 @@
 }
 .cardCol {
 	display: inline-block;
-	margin-right: 50px;
+	margin-right: 60px;
 	margin-bottom: 30px;;
 }
 .card {

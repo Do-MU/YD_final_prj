@@ -141,6 +141,17 @@
    margin-top: 10px;
     width: 100%;
 }
+
+table {
+	width : 100%;
+}
+
+
+th, td {
+    border-bottom: 1px solid #777777;
+    padding: 10px;
+}
+  
 </style>
 
 
@@ -233,6 +244,7 @@
 		</div>
 	</div>
 	
+	<!-- 상세보기 Modal -->
 	<div class="modal fade" id="modal" role="dialog">
 		<div class="modal-dialog modal-lg">
 			<div class="modal-content">
@@ -242,9 +254,41 @@
 				</div>
 				
 				<div class="modal-body" id="modal-body">
-					<div id="depositBase1"></div>
-					<div id="depositBase2"></div>
-					<div id="depositBase3">저축 기간별 금리</div>
+<!-- 					<div id="depositBase1"></div> -->
+					<div id="depositBase1">
+						<table>
+							<tr>
+								<th width="160px">상품명</th>
+								<td id="fin_prdt_nm"></td>
+							</tr>
+							<tr>
+								<th>가입방법</th>
+								<td id="join_way"></td>
+							</tr>
+							<tr>
+								<th>만기 후 이자율</th>
+								<td id="mtrt_int"></td>
+							</tr>
+							<tr>
+								<th>우대조건</th>
+								<td id="spcl_cnd"></td>
+							</tr>
+							<tr>
+								<th>가입대상</th>
+								<td id="join_member"></td>
+							</tr>
+							<tr>
+								<th>유의사항</th>
+								<td id="etc_note"></td>
+							</tr>
+							<!-- <tr>
+								<th>최고한도</th>
+								<td id="depositBase2"></td>
+							</tr> -->
+						</table>
+					</div>
+					<!-- <div id="depositBase2"></div> -->
+					<div id="depositBase3"><h4>저축 기간별 금리</h4></div>
 					<div id="depositOpt"></div>
 				</div>
 				
@@ -415,15 +459,33 @@
    
    // 상품 상세보기 정보
    function makeDepBase(dep){
-	   	$("#depositBase1").html("<상품명><br>" + dep.fin_prdt_nm
+	   	/* $("#depositBase1").html("<상품명><br>" + dep.fin_prdt_nm
 							   +"<br><가입방법><br>" + dep.join_way
 							   +"<br><만기 후 이자율><br>" + dep.mtrt_int
 							   +"<br><우대조건><br>" + dep.spcl_cnd
 							   +"<br>가입대상 : " + dep.join_member
 							   +"<br><유의사항><br>" + dep.etc_note)
-							   $("#depButton").data("dep_id", dep.dep_id);
+							   $("#depButton").data("dep_id", dep.dep_id); */
+							   
+		$("#fin_prdt_nm").html(dep.fin_prdt_nm);
+		$("#join_way").html(dep.join_way);
+		$("#mtrt_int").html(dep.mtrt_int);
+		$("#spcl_cnd").html(dep.spcl_cnd);
+		$("#join_member").html(dep.join_member);
+		$("#etc_note").html(dep.etc_note);
+		$("#depButton").data("dep_id", dep.dep_id);
+		
 		if(dep.max_limit != null){
-			$("#depositBase2").html("최고한도 : " + dep.max_limit+"원")
+			let tr = `<tr>
+						<th>최고한도</th>
+						<td id="depositBase2">\${dep.max_limit}</td>
+					</tr>`;
+			$("table").append(tr);
+			//$("#depositBase2").html(dep.max_limit);
+			
+			for(amt of $("#depositBase2")){
+				amt.innerHTML = amt.innerHTML.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",") + " 원";
+			}
 		}
 	}
 	
@@ -454,6 +516,7 @@
 			$("#date > option").remove(); // select개월수 초기화
 			$("#totalText").html(""); // 만기금액 초기화
 			$(".depOpt > #depMoney").val(""); // 입력금액 초기화
+			$("#depositBase2").closest('tr').remove(); // 최고한도 초기화
 		})
 	}
 </script>

@@ -497,12 +497,13 @@ $(window).ready(function(){
 				url : "ledgerUpdate",
 				method : 'POST',
 				data : $("#ledUpdateFrm").serialize(),
-				success : function(result) {
+				success : function(datas) {
 					$('#editModal').modal('hide');
 					$('#editModal').on('hidden.bs.modal', function (e) { 
 						document.forms['updateModalForm'].reset(); 
 						alert("변경이 완료되었습니다.");
 					})
+					dayDrawList(datas,"거래 내역이 없습니다.")
 				}
 			})
 		 }else{ 
@@ -685,7 +686,7 @@ body {
 								<table class="pull-right">
 									<tr>
 										<td><input type="text" class="form-control"
-											placeholder="검색어 입력" name="keyword" maxlength="100"
+											placeholder="내용으로 검색하기" name="keyword" maxlength="100"
 											id="keyInput"></td>
 										<td><button class="btn btn-dark"
 												onclick='btnSearch(event)'>검색</button></td>
