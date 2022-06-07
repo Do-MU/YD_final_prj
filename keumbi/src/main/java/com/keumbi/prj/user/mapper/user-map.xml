@@ -37,7 +37,7 @@
 	
 	<delete id="userDelete" parameterType="UserVO">
 		UPDATE USERS
-		SET SIGNOUTDATE = TO_CHAR(SYSDATE + (INTERVAL '7' DAY), 'YY/MM/DD')
+		SET SIGNOUTDATE = TO_CHAR(SYSDATE + (INTERVAL '7' DAY), 'YY/MM/DD'), USER_CODE = 'U3'
 		WHERE ID = #{id}
 	</delete>
 	
@@ -109,7 +109,7 @@
 	
 	<update id="userCancle" parameterType="UserVO">
 		UPDATE USERS
-		SET SIGNOUTDATE = ''
+		SET SIGNOUTDATE = '', USER_CODE='U1'
 		WHERE ID = #{id}
 	</update>
 </mapper>

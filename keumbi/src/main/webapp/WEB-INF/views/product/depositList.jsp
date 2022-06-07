@@ -88,6 +88,7 @@
 }
 .prds{
    display: none;
+   border-bottom: solid 1px;
 }
 
 #read{
@@ -136,6 +137,10 @@
 .testimonials_area, .testi_inner{
 	background-color: white;
 }
+#popDepView{
+   margin-top: 10px;
+    width: 100%;
+}
 </style>
 
 
@@ -162,14 +167,17 @@
 				<p>회원들이 가장 많이 이용하는 상품이에요</p>
 			</div>
 			<div class="testi_inner">
-				<div class="testi_slider owl-carousel">
+				<div class="testi_slider owl-carousel" id="div_dep">
 					<c:forEach var="b" items="${depRandomList }">
-						<div class="div_dep" data-dep_id="${b.dep_id }">
+						<div class="div_dep" data-dep_id="${b.dep_id }" >
 							<div class="wel_item">
 								<div class="div_img"><img src="${pageContext.request.contextPath}/resources/img/bank_logo/${b.kor_co_nm}.jpg" width="50px" height="50px"></div>
 								<div class="div_bank">${b.kor_co_nm }</div>
 								<div class="div_intr2"></div>
 								<div class="div_prdNm">${b.fin_prdt_nm }</div>
+								<div class="div_btn">
+		                           <button type="button" class="btn btn-outline-primary" id="popDepView">상세보기</button>
+		                        </div>
 							</div>
 						</div>
 					</c:forEach>
@@ -190,6 +198,9 @@
 								<div class="div_bank">${b.kor_co_nm }</div>
 								<div class="div_intr2"></div>
 								<div class="div_prdNm">${b.fin_prdt_nm }</div>
+								<div class="div_btn">
+		                           <button type="button" class="btn btn-outline-primary" id="popDepView">상세보기</button>
+		                        </div>
 							</div>
 						</div>
 					</c:forEach>
@@ -286,15 +297,15 @@
 	});
 	
 	//인기상품 상세보기 출력
-	$(".testi_inner").on("click", ".div_dep", function(){
+	$(".testi_inner").on("click", "#popDepView", function(){
 		$("#modal").modal("show"); //modal 창 생성
 		$('.modal-body').animate({scrollTop: 0},400); //스크롤 상단이동
 		$("#depositOpt").html("");
 		
-		var bank_name = $(this).children().children().next().html();
+		var bank_name = $(this).parent().prev(2).html();
 		$("#bankName").html(bank_name);
 			
-		var dep_id = $(this).data("dep_id");
+		var dep_id = $(this).parent().parent().parent().data("dep_id");
 		
 		// 상품 정보
 		$.ajax({

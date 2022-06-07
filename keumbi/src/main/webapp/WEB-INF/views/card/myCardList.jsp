@@ -5,6 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <title>Insert title here</title>
 <style>
 .div_submenu{
@@ -21,6 +22,25 @@
 .card-body {
 	height : 130px;
 	position: relative;
+}
+.swal-modal {
+    width: 550px;
+    height: 300px;
+    text-align-last: center;
+}
+.swal-text:first-child {
+    margin-top: 60px;
+}
+.swal-text {
+	font-size: 30px;
+	color: black;
+	margin-top: 20px;
+}
+.swal-footer {
+	margin-top: 20px;
+}
+.swal-button {
+	width: 480px;
 }
 </style>
 </head>
@@ -61,11 +81,19 @@
 	</section>
 
 	<script type="text/javascript">
-		// 비회원 접근시
+	// 비회원 접근시
+	$(window).ready(function(){
 		if (!"${loginUser.id}") {
-			alert('로그인이 필요합니다.');
-			window.location = "userLoginForm";
+			swal({
+				text:"로그인이 필요합니다.",
+				button: "확인",
+				icon: "error",
+				closeOnClickOutside: false
+			}).then((value) => {
+				window.location = "userLoginForm";
+			});
 		}
+	})
 	</script>
 
 </body>

@@ -6,6 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
 <style>
 #div_noAcc{
@@ -65,13 +66,40 @@
 .div_submenu{
 	display:none;
 }
+.swal-modal {
+    width: 550px;
+    height: 300px;
+    text-align-last: center;
+}
+.swal-text:first-child {
+    margin-top: 60px;
+}
+.swal-text {
+	font-size: 30px;
+	color: black;
+	margin-top: 20px;
+}
+.swal-footer {
+	margin-top: 20px;
+}
+.swal-button {
+	width: 480px;
+}
 </style>
 <script>
 	// 비회원 접근시
-	if (!"${loginUser.id}") {
-		alert('로그인이 필요합니다.');
-		window.location = "userLoginForm";
-	}
+	$(window).ready(function(){
+		if (!"${loginUser.id}") {
+			swal({
+				text:"로그인이 필요합니다.",
+				button: "확인",
+				icon: "error",
+				closeOnClickOutside: false
+			}).then((value) => {
+				window.location = "userLoginForm";
+			});
+		}
+	})
 </script>
 </head>
 <body>

@@ -5,6 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <title>Insert title here</title>
 <style>
 	#depositFrm table{
@@ -36,7 +37,41 @@
 		margin: 30px auto;
 		text-align:center;
 	}
+	.swal-modal {
+    width: 550px;
+    height: 300px;
+    text-align-last: center;
+}
+.swal-text:first-child {
+    margin-top: 60px;
+}
+.swal-text {
+	font-size: 30px;
+	color: black;
+	margin-top: 20px;
+}
+.swal-footer {
+	margin-top: 20px;
+}
+.swal-button {
+	width: 480px;
+}
 </style>
+<script>
+	// 비회원 접근시
+	$(window).ready(function(){
+		if (!"${loginUser.id}") {
+			swal({
+				text:"로그인이 필요합니다.",
+				button: "확인",
+				icon: "error",
+				closeOnClickOutside: false
+			}).then((value) => {
+				window.location = "userLoginForm";
+			});
+		}
+	})
+</script>
 </head>
 <body>
 	<section class="banner_area">
