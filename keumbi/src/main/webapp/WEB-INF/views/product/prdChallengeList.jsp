@@ -3,6 +3,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
 <script src="http://code.jquery.com/jquery-3.6.0.js"></script>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <style>
 	/* DIVs style */
 	.challs{
@@ -139,7 +140,25 @@
 		color:red;
 		font-size: 1.5em;
 	}
-	
+	.swal-modal {
+    width: 550px;
+    height: 300px;
+    text-align-last: center;
+}
+.swal-text:first-child {
+    margin-top: 60px;
+}
+.swal-text {
+	font-size: 30px;
+	color: black;
+	margin-top: 20px;
+}
+.swal-footer {
+	margin-top: 20px;
+}
+.swal-button {
+	width: 480px;
+}
   }
 </style>
 <section class="banner_area">
@@ -319,8 +338,14 @@
 	
  	$("#challengeJoinBtn").click(function(){
 		if (!'${loginUser.id}') {
-			alert('로그인이 필요합니다.');
-			window.location = "userLoginForm";
+			swal({
+				text:"로그인이 필요합니다.",
+				button: "확인",
+				icon: "error",
+				closeOnClickOutside: false
+			}).then((value) => {
+				window.location = "userLoginForm";
+			});
 		}else{
 			$("#msg_popup .modal-body .div_mod_content").html(`<i class="bi bi-exclamation-octagon-fill"></i> `+" 챌린지에 도전하시겠습니까?");
 			$("#btn_confirm").removeAttr('hidden');

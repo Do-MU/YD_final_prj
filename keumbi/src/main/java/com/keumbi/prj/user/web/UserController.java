@@ -122,9 +122,10 @@ public class UserController {
 	@RequestMapping("/userDelete")
 	public String userDelete(HttpSession session) {
 		UserVO vo = (UserVO) session.getAttribute("loginUser"); // 세션값 불러오기
+		System.out.println();
 		service.userDelete(vo);
 		session.invalidate();
-		return "home/home";
+		return "redirect:home";
 	}
 	
 	// 탈퇴 철회 처리
@@ -134,7 +135,7 @@ public class UserController {
 		service.userCancle(vo);
 		UserVO loginUser = service.userSelect(uservo);
 		session.setAttribute("loginUser", loginUser);
-		return "home/home";
+		return "redirect:home";
 	}
 	
 	

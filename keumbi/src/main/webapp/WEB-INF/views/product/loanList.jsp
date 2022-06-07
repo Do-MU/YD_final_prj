@@ -63,6 +63,7 @@
 }
 .prds{
    display: none;
+   border-bottom: solid 1px;
 }
 
 #read{
@@ -114,6 +115,10 @@
 .testimonials_area, .testi_inner{
 	background-color: white;
 }
+#popLoanView{
+   margin-top: 10px;
+    width: 100%;
+}
 </style>
 
 <section class="banner_area">
@@ -147,6 +152,9 @@
 								<div class="div_bank">${b.kor_co_nm }</div>
 								<div class="div_intr2"></div>
 								<div class="div_prdNm">${b.fin_prdt_nm }</div>
+								<div class="div_btn">
+									<button type="button" class="btn btn-outline-primary" id="popLoanView">상세보기</button>
+								</div>
 							</div>
 						</div>
 					</c:forEach>
@@ -167,6 +175,9 @@
 								<div class="div_bank">${b.kor_co_nm }</div>
 								<div class="div_intr2"></div>
 								<div class="div_prdNm">${b.fin_prdt_nm }</div>
+								<div class="div_btn">
+									<button type="button" class="btn btn-outline-primary" id="popLoanView">상세보기</button>
+								</div>
 							</div>
 						</div>
 					</c:forEach>
@@ -250,15 +261,15 @@
 	})
 	
 	// 인기상품 상세보기 출력
-	$(".testi_inner").on("click", ".div_loan", function(){
+	$(".testi_inner").on("click", "#popLoanView", function(){
 		$("#modal").modal("show");
 		$(".modal-body").animate({scrollTop: 0}, 400);
 		$("#savingOpt").html("");
 		
-		var bank_name = $(this).children().children().next().html();
+		var bank_name = $(this).parent().prev(2).html();
 		$("#bankName").html(bank_name);
 			
-		var loan_id = $(this).data("loan_id");
+		var loan_id = $(this).parent().parent().parent().data("loan_id");
 		
 		$.ajax({
 			url:"prdLoanBase",

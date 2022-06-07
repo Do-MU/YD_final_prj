@@ -1,7 +1,10 @@
 package com.keumbi.prj.accTrans.web;
 
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.List;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,17 +40,14 @@ public class AccTransController {
 	
 	// 송금 view
 	@RequestMapping("/accRemitForm")
-	public String accDepositView(HttpSession session, Model model, AccountVO acc) {
+	public String accDepositView(HttpSession session, Model model, AccountVO acc){
 		UserVO user = (UserVO) session.getAttribute("loginUser");
 		
-		if(user == null) {
-			model.addAttribute("loginMsg", "로그인이 필요합니다.");
-			return "user/userLoginForm";
-		} else {
+		if(user != null) { 
 			model.addAttribute("accList", accountS.selectAllAccount(user)); 	// 계좌목록 호출
 			model.addAttribute("finBal", accountS.selectOneAccount(acc)); 		// 단건 계좌 정보
-			return "account/remitForm";			
 		}
+		return "account/remitForm";
 	}
 	
 	// view -> 각 vo로 받기 -> service 호출

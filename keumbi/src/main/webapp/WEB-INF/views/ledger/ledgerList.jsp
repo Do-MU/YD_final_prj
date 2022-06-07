@@ -5,6 +5,7 @@
 
 <!-- jquery CDN -->
 <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <!-- fullcalendar -->
 <script
 	src="${pageContext.request.contextPath}/resources/ledger/main.js"></script>
@@ -14,10 +15,19 @@
 <script
 	src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.0/locales-all.js"></script>
 <script>
-	if (!'${loginUser.id}') {
-		alert('로그인이 필요합니다.');
-		window.location = "userLoginForm";
-	} 
+//비회원 접근시
+$(window).ready(function(){
+	if (!"${loginUser.id}") {
+		swal({
+			text:"로그인이 필요합니다.",
+			button: "확인",
+			icon: "error",
+			closeOnClickOutside: false
+		}).then((value) => {
+			window.location = "userLoginForm";
+		});
+	}
+})
 	
 	function priceToString(price) {
 	    return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
@@ -544,6 +554,25 @@ body {
 
 #div_tableHeader div {
 	height: 40px;
+}
+.swal-modal {
+    width: 550px;
+    height: 300px;
+    text-align-last: center;
+}
+.swal-text:first-child {
+    margin-top: 60px;
+}
+.swal-text {
+	font-size: 30px;
+	color: black;
+	margin-top: 20px;
+}
+.swal-footer {
+	margin-top: 20px;
+}
+.swal-button {
+	width: 480px;
 }
 </style>
 <body>
