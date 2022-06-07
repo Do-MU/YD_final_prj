@@ -214,7 +214,6 @@
 					<div class="div_btn">
 						<button type="button" class="btn btn-outline-primary" id="depView">상세보기</button>
 					</div>
-					<hr><br>
 				</div>
 			</c:forEach>
 			<div id="read_more">
