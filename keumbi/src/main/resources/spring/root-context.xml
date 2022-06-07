@@ -34,4 +34,5 @@
 		</property>
 	</bean>
 	
+	<bean id="bcryptPasswordEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"></bean>
 </beans>

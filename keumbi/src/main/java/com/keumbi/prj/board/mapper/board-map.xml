@@ -17,7 +17,7 @@
 	]]>
 	</select>
 
-	<select id="boradView" resultType="BoardVO">
+	<select id="boardView" resultType="BoardVO">
 		SELECT 	*
 		FROM 	BOARDS	
 		WHERE 	BOD_NUM = #{bod_num}

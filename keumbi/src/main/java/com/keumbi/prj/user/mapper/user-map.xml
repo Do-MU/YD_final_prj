@@ -8,9 +8,6 @@
 		<if test="id != null">
 			AND		ID = #{id}
 		</if>
-		<if test="pw != null">
-       		AND		PW = #{pw}
-       	</if>
        	<if test="name != null">
        		AND		NAME = #{name}
        	</if>

@@ -10,7 +10,7 @@ import com.keumbi.prj.noti.vo.NotiVO;
 
 public interface BoardMapper {
 	List<BoardVO> selectBoardList(PageVO page);
-	BoardVO boradView(int bod_num);
+	BoardVO boardView(int bod_num);
 	int boardHit(BoardVO vo);
 	List<BoardKwdVO> tagSelect(int bod_num);
 	int boardInsert(BoardVO vo);

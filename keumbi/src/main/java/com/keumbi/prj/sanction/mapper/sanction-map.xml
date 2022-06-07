@@ -16,7 +16,13 @@
 					 , #{sanc_code}
 					 , TO_CHAR(SYSDATE, 'YYYY-MM-DD')
 					 , TO_CHAR(SYSDATE + #{edate}, 'YYYY-MM-DD')
-					 , #{sanc_reason}
+					 ,
+					 <if test="sanc_code == 'SB'">
+						(SELECT CONTENTS FROM BOARDS WHERE BOD_NUM = TO_NUMBER(#{sanc_reason}))					 
+					 </if>
+					 <if test="sanc_code == 'SR'">
+					 	(SELECT RE_CONTENTS FROM REPLIES WHERE RE_NUM = TO_NUMBER(#{sanc_reason}))
+					 </if> 
 					)	
 	</insert>
   
@@ -25,6 +31,13 @@
 		UPDATE		USERS
 		SET 		USER_CODE = 'U2'
 		WHERE ID =  #{user_id}
+	</update>
+	
+	<!-- 제재게시글 코드 업데이트 -->
+	<update id="sanBoardCodeUpdate" parameterType="SanctionVO">
+		UPDATE			BOARDS
+		SET				BOD_CODE = 'T2'
+		WHERE BOD_NUM = #{rep_reason}
 	</update>
 	
 	<!-- 제재유저 확인 -->

@@ -36,7 +36,7 @@ public class ReplyServiceImpl implements ReplyService {
 
 	@Override
 	public int replyInsert(ReplyVO vo) {
-		BoardVO bvo = b.boradView(vo.getBod_num());			// 댓글이 달린 게시글의 작성자 ID를 가져온다
+		BoardVO bvo = b.boardView(vo.getBod_num());			// 댓글이 달린 게시글의 작성자 ID를 가져온다
 		NotiVO nvo = new NotiVO();
 		nvo.setNoti_code("N1");
 		nvo.setUser_id(bvo.getUser_id());

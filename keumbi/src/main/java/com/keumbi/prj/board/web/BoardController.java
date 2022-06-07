@@ -43,7 +43,7 @@ public class BoardController {
 	@RequestMapping("/boardView")
 	public String boardView(BoardVO bvo, Model model) {
 		b.boardHit(bvo);
-		model.addAttribute("board", b.boradView(bvo));
+		model.addAttribute("board", b.boardView(bvo));
 		model.addAttribute("tags", b.tagSelect(bvo.getBod_num()));
 
 		return "board/boardView";
@@ -68,7 +68,7 @@ public class BoardController {
 	@RequestMapping("/boardUpdateForm")
 	public String update(BoardVO vo, Model model) {
 
-		model.addAttribute("b", b.boradView(vo));
+		model.addAttribute("b", b.boardView(vo));
 		model.addAttribute("tags", b.tagSelect(vo.getBod_num()));
 
 		return "board/boardUpdateForm";
