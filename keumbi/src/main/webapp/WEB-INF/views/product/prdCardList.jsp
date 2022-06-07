@@ -7,69 +7,89 @@
 <meta charset="UTF-8">
 
 <style>
-.card_name{
-	font-size:1.5em;
+.card_name {
+	font-size: 1.5em;
 	margin-bottom: 20px;
 }
-.card_info{
-	font-size:2em;
+
+.card_info {
+	font-size: 2em;
 	margin-bottom: 30px;
 }
-.card_annualfee{
+
+.card_annualfee {
 	color: red;
 	font-size: 1.5em;
 	margin-bottom: 20px;
 }
-.tab{
-	width:100%;
+
+.tab {
+	width: 100%;
 	margin-bottom: 100px;
 }
-.btn-group{
+
+.btn-group {
 	margin: 0 auto;
 	width: 100%;
 }
 
-.btn-group button{
+.btn-group button {
 	width: 20%;
 	height: 4em;
 }
+
 .cardCol {
 	display: inline-block;
-	margin-right: 30px;
-	margin-bottom: 30px;;
+	margin-right: 50px;
+	margin-bottom: 30px;
 }
+
 .card {
-	width : 18rem;
+	width: 18rem;
 }
+
 .card-body {
-	height : 190px;
+	height: 190px;
 	position: relative;
 }
-.detailBtn > button {
+
+.detailBtn>button {
 	position: absolute;
 	bottom: 10px;
 	left: 50%;
 	transform: translate(-50%, 0);
 }
-#card_image_content{
+
+#card_image_content {
 	font-weight: bold;
 	display: table-cell;
-    vertical-align: inherit;
+	vertical-align: inherit;
 }
-#card_image{
+
+#card_image {
 	width: 200px;
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
 }
-.modal-footer{
+
+.modal-footer {
 	place-content: center;
 	font-weight: bold;
 	width: 100%;
 }
 
-#term_content{
+#term_content {
 	color: red;
 }
-.card_term{
+
+.card_term {
 	font-size: larger;
+}
+
+.modal-body{
+	line-height: 30px;
+	font-size: large;
 }
 </style>
 
@@ -93,7 +113,7 @@
 		<div class="container">
 			<div class="tab">
 				<div class="btn-group btn-lg " role="group" aria-label="Basic example">
-				  <button type="button" class="btn btn-outline-primary">전체</button>
+				  <!-- <button type="button" class="btn btn-outline-primary">전체</button>  -->
 				  <c:if test="${not empty loginUser }">
 					  <button type="button" class="btn btn-outline-primary" id="age">연령대별 추천</button>
 					  <button type="button" class="btn btn-outline-primary" id="consum">소비패턴별 추천</button>
@@ -134,15 +154,15 @@
 		<div class="modal-dialog modal-lg">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h1 class="modal-title" id="card_company"></h1>
+					<h3 class="modal-title" id="card_company"></h3>
 					<button type="button" class="close" data-dismiss="modal"
 						aria-label="Close">
 						<span aria-hidden="true">&times;</span>
 					</button>
 				</div>
 				<div class="modal-body">
-					<p id="card_image_content">카드이미지&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img id="card_image"/></p>
-					
+<!-- 					<p id="card_image_content">카드이미지&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img id="card_image"/></p> -->
+					<img id="card_image">
 					<table>
 						<tr>
 							<th width="100px">카드이름</th>
@@ -189,7 +209,7 @@
 			//console.log(data)
 			if(data != null){
 				$("#card_image").attr("src","${pageContext.request.contextPath}/resources/img/card/"+data.card_image);
-				$("#card_company").html(data.card_company);
+				$("#card_company").html(data.card_company + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + "[&nbsp;&nbsp;" + data.card_name + "&nbsp;&nbsp;]");
 				$("#card_name").html(data.card_name);
 				$("#card_benefit").html(data.card_benefit);
 				$("#card_class").html(data.val);
@@ -225,14 +245,16 @@
 			.done(function(datas){
 				makeOutput(datas);
 			})
-		} else if(companyId == null) {		// 전체 목록
-			$.ajax({
-				url : "totalPrd"
-			})
-			.done(function (datas){
-				makeOutput(datas);
-			})
-		} else if(companyId == "age"){		// 연령별 추천 목록
+		} 
+// 		else if(companyId == null) {		// 전체 목록
+// 			$.ajax({
+// 				url : "totalPrd"
+// 			})
+// 			.done(function (datas){
+// 				makeOutput(datas);
+// 			})
+// 		} 
+		else if(companyId == "age"){		// 연령별 추천 목록
 			// 비회원 접근시
 			if (!"${loginUser.id}") {
 				alert('로그인이 필요합니다.');
@@ -244,7 +266,7 @@
 				.done(function(datas){
 					makeOutput(datas);
 					let userName = "${loginUser.name}"
-					let h1 = "<h1>" + userName + "님과 비슷한 연령대의 회원들이 보유한 카드입니다.</h1><br/>";
+					let h1 = "<h1>" + userName + " 님과 비슷한 연령대의 회원들이 보유한 카드입니다.</h1><br/>";
 					$("#output").prepend(h1);
 				})
 			}			
@@ -262,24 +284,8 @@
 					makeOutput(datas);
 					
 					let userName = "${loginUser.name}"
-					let h1 = "<h1>" + userName + "님의 최근 3개월 간 소비지출에 대한 추천 카드입니다.</h1><br/>";
+					let h1 = "<h1>" + userName + " 님의 최근 3개월 간 소비지출에 대한 추천 카드입니다.</h1><br/>";
 					$("#output").prepend(h1);
-					
-// 					for(let i=0; i<datas.length; i++){
-// 						//console.log(datas[i].val);
-						
-// 						if(!datas[i+1]){
-// 							console.log("값이 없어요")
-// 						} else if (datas[i].val == datas[i+1].val){
-// 							console.log(datas[i].val)
-// 							var cateVal = datas[i].val
-// 							$("#cateVal").text(cateVal);
-// 						} else if(datas[i].val != datas[i+1].val){
-// 							console.log("달라요")
-// 						}
-// 					}
-					
-					
 				})
 			}
 		} else if(companyId == "keyword") {		// 관심사별 추천 목록
@@ -294,7 +300,7 @@
 				.done(function(datas){
 					makeOutput(datas);
 					let userName = "${loginUser.name}"
-						let h1 = "<h1>" + userName + "님의 관심사에 대한 추천 카드입니다.</h1><br/>";
+						let h1 = "<h1>" + userName + " 님의 관심사에 대한 추천 카드입니다.</h1><br/>";
 						$("#output").prepend(h1);
 				})
 			}
