@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -30,9 +31,8 @@ public class UserController {
 	@Autowired	CodeService code;
 	@Autowired	TermService term;
 	@Autowired	NotiService noti;
+	@Autowired  BCryptPasswordEncoder passwordEncoder;
 	
-	
-
 	// 로그인 화면 출력
 	@RequestMapping("/userLoginForm")
 	public String userLoginForm(HttpSession session) {
@@ -47,8 +47,7 @@ public class UserController {
 	@RequestMapping("/userLogin")
 	public String userLogin(HttpSession session, UserVO userVO, HttpServletResponse response) throws Exception {
 		UserVO loginUser = service.userSelect(userVO);
-		
-		if (loginUser != null && loginUser.getPw().equals(userVO.getPw())) {
+		if (loginUser != null && passwordEncoder.matches(userVO.getPw(), loginUser.getPw())) {
 			session.setAttribute("loginUser", loginUser);
 			
 			if(loginUser.getId().equals("admin")) {			// 관리자 로그인
@@ -86,6 +85,8 @@ public class UserController {
 	// 회원가입 처리
 	@RequestMapping("/userJoin")
 	public String userJoin(UserVO userVO, @RequestParam(required = false) String[] keyword) {
+		
+		// 회원가입 메서드
 		service.userInsert(userVO);
 		service.userKwdInsert(userVO.getId(), keyword);
 		
@@ -94,6 +95,7 @@ public class UserController {
 		nvo.setUser_id(userVO.getId());
 		nvo.setNoti_code("N11");
 		noti.notiInsert(nvo);
+		
 		return "redirect:home";
 	}
 	
@@ -108,7 +110,7 @@ public class UserController {
 	// 회원 정보 수정 처리
 	@RequestMapping("/userUpdate")
 	public String userUpdate(UserVO userVO, @RequestParam(required = false) String[] keyword,HttpSession session) {
-		
+
 		service.userUpdate(userVO);
 		service.userKwdDelete(userVO.getId());
 		service.userKwdInsert(userVO.getId(), keyword);

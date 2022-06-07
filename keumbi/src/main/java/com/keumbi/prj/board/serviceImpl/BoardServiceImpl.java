@@ -27,8 +27,8 @@ public class BoardServiceImpl implements BoardService {
 	}
 	
 	@Override
-	public BoardVO boradView(BoardVO vo) {
-		return m.boradView(vo.getBod_num());
+	public BoardVO boardView(BoardVO vo) {
+		return m.boardView(vo.getBod_num());
 	}
 	
 	@Override

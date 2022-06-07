@@ -223,7 +223,7 @@
 					<input class="inputA" type="text" id="addr2">
 				</div>
 				<div>
-					<input  class="inputA" name="addr" type="hidden">
+					<input  class="inputA" id="addr" name="addr" type="hidden">
 				</div>
 			</div>
 			

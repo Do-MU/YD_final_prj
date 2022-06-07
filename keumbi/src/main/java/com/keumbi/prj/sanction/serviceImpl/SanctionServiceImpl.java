@@ -49,6 +49,7 @@ public class SanctionServiceImpl implements SanctionService{
 			}
 			rm.reportDelete(repvo);
 			m.sanUserCodeUpdate(vo);
+			m.sanBoardCodeUpdate(vo);
 			
 			NotiVO nvo = new NotiVO();
 			nvo.setNoti_code("N6");

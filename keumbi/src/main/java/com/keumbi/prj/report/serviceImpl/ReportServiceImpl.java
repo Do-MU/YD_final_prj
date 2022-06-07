@@ -29,7 +29,7 @@ public class ReportServiceImpl implements ReportService {
 	public String repReason(ReportVO vo) {
 		String repcode = vo.getRep_code();
 		if(repcode.equals("SB")) {
-			BoardVO bvo = b.boradView(vo.getRep_reason());
+			BoardVO bvo = b.boardView(vo.getRep_reason());
 			return "<p><제목></p><p>" + bvo.getTitle() + "</p><p><내용></p>" + bvo.getContents();
 		}else {
 			ReplyVO rvo = r.SelectOneReply(vo.getRep_reason());

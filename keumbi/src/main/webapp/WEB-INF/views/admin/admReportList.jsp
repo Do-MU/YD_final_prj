@@ -114,7 +114,7 @@ td{
 	
 	// 저장 버튼
 	$("#sanInsertBtn").on('click', function(){
-		$(".check:checked").each(function(){	
+		$(".check:checked").each(function(){
 			$.ajax({
 				url:"sanInsert",
 				data:{

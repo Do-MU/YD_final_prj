@@ -9,6 +9,7 @@ import javax.mail.internet.MimeMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.keumbi.prj.user.mapper.UserMapper;
@@ -22,10 +23,12 @@ public class UserServiceImpl implements UserService {
 
 	@Autowired 	UserMapper m;
 	@Autowired	private JavaMailSender mailSender;
+	@Autowired  BCryptPasswordEncoder passwordEncoder;
 	
 	//회원 리스트, 회원 조회, 아이디/비밀번호 찾기시 입력한 정보와 DB비교
 	@Override
 	public UserVO userSelect(UserVO vo) {
+		
 		return m.userSelect(vo);
 	}
 
@@ -38,12 +41,16 @@ public class UserServiceImpl implements UserService {
 		}
 		vo.setBirth(birth.substring(2));
 		
+		vo.setPw(passwordEncoder.encode(vo.getPw()));
 		return m.userInsert(vo);
 	}	
 	
 	//회원정보,비밀번호 수정
 	@Override
 	public int userUpdate(UserVO vo) {
+		if(vo.getPw() != null && !vo.getPw().equals("")) {	
+			vo.setPw(passwordEncoder.encode(vo.getPw()));
+		}
 		return m.userUpdate(vo);
 	}
 

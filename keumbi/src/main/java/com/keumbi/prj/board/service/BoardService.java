@@ -9,7 +9,7 @@ import com.keumbi.prj.common.vo.PageVO;
 
 public interface BoardService{
 	List<BoardVO> selectBoardList(PageVO page);
-	BoardVO boradView(BoardVO vo);
+	BoardVO boardView(BoardVO vo);
 	int boardHit(BoardVO vo);
 	List<BoardKwdVO> tagSelect(int bod_num);
 	int boardInsert(BoardVO vo);
