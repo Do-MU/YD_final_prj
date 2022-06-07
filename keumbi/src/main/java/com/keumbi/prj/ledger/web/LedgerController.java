@@ -45,6 +45,7 @@ public class LedgerController {
 	@RequestMapping("/dayView")
 	@ResponseBody
 	public List<LedgerVO> dayTrans(LedgerVO vo) {
+		System.out.println(vo);
 		return service.dayTrans(vo);
 	}
 	
@@ -71,9 +72,12 @@ public class LedgerController {
 	
 	// 가계부 거래내역 수정
 	@PostMapping("/ledgerUpdate")
-	@ResponseBody
-	public void ledgerUpdate(LedgerVO vo) {
-		service.ledgerUpdate(vo); 
+	public String ledgerUpdate(LedgerVO vo) {
+		service.ledgerUpdate(vo);
+		System.out.println(vo.getTdate());
+		System.out.println(vo.getUser_id());
+		//dayView?tdate=2022-06-01&user_id=minuk
+		return "redirect:dayView?tdate=" + vo.getTdate() + "&user_id=" + vo.getUser_id();		
 	}
 	
 	// 가계부 거래내역 삭제

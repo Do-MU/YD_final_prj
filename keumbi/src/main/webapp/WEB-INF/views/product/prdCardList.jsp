@@ -40,7 +40,7 @@
 
 .cardCol {
 	display: inline-block;
-	margin-right: 50px;
+	margin-right: 60px;
 	margin-bottom: 30px;
 }
 
@@ -88,9 +88,15 @@
 }
 
 .modal-body{
-	line-height: 30px;
+	line-height: 40px;
 	font-size: large;
 }
+
+th, td {
+    border-bottom: 1px solid #444444;
+    padding: 10px;
+}
+  
 </style>
 
 </head>
@@ -162,10 +168,10 @@
 				</div>
 				<div class="modal-body">
 <!-- 					<p id="card_image_content">카드이미지&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img id="card_image"/></p> -->
-					<img id="card_image">
-					<table>
+					<img id="card_image"><br/>
+					<table width="100%">
 						<tr>
-							<th width="100px">카드이름</th>
+							<th width="110px">카드이름</th>
 							<td id="card_name"></td>
 						</tr>
 						<tr>

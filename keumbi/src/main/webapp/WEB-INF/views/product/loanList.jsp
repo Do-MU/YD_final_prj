@@ -119,6 +119,15 @@
    margin-top: 10px;
     width: 100%;
 }
+
+table {
+	width : 100%;
+}
+
+th, td {
+    border-bottom: 1px solid #777777;
+    padding: 10px;
+}
 </style>
 
 <section class="banner_area">
@@ -209,6 +218,7 @@
 			</div>
 		</div>
 	</div>
+	<!-- 상세보기 Modal -->
 	<div class="modal fade" id="modal" role="dialog">
 		<div class="modal-dialog modal-lg">
 			<div class="modal-content">
@@ -218,9 +228,25 @@
 				</div>
 				
 				<div class="modal-body" id="modal-body">
-					<div id="loanBase1"></div>
+					<!-- <div id="loanBase1"></div> -->
+					<div id="loanBase1">
+						<table>
+							<tr>
+								<th width="150px">상품명</th>
+								<td id="fin_prdt_nm"></td>
+							</tr>
+							<tr>
+								<th>대출종류명</th>
+								<td id="crdt_prdt_type_nm"></td>
+							</tr>
+							<tr>
+								<th>가입방법</th>
+								<td id="join_way"></td>
+							</tr>
+						</table>
+					</div>
 					<div id="loanBase2"></div>
-					<div id="loanBase3">대출 기간별 금리</div>
+					<div id="loanBase3"><h4>대출 기간별 금리</h4></div>
 					<div id="loanOpt"></div>
 				</div>
 				
@@ -319,9 +345,13 @@
 	};
 	
 	function makeLoanBase(loa){
-		$("#loanBase1").html("<상품명><br>" + loa.fin_prdt_nm
-				+"<br><대출종류명><br>" + loa.crdt_prdt_type_nm
-				+"<br><가입방법><br>" + loa.join_way)
+		/* $("#loanBase1").html("<상품명><br>" + loa.fin_prdt_nm
+				+"<br><대출종류명><br>" + crdt_prdt_type_nm
+				+"<br><가입방법><br>" + loa.join_way) */
+				
+		$("#fin_prdt_nm").html(loa.fin_prdt_nm);
+		$("#crdt_prdt_type_nm").html(loa.crdt_prdt_type_nm);
+		$("#join_way").html(loa.join_way);
 	}
 	
 	function makeLoanOpt(result){

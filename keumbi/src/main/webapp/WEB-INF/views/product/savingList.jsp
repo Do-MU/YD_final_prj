@@ -144,6 +144,15 @@
    margin-top: 10px;
     width: 100%;
 }
+
+table {
+	width : 100%;
+}
+
+th, td {
+    border-bottom: 1px solid #777777;
+    padding: 10px;
+}
 </style>
 
 <section class="banner_area">
@@ -234,6 +243,8 @@
 			</div>
 		</div>
 	</div>
+	
+	<!-- 상세보기 Modal -->
 	<div class="modal fade" id="modal" role="dialog">
 		<div class="modal-dialog modal-lg">
 			<div class="modal-content">
@@ -243,9 +254,41 @@
 				</div>
 				
 				<div class="modal-body" id="modal-body">
-					<div id="savingBase1"></div>
-					<div id="savingBase2"></div>
-					<div id="savingBase3">저축 기간별 금리</div>
+<!-- 					<div id="savingBase1"></div> -->
+					<div id="savingBase1">
+						<table>
+							<tr>
+								<th width="160">상품명</th>
+								<td id="fin_prdt_nm"></td>
+							</tr>
+							<tr>
+								<th>가입방법</th>
+								<td id="join_way"></td>
+							</tr>
+							<tr>
+								<th>만기 후 이자율</th>
+								<td id="mtrt_int"></td>
+							</tr>
+							<tr>
+								<th>우대조건</th>
+								<td id="spcl_cnd"></td>
+							</tr>
+							<tr>
+								<th>가입대상</th>
+								<td id="join_member"></td>
+							</tr>
+							<tr>
+								<th>유의사항</th>
+								<td id="etc_note"></td>
+							</tr>
+<!-- 							<tr> -->
+<!-- 								<th>최고한도</th> -->
+<!-- 								<td id="savingBase2"></td> -->
+<!-- 							</tr> -->
+						</table>
+					</div>
+					<!-- <div id="savingBase2"></div> -->
+					<div id="savingBase3"><h4>저축 기간별 금리</h4></div>
 					<div id="savingOpt"></div>
 				</div>
 				
@@ -396,7 +439,7 @@
 		}
 		// 상품 상세보기 정보
 		function makeSavBase(sav){
-			$("#savingBase1").html("<상품명><br>" + sav.fin_prdt_nm
+			/* $("#savingBase1").html("<상품명><br>" + sav.fin_prdt_nm
 								  +"<br><가입방법><br>" + sav.join_way
 								  +"<br><만기 후 이자율><br>" + sav.mtrt_int
 								  +"<br><우대조건><br>" + sav.spcl_cnd
@@ -404,6 +447,26 @@
 								  +"<br><유의사항><br>" + sav.etc_note)
 			if(sav.max_limit != null){
 				$("#savingBase2").html("최고한도 : " + sav.max_limit+"원")
+			} */
+			
+			$("#fin_prdt_nm").html(sav.fin_prdt_nm);
+			$("#join_way").html(sav.join_way);
+			$("#mtrt_int").html(sav.mtrt_int);
+			$("#spcl_cnd").html(sav.spcl_cnd);
+			$("#join_member").html(sav.join_member);
+			$("#etc_note").html(sav.etc_note);
+			
+			if(sav.max_limit != 0){
+				let tr = `<tr>
+							<th>최고한도</th>
+							<td id="savingBase2">\${sav.max_limit}</td>
+						</tr>`;
+				$("table").append(tr);
+				//$("#savingBase2").html(dep.max_limit);
+				
+				for(amt of $("#savingBase2")){
+					amt.innerHTML = amt.innerHTML.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",") + " 원";
+				}
 			}
 		}
 		
@@ -435,6 +498,7 @@
 				$("#date > option").remove(); // select개월수 초기화
 				$("#totalText").html(""); // 만기금액 초기화
 				$(".depOpt > #depMoney").val(""); // 입력금액 초기화
+				$("#savingBase2").closest('tr').remove(); // 최고한도 초기화
 			})
 		}
 		// 더보기
