@@ -6,23 +6,9 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<meta http-equiv='X-UA-Compatible' content='IE=edge'>
-<title>뷰</title>
-<meta name='viewport' content='width=device-width, initial-scale=1'>
 <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 
 <style>
-.banner_area_login {
-	position: relative;
-	z-index: 1;
-	min-height: 120px;
-	background-image: -moz-linear-gradient(0deg, #766dff 0%, #88f3ff 100%);
-	background-image: -webkit-linear-gradient(0deg, #766dff 0%, #88f3ff 100%);
-	background-image: -ms-linear-gradient(0deg, #766dff 0%, #88f3ff 100%);
-	margin-bottom: 80px;
-}
-
-
 #editor {
 	border: 1px solid;
 	width: 50%;

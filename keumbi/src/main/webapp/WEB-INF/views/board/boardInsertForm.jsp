@@ -4,27 +4,9 @@
 <html>
 <head>
 <meta charset='utf-8'>
-<meta http-equiv='X-UA-Compatible' content='IE=edge'>
-<title>Page Title</title>
-<meta name='viewport' content='width=device-width, initial-scale=1'>
-<script type="module" src="/tag_create.js"></script>
 <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 
 <style>
-.banner_area_login {
-	position: relative;
-	z-index: 1;
-	min-height: 120px;
-	background-image: -moz-linear-gradient(0deg, #766dff 0%, #88f3ff 100%);
-	background-image: -webkit-linear-gradient(0deg, #766dff 0%, #88f3ff 100%);
-	background-image: -ms-linear-gradient(0deg, #766dff 0%, #88f3ff 100%);
-	margin-bottom: 80px;
-}
-
-* {
-	text-align: center;
-}
-
 #editor {
 	border: 1px solid;
 	width: 50%;
@@ -75,7 +57,6 @@ ul li.tag-item {
 	href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.48.4/codemirror.min.css" />
 <link rel="stylesheet"
 	href="https://uicdn.toast.com/editor/latest/toastui-editor.min.css" />
-<link rel="stylesheet" type="text/css" href="/tag_create.css">
 
 </head>
 <body>
@@ -85,35 +66,36 @@ ul li.tag-item {
 			<div class="banner_inner d-flex align-items-center">
 				<div class="container">
 					<div class="banner_content text-center">
-						<h3>글쓰기</h3>
+						<h2>커뮤니티</h2>
+						<div class="page_link">
+							<a href="home">Home</a>
+							<a href="boardList">커뮤니티</a>
+						</div>
 					</div>
 				</div>
 			</div>
 		</div>
 	</section>
-	<br>
-	<br>
-
-	<div class="container" style="margin: auto;">
+	
+<section class="contact_area p_120">
+	<div class="container">
 		<div class="row">
 			<form id="frm" name="frm" method="post" action="boardInsert" style="width: 100%;" onsubmit="return call_submit()">
 				<table class="table table-striped" style="text-align: center; border: 1px solid #dddddd;">
 					<tbody>
 						<tr>
-							<td><input type="text" class="form-control"
-								placeholder="글 제목" id="title" name="title" maxlength="50"
-								style="text-align: left; width: 1150px; padding-right: 50em;">
-
-								<input type="hidden" name="contents"></td>
+							<td>
+								<input type="text" class="form-control" placeholder="글 제목" id="title" name="title" maxlength="50" style="text-align: left; width: 100%; padding-right: 50em;">
+								<input type="hidden" name="contents">
+							</td>
 						</tr>
 						<tr>
-							<td><div id="editor"
-									style="width: 1150px; height: 100px; text-align: left;"></div>
-
+							<td>
+								<div id="editor" style="width: 100%; height: 100px; text-align: left;"></div>
 								<div>
 									<ul id="tag-list" style="float: left;"></ul>
-								</div></td>
-
+								</div>
+							</td>
 						</tr>
 					</tbody>
 				</table>
@@ -130,7 +112,7 @@ ul li.tag-item {
 						class="btn btn-outline-info pull-right hashtag" value="#카페"
 						data-code="K003" style="width: 95px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 					<input type="button" role="button"
-						class="btn btn-outline-info pull-right hashtag" value="주식"
+						class="btn btn-outline-info pull-right hashtag" value="#주식"
 						data-code="K004" style="width: 95px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 					<input type="button" role="button"
 						class="btn btn-outline-info pull-right hashtag" value="#코인"
@@ -190,8 +172,7 @@ ul li.tag-item {
 			</form>
 		</div>
 	</div>
-	<br>
-
+</section>
 	<!-- 게시판 글쓰기 양식 영역 끝 -->
 	<script
 		src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js"></script>
