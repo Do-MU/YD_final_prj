@@ -21,8 +21,8 @@ public class ReplyServiceImpl implements ReplyService {
 	@Autowired BoardMapper b;
 	
 	@Override
-	public void replyCount(int re_num) {
-		r.replyCount();
+	public int replyCount(int bod_num) {
+		return r.replyCount(bod_num);
 	}
 
 	@Override

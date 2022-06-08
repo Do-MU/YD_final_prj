@@ -318,17 +318,32 @@
 					allSum += parseInt(vo.amt);		// 불러온 목록의 전체 금액을 다 더함
 					i++;
 				}
+				allSum = Math.ceil(allSum/1000)*1000;
 				
 				// slider 초기화
 				$("#slider").val(0);
 				$("#slider").attr("max", allSum);								// max값 설정
 				$("#goal_max").html(addComm($("#slider").attr("max")));			// max값 출력
-				$("#slider").val(Math.round($("#slider").attr("max")/2));							// 슬라이드 바 중앙으로
+				$("#slider").val(Math.ceil(allSum/2000)*1000);		// 슬라이드 바 중앙으로
 				$("#goal_now").html(addComm($("#slider").val()));				// 하단 금액 추천 금액으로
-				$("#slider").attr("step", $('#slider').attr('max')/100);		// 금액 단위 조정
+				$("#slider").attr("step", 1000);								// 금액 단위 조정
 			});
 			
 			$("#challengeJoinBtn").data("chall_num", chall_num);				// 도전하기 버튼에 챌린지 번호 부여
+			
+			if(allSum == 0 && !'${loginUser.id}'){								// 비로그인 / 해당 카테고리 총액이 0일 때 [도전하기] 비활성화
+				$("#challengeJoinBtn").attr("disabled", "disabled");
+			}else{
+				$.ajax({
+					url: "myChallCnt",
+					data:{	user_id: '${loginUser.id}',
+							chall_num: $("#challengeJoinBtn").data("chall_num")	}
+				}).done(function(cnt){
+					if(cnt){
+						$("#challengeJoinBtn").attr("disabled", "disabled");
+					}
+				});
+			}
 		});
 	});
 	
@@ -336,25 +351,15 @@
 		$("#goal_now").html(addComm(Math.round($("#slider").val())));
 	})
 	
+	// [도전하기] 클릭 시 confirm 모달 open
  	$("#challengeJoinBtn").click(function(){
-		if (!'${loginUser.id}') {
-			swal({
-				text:"로그인이 필요합니다.",
-				button: "확인",
-				icon: "error",
-				closeOnClickOutside: false
-			}).then((value) => {
-				window.location = "userLoginForm";
-			});
-		}else{
-			$("#msg_popup .modal-body .div_mod_content").html(`<i class="bi bi-exclamation-octagon-fill"></i> `+" 챌린지에 도전하시겠습니까?");
-			$("#btn_confirm").removeAttr('hidden');
-			$("#btn_alert").attr("hidden","hidden");
-			$("#msg_popup").modal("show");
-		}
-	})
+		$("#msg_popup .modal-body .div_mod_content").html(`<i class="bi bi-exclamation-octagon-fill"></i> `+" 챌린지에 도전하시겠습니까?");
+		$("#btn_confirm").removeAttr('hidden');
+		$("#btn_alert").attr("hidden","hidden");
+		$("#msg_popup").modal("show");
+	});
 	
-	
+	// 도전 선택시 챌린지 INSERT
 	$("#confirm_yes").click(function(){
 		$("#msg_popup").modal("hide");
 		$.ajax({
@@ -370,12 +375,6 @@
 				$("#btn_confirm").attr("hidden", "hidden");
 				$("#msg_popup").modal("show");
 				$("#alert_ok").addClass("moveToChall");
-			}else{
-				$("#msg_popup .modal-body .div_mod_content").html(`<i class="bi bi-info-circle-fill"></i> `+" 이미 도전중인 챌린지 입니다.");
-				$("#btn_alert").removeAttr('hidden');
-				$("#alert_ok").text("확인");
-				$("#btn_confirm").attr("hidden", "hidden");
-				$("#msg_popup").modal("show");
 			}
 		});
 	});

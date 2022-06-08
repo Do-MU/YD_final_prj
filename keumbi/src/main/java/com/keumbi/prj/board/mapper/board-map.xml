@@ -71,20 +71,45 @@
 		FROM 	BOARDS
 	</select>
 	
+	<select id="boardSearchCount" resultType="int">
+		SELECT 	COUNT(*)
+		FROM 	BOARDS
+		WHERE    
+        <if test='key == "t"'>
+        	TITLE LIKE '%' || #{val} || '%'
+        </if>
+        <if test='key == "c"'>
+        	CONTENTS LIKE '%' || #{val} || '%'
+        </if>   
+        <if test='key == "tc"'>
+        	TITLE LIKE '%' || #{val} || '%' OR CONTENTS LIKE '%' || #{val} || '%'
+        </if>
+	</select>
+	
 	<select id="boardSearch" resultType="BoardVO">
-         SELECT 	*
-         FROM 		BOARDS
-         WHERE    
-         <if test="key == 't'">
-         	TITLE LIKE '%' || #{val} || '%'
-         </if>
-         <if test="key == 'c'">
-         	CONTENTS LIKE '%' || #{val} || '%'
-         </if>   
-         <if test="key == 'tc'">
-         	TITLE LIKE '%' || #{val} || '%' OR CONTENTS LIKE '%' || #{val } || '%'
-         </if>  
-         ORDER BY 	BOD_NUM DESC 
+			SELECT 	*
+			FROM 	( SELECT 	ROWNUM AS RNUM, T.*
+					  FROM 		( 	SELECT 	*
+							        FROM 		BOARDS
+							        WHERE    
+							        <if test='s.key == "t"'>
+							        	TITLE LIKE '%' || #{s.val} || '%'
+							        </if>
+							        <if test='s.key == "c"'>
+							        	CONTENTS LIKE '%' || #{s.val} || '%'
+							        </if>   
+							        <if test='s.key == "tc"'>
+							        	TITLE LIKE '%' || #{s.val} || '%' OR CONTENTS LIKE '%' || #{s.val} || '%'
+							        </if>  
+							        ORDER BY 	BOD_NUM ) T
+		<![CDATA[
+					  WHERE 	ROWNUM <= #{p.totalNo} - ((#{p.pageNo} - 1) * #{p.pageScale})
+	               	  ORDER BY 	BOD_NUM DESC
+			)
+			WHERE 	#{p.totalNo} - (#{p.pageNo} * #{p.pageScale}) + 1 <= RNUM
+	        ORDER BY BOD_NUM DESC
+		]]>
+         
    </select>
 	
 	<select id="userSelectByKwd" resultType="NotiVO">

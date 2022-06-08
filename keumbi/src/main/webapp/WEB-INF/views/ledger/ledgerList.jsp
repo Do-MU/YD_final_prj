@@ -92,7 +92,6 @@ $(window).ready(function(){
 			eventClick : function(info) {
 				$("#dayOutTotal").empty();
 				$("#dayInTotal").empty();
-				$('#empty').empty();
 				
 				var clickDate = info.event._instance.range.start;
 				const date = dateFormat(clickDate);
@@ -149,7 +148,6 @@ $(window).ready(function(){
 								
 				$("#dayOutTotal").empty();
 				$("#dayInTotal").empty();
-				$('#empty').empty();
 				
 				const date = info.dateStr;
 				$("#dayTitle").html(date)
@@ -396,10 +394,9 @@ $(window).ready(function(){
 	
 	// 달력 하단 거래내역 데이터 호출 함수
 	function dayDrawList(datas, msg) {
-		
+		$('#empty').empty();
 		$("#listHead").empty();
 		$("#listBody").empty();
-		$('#empty').empty();
 		
 		if(datas.length != 0) {
 			let tr1 = `<tr>
@@ -427,8 +424,8 @@ $(window).ready(function(){
 				$('#listBody').append(tr2);		
 			}
 		} else {
-				$('#empty').html(msg);
-			}
+			$('#empty').html(msg);
+		}
 	}
 	
 	// 키워드 검색 

@@ -18,8 +18,9 @@ public interface BoardService{
 	int boardKwdUpdate(int bod_num, String[] keyword);
 	int boardDelete(BoardVO vo);
 	
-	List<BoardVO> boardSearch(BoardSearchVO search);
+	List<BoardVO> boardSearch(PageVO page, BoardSearchVO search);
 	
 	//페이징
 	int boardCount();
+	int boardSearchCount(BoardSearchVO search);
 }
