@@ -30,10 +30,10 @@ public class ReportServiceImpl implements ReportService {
 		String repcode = vo.getRep_code();
 		if(repcode.equals("SB")) {
 			BoardVO bvo = b.boardView(vo.getRep_reason());
-			return "<p><제목></p><p>" + bvo.getTitle() + "</p><p><내용></p>" + bvo.getContents();
+			return vo.getRep_date() + "게시글 내용 : " + bvo.getContents();
 		}else {
 			ReplyVO rvo = r.SelectOneReply(vo.getRep_reason());
-			return rvo.getRe_contents();
+			return vo.getRep_date() + "댓글 내용 : " + rvo.getRe_contents();
 		}
 	}
 

@@ -4,14 +4,13 @@
 	
 	<select id="selectBoardList" resultType="BoardVO">
 	<![CDATA[
-			SELECT 	*
+ 			SELECT 	A.*, (SELECT COUNT(*) FROM REPLIES WHERE BOD_NUM=A.BOD_NUM) CNT
 			FROM 	( SELECT 	ROWNUM AS RNUM, T.*
 					  FROM 		( SELECT 	*
                         		  FROM 		BOARDS
                         		  ORDER BY 	BOD_NUM ) T
 					  WHERE 	ROWNUM <= #{totalNo} - ((#{pageNo} - 1) * #{pageScale})
-                	  ORDER BY 	BOD_NUM DESC
-			)
+                	  ORDER BY 	BOD_NUM DESC ) A
 			WHERE 	#{totalNo} - (#{pageNo} * #{pageScale}) + 1 <= RNUM
             ORDER BY BOD_NUM DESC
 	]]>
@@ -53,6 +52,9 @@
 	<update id="boardUpdate" parameterType="BoardVO">
 		UPDATE BOARDS
 		SET TITLE = #{title}, CONTENTS = #{contents}
+		<if test="bod_code != null">
+			, BOD_CODE = #{bod_code}
+		</if>
 		WHERE BOD_NUM = #{bod_num}
     </update>
 	
