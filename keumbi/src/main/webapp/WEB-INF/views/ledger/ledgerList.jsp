@@ -542,6 +542,15 @@ $(window).ready(function(){
 </script>
 
 <style>
+.fc-daygrid-day-frame:hover {
+	cursor: pointer;
+	background: #FFF0F5;
+}
+
+.fc-sticky:hover {
+	cursor: pointer;
+}
+
 .out {
 	color: red !important;
 }
@@ -630,32 +639,30 @@ body {
 #div_tableHeader div {
 	height: 40px;
 }
- 
+
 .swal-modal {
-    width: 550px;
-    height: 300px;
-    text-align-last: center;
+	width: 550px;
+	height: 300px;
+	text-align-last: center;
 }
+
 .swal-text:first-child {
-    margin-top: 60px;
+	margin-top: 60px;
 }
+
 .swal-text {
 	font-size: 30px;
 	color: black;
 	margin-top: 20px;
 }
+
 .swal-footer {
 	margin-top: 20px;
 }
+
 .swal-button {
 	width: 480px;
-
-#dayTable {
-	
 }
-
-
-
 </style>
 <body>
 	<section class="banner_area">
@@ -665,7 +672,7 @@ body {
 					<div class="banner_content text-center">
 						<h2>가계부</h2>
 						<div class="page_link">
-							<a href="home">Home</a> <a href="monthView">가계부</a>
+							<a href="hosme">Home</a> <a href="monthView">가계부</a>
 						</div>
 					</div>
 				</div>
@@ -715,16 +722,17 @@ body {
 					</div>
 				</div>
 				<div>
-					<table class="table table-hover" id="dayTable">
+					<table class="table" id="dayTable">
 						<thead class="thead-dark" id="listHead">
 						</thead>
 						<tbody id="listBody">
 						</tbody>
 					</table>
 					<p class="h2 text-center" id="empty">
-					<br><br>
-					<br><br>
-					<br></p>
+						<br>
+						<br> <br>
+						<br> <br>
+					</p>
 				</div>
 				<!-- 클릭한 날짜 입출금 내역 끝 -->
 			</div>
@@ -797,14 +805,16 @@ body {
 							<input type="radio" id="choice1" name="io_code" value="I1">
 							<label for="choice1">지출</label> <input type="radio" id="choice2"
 								name="io_code" value="I2"> <label for="choice2">수입</label>
-						</div> <br>
-						<label>분류 </label> <br> <select name="cat_code" id="category">
+						</div>
+						<br> <label>분류 </label> <br> <select name="cat_code"
+							id="category">
 							<option value="">선택</option>
 							<c:forEach var="c" items="${code}">
 								<option value="${c.code}">${c.val}</option>
 							</c:forEach>
-						</select> <br> <br><br> <label>금액 </label> <input type="number"
-							name="amt" id="editAmt"> <br> <label>내용 </label> <input
+						</select> <br> <br>
+						<br> <label>금액 </label> <input type="number" name="amt"
+							id="editAmt"> <br> <label>내용 </label> <input
 							type="text" name="content" id="editCont"> <br>
 					</form>
 				</div>

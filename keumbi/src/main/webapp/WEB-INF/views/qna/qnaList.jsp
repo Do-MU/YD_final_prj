@@ -56,8 +56,26 @@ th {
 .th-deleteBtn {
 	width: 100px;
 }
-.contact_area> .container{
-	min-height:410px;
+
+.contact_area>.container {
+	min-height: 410px;
+}
+
+.qhead:hover {
+	cursor: pointer;
+	background-color: #dddddd;
+}
+
+.qlist:hover {
+	cursor: default;
+}
+
+.btn-info {
+	color: white;
+}
+
+.btn-outline-secondary:hover {
+	color: #f1f1f1 !important;
 }
 </style>
 <script>
@@ -81,7 +99,10 @@ $(window).ready(function(){
 			<div class="banner_inner d-flex align-items-center">
 				<div class="container">
 					<div class="banner_content text-center">
-						<h3>고객센터</h3>
+						<h2>고객센터</h2>
+						<div class="page_link">
+							<a href="home">Home</a> <a href="qnaList">고객센터</a>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -95,7 +116,7 @@ $(window).ready(function(){
 
 					<table class="table qlist"
 						style="text-align: center; border: 1px solid #dddddd">
-						<thead>
+						<thead class="thead-dark">
 							<tr>
 								<th class="th-title">제목</th>
 								<th>작성일</th>
@@ -110,8 +131,7 @@ $(window).ready(function(){
 									<td><c:out value="${q.title}" /></td>
 									<td class="qdate"><c:out value="${q.qdate}" /></td>
 									<td><c:out value="${q.val}" /></td>
-									<td><a role="button"
-										class="btn btn-light"
+									<td><a role="button" class="btn btn-outline-secondary"
 										onclick="return swal('정말로 삭제하시겠습니까?', {buttons: true,dangerMode: true,closeOnClickOutside: false}).then((value) => 
 										{if(value){window.loaction='qnaDelete?num=${q.num}'}})">삭제</a></td>
 								</tr>
@@ -119,11 +139,13 @@ $(window).ready(function(){
 									<td colspan="4">
 										<div class="qnabox">
 											<div class="qbox">
-												<span class="question">Q. </span> <span><pre>${q.qcontents}</pre></span>
+												<span class="question">Q. </span> <span
+													style="text-align: left"><pre>${q.qcontents}</pre></span>
 											</div>
 											<c:if test="${not empty q.acontents}">
 												<div class="abox">
-													<span class="answer">A. </span> <span><pre>${q.acontents}</pre></span>
+													<span class="answer">A. </span> <span
+														style="text-align: left"><pre>${q.acontents}</pre></span>
 												</div>
 											</c:if>
 										</div>
@@ -142,7 +164,6 @@ $(window).ready(function(){
 		//문의글 내용 보기 (hide&show)
 		$(".qlist .qhead").on("click", function() {			
 			if( $(this).next().css("display") == "table-row") {
-				console.log("작동됩니까")
 				$(this).next().hide();
 			} else {
 				$(".qbody").hide();
