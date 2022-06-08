@@ -11,4 +11,5 @@ public interface NotiService {
 	int notiInsert(NotiVO vo);
 	int notiReadUpdate(NotiVO vo);
 	void notiReadDelete(UserVO vo);
+	void notiReadOne(NotiVO vo);	// 클릭시 읽음 처리
 }
