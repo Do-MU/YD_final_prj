@@ -47,6 +47,9 @@ th {
 #div_tbl{
 	min-height: 650px;
 }
+#tbl_list +h2{
+	margin: 20px auto;
+}
 </style>
 <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
 
@@ -183,8 +186,6 @@ th {
 			}
 		}
 		
-		document.getElementById("page-num-"+${p.pageNo}).style = "background-color: blue; color: white";
-		
 		// 페이지 이동
 		function changePage(num){
 			pageNo = num;
@@ -251,7 +252,7 @@ th {
 			}
 		});
 		
-		// 댓글 수 출력 []
+		// 댓글 수 출력
 		function printReCnt(){
 			$("#tbl_list tbody tr").not(".t2tr").each(function(){
 				let tr = $(this);
@@ -262,7 +263,6 @@ th {
 					title = tr.children(":eq(1)").text();
 					tr.children(":eq(1)").html("<b style='color:#777777;'>"+title+"</b><span> ["+reCnt+"] </span>");
 				});
-				
 			});
 		}
 		
@@ -274,5 +274,12 @@ th {
 				window.location = "boardList?pageNo=" + pageNo + "&pageScale=" + scale + "&key=" + key + "&val=" + val;
 			}
 			printReCnt();
+		}
+
+		// 검색결과 0일 때
+		if(totalPage == 0){
+			$("#tbl_list").after("<h2>검색 결과가 없습니다.</h2>");
+		}else{
+			document.getElementById("page-num-"+${p.pageNo}).style = "background-color: blue; color: white";
 		}
 	</script>
