@@ -45,7 +45,14 @@
 				'['||(SELECT NAME FROM USERS WHERE ID = #{user_id}) || '] 님은 ['
 				|| (SELECT 	VAL
 					FROM 	COMMON_CODE
-					WHERE 	CODE = #{sanc_code}) ||'] 사유로 '|| #{edate} ||'일 간 게시글 및 댓글 작성이 불가합니다.',
+					WHERE 	CODE = #{sanc_code}) ||'] 사유로 ' 
+				|| (SELECT 	TO_CHAR(SDATE, 'YYYY/MM/DD') SDATE
+    				FROM 	SANCTIONS
+    				WHERE 	SANC_NUM = (SELECT 	MAX(SANC_NUM) 
+    									FROM 	SANCTIONS 
+    									WHERE 	USER_ID = #{user_id})
+    				AND USER_ID = #{user_id}) || '부터'
+				|| #{edate} ||'일 간 게시글 및 댓글 작성이 불가합니다.',
 			</when>
 			<when test="noti_code == 'N7'">
 				( '" ' || ( SELECT TITLE

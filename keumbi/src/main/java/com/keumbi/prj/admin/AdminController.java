@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -16,7 +15,6 @@ import com.keumbi.prj.qna.service.QnaService;
 import com.keumbi.prj.qna.vo.QnaVO;
 import com.keumbi.prj.report.service.ReportService;
 import com.keumbi.prj.sanction.service.SanctionService;
-import com.keumbi.prj.sanction.vo.SanctionVO;
 import com.keumbi.prj.user.service.UserService;
 
 @Controller
@@ -59,14 +57,6 @@ public class AdminController {
 		return "admin/admReportList";
 	}
 	
-	// 관리자 제재등록
-	@RequestMapping("/sanInsert")
-	@ResponseBody
-	public int sanInsert(SanctionVO vo) {
-		
-		return san.sanInsert(vo);
-	}
-	
 	// 고객센터 관리 페이지
 	@RequestMapping("/admQnaList")
 	public String qnaAdminList(Model model, PageVO pvo) {
@@ -102,6 +92,15 @@ public class AdminController {
 		qna.qnaAdminUpdate(vo);
 		return "redirect:admQnaView?num="+vo.getNum();
 	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	// 더미 데이터 만들기
 	@RequestMapping("/dummyDep")
