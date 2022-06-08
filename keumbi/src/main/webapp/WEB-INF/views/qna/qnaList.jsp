@@ -5,6 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <title>Insert title here</title>
 </head>
 <style>
@@ -60,10 +61,18 @@ th {
 }
 </style>
 <script>
-	if (!'${loginUser.id}') {
-		alert('로그인이 필요합니다.');
-		window.location = "userLoginForm";
+$(window).ready(function(){
+	if (!"${loginUser.id}") {
+		swal({
+			text:"로그인이 필요합니다.",
+			button: "확인",
+			icon: "error",
+			closeOnClickOutside: false
+		}).then((value) => {
+			window.location = "userLoginForm";
+		});
 	}
+})
 </script>
 <body>
 
@@ -101,9 +110,10 @@ th {
 									<td><c:out value="${q.title}" /></td>
 									<td class="qdate"><c:out value="${q.qdate}" /></td>
 									<td><c:out value="${q.val}" /></td>
-									<td><a href="qnaDelete?num=${q.num}" role="button"
+									<td><a role="button"
 										class="btn btn-light"
-										onclick="return confirm('문의글을 삭제하시겠습니까?')">삭제</a></td>
+										onclick="return swal('정말로 삭제하시겠습니까?', {buttons: true,dangerMode: true,closeOnClickOutside: false}).then((value) => 
+										{if(value){window.loaction='qnaDelete?num=${q.num}'}})">삭제</a></td>
 								</tr>
 								<tr class="qbody">
 									<td colspan="4">
@@ -129,11 +139,18 @@ th {
 		</div>
 	</section>
 	<script>
-		$(".qlist .qhead").on("click", function() {
-			$(".qbody").hide();
-			$(this).next().toggle(300);
+		//문의글 내용 보기 (hide&show)
+		$(".qlist .qhead").on("click", function() {			
+			if( $(this).next().css("display") == "table-row") {
+				console.log("작동됩니까")
+				$(this).next().hide();
+			} else {
+				$(".qbody").hide();
+				$(this).next().show();
+			}
 		});
-
+		
+		//작성일만 잘라내기
 		$(".qdate").text($(".qdate").text().substring(0, 10));
 	</script>
 </body>

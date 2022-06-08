@@ -3,7 +3,7 @@
 <mapper namespace="com.keumbi.prj.noti.mapper.NotiMapper">
 
 	<select id="notiSelect" parameterType="UserVO" resultType="NotiVO">
-		SELECT	N.NUM, N.USER_ID, CN.VAL AS "noti_code", N.NOTI_CONTENTS, N.NOTI_READ_CODE
+		SELECT	N.NUM, N.USER_ID, CN.VAL, CN.CODE AS "noti_code", N.NOTI_CONTENTS, N.NOTI_READ_CODE
 		FROM	NOTIFICATIONS N, COMMON_CODE CN, COMMON_CODE CR
 		WHERE	N.USER_ID = #{id} 
 		AND     N.NOTI_CODE = CN.CODE
@@ -84,4 +84,11 @@
 		WHERE	USER_ID = #{id}
 		AND		NOTI_READ_CODE = 'AR1'
 	</delete>
+	
+	<update id="notiReadOne" parameterType="NotiVO">
+		UPDATE	NOTIFICATIONS
+		SET		NOTI_READ_CODE = 'AR1'
+		WHERE	USER_ID = #{user_id}
+		AND		NUM = #{num}
+	</update>
 </mapper>

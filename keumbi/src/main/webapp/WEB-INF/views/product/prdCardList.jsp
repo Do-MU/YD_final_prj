@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <!DOCTYPE html>
 <html>
 <head>
@@ -233,7 +234,8 @@ th, td {
 				
 				$('#exampleModal').modal('show');
 			} else {
-				alert("다시 시도해주세요.");
+				//alert("다시 시도해주세요.");
+				swal("다시 시도해주세요", {icon: 'error'});
 			}
 		})
 	})

@@ -43,4 +43,13 @@ public class NotiServiceImpl implements NotiService {
 	public void notiReadDelete(UserVO vo) {
 		m.notiDelete(vo);
 	}
+
+	// 클릭시 읽음 처리
+	@Override
+	public void notiReadOne(NotiVO vo) {
+		System.out.println(vo.getUser_id());
+		System.out.println(vo.getNum());
+		m.notiReadOne(vo);
+		
+	}
 }

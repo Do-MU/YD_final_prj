@@ -30,7 +30,9 @@ $(window).ready(function(){
 })
 	
 	function priceToString(price) {
-	    return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+		if(price != null){
+		    return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');			
+		}
 	}
 	
 	function stringNumberToInt(stringNumber){
@@ -302,26 +304,33 @@ $(window).ready(function(){
 		var form = document.modalForm;
 		
 	    if (!form.io_code.value) {
-	        alert("지출/수입을 선택해주세요.");
+	        //alert("지출/수입을 선택해주세요.");
+	        swal("지출/수입을 선택해주세요", {icon: 'error'})
 	        return;
 	    }
 	    if (!form.tdate.value) {
-	        alert("거래 날짜를 선택해주세요.");
+	        //alert("거래 날짜를 선택해주세요.");
+	        swal("거래 날짜를 선택해주세요", {icon: 'error'})
 	        return;
 	    }
 	    if (!form.cat_code.value) {
-	        alert("분류를 선택해주세요.");
+	        //alert("분류를 선택해주세요.");
+	        swal("분류를 선택해주세요", {icon: 'error'})
 	        return;
 	    }
 	    if (!form.amt.value) {
-	        alert("금액을 입력해주세요.");
-	        form.amt.focus();
-	        return;
+	        //alert("금액을 입력해주세요.");
+	        swal("금액을 입력해주세요", {icon: 'error'}).then((value) => {
+		        form.amt.focus();	        	
+		        return;
+	        })
 	    }
 	    if (!form.content.value) {
-	        alert("내용을 입력해주세요.");
-	        form.content.focus();
-	        return;
+	        //alert("내용을 입력해주세요.");
+	        swal("내용을 입력해주세요", {icon: 'error'}).then((value) => {
+		        form.content.focus();
+		        return;
+	        })
 	    }
 		$.ajax({
 			url : "cashInsert",
@@ -332,8 +341,10 @@ $(window).ready(function(){
 				$('#myModal').on('hidden.bs.modal', function (e) { 
 					document.forms['modalForm'].reset(); 
 				})
-				alert("성공적으로 입력되었습니다.");
-				location.reload();
+				//alert("성공적으로 입력되었습니다.");
+				swal("성공적으로 입력되었습니다.", {icon: 'success'}).then((value) => {
+					location.reload();					
+				})
 			}
 		});
 	}
@@ -399,12 +410,12 @@ $(window).ready(function(){
 		$("#listBody").empty();
 		
 		if(datas.length != 0) {
-			let tr1 = `<tr>
-						<th scope="col">거래일시</th>
-						<th scope="col">분류</th>
-						<th scope="col">내용</th>
-						<th scope="col">금액</th>
-						<th></th>
+			let tr1 = `<tr style="text-align:center">
+						<th style="width : 10%" scope="col">거래일시</th>
+						<th style="width : 30%" scope="col">분류</th>
+						<th style="width : 30%" scope="col">내용</th>
+						<th style="width : 20%" scope="col">금액</th>
+						<th style="width : 10%"></th>
 					   </tr>`;
 				
 			$('#listHead').append(tr1);
@@ -416,7 +427,7 @@ $(window).ready(function(){
 							<td data-num=\${d.num}>\${date}</td>
 							<td data-cat=\${d.cat_code}>\${d.val}</td>
 							<td>\${d.content}</td>
-							<td data-iocode=\${d.io_code}>\${price}원</td>
+							<td style="text-align : right" data-iocode=\${d.io_code}>\${price}원</td>
 							<td><button type="button" class="btn btn-outline-info" data-toggle="modal" 
 							data-target="#editModal" id="editModalBtn">edit</button></td>
 						   </tr>`;
@@ -433,7 +444,8 @@ $(window).ready(function(){
 		e.preventDefault();
 		var form = document.searchForm;
 		if (!form.keyword.value) {
-	        alert("검색어를 입력해주세요.");
+	        //alert("검색어를 입력해주세요.");
+	        swal("검색어를 입력해주세요", {icon: 'error'});
 	        return;
 	    }
 		$("#dayTitle").empty();
@@ -489,7 +501,7 @@ $(window).ready(function(){
 	
 	// 거래내역 수정 처리
 	function ledUpdate() {
-		if (confirm("내용을 변경하시겠습니까??") == true){    //확인
+		swal("내용을 변경하시겠습니까??", {icon: 'question'}).then((value) => {
 			$.ajax({
 				url : "ledgerUpdate",
 				method : 'POST',
@@ -498,34 +510,33 @@ $(window).ready(function(){
 					$('#editModal').modal('hide');
 					$('#editModal').on('hidden.bs.modal', function (e) { 
 						document.forms['updateModalForm'].reset(); 
-						alert("변경이 완료되었습니다.");
+						//alert("변경이 완료되었습니다.");
+						swal("변경이 완료되었습니다.", {icon: 'success'})
+						location.reload();
 					})
-					dayDrawList(datas,"거래 내역이 없습니다.")
+					
 				}
-			})
-		 }else{ 
-		     return false;
-		 }	
+			})			
+		})
 	}
 	
 	// 거래내역 삭제 처리
 	function ledDelete() {
-		 
-		if (confirm("정말 삭제하시겠습니까??") == true) {
+		swal("정말 삭제하시겠습니까??", {icon: 'question'}).then((value) => {
 			$.ajax({
 				url : "ledgerDelete",
 				data : $("#ledUpdateFrm").serialize(),
-				success : function(result) {
+				success : function(datas) {
 					$('#editModal').modal('hide');
 					$('#editModal').on('hidden.bs.modal', function (e) { 
 						document.forms['updateModalForm'].reset(); 
-						alert("삭제가 완료되었습니다.");
+						//alert("삭제가 완료되었습니다.");
+						swal("삭제가 완료되었습니다.", {icon: 'success'})
+						location.reload();
 					})
 				} 
-			})
-		 }else{
-		     return false;
-		 }
+			})			
+		})
 	}
 	
 </script>
@@ -640,8 +651,11 @@ body {
 	width: 480px;
 
 #dayTable {
-	table-layout:fixed;
+	
 }
+
+
+
 </style>
 <body>
 	<section class="banner_area">
@@ -707,7 +721,10 @@ body {
 						<tbody id="listBody">
 						</tbody>
 					</table>
-					<p class="h2 text-center" id="empty"></p>
+					<p class="h2 text-center" id="empty">
+					<br><br>
+					<br><br>
+					<br></p>
 				</div>
 				<!-- 클릭한 날짜 입출금 내역 끝 -->
 			</div>

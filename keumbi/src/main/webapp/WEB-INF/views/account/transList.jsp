@@ -8,6 +8,7 @@
 <head>
 <meta charset="UTF-8">
 <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <style type="text/css">
 	#transFrm> *,
 	#transFrm> #div_btns> *{
@@ -31,6 +32,17 @@
 	 }
 	#output {
 		min-height:350px;
+	}
+	.swal-text{
+		font-size: 25px;
+		margin-top: 20px;
+	}
+	.swal-footer{
+		text-align: center;
+		margin-top: 5px;
+	}
+	.swal-button{
+		width: 400px;
 	}
 </style>
 </head>
@@ -135,7 +147,8 @@
 		console.log($("#to_date").val())
 		// 조회 날짜 미선택
 		if($("#from_date").val() == '' || $("#to_date").val() == ''){
-			alert("조회할 날짜 선택해주세요.");
+			//alert("조회할 날짜 선택해주세요.");
+			swal("조회할 날짜를 선택해주세요", {icon: 'error'});
 		} else{
 			$.ajax({
 				url : "accTransRes",

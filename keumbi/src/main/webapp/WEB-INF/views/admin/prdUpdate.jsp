@@ -2,7 +2,7 @@
 	pageEncoding="UTF-8"%>
 
 <script src="http://code.jquery.com/jquery-3.6.0.js"></script>
-
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <style>
 .container {
 	text-align:center;
@@ -43,7 +43,7 @@
 		$.ajax({
 			url : "depUpdate"
 		}).done(function(str){
-			alert(str);
+			swal(str, {icon: 'success'})
 		});
 	});
 	
@@ -51,7 +51,7 @@
 		$.ajax({
 			url : "savUpdate"
 		}).done(function(str){
-			alert(str);
+			swal(str, {icon: 'success'})
 		});
 	});
 	
@@ -59,7 +59,7 @@
 		$.ajax({
 			url : "loanUpdate"
 		}).done(function(str){
-			alert(str);
+			swal(str, {icon: 'success'})
 		});
 	});
 	
