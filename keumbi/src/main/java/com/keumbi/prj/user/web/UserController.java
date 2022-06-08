@@ -59,9 +59,12 @@ public class UserController {
 		}else{
 			response.setContentType("text/html; charset=UTF-8");
 			PrintWriter out = response.getWriter();
+			out.println("<script src=\"https://unpkg.com/sweetalert/dist/sweetalert.min.js\"></script>");
 			out.println("<script type='text/javascript'>");
-			out.println("alert('아이디 또는 비밀번호가 일치하지 않습니다.');");
-			out.println("location.href='userLoginForm';");
+			out.println("swal('아이디 또는 비밀번호가 일치하지 않습니다.', {icon: 'error'}).then((value) => {window.location = 'userLoginForm';});");
+			out.println("console.log('가나다')");
+			//out.println("alert('아이디 또는 비밀번호가 일치하지 않습니다.');");
+			//out.println("location.href='userLoginForm';");
 			out.println("</script>");
 			out.flush();			
 			return null;

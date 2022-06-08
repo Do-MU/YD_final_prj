@@ -52,6 +52,7 @@
 
 .modal-footer>:not(:first-child){
 	text-align: right;
+	margin-top: 15px;
 }
 
 
@@ -61,8 +62,8 @@
 #totalText{
 	text-align: center;
 	font-size: 30px;
-	margin-top: 5px;
-	margin-bottom: 10px;
+	margin-top: 20px;
+	margin-bottom: 20px;
 }
 
 #cal{
@@ -147,11 +148,18 @@ table {
 }
 
 
-th, td {
-    border-bottom: 1px solid #777777;
-    padding: 10px;
+
+
+#depositOpt > div{
+	display: inline-block;
+    margin-right: 30px;
+    margin-left: 30px;
 }
-  
+
+#depositOpt > div > hr{
+	border-top: 1px solid black;
+}
+
 </style>
 
 
@@ -256,7 +264,7 @@ th, td {
 				<div class="modal-body" id="modal-body">
 <!-- 					<div id="depositBase1"></div> -->
 					<div id="depositBase1">
-						<table>
+						<table class="table table-striped" >
 							<tr>
 								<th width="160px">상품명</th>
 								<td id="fin_prdt_nm"></td>
@@ -292,16 +300,16 @@ th, td {
 					<div id="depositOpt"></div>
 				</div>
 				
-				<div class="modal-footer" style="display: inline;">
+				<div class="modal-footer alert-primary" style="display: inline;">
 					<div id="cal" style="float: left;">금리 계산기<br><p id="tax">일반세율 <span id="taxPercent">15.4%</span>가 적용됩니다.</p></div>
 					<div class="depOpt" style="float: right" onchange="depMoney()">
 						<select id="date">
-							<option value="" selected>선택</option>
+							<option value="0" selected>선택</option>
 						</select>
 						<input type="text" id="depMoney" name="depMoney" placeholder="숫자만 입력해주세요">원
 					</div>
 				</div>
-				<div id="totalText"></div>
+				<p id="totalText" hidden></p>
 			</div>
 		</div>
 	</div>
@@ -408,6 +416,7 @@ th, td {
 	
 	// 예금 계산 공식
 	function calculator(){
+		document.getElementById("totalText").removeAttribute("hidden");
 		var type = $("#type").text(); //금리유형 추출
 		var month = $("#date option:selected").attr('name'); //개월수 추출
 		var month1 = month / 12 // 개월수를 년수로 변환
@@ -422,12 +431,12 @@ th, td {
 			var interest = money * (num2/100);
 			var tax = interest * (15.4 / 100);
 			var total = money + (interest - tax);			
-			document.getElementById("totalText").innerHTML = "<div id='totalText'>만기수령액은 <span id='total'>" + Math.round(total) + "원 </span>입니다.</div>";
+			document.getElementById("totalText").innerHTML = "만기수령액은 <span id='total'>" + Math.round(total) + "원 </span>입니다.";
 		}else if(type == 'M'){ //복리일경우
 			var price = money * ((1+(num2/100)) ** month1) //세전금액: 입력된금액 * ((1+(금리/100))^년수)
 			var tax = (price - money) * (15.4 / 100); // 세금계산 (만기액 - 원금) * 15.4%
 			var total = (price - tax); // 세후금액: 금액 - 세금
-			document.getElementById("totalText").innerHTML = "<div id='totalText'>만기수령액은 <span id='total'>" + Math.round(total) + "원 </span>입니다.</div>";
+			document.getElementById("totalText").innerHTML = "만기수령액은 <span id='total'>" + Math.round(total) + "원 </span>입니다.";
 		}
 		//천단위 콤마
 		$("#totalText").html($("#totalText").html().toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ","));
@@ -459,20 +468,15 @@ th, td {
    
    // 상품 상세보기 정보
    function makeDepBase(dep){
-	   	/* $("#depositBase1").html("<상품명><br>" + dep.fin_prdt_nm
-							   +"<br><가입방법><br>" + dep.join_way
-							   +"<br><만기 후 이자율><br>" + dep.mtrt_int
-							   +"<br><우대조건><br>" + dep.spcl_cnd
-							   +"<br>가입대상 : " + dep.join_member
-							   +"<br><유의사항><br>" + dep.etc_note)
-							   $("#depButton").data("dep_id", dep.dep_id); */
-							   
+		var mtrt_int = dep.mtrt_int.replace(/(\n|\r\n)/g, '<br>');
+		var spcl_cnd = dep.spcl_cnd.replace(/(\n|\r\n)/g, '<br>');
+		var etc_note = dep.etc_note.replace(/(\n|\r\n)/g, '<br>');
 		$("#fin_prdt_nm").html(dep.fin_prdt_nm);
 		$("#join_way").html(dep.join_way);
-		$("#mtrt_int").html(dep.mtrt_int);
-		$("#spcl_cnd").html(dep.spcl_cnd);
+		$("#mtrt_int").html(mtrt_int);
+		$("#spcl_cnd").html(spcl_cnd);
 		$("#join_member").html(dep.join_member);
-		$("#etc_note").html(dep.etc_note);
+		$("#etc_note").html(etc_note);
 		$("#depButton").data("dep_id", dep.dep_id);
 		
 		if(dep.max_limit != null){
@@ -499,7 +503,6 @@ th, td {
 					  .append( $("<div>").html("저축기간 : " + opt.save_trm + "개월"))
 					  .append( $("<div>").html("최소 " + opt.intr_rate + "%") )
 					  .append( $("<div>").html("최대 " + opt.intr_rate2 + "%") )
-					  .append( $("<div style='display:none;' id='type'>").html(opt.intr_rate_type))
 					  .appendTo($("#depositOpt"));
 
            opthtml += "<option value='"+opt.intr_rate2+"' name='"+opt.save_trm+"'>"+opt.save_trm+"개월</option>"
