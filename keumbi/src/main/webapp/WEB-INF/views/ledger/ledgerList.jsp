@@ -399,12 +399,12 @@ $(window).ready(function(){
 		$("#listBody").empty();
 		
 		if(datas.length != 0) {
-			let tr1 = `<tr>
-						<th scope="col">거래일시</th>
-						<th scope="col">분류</th>
-						<th scope="col">내용</th>
-						<th scope="col">금액</th>
-						<th></th>
+			let tr1 = `<tr style="text-align:center">
+						<th style="width : 10%" scope="col">거래일시</th>
+						<th style="width : 30%" scope="col">분류</th>
+						<th style="width : 30%" scope="col">내용</th>
+						<th style="width : 20%" scope="col">금액</th>
+						<th style="width : 10%"></th>
 					   </tr>`;
 				
 			$('#listHead').append(tr1);
@@ -416,7 +416,7 @@ $(window).ready(function(){
 							<td data-num=\${d.num}>\${date}</td>
 							<td data-cat=\${d.cat_code}>\${d.val}</td>
 							<td>\${d.content}</td>
-							<td data-iocode=\${d.io_code}>\${price}원</td>
+							<td style="text-align : right" data-iocode=\${d.io_code}>\${price}원</td>
 							<td><button type="button" class="btn btn-outline-info" data-toggle="modal" 
 							data-target="#editModal" id="editModalBtn">edit</button></td>
 						   </tr>`;
@@ -640,8 +640,11 @@ body {
 	width: 480px;
 
 #dayTable {
-	table-layout:fixed;
+	
 }
+
+
+
 </style>
 <body>
 	<section class="banner_area">
@@ -707,7 +710,10 @@ body {
 						<tbody id="listBody">
 						</tbody>
 					</table>
-					<p class="h2 text-center" id="empty"></p>
+					<p class="h2 text-center" id="empty">
+					<br><br>
+					<br><br>
+					<br></p>
 				</div>
 				<!-- 클릭한 날짜 입출금 내역 끝 -->
 			</div>
