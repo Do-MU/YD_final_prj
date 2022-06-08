@@ -22,7 +22,7 @@
 		<property name="host" value="smtp.gmail.com" /> <!-- 메이서버 호스트 -->
 		<property name="port" value="587" /> <!-- 메이서버 포트번호 -->
 		<property name="username" value="ckatnc12@gmail.com" /> <!-- 자신의 이메일 아이디 -->
-		<property name="password" value="dPeka2460" /> <!-- 자신의 비밀번호 -->
+		<property name="password" value="idapsmhahhrlokcc" /> <!-- 자신의 비밀번호 -->
 		<!-- 보안연결 TLS과 관련된 설정 -->
 		<property name="javaMailProperties">
 			<props>
