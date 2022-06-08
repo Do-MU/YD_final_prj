@@ -109,19 +109,22 @@
 		data.addRows(arr);
 		
 		if(obj[0] != null){
-			let m1 = `<span style='font-weight: bold;'> \${month+1}월</span>에는 <span style="color:red; font-weight: bold;">#\${obj[0].val}</span> 에 가장 많이 썼어요!!`;
-			let m2 = `<span style='font-weight: bold;'>#\${obj[0].val}</span>에 지출한 금액은 총 <span style='color:red; font-weight: bold;'>\${priceToString(obj[0].amt)}원</span>이에요.`;
-			$(".pie-message1").html(m1);
+			let title = (month+1)+'월 지출 통계';
+			let m1 = '지출이 가장 많았던 곳'; 
+			let m2 = `1위 <span style='font-weight: bold;'>#\${obj[0].val}</span> <span style='color:rgb(51, 102, 204); font-weight: bold;'>\${priceToString(obj[0].amt)}원</span>`;
+			$(".pie-title").text(title);
+			$(".pie-message1").text(m1);
 			$(".pie-message2").html(m2);
-		}else{
-			let m = '이번 달에는 거래내역이 없어요!!';
+		}else {
+			let m = '거래내역이 없어요!!';
+			$(".pie-message1").text(m);
 		}
 		if(obj[1] != null) {
-			let m3 = `두번 째로 많이 쓴 곳은 <span style='color:blue; font-weight:bold;'>#\${obj[1].val}</span>이며 지출금액은 <span style='color:blue; font-weight: bold;'>\${priceToString(obj[1].amt)}원</span>이에요.`;
+			let m3 = `2위 <span style='font-weight:bold;'>#\${obj[1].val}</span>  <span style='color:rgb(220, 57, 18); font-weight: bold;'>\${priceToString(obj[1].amt)}원</span>`;
 			$(".pie-message3").html(m3);	
 		}
 		if(obj[2] != null) {
-			let m4 = `세번 째로 많이 쓴 곳은 <span style='color:green; font-weight: bold;'>#\${obj[2].val}</span>이며 지출금액은 <span style='color:green; font-weight: bold;'>\${priceToString(obj[2].amt)}원</span>이에요.`;
+			let m4 = `3위 <span style='font-weight: bold;'>#\${obj[2].val}</span> <span style='color:rgb(255, 153, 0); font-weight: bold;'>\${priceToString(obj[2].amt)}원</span>`;
 			$(".pie-message4").html(m4);
 		}
 		var options = {
@@ -139,6 +142,10 @@
 	function drawAreaChart() {	
 		var thisMonth = year + '-'+('0'+(month+1)).slice(-2) 
 		var prevMonth =  getPrevMonth();
+		
+		let title = prevMonth.slice(-2) + '월-' + thisMonth.slice(-2) + '월 지출 누적 비교';
+		$(".area1-title").text(title);
+		
 		var jsonData = $.ajax({
 			url : "thisPreAnalysis",
 			data : {
@@ -148,14 +155,17 @@
 			},
 			async : false
 		}).responseText;
+		
 		var obj = jQuery.parseJSON(jsonData);
 		var data = new google.visualization.DataTable();
 		data.addColumn('string', 'day');
 		data.addColumn('number', thisMonth);
 		data.addColumn('number', prevMonth);
+		
 		var arr = [];
 		var today = new Date();
 		let tt = '';
+		
 		if(year == today.getFullYear() && month == today.getMonth()){
 			for (let i = 0; i < obj.length; i++) {
 				if(i<today.getDate()&&i%2==0){
@@ -168,6 +178,7 @@
 					arr.push([ '', null, obj[i].amt2 ]);
 				}
 			}
+			
 			
 			if( Math.round( obj[today.getDate()-1].amt1/10000) > Math.round( obj[today.getDate()-1].amt2/10000) ){
 				tt = '오늘까지 '+obj[today.getDate()-1].amt1/10000+'만원 썼어요.\n';
@@ -189,6 +200,7 @@
 			}
 			tt = (month+1)+'월에는 '+Math.round( obj[obj.length-1].amt1/10000 )+'만원 썼어요.\n';
 		}
+		
 		data.addRows(arr);
 		
 		var options = {
@@ -362,17 +374,20 @@
 	font-size: 45px;
 	padding: 0;
 }
+
 .card-body {
-	margin : 0px;
+	margin: 0px;
 }
+
 .card-title {
-	color : black;
+	color: black;
 	font-size: x-large;
 }
+
 .card-text {
-	color : black;
+	color: black;
 	font-size: x-large;
-	text-align : left;
+	text-align: left;
 }
 </style>
 <body>
@@ -412,7 +427,7 @@
 					<!-- pie chart : 카테고리별 지출 통계 -->
 					<div class="card">
 						<div class="card-body">
-							<h5 class="card-title">카테고리별 지출 통계</h5>
+							<h5 class="card-title pie-title">카테고리별 지출 통계</h5>
 							<p class="card-text pie-message1"></p>
 							<p class="card-text pie-message2"></p>
 							<p class="card-text pie-message3"></p>
@@ -425,7 +440,7 @@
 					<!-- area chart : 당월-전월 지출 누적 비교 통계 -->
 					<div class="card">
 						<div class="card-body">
-							<h5 class="card-title">직전월과 비교 누적 통계</h5>
+							<h5 class="card-title area1-title"></h5>
 							<p class="card-text area-message1"></p>
 							<p class="card-text area-message2"></p>
 							<p class="card-text area-message3"></p>
