@@ -6,7 +6,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 public class BankTest {
 	
 	//@Test
-	public void whyAnNaWa() {
+	public void percentOfChall() {
 		int sum = 3285000;
 		int goal = 22090110;
 		System.out.println("((double)sum/goal)*100 : "+((double)sum/goal)*100);
@@ -16,12 +16,23 @@ public class BankTest {
 	}
 	
 	//@Test
-	public void enc() {
+	public void encMySelf() {
 		String pwd = "rlatkddnqkqh";
 		
 		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 		String encPwd = encoder.encode(pwd);
 		System.out.println(pwd);
 		System.out.println(encPwd);
+	}
+	
+	@Test
+	public void roundGoal() {
+		int goal = 1572222;
+		int rnd = 0;
+		
+		rnd = goal/1000*1000;
+		
+		System.out.println(goal);
+		System.out.println(rnd);
 	}
 }

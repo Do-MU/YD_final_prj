@@ -90,12 +90,17 @@ public class BoardServiceImpl implements BoardService {
 	}
 	
 	@Override
-	public List<BoardVO> boardSearch(BoardSearchVO search) {
-		return m.boardSearch(search);
+	public List<BoardVO> boardSearch(PageVO page, BoardSearchVO search) {
+		return m.boardSearch(page, search);
 	}
 	
 	@Override
 	public int boardCount() {
 		return m.boardCount();
+	}
+
+	@Override
+	public int boardSearchCount(BoardSearchVO search) {
+		return m.boardSearchCount(search);
 	}
 }

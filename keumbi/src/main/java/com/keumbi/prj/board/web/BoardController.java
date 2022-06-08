@@ -1,6 +1,5 @@
 package com.keumbi.prj.board.web;
 
-import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
@@ -10,7 +9,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.keumbi.prj.board.service.BoardService;
 import com.keumbi.prj.board.vo.BoardSearchVO;
@@ -25,17 +23,36 @@ public class BoardController {
 	private BoardService b;
 
 	@RequestMapping("/boardList")
-	public String boardList(Model model, PageVO page) {
-		int total = b.boardCount();
-		int pageCnt = total/page.getPageScale()  + (total%page.getPageScale()>0?1:0);
-	    int endPage = ((page.getPageNo()-1)/10+1)*10;
-	    page.setTotalNo(total);
-	    page.setTotalPage(pageCnt);
-	    page.setStartPage(((page.getPageNo()-1)/10)*10+1);
-	    page.setEndPage(endPage > pageCnt ? pageCnt : endPage );  
+	public String boardList(Model model, PageVO page, BoardSearchVO search) {
+		if(search.getVal() != null) {
+			System.out.println(search);
+			int total = b.boardSearchCount(search);
+			int pageCnt = total/page.getPageScale()  + (total%page.getPageScale()>0?1:0);
+		    int endPage = ((page.getPageNo()-1)/10+1)*10;
+		    page.setTotalNo(total);
+		    page.setTotalPage(pageCnt);
+		    page.setStartPage(((page.getPageNo()-1)/10)*10+1);
+		    page.setEndPage(endPage > pageCnt ? pageCnt : endPage);  
+			
+			model.addAttribute("p", page);
+			model.addAttribute("s",search);
+			model.addAttribute("boards", b.boardSearch(page, search));
+		}
 		
-		model.addAttribute("p", page);
-		model.addAttribute("boards", b.selectBoardList(page));
+		else {
+			System.out.println("########################Nothing to Search###############################");
+			int total = b.boardCount();
+			int pageCnt = total/page.getPageScale()  + (total%page.getPageScale()>0?1:0);
+		    int endPage = ((page.getPageNo()-1)/10+1)*10;
+		    page.setTotalNo(total);
+		    page.setTotalPage(pageCnt);
+		    page.setStartPage(((page.getPageNo()-1)/10)*10+1);
+		    page.setEndPage(endPage > pageCnt ? pageCnt : endPage);  
+			
+			model.addAttribute("p", page);
+			model.addAttribute("s", search);
+			model.addAttribute("boards", b.selectBoardList(page));
+		}
 
 		return "board/boardList";
 	}
@@ -92,13 +109,5 @@ public class BoardController {
 		b.boardDelete(vo);
 
 		return "redirect:/boardList";
-	}
-
-	@RequestMapping("/boardSearch")
-	@ResponseBody
-	public List<BoardVO> boardSearch(BoardSearchVO search) {
-		
-		return b.boardSearch(search);
-
 	}
 }
