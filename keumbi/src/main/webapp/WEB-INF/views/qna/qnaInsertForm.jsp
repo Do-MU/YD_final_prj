@@ -62,10 +62,11 @@
 			if (form.title.value) {
 				if(form.qcontents.value){
 					swal("등록하시겠습니까?").then((value) => {
-						qnaInsertFrm.action = "qnaInsert";
-						qnaInsertFrm.method = "post";
-						qnaInsertFrm.submit();
-						swal("등록되었습니다.", {icon: 'success'})
+						swal("등록되었습니다.", {icon: 'success'}).then((value) => {
+							qnaInsertFrm.action = "qnaInsert";
+							qnaInsertFrm.method = "post";
+							qnaInsertFrm.submit();
+						})
 					})
 				}else{
 					swal("내용을 입력하세요", {icon: 'error'}).then((value) => {

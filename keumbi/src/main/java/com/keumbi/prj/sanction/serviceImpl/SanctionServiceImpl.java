@@ -32,45 +32,45 @@ public class SanctionServiceImpl implements SanctionService{
 
 	@Override
 	public int sanInsert(SanctionVO vo) {
+		int cnt = 0;
+		
+		if(m.sanUserCount(vo) == 0) {			// 현재 제재 받고 있지 않은 회원일 경우
+			m.sanUserCodeUpdate(vo);
+			
+			cnt += m.sanInsert(vo);
+		}else {									// 현재 제재를 받고 있는 회원일 경우
+			
+			cnt += m.sanUserDayUpdate(vo);
+		}
+		
+		// 게시글 혹은 댓글 내용 변경
+		if(vo.getSanc_code().equals("SB")) {
+			BoardVO bvo = new BoardVO();
+			bvo.setBod_num(vo.getRep_reason());
+			bvo.setTitle("관리자에 의해 삭제된 게시글 입니다.");
+			bvo.setBod_code("T2");
+			bm.boardUpdate(bvo);
+		}else if(vo.getSanc_code().equals("SR")) {
+			ReplyVO revo = new ReplyVO();
+			revo.setRe_num(vo.getRep_reason());
+			revo.setRe_contents("관리자에 의해 삭제된 댓글 입니다.");
+			rem.replyUpdate(revo);
+		}
+		
+		// 알림 등록
+		NotiVO nvo = new NotiVO();
+		nvo.setNoti_code("N6");
+		nvo.setSanc_code(vo.getSanc_code());
+		nvo.setEdate(vo.getEdate());
+		nvo.setUser_id(vo.getUser_id());
+		noti.notiInsert(nvo);
+		
+		// 신고 삭제
 		ReportVO repvo = new ReportVO();
 		repvo.setRep_reason(vo.getRep_reason());
 		repvo.setRep_code(vo.getSanc_code());
-		if(m.sanUserCount(vo) == 0) {	
-			if(vo.getSanc_code().equals("SB") || vo.getSanc_code().equals("적절하지 않은 게시글")) {
-				BoardVO bvo = new BoardVO();
-				bvo.setBod_num(vo.getRep_reason());
-				bvo.setTitle("관리자에 의해 삭제된 게시글 입니다.");
-				bm.boardUpdate(bvo);
-			}else if(vo.getSanc_code().equals("SR") || vo.getSanc_code().equals("적절하지 않은 댓글")) {
-				ReplyVO revo = new ReplyVO();
-				revo.setRe_num(vo.getRep_reason());
-				revo.setRe_contents("관리자에 의해 삭제된 댓글 입니다.");
-				rem.replyUpdate(revo);
-			}
-			rm.reportDelete(repvo);
-			m.sanUserCodeUpdate(vo);
-			m.sanBoardCodeUpdate(vo);
-			
-			NotiVO nvo = new NotiVO();
-			nvo.setNoti_code("N6");
-			nvo.setSanc_code(vo.getSanc_code());
-			nvo.setEdate(vo.getEdate());
-			nvo.setUser_id(vo.getUser_id());
-			noti.notiInsert(nvo);
-			
-			return m.sanInsert(vo);
-		}else {
-			rm.reportDelete(repvo);
-			
-			NotiVO nvo = new NotiVO();
-			nvo.setNoti_code("N6");
-			nvo.setSanc_code(vo.getSanc_code());
-			nvo.setEdate(vo.getEdate());
-			nvo.setUser_id(vo.getUser_id());
-			noti.notiInsert(nvo);
-			
-			return m.sanUserDayUpdate(vo);
-		}
+		rm.reportDelete(repvo);
+		
+		return cnt;
 	}
-	
 }

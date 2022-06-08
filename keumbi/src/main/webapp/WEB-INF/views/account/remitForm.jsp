@@ -314,9 +314,11 @@
 
 		// 이체실행 func
 		function transPro() {
-			depositFrm.action = "accTranProcess";
-			depositFrm.method = "post";
-			depositFrm.submit();
+			swal("이체가 완료되었습니다.", {icon: "success"}).then((value) => {
+				depositFrm.action = "accTranProcess";
+				depositFrm.method = "post";
+				depositFrm.submit();				
+			})
 		}
 	</script>
 </body>

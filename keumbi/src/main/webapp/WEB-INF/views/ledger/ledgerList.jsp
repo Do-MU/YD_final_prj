@@ -501,44 +501,48 @@ $(window).ready(function(){
 	
 	// 거래내역 수정 처리
 	function ledUpdate() {
-		swal("내용을 변경하시겠습니까??", {icon: 'question'}).then((value) => {
-			$.ajax({
-				url : "ledgerUpdate",
-				method : 'POST',
-				data : $("#ledUpdateFrm").serialize(),
-				success : function(datas) {
-					$('#editModal').modal('hide');
-					$('#editModal').on('hidden.bs.modal', function (e) { 
-						document.forms['updateModalForm'].reset(); 
-						//alert("변경이 완료되었습니다.");
-						swal("변경이 완료되었습니다.", {icon: 'success'})
-						location.reload();
-					})
-					
-				}
-			})			
+		swal("내용을 변경하시겠습니까??", {icon: 'warning',
+									buttons: true,
+			  						dangerMode: true,
+			  						closeOnClickOutside: false}).then((value) => {
+			swal("변경이 완료되었습니다.", {icon: "success"}).then((value) => {
+				$.ajax({
+					url : "ledgerUpdate",
+					method : 'POST',
+					data : $("#ledUpdateFrm").serialize(),
+					success : function(datas) {
+						$('#editModal').modal('hide');
+						$('#editModal').on('hidden.bs.modal', function (e) { 
+							document.forms['updateModalForm'].reset(); 
+							location.reload();
+						})
+					}
+				})
+			})
 		})
 	}
 	
 	// 거래내역 삭제 처리
 	function ledDelete() {
-		swal("정말 삭제하시겠습니까??", {icon: 'question'}).then((value) => {
-			$.ajax({
-				url : "ledgerDelete",
-				data : $("#ledUpdateFrm").serialize(),
-				success : function(datas) {
-					$('#editModal').modal('hide');
-					$('#editModal').on('hidden.bs.modal', function (e) { 
-						document.forms['updateModalForm'].reset(); 
-						//alert("삭제가 완료되었습니다.");
-						swal("삭제가 완료되었습니다.", {icon: 'success'})
-						location.reload();
-					})
-				} 
-			})			
+		swal("정말 삭제하시겠습니까??", {icon: 'warning', 
+								   buttons: true,
+								   dangerMode: true, 
+								   closeOnClickOutside: false}).then((value) => {
+			swal("삭제가 완료되었습니다.", {icon: "success"}).then((value) => {
+				$.ajax({
+					url : "ledgerDelete",
+					data : $("#ledUpdateFrm").serialize(),
+					success : function(datas) {
+						$('#editModal').modal('hide');
+						$('#editModal').on('hidden.bs.modal', function (e) { 
+							document.forms['updateModalForm'].reset(); 
+							location.reload();
+						})
+					} 
+				})
+			})
 		})
 	}
-	
 </script>
 
 <style>
@@ -661,8 +665,8 @@ body {
 }
 
 .swal-button {
-	width: 480px;
-}
+	width: 200px;
+ }
 </style>
 <body>
 	<section class="banner_area">

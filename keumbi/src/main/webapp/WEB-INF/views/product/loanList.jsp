@@ -128,6 +128,10 @@ th, td {
     border-bottom: 1px solid #777777;
     padding: 10px;
 }
+
+#loanOpt > div > hr{
+	border-top: 1px solid black;
+}
 </style>
 
 <section class="banner_area">
@@ -230,7 +234,7 @@ th, td {
 				<div class="modal-body" id="modal-body">
 					<!-- <div id="loanBase1"></div> -->
 					<div id="loanBase1">
-						<table>
+						<table class="table table-striped">
 							<tr>
 								<th width="150px">상품명</th>
 								<td id="fin_prdt_nm"></td>
@@ -345,10 +349,6 @@ th, td {
 	};
 	
 	function makeLoanBase(loa){
-		/* $("#loanBase1").html("<상품명><br>" + loa.fin_prdt_nm
-				+"<br><대출종류명><br>" + crdt_prdt_type_nm
-				+"<br><가입방법><br>" + loa.join_way) */
-				
 		$("#fin_prdt_nm").html(loa.fin_prdt_nm);
 		$("#crdt_prdt_type_nm").html(loa.crdt_prdt_type_nm);
 		$("#join_way").html(loa.join_way);

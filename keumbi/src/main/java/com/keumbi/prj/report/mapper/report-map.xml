@@ -10,8 +10,9 @@
 	
 	<insert id="reportBoard" parameterType="ReportVO">
 		<selectKey keyProperty="rep_num" resultType="int" order="BEFORE">
-			SELECT NVL(MAX(REP_NUM),0)+1
-			FROM REPORTS
+			SELECT 	NVL(MAX(REP_NUM),0)+1
+			FROM 	REPORTS
+			WHERE 	REP_ID = #{rep_id}
 		</selectKey>
 		INSERT INTO REPORTS (REP_NUM, REP_ID, REPED_ID, REP_DATE, REP_CODE, REP_REASON)
 		VALUES ( #{rep_num}, #{rep_id}, (SELECT USER_ID FROM BOARDS WHERE BOD_NUM=#{rep_reason}), SYSDATE, 'SB', #{rep_reason} )			   
@@ -27,8 +28,9 @@
 	
 	<insert id="reportReply" parameterType="ReportVO">
 		<selectKey keyProperty="rep_num" resultType="int" order="BEFORE">
-			SELECT NVL(MAX(REP_NUM),0)+1
-			FROM REPORTS
+			SELECT 	NVL(MAX(REP_NUM),0)+1
+			FROM 	REPORTS
+			WHERE 	REP_ID = #{rep_id}
 		</selectKey>
 		INSERT INTO REPORTS (REP_NUM, REP_ID, REPED_ID, REP_DATE, REP_CODE, REP_REASON)
 		VALUES ( #{rep_num}, #{rep_id}, (SELECT USER_ID FROM REPLIES WHERE RE_NUM=#{rep_reason}), SYSDATE, 'SR', #{rep_reason} )
@@ -42,6 +44,8 @@
 		AND		REP_REASON = #{rep_reason}
 	</select>
 
+	<!-- 해당 게시글이나 댓글에 대한 모든 신고 삭제 -->
+	<!-- 단건 삭제시 신고번호가 있기 때문에 ㄱㅊ -->
 	<delete id="reportDelete" parameterType="ReportVO">
 		DELETE FROM	REPORTS
 		WHERE		REP_REASON = #{rep_reason}
