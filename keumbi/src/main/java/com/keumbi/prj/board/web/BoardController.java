@@ -25,7 +25,6 @@ public class BoardController {
 	@RequestMapping("/boardList")
 	public String boardList(Model model, PageVO page, BoardSearchVO search) {
 		if(search.getVal() != null) {
-			System.out.println(search);
 			int total = b.boardSearchCount(search);
 			int pageCnt = total/page.getPageScale()  + (total%page.getPageScale()>0?1:0);
 		    int endPage = ((page.getPageNo()-1)/10+1)*10;
@@ -33,7 +32,7 @@ public class BoardController {
 		    page.setTotalPage(pageCnt);
 		    page.setStartPage(((page.getPageNo()-1)/10)*10+1);
 		    page.setEndPage(endPage > pageCnt ? pageCnt : endPage);  
-			
+			System.out.println(page);
 			model.addAttribute("p", page);
 			model.addAttribute("s",search);
 			model.addAttribute("boards", b.boardSearch(page, search));
@@ -48,6 +47,7 @@ public class BoardController {
 		    page.setTotalPage(pageCnt);
 		    page.setStartPage(((page.getPageNo()-1)/10)*10+1);
 		    page.setEndPage(endPage > pageCnt ? pageCnt : endPage);  
+			System.out.println(page);
 			
 			model.addAttribute("p", page);
 			model.addAttribute("s", search);

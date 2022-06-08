@@ -3,7 +3,7 @@
 <mapper namespace="com.keumbi.prj.noti.mapper.NotiMapper">
 
 	<select id="notiSelect" parameterType="UserVO" resultType="NotiVO">
-		SELECT	N.NUM, N.USER_ID, CN.VAL AS "noti_code", N.NOTI_CONTENTS, N.NOTI_READ_CODE
+		SELECT	N.NUM, N.USER_ID, CN.VAL, CN.CODE AS "noti_code", N.NOTI_CONTENTS, N.NOTI_READ_CODE
 		FROM	NOTIFICATIONS N, COMMON_CODE CN, COMMON_CODE CR
 		WHERE	N.USER_ID = #{id} 
 		AND     N.NOTI_CODE = CN.CODE
@@ -45,7 +45,14 @@
 				'['||(SELECT NAME FROM USERS WHERE ID = #{user_id}) || '] 님은 ['
 				|| (SELECT 	VAL
 					FROM 	COMMON_CODE
-					WHERE 	CODE = #{sanc_code}) ||'] 사유로 '|| #{edate} ||'일 간 게시글 및 댓글 작성이 불가합니다.',
+					WHERE 	CODE = #{sanc_code}) ||'] 사유로 ' 
+				|| (SELECT 	TO_CHAR(SDATE, 'YYYY/MM/DD') SDATE
+    				FROM 	SANCTIONS
+    				WHERE 	SANC_NUM = (SELECT 	MAX(SANC_NUM) 
+    									FROM 	SANCTIONS 
+    									WHERE 	USER_ID = #{user_id})
+    				AND USER_ID = #{user_id}) || '부터'
+				|| #{edate} ||'일 간 게시글 및 댓글 작성이 불가합니다.',
 			</when>
 			<when test="noti_code == 'N7'">
 				( '" ' || ( SELECT TITLE
@@ -77,4 +84,11 @@
 		WHERE	USER_ID = #{id}
 		AND		NOTI_READ_CODE = 'AR1'
 	</delete>
+	
+	<update id="notiReadOne" parameterType="NotiVO">
+		UPDATE	NOTIFICATIONS
+		SET		NOTI_READ_CODE = 'AR1'
+		WHERE	USER_ID = #{user_id}
+		AND		NUM = #{num}
+	</update>
 </mapper>

@@ -5,6 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <title>Insert title here</title>
 </head>
 <style>
@@ -55,15 +56,41 @@ th {
 .th-deleteBtn {
 	width: 100px;
 }
-.contact_area> .container{
-	min-height:410px;
+
+.contact_area>.container {
+	min-height: 410px;
+}
+
+.qhead:hover {
+	cursor: pointer;
+	background-color: #dddddd;
+}
+
+.qlist:hover {
+	cursor: default;
+}
+
+.btn-info {
+	color: white;
+}
+
+.btn-outline-secondary:hover {
+	color: #f1f1f1 !important;
 }
 </style>
 <script>
-	if (!'${loginUser.id}') {
-		alert('로그인이 필요합니다.');
-		window.location = "userLoginForm";
+$(window).ready(function(){
+	if (!"${loginUser.id}") {
+		swal({
+			text:"로그인이 필요합니다.",
+			button: "확인",
+			icon: "error",
+			closeOnClickOutside: false
+		}).then((value) => {
+			window.location = "userLoginForm";
+		});
 	}
+})
 </script>
 <body>
 
@@ -72,7 +99,10 @@ th {
 			<div class="banner_inner d-flex align-items-center">
 				<div class="container">
 					<div class="banner_content text-center">
-						<h3>고객센터</h3>
+						<h2>고객센터</h2>
+						<div class="page_link">
+							<a href="home">Home</a> <a href="qnaList">고객센터</a>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -86,7 +116,7 @@ th {
 
 					<table class="table qlist"
 						style="text-align: center; border: 1px solid #dddddd">
-						<thead>
+						<thead class="thead-dark">
 							<tr>
 								<th class="th-title">제목</th>
 								<th>작성일</th>
@@ -101,19 +131,21 @@ th {
 									<td><c:out value="${q.title}" /></td>
 									<td class="qdate"><c:out value="${q.qdate}" /></td>
 									<td><c:out value="${q.val}" /></td>
-									<td><a href="qnaDelete?num=${q.num}" role="button"
-										class="btn btn-light"
-										onclick="return confirm('문의글을 삭제하시겠습니까?')">삭제</a></td>
+									<td><a role="button" class="btn btn-outline-secondary"
+										onclick="return swal('정말로 삭제하시겠습니까?', {buttons: true,dangerMode: true,closeOnClickOutside: false}).then((value) => 
+										{if(value){window.location='qnaDelete?num=${q.num}'}})">삭제</a></td>
 								</tr>
 								<tr class="qbody">
 									<td colspan="4">
 										<div class="qnabox">
 											<div class="qbox">
-												<span class="question">Q. </span> <span><pre>${q.qcontents}</pre></span>
+												<span class="question">Q. </span> <span
+													style="text-align: left"><pre>${q.qcontents}</pre></span>
 											</div>
 											<c:if test="${not empty q.acontents}">
 												<div class="abox">
-													<span class="answer">A. </span> <span><pre>${q.acontents}</pre></span>
+													<span class="answer">A. </span> <span
+														style="text-align: left"><pre>${q.acontents}</pre></span>
 												</div>
 											</c:if>
 										</div>
@@ -129,11 +161,17 @@ th {
 		</div>
 	</section>
 	<script>
-		$(".qlist .qhead").on("click", function() {
-			$(".qbody").hide();
-			$(this).next().toggle(300);
+		//문의글 내용 보기 (hide&show)
+		$(".qlist .qhead").on("click", function() {			
+			if( $(this).next().css("display") == "table-row") {
+				$(this).next().hide();
+			} else {
+				$(".qbody").hide();
+				$(this).next().show();
+			}
 		});
-
+		
+		//작성일만 잘라내기
 		$(".qdate").text($(".qdate").text().substring(0, 10));
 	</script>
 </body>

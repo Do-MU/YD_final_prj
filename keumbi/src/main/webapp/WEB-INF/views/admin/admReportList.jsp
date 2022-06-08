@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <script src="http://code.jquery.com/jquery-3.6.0.js"></script>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <style>
 .container{
 	text-align:center;
@@ -32,6 +33,17 @@ td{
 
 #btn_div{
 	padding:5px 0px 0px 880px;
+}
+.swal-text{
+	font-size: 25px;
+	margin-top: 20px;
+}
+.swal-footer{
+	text-align: center;
+	margin-top: 5px;
+}
+.swal-button{
+	width: 400px;
 }
 </style>
 <div class="container">
@@ -114,23 +126,26 @@ td{
 	
 	// 저장 버튼
 	$("#sanInsertBtn").on('click', function(){
-		$(".check:checked").each(function(){
+		let chck = $(".check:checked")
+		let cnt = 0;
+		for(a of chck){
+			//console.log(a.closest("tr").children[2].innerHTML);
+			//console.log(a.closest("tr").children[4].dataset.rep_code);
+			//console.log(parseInt(a.closest("tr").children[6].children[0].value));
+			//console.log(a.closest("tr").children[5].dataset.rep_reason);
 			$.ajax({
 				url:"sanInsert",
-				data:{
-					user_id:$(this).closest("tr").find(".repedId").text(),
-					sanc_code:$(this).closest("tr").find(".repCode").data("rep_code"),
-					edate:$(this).closest("tr").find(".sanDate").val().slice(0, -1),
-					rep_reason:$(this).closest("tr").find(".reason").data("rep_reason"),
-					sanc_reason:$(".modal-body").html()
-				}
+				data:{	user_id: a.closest("tr").children[2].innerHTML,
+						sanc_code: a.closest("tr").children[4].dataset.rep_code,
+						edate: parseInt(a.closest("tr").children[6].children[0].value),
+						rep_reason: a.closest("tr").children[5].dataset.rep_reason	}
 			}).done(function(data){
-				if(data == 1){
-					alert(data + "건 처리 되었습니다.");
-					window.location.reload();
+				if(data != null){
+					cnt++;
+					a.closest("tr").remove();
 				}
-			})
-		})
+			});
+		}
 	})
 	
 	// 삭제 버튼
@@ -146,8 +161,10 @@ td{
 				}
 			}).done(function(data){
 				if(data != null){
-					alert(data + "건 처리 되었습니다.");
-					window.location.reload();
+					//alert(data + "건 처리 되었습니다.");
+					swal(data + "건 처리 되었습니다.", {icon: 'success'}).then((value) => {
+						window.location.reload();						
+					})
 				}
 			})
 		})

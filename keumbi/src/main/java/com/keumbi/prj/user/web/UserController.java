@@ -54,19 +54,17 @@ public class UserController {
 				
 				return "redirect:admin/home";
 			}else {
-				
-				if(loginUser.getSignoutdate() != null) {
-					return "redirect:userUpdateForm";
-				}else {
-					return "redirect:home";
-				}
+				return "redirect:home";
 			}
 		}else{
 			response.setContentType("text/html; charset=UTF-8");
 			PrintWriter out = response.getWriter();
+			out.println("<script src=\"https://unpkg.com/sweetalert/dist/sweetalert.min.js\"></script>");
 			out.println("<script type='text/javascript'>");
-			out.println("alert('아이디 또는 비밀번호가 일치하지 않습니다.');");
-			out.println("location.href='userLoginForm';");
+			out.println("swal('아이디 또는 비밀번호가 일치하지 않습니다.', {icon: 'error'}).then((value) => {window.location = 'userLoginForm';});");
+			out.println("console.log('가나다')");
+			//out.println("alert('아이디 또는 비밀번호가 일치하지 않습니다.');");
+			//out.println("location.href='userLoginForm';");
 			out.println("</script>");
 			out.flush();			
 			return null;
@@ -124,7 +122,6 @@ public class UserController {
 	@RequestMapping("/userDelete")
 	public String userDelete(HttpSession session) {
 		UserVO vo = (UserVO) session.getAttribute("loginUser"); // 세션값 불러오기
-		System.out.println();
 		service.userDelete(vo);
 		session.invalidate();
 		return "redirect:home";
@@ -135,11 +132,17 @@ public class UserController {
 	public String userCancle(HttpSession session, UserVO uservo) {
 		UserVO vo = (UserVO) session.getAttribute("loginUser");
 		service.userCancle(vo);
-		UserVO loginUser = service.userSelect(uservo);
+		UserVO loginUser = service.userSelect(vo);
 		session.setAttribute("loginUser", loginUser);
 		return "redirect:home";
 	}
 	
+	//세션 삭제
+	@RequestMapping("/userSessionDelete")
+	public String userSessionDelete(HttpSession session) {
+		session.invalidate();
+		return "redirect:home";
+	}
 	
 	// aJax----------------------------------------------------------------------------------------
 	// ID 중복체크

@@ -19,4 +19,13 @@ public class SanctionController {
 	public List<SanctionVO> sanUser() {
 		return sc.sanUser();
 	}
+	
+	// 관리자 제재등록
+	@RequestMapping("/admin/sanInsert")
+	@ResponseBody
+	public int sanInsert(SanctionVO vo) {
+		System.out.println(vo);
+		
+		return sc.sanInsert(vo);
+	}
 }

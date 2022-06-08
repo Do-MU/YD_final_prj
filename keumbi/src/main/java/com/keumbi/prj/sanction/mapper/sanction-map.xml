@@ -11,17 +11,17 @@
 	<!-- 제재 등록 -->
 	<insert id="sanInsert" parameterType="SanctionVO">
 		INSERT INTO	SANCTIONS (SANC_NUM, USER_ID, SANC_CODE, SDATE, EDATE, SANC_REASON)
-		VALUES		( (SELECT NVL(MAX(SANC_NUM), 1) + 1 FROM SANCTIONS)
+		VALUES		( (SELECT NVL(MAX(SANC_NUM), 0) + 1 FROM SANCTIONS WHERE USER_ID = #{user_id} )
 					 , #{user_id}
 					 , #{sanc_code}
 					 , TO_CHAR(SYSDATE, 'YYYY-MM-DD')
 					 , TO_CHAR(SYSDATE + #{edate}, 'YYYY-MM-DD')
 					 ,
 					 <if test="sanc_code == 'SB'">
-						(SELECT CONTENTS FROM BOARDS WHERE BOD_NUM = TO_NUMBER(#{sanc_reason}))					 
+						TO_CHAR(SYSDATE, 'YYYY-MM-DD') || ' 게시글내용 :  ' || (SELECT CONTENTS FROM BOARDS WHERE BOD_NUM = TO_NUMBER(#{rep_reason}))					 
 					 </if>
 					 <if test="sanc_code == 'SR'">
-					 	(SELECT RE_CONTENTS FROM REPLIES WHERE RE_NUM = TO_NUMBER(#{sanc_reason}))
+					 	TO_CHAR(SYSDATE, 'YYYY-MM-DD') || ' 댓글내용 :  ' || (SELECT RE_CONTENTS FROM REPLIES WHERE RE_NUM = TO_NUMBER(#{rep_reason}))
 					 </if> 
 					)	
 	</insert>
@@ -30,14 +30,7 @@
 	<update id="sanUserCodeUpdate" parameterType="SanctionVO">
 		UPDATE		USERS
 		SET 		USER_CODE = 'U2'
-		WHERE ID =  #{user_id}
-	</update>
-	
-	<!-- 제재게시글 코드 업데이트 -->
-	<update id="sanBoardCodeUpdate" parameterType="SanctionVO">
-		UPDATE			BOARDS
-		SET				BOD_CODE = 'T2'
-		WHERE BOD_NUM = #{rep_reason}
+		WHERE 		ID = #{user_id}
 	</update>
 	
 	<!-- 제재유저 확인 -->

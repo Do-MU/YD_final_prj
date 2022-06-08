@@ -277,18 +277,21 @@
 		function depositFun() {
 			// 은행 미선택 시
 			if ($("#wit_fintech_use_num").val() == ""|| $("#dep_fintech_use_num").val() == "") {
-				alert("은행을 선택해 주세요.");
-				$('#dep_fintech_use_num').focus();
+				swal("은행을 선택해주세요",{icon: 'error'}).then((value) => {
+					$('#dep_fintech_use_num').focus();					
+				});
 				return false;
 			}else if($("#wit_fintech_use_num").val() == $("#dep_fintech_use_num").val()){
-				alert("입금계좌와 출금계좌가 같습니다.");
+				swal("입금계좌와 출금계좌가 같습니다.", {icon: 'error'});
 				return false;
 			}
 			
 			// 이체금액 미입력 시
 			if (!$('#tran_amt').val()) {
-				alert("이체 할 금액을 입력하세요.");
-				$('#tran_amt').focus();
+				//alert("이체 할 금액을 입력하세요.");
+				swal("이체 할 금액을 입력하세요", {icon: 'error'}).then((value) => {					
+					$('#tran_amt').focus();
+				})
 				return false;
 			}
 
@@ -311,9 +314,11 @@
 
 		// 이체실행 func
 		function transPro() {
-			depositFrm.action = "accTranProcess";
-			depositFrm.method = "post";
-			depositFrm.submit();
+			swal("이체가 완료되었습니다.", {icon: "success"}).then((value) => {
+				depositFrm.action = "accTranProcess";
+				depositFrm.method = "post";
+				depositFrm.submit();				
+			})
 		}
 	</script>
 </body>

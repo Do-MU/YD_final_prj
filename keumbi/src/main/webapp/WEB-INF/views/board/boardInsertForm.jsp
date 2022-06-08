@@ -5,7 +5,7 @@
 <head>
 <meta charset='utf-8'>
 <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <style>
 #editor {
 	border: 1px solid;
@@ -50,6 +50,17 @@ ul li.tag-item {
 	font-weight: bold;
 	cursor: pointer;
 	margin-left: 8px;
+}
+.swal-text{
+	font-size: 25px;
+	margin-top: 20px;
+}
+.swal-footer{
+	text-align: center;
+	margin-top: 5px;
+}
+.swal-button{
+	width: 400px;
 }
 </style>
 
@@ -250,7 +261,8 @@ ul li.tag-item {
 						$("#tag-list").append("<li class='tag-item' data-code='"+ tagCodeValue  +"'>"+ tagValue+ "<span class='del-btn' idx='" + counter + "'>x</span></li>");
 						addTag(tagValue);
 					} else {
-						alert("태그값이 중복됩니다.");
+						//alert("태그값이 중복됩니다.");
+						swal("태그값이 중복됩니다.", {icon: 'error'})
 					}
 				}
 			})
@@ -277,7 +289,8 @@ ul li.tag-item {
 							addTag(tagValue);
 							self.val("");
 						} else {
-							alert("태그값이 중복됩니다.");
+							//alert("태그값이 중복됩니다.");
+							swal("태그값이 중복됩니다.", {icon: 'error'})
 						}
 					}
 					e.preventDefault(); // SpaceBar 시 빈공간이 생기지 않도록 방지

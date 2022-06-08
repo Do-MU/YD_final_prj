@@ -54,6 +54,7 @@
 
 .modal-footer>:not(:first-child){
 	text-align: right;
+	margin-top: 15px;
 }
 
 
@@ -63,8 +64,8 @@
 #totalText{
 	text-align: center;
 	font-size: 30px;
-	margin-top: 5px;
-	margin-bottom: 10px;
+	margin-top: 20px;
+	margin-bottom: 20px;
 }
 
 #cal{
@@ -149,9 +150,14 @@ table {
 	width : 100%;
 }
 
-th, td {
-    border-bottom: 1px solid #777777;
-    padding: 10px;
+#savingOpt > div{
+	display: inline-block;
+    margin-right: 5px;
+    margin-left: 5px;
+}
+
+#savingOpt > div > hr{
+	border-top: 1px solid black;
 }
 </style>
 
@@ -256,7 +262,7 @@ th, td {
 				<div class="modal-body" id="modal-body">
 <!-- 					<div id="savingBase1"></div> -->
 					<div id="savingBase1">
-						<table>
+						<table class="table table-striped">
 							<tr>
 								<th width="160">상품명</th>
 								<td id="fin_prdt_nm"></td>
@@ -292,7 +298,7 @@ th, td {
 					<div id="savingOpt"></div>
 				</div>
 				
-				<div class="modal-footer" style="display: inline;">
+				<div class="modal-footer alert-primary" style="display: inline;">
 					<div id="cal" style="float: left;">금리 계산기<br><p id="tax">일반세율 <span id="taxPercent">15.4%</span>가 적용됩니다.</p></div>
 					<div class="savOpt" style="float: right" onchange="savMoney()">
 						<select id="date">
@@ -301,7 +307,7 @@ th, td {
 						<input type="text" id="savMoney" name="savMoney" placeholder="숫자만 입력해주세요">원
 					</div>
 				</div>
-				<div id="totalText"></div>
+				<p id="totalText" hidden></p>
 			</div>
 		</div>
 	</div>
@@ -401,6 +407,7 @@ th, td {
 		};
 		// 적금 계산 공식
 		function calculator(){
+			document.getElementById("totalText").removeAttribute("hidden");
 			var type = $("#type").text(); //금리유형 추출
 			var month = $("#date option:selected").attr('name'); //개월수 추출
 			var intr = $("#date option:selected").val(); // 선택된 개월 최고금리 추출
@@ -439,22 +446,16 @@ th, td {
 		}
 		// 상품 상세보기 정보
 		function makeSavBase(sav){
-			/* $("#savingBase1").html("<상품명><br>" + sav.fin_prdt_nm
-								  +"<br><가입방법><br>" + sav.join_way
-								  +"<br><만기 후 이자율><br>" + sav.mtrt_int
-								  +"<br><우대조건><br>" + sav.spcl_cnd
-								  +"<br>가입대상 : " + sav.join_member
-								  +"<br><유의사항><br>" + sav.etc_note)
-			if(sav.max_limit != null){
-				$("#savingBase2").html("최고한도 : " + sav.max_limit+"원")
-			} */
+			var mtrt_int = sav.mtrt_int.replace(/(\n|\r\n)/g, '<br>');
+			var spcl_cnd = sav.spcl_cnd.replace(/(\n|\r\n)/g, '<br>');
+			var etc_note = sav.etc_note.replace(/(\n|\r\n)/g, '<br>');
 			
 			$("#fin_prdt_nm").html(sav.fin_prdt_nm);
 			$("#join_way").html(sav.join_way);
-			$("#mtrt_int").html(sav.mtrt_int);
-			$("#spcl_cnd").html(sav.spcl_cnd);
+			$("#mtrt_int").html(mtrt_int);
+			$("#spcl_cnd").html(spcl_cnd);
 			$("#join_member").html(sav.join_member);
-			$("#etc_note").html(sav.etc_note);
+			$("#etc_note").html(etc_note);
 			
 			if(sav.max_limit != 0){
 				let tr = `<tr>

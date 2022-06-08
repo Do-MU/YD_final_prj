@@ -28,11 +28,21 @@ public class NotiController {
 	@ResponseBody
 	public void notiReadAll(UserVO loginUser){
 		svc.notiReadUpdateAll(loginUser);
+		
 	}
 	
 	@RequestMapping("/notiReadDel")
 	@ResponseBody
 	public void notiReadDel(UserVO loginUser) {
 		svc.notiReadDelete(loginUser);
+	}
+	
+	@RequestMapping("/notiReadOne")
+	@ResponseBody
+	public void notiReadOne(UserVO loginUser, int num) {
+		NotiVO vo = new NotiVO();
+		vo.setUser_id(loginUser.getId());
+		vo.setNum(num);
+		svc.notiReadOne(vo);
 	}
 }

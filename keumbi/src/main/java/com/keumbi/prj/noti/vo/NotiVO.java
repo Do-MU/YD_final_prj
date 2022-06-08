@@ -14,4 +14,6 @@ public class NotiVO {
 	private String kwds;				// 키워드 집합
 	private String sanc_code;			// 제재 코드
 	private String edate;				// 제재 만료일
+	
+	private String val;					// 알림 내용
 }

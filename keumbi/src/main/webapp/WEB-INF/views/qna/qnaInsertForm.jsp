@@ -4,6 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <title>Insert title here</title>
 </head>
 <style>
@@ -58,24 +59,27 @@
 		//등록 버튼
 		$("#insertBtn").click(function() {
 			var form = document.qnaForm;
-			if (!form.title.value) {
-				alert("제목을 입력하세요.")
-				return;
+			if (form.title.value) {
+				if(form.qcontents.value){
+					swal("등록하시겠습니까?").then((value) => {
+						swal("등록되었습니다.", {icon: 'success'}).then((value) => {
+							qnaInsertFrm.action = "qnaInsert";
+							qnaInsertFrm.method = "post";
+							qnaInsertFrm.submit();
+						})
+					})
+				}else{
+					swal("내용을 입력하세요", {icon: 'error'}).then((value) => {
+						$("#exampleFormControlTextarea1").focus();
+						return;
+					})				
+				}
+			}else{
+				swal("제목을 입력해주세요", {icon: 'error'}).then((value) => {
+					$("#titleArea").focus();
+					return;
+				});		
 			}
-			;
-			if (!form.qcontents.value) {
-				alert("내용을 입력하세요.")
-				return;
-			}
-			if (confirm("등록하시겠습니까?")) {
-				qnaInsertFrm.action = "qnaInsert";
-				qnaInsertFrm.method = "post";
-				qnaInsertFrm.submit();
-				alert("등록되었습니다.")
-			} else {
-				alert("등록이 취소되었습니다.")
-			}
-
 		})
 	</script>
 
