@@ -13,14 +13,13 @@
 }
 .cardCol {
 	display: inline-block;
-	margin-right: 60px;
-	margin-bottom: 30px;;
+	margin-right: 89px;
+	margin-bottom: 30px;
 }
 .card {
 	width : 18rem;
 }
 .card-body {
-	height : 130px;
 	position: relative;
 }
 .swal-modal {
