@@ -206,11 +206,11 @@
 				for(n of notis){
 					if(n.noti_read_code == 'AR0'){
 						cnt++;
-						let html = '<div class="mod_data"><div class="mod_title">'+n.noti_code+'</div><div class="mod_contents">'+n.noti_contents+'</div></div>';
+						let html = '<div class="mod_data"><div class="mod_title" data-code='+n.noti_code+" data-num="+n.num+'>'+n.val+'</div><div class="mod_contents">'+n.noti_contents+'</div></div>';
 						$("<div>").html(html).addClass("mod_notis").appendTo($("#mod_notiList"));
 						$("#mod_notiList").append($("<hr>"));
 					}else{
-						let html = '<div class="mod_data"><div class="mod_title">'+n.noti_code+'</div><div class="mod_contents">'+n.noti_contents+'</div></div>';
+						let html = '<div class="mod_data"><div class="mod_title" data-code='+n.noti_code+" data-num="+n.num+'>'+n.val+'</div><div class="mod_contents">'+n.noti_contents+'</div></div>';
 						$("<div>").html(html).addClass("mod_notis mod_notis_read").appendTo($("#mod_notiList"));
 						$("#mod_notiList").append($("<hr>"));
 					}
@@ -254,4 +254,42 @@
 			notiSelect();
 		});
 	})
+	
+	// 알림 선택시 -> 각 viewPage 이동
+	$("#mod_notiList").on("click", ".mod_notis", function(){
+		let noti_code = $(this).children().children('.mod_title').data('code');	// code
+		let num = $(this).children().children('.mod_title').data('num');		// num
+		if(noti_code == 'N1' || noti_code == 'N4' || noti_code == 'N10'){		// 게시판 알림
+			getRead(num)
+			location.href='boardList';
+		} else if(noti_code == 'N2' || noti_code == 'N5'){						// 계좌 알림
+			getRead(num)
+			location.href='accountList';
+		} else if(noti_code == 'N3'){											// 고객센터 알림
+			getRead(num)
+			location.href='qnaList';	
+		} else if(noti_code == 'N6'){											// 제재 알림
+			getRead(num)
+			location.href='userUpdateForm';
+		} else if(noti_code == 'N7'|| noti_code == 'N8' || noti_code == 'N9'){	//챌린지 알림
+			getRead(num)
+			location.href='challengeList';
+		}
+	})
+	
+	// 알림 선택시 -> 읽음 처리
+	function getRead(num){
+		console.log("코드 확인 " + num);
+		$.ajax({
+			url:"notiReadOne",
+			data:{
+				id : "${loginUser.id}",
+				num : num
+			}
+		}).done(function(data){
+			console.log(data);
+// 			notiSelect();
+// 			$(".badge").attr("hidden","hidden");
+		});
+	}
 </script>

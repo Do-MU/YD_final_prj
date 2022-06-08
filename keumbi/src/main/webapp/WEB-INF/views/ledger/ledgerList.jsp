@@ -30,7 +30,9 @@ $(window).ready(function(){
 })
 	
 	function priceToString(price) {
-	    return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+		if(price != null){
+		    return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');			
+		}
 	}
 	
 	function stringNumberToInt(stringNumber){
@@ -497,10 +499,11 @@ $(window).ready(function(){
 				success : function(datas) {
 					$('#editModal').modal('hide');
 					$('#editModal').on('hidden.bs.modal', function (e) { 
-						document.forms['updateModalForm'].reset(); 
+						document.forms['updateModalForm'].reset();
 						alert("변경이 완료되었습니다.");
+						location.reload();
 					})
-					dayDrawList(datas,"거래 내역이 없습니다.")
+					
 				}
 			})
 		 }else{ 
@@ -515,11 +518,12 @@ $(window).ready(function(){
 			$.ajax({
 				url : "ledgerDelete",
 				data : $("#ledUpdateFrm").serialize(),
-				success : function(result) {
+				success : function(datas) {
 					$('#editModal').modal('hide');
 					$('#editModal').on('hidden.bs.modal', function (e) { 
 						document.forms['updateModalForm'].reset(); 
 						alert("삭제가 완료되었습니다.");
+						location.reload();
 					})
 				} 
 			})
