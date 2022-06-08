@@ -15,9 +15,9 @@ public class BankTest {
 		System.out.println( Math.round( (double)sum/goal *1000)/10.0 );
 	}
 	
-	//@Test
+	@Test
 	public void encMySelf() {
-		String pwd = "rlatkddnqkqh";
+		String pwd = "testtest";
 		
 		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 		String encPwd = encoder.encode(pwd);
@@ -25,7 +25,7 @@ public class BankTest {
 		System.out.println(encPwd);
 	}
 	
-	@Test
+	//@Test
 	public void roundGoal() {
 		int goal = 1572222;
 		int rnd = 0;
