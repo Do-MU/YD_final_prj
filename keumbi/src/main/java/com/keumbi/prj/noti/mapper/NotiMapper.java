@@ -10,4 +10,5 @@ public interface NotiMapper {
 	int notiInsert(NotiVO vo);
 	int notiReadUpdate(NotiVO vo);
 	int notiDelete(UserVO vo);
+	void notiReadOne(NotiVO vo);	// 클릭시 읽음 처리
 }

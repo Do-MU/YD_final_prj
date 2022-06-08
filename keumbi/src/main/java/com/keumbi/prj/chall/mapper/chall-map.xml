@@ -29,9 +29,9 @@
 	<select id="challCount" parameterType="ChallVO" resultType="int">
 		SELECT	COUNT(*)
 		FROM	CHALLS
-		WHERE	CHALL_NUM = #{chall_num}
-		AND		USER_ID   = #{user_id}
-		AND		CHALL_CODE = 'CH1'
+		WHERE	CHALL_CODE = 'CH1'
+		AND		USER_ID = #{user_id}
+		AND		CHALL_NUM = #{chall_num}
 	</select>
 	
 	<update id="challUpdate" parameterType="ChallVO">

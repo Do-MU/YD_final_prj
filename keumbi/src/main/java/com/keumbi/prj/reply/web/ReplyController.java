@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.keumbi.prj.board.vo.BoardVO;
 import com.keumbi.prj.reply.service.ReplyService;
 import com.keumbi.prj.reply.vo.ReplyVO;
 import com.keumbi.prj.user.vo.UserVO;
@@ -18,19 +19,18 @@ import com.keumbi.prj.user.vo.UserVO;
 @Controller
 public class ReplyController {
 
-	@Autowired
-	private ReplyService service;
+	@Autowired ReplyService service;
 
 	@RequestMapping("/replyList")
 	@ResponseBody
-	private List<ReplyVO> replyList(ReplyVO vo) {
+	public List<ReplyVO> replyList(ReplyVO vo) {
 		
 		return service.replyList(vo);
 	}
 	
 	@RequestMapping(value = "/replyInsert", method = RequestMethod.POST)
 	@ResponseBody
-	private int replyInsert(ReplyVO vo, HttpSession session) {
+	public int replyInsert(ReplyVO vo, HttpSession session) {
 		UserVO uvo = (UserVO) session.getAttribute("loginUser");
 		vo.setUser_id(uvo.getId());
 
@@ -39,25 +39,25 @@ public class ReplyController {
 	
 	@RequestMapping("/replyUpdate")
     @ResponseBody 
-	private int replyUpdate(ReplyVO vo) {
+    public int replyUpdate(ReplyVO vo) {
 		return service.replyUpdate(vo);
 	}
 	
 	@RequestMapping("/replyDelete")
 	@ResponseBody
-	private int replyDelete(@RequestParam("re_num") int re_num) {
+	public int replyDelete(@RequestParam("re_num") int re_num) {
 		return service.replyDelete(re_num);
 	}
 	
 	@RequestMapping("/rorList")
 	@ResponseBody
-	private List<ReplyVO> rorList(ReplyVO vo){
+	public List<ReplyVO> rorList(ReplyVO vo){
 		return service.rorList(vo);
 	}
 	
 	@RequestMapping(value = "/rorInsert", method = RequestMethod.POST)
 	@ResponseBody
-	private int rorInsert(ReplyVO vo, HttpSession session) {
+	public int rorInsert(ReplyVO vo, HttpSession session) {
 		UserVO uvo = (UserVO) session.getAttribute("loginUser");
 		vo.setUser_id(uvo.getId());
 		
@@ -68,7 +68,7 @@ public class ReplyController {
 	}
 	@RequestMapping("/rorUpdate")
     @ResponseBody 
-	private int rorUpdate(ReplyVO vo) {
+    public int rorUpdate(ReplyVO vo) {
 
 		return service.rorUpdate(vo);
 		
@@ -76,11 +76,15 @@ public class ReplyController {
 	
 	@RequestMapping("/rorDelete")
 	@ResponseBody
-	private int rorDelete(@RequestParam("re_num") int re_num) {
+	public int rorDelete(@RequestParam("re_num") int re_num) {
 		
 		return service.rorDelete(re_num);
 	}
 	
-	
+	@RequestMapping("/replyCount")
+	@ResponseBody
+	public int replyCount(BoardVO vo) {
+		return service.replyCount(vo.getBod_num());
+	}
 
 }

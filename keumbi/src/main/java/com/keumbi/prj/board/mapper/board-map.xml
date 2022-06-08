@@ -71,20 +71,68 @@
 		FROM 	BOARDS
 	</select>
 	
+	<select id="boardSearchCount" resultType="int">
+		<if test="key != 'tg'">
+			SELECT 	COUNT(*)
+			FROM 	BOARDS
+			WHERE	BOD_CODE = 'T1'
+	        <if test='key == "t"'>
+	        	AND TITLE LIKE '%' || #{val} || '%'
+	        </if>
+	        <if test='key == "c"'>
+	        	AND CONTENTS LIKE '%' || #{val} || '%'
+	        </if>   
+	        <if test='key == "tc"'>
+	        	AND TITLE LIKE '%' || #{val} || '%' OR CONTENTS LIKE '%' || #{val} || '%'
+	        </if>
+		</if>
+		<if test="key == 'tg'">
+			SELECT 	COUNT(*)
+			FROM 	BOARDS B, BOD_KWD BK, COMMON_CODE C
+			WHERE 	B.BOD_NUM = BK.BOD_NUM
+			AND 	BK.KWD_CODE = C.CODE
+			AND 	C.VAL LIKE '%' || #{val} || '%'
+			AND 	B.BOD_CODE = 'T1'
+		</if>
+		
+	</select>
+	
 	<select id="boardSearch" resultType="BoardVO">
-         SELECT 	*
-         FROM 		BOARDS
-         WHERE    
-         <if test="key == 't'">
-         	TITLE LIKE '%' || #{val} || '%'
-         </if>
-         <if test="key == 'c'">
-         	CONTENTS LIKE '%' || #{val} || '%'
-         </if>   
-         <if test="key == 'tc'">
-         	TITLE LIKE '%' || #{val} || '%' OR CONTENTS LIKE '%' || #{val } || '%'
-         </if>  
-         ORDER BY 	BOD_NUM DESC 
+			SELECT 	*
+			FROM 	( SELECT 	ROWNUM AS RNUM, T.*
+					  FROM 		( 	
+					  				<if test="s.key != 'tg'">
+						  				SELECT 	*
+								        FROM 	BOARDS
+								        WHERE	BOD_CODE = 'T1'
+								        <if test='s.key == "t"'>
+								        	AND TITLE LIKE '%' || #{s.val} || '%'
+								        </if>
+								        <if test='s.key == "c"'>
+								        	AND CONTENTS LIKE '%' || #{s.val} || '%'
+								        </if>   
+								        <if test='s.key == "tc"'>
+								        	AND TITLE LIKE '%' || #{s.val} || '%' OR CONTENTS LIKE '%' || #{s.val} || '%'
+								        </if>
+							        	ORDER BY 	BOD_NUM
+							        </if>
+							        <if test="s.key == 'tg'">
+							       		SELECT B.*
+										FROM BOARDS B, BOD_KWD BK, COMMON_CODE C
+										WHERE B.BOD_NUM = BK.BOD_NUM
+										AND BK.KWD_CODE = C.CODE
+										AND C.VAL LIKE '%' || #{s.val} || '%'
+										AND B.BOD_CODE = 'T1'
+							        	ORDER BY B.BOD_NUM
+							        </if> ) T
+		<![CDATA[
+					  WHERE 	ROWNUM <= #{p.totalNo} - ((#{p.pageNo} - 1) * #{p.pageScale})
+	               	  ORDER BY 	BOD_NUM DESC
+			)
+			WHERE 	#{p.totalNo} - (#{p.pageNo} * #{p.pageScale}) + 1 <= RNUM
+	        ORDER BY BOD_NUM DESC
+		]]>
+         
    </select>
 	
 	<select id="userSelectByKwd" resultType="NotiVO">

@@ -47,16 +47,6 @@
 	margin-top: 50px;
 }
 
-#re_contents {
-	width: 90%;
-	height: 50px;
-}
-
-#reply form button {
-	height: 50px;
-	width: 8%;
-}
-
 .re_btns {
 	float: right;
 }
@@ -71,9 +61,12 @@
 }
 
 .replycontents {
-	padding-left: 20px;
+	padding: 10px 0 10px 20px;
 }
 .ror{
+	padding: 10px 0 10px 50px;
+}
+.ror_contents{
 	padding-left: 50px;
 }
 </style>
@@ -123,28 +116,19 @@
 				</c:if>
 			</div>
 		</div>
-
 		<div id="reply">
+			<div><h4>댓글</h4></div>
+			<c:if test="${loginUser ne null && loginUser.user_code eq 'U1'}">
+				<div class="input-group mb-3">
+					<input type="text" id="re_contents" class="form-control" name="re_contents">
+	            	<button class="btn btn-primary" type="button" id="replyInsertBtn">등록</button>
+	          	</div>
+			</c:if>
+			
 			<div>
-				<h4>댓글</h4>
-			</div>
-			<div>
-				<form id="replyInsertForm" action="replyInsert" method="post">
-					<input type="hidden" name="bod_num" value='${board.bod_num}'>
-					<input id="re_contents" name="re_contents">
-					<button type="button" class="btn btn-primary" id="replyInsertBtn" style="float: right;">등록</button>
-				</form>
-			</div>
-		</div>
-
-
-		<br> <br>
-
-		<div class="container">
-			<div class="row">
 				<form>
 					<hr>
-					<div class="replyList" id="replyList" style="width: 1150px;"></div>
+					<div class="replyList" id="replyList" style="width: 100%;"></div>
 				</form>
 			</div>
 		</div>
@@ -154,7 +138,6 @@
 </section>
 
 <script>
-	
 	function reportBoard() {
 		swal("게시물을 신고하시겠습니까?").then((value) => {
 			$.ajax({
@@ -188,9 +171,8 @@
 		})
 	}
 	
-	$('#replyInsertBtn').click(function(){ //댓글 등록 버튼 클릭시     
-		var insertData = $('#replyInsertForm').serialize(); //commentInsertForm의 내용을 가져옴    
-		replyInsert(insertData); //Insert 함수호출(아래)});
+	$('#replyInsertBtn').click(function(){ 		//댓글 등록 버튼 클릭시   
+		replyInsert($("#re_contents").val()); 	//Insert 함수호출(아래)});
 	})
 		
 	//댓글 목록 
@@ -206,12 +188,13 @@
 					 if('${loginUser.id}' != ''){
 						 if('${loginUser.id}'== value.user_id){
 							user =	`<a onclick="replyDelete('\${value.re_num}');" style="float: right;"> 삭제 </a>
-						 			 <a onclick="replyUpdate('\${value.re_num}','\${value.re_contents}');" style="float: right;"> 수정 </a>
-						 			 <a onclick="replyOfReply('\${value.re_num}');" style="float: right;"> 답글 </a>`;
+						 			 <a onclick="replyUpdate('\${value.re_num}','\${value.re_contents}');" style="float: right;"> 수정 </a>`;
 					     }else{
-					    	 user = `<a onclick="reportReply('\${value.re_num}')" style="float: right;">신고</a>
-					    	 		 <a onclick="replyOfReply('\${value.re_num}');" style="float: right;"> 답글 </a>`;
-					     }						 
+					    	 user = `<a onclick="reportReply('\${value.re_num}')" style="float: right;">신고</a>`;
+					     }
+						 if('${loginUser.user_code}' == 'U1'){
+							 user += `<a onclick="replyOfReply('\${value.re_num}');" style="float: right;"> 답글 </a>`;
+						 }
 					 }
       				 a += `<div class="replies\${value.re_num}" data-re_num="\${value.re_num}">\${value.user_id} | \${value.re_date}
    						  	  <div class="replycontents replycontents\${value.re_num}">\${value.re_contents}
@@ -249,26 +232,31 @@
 	}
 	
 	//댓글 등록
-	function replyInsert(insertData){
-	    $.ajax({
-	        url : 'replyInsert',       
-			type : 'post',        
-			data : insertData,        
-			success : function(data){            
-				if(data == 1) {                
-					replyList(); //댓글 작성 후 댓글 목록 reload                
-					$('[name=re_contents]').val('');
-				}        
-			}    
-		});
+	function replyInsert(contents){
+		if(contents != ''){
+			$.ajax({
+				url : 'replyInsert',       
+				type : 'post',        
+				data : {bod_num: ${board.bod_num},
+						re_contents: contents},
+				success : function(data){            
+					if(data == 1) {                
+						replyList(); //댓글 작성 후 댓글 목록 reload                
+						$("#re_contents").val('');
+					}        
+				}    
+			});
+		}else{
+			$("#re_contents").focus();
+		}
 	}
 
 	//댓글 수정 - 댓글 내용 출력을 input 폼으로 변경 
 	function replyUpdate(re_num, re_contents){		
 	    var a ='';        	
 		a += `	<div class="input-group mb-3">
-	            	<input type="text" name="re_contents\${re_num}" value="\${re_contents}" class="form-control" aria-describedby="button-addon2">
-	            	<button class="btn btn-primary" type="button" id="button-addon2" onclick="replyUpdateProc('\${re_num}');">수정</button>
+	            	<input type="text" id="re_contents\${re_num}" value="\${re_contents}" class="form-control">
+	            	<button class="btn btn-primary" type="button" onclick="replyUpdateProc('\${re_num}');">수정</button>
 	          	</div>`
 		
 		$('.replycontents'+re_num).html(a);    
@@ -276,8 +264,7 @@
 	
 	//댓글 수정
 	function replyUpdateProc(re_num){   
-		var updateContent = $('[name=re_contents'+re_num+']').val();  
-		//var check = ${'value.Alram'}       		
+		var updateContent = $('#re_contents'+re_num).val();
 		$.ajax({
 	        url : 'replyUpdate?re_num='+re_num,        
 			type : 'post',        
@@ -301,37 +288,41 @@
 	
 	//답글달기 창
 	function replyOfReply(re_num){
-		    var a ='';        	
-			a += ` 	<div class="input-group mb-3">
-		            	<input type="text" name="re_contents\${re_num}" class="form-control" aria-describedby="button-addon2">
-		            	<button class="btn btn-primary" type="button" id="button-addon2" onclick="rorInsert('\${re_num}');">답글달기</button>
-		          	</div>`
-			$('.replies'+re_num).after(a);
-		}
+		$('.replies'+re_num).find(".re_btns").children(":last-child").removeAttr('onclick');
+		var a ='';        	
+		a += ` 	<div class="input-group mb-3 ror_contents">
+					<i class="bi bi-arrow-return-right"></i>
+		           	<input type="text" id="re_contents\${re_num}" class="form-control">
+		           	<button class="btn btn-primary" type="button" onclick="rorInsert('\${re_num}');">답글달기</button>
+		       	</div>`
+		$('.replies'+re_num).after(a);
+	}
 	
 	//대댓글 등록
 	function rorInsert(re_num){
-		
 		var bod_num = ${board.bod_num};
 		var pre_re_num = re_num;
-		var re_contents = $('[name=re_contents'+re_num+']').val();
-		$.ajax({
-		    url : 'rorInsert',       
-			type : 'post',        
-			data : {bod_num, pre_re_num, re_contents},        
-			success : function(data){
-				if(data == 1) {
-					replyList(); //댓글 작성 후 댓글 목록 reload
-				}        
-			}    
-		});
+		var re_contents = $('#re_contents'+re_num).val();
+		if(re_contents != ''){
+			$.ajax({
+			    url : 'rorInsert',       
+				type : 'post',        
+				data : {bod_num, pre_re_num, re_contents},        
+				success : function(data){
+					if(data == 1) {
+						replyList(); //댓글 작성 후 댓글 목록 reload
+					}        
+				}    
+			});
+		}else{
+			$('[name=re_contents'+re_num+']').focus();
+		}
 	}
 	
 	//대댓글 수정 - 대댓글 내용 출력을 input 폼으로 변경 
 	function rorUpdate(re_num, re_contents){
-		
 	    var a ='';        	
-		a += `<input type="text" class="form-control" name="re_contents\${re_num}" value="\${re_contents}">
+		a += `<input type="text" class="form-control" id="re_contents\${re_num}" value="\${re_contents}">
 		    <span class="input-group-btn">
 	        <button class="btn btn-outline-info" type="button" onclick="rorUpdateProc('\${re_num}');"> 수정 </button>        
 	        </span>` 
@@ -341,14 +332,12 @@
 	
 	//대댓글 수정
 	function rorUpdateProc(re_num){   
-		var updateContents = $('[name=re_contents'+re_num+']').val();  
-		//var check = ${'value.Alram'}       		
+		var updateContents = $('#re_contents'+re_num).val();
 		$.ajax({
 	        url : 'rorUpdate?re_num='+re_num,        
 			type : 'post',        
 			data : {'re_contents' : updateContents, 're_num' : re_num },        
 			success : function(data){
-				
 	            if(data == 1) replyList(); //댓글 수정후 목록 출력    
 				var commentinfo = $('.commentinfo'+ re_num).find('#check').html("(수정됨)");
 	

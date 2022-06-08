@@ -40,9 +40,15 @@ th {
 	width: 100px;
 }
 
-#tbl_list tbody tr:hover {
+#tbl_list tbody tr:not(.t2tr):hover {
 	background-color: #eeeeee;
 	cursor: pointer;
+}
+#div_tbl{
+	min-height: 650px;
+}
+#tbl_list +h2{
+	margin: 20px auto;
 }
 </style>
 <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
@@ -95,7 +101,7 @@ th {
 
 	<br> <br> <br>
 	<!-- 게시판 메인 페이지 영역 시작 -->
-	<div class="container">
+	<div class="container" id="div_tbl">
 		<div class="row">
 			<table id="tbl_list" class="table">
 				<thead>
@@ -111,7 +117,7 @@ th {
 					<c:forEach var="i" items="${boards}">
 						<c:choose>
 							<c:when test="${i.bod_code eq 'T2'}">
-								<tr data-num="#">
+								<tr data-num="#" class="t2tr">
 									<td>${i.bod_num}</td>
 									<td align="left">${i.title}</td>
 									<td>${i.user_id}</td>
@@ -135,7 +141,7 @@ th {
 		</div>
 
 		<!-- 글쓰기 버튼 생성 -->
-		<c:if test="${sessionScope.loginUser != null}">
+		<c:if test="${loginUser != null && loginUser.user_code == 'U1'}">
 			<a href="boardInsertForm" role="button" class="btn btn-info">게시글 작성</a>
 		</c:if>
 		<br>
@@ -149,7 +155,7 @@ th {
 				</li>
 				<c:forEach begin="${p.startPage}" end="${p.endPage}" var="i">
 					<li class="page-item">
-						<a id="page-num-${i}" class="page-link" href="boardList?pageNo=${i}&pageScale=${p.pageScale}">${i}</a>
+						<a id="page-num-${i}" class="page-link pgl" onclick="changePage(${i})">${i}</a>
 					</li>
 				</c:forEach>
 				<li class="page-item">
@@ -164,37 +170,51 @@ th {
 </section>
 
 <script>
+		printReCnt();
+		
 		var totalPage = ${p.totalPage};
 		var pageNo = ${p.pageNo};
 		var scale = ${p.pageScale};
-		document.getElementById("page-num-"+${p.pageNo}).style = "background-color: blue; color: white";
+		var key = '${s.key}';
+		var val = '${s.val}';
+		if(val != ''){
+			$("#searchVal").val(val);
+			for(var i=0; i<$("#searchKey option").length; i++){
+				if(key == $("#searchKey option")[i].value){
+					$("#searchKey option")[i].selected = true;
+				}
+			}
+		}
 		
-		// 이전페이지 > 21~30 페이지 사이일 때 20페이지로
-		// 첫 페이지일때 prev btn disable
+		// 페이지 이동
+		function changePage(num){
+			pageNo = num;
+			redirect();
+		}
+		
+		// 1-10 페이지일 때 prev btn disable
 		if(${p.pageNo} <= 10){
 			$("#prev_btn").css("cursor","default");
 			$("#prev_btn").css("background-color","#dee2e6");
-		}      
+		}
 		function next(n){
-			if(${p.pageNo} < parseInt(totalPage/10)*10){
-				pageNo = ((parseInt((n-1)/10)+1)*10)+1;
-				window.location = "boardList?pageNo=" + pageNo + "&pageScale=" + scale;
+			if(${p.endPage} <= parseInt(totalPage/10)*10){		// 현재 마지막 페이지 40, 총 페이지 46 >> 다음페이지버튼 활성화 
+				pageNo = ((parseInt((n-1)/10)+1)*10)+1;			// 다음페이지 > 21~30 페이지 사이일 때 31페이지로
+				redirect();
 			}else{
 				return false;
 			}
-			
 		}
 		
-		// 다음페이지 > 1~10 페이지 사이일 때 11페이지로
 		// 마지막 페이지일때 next btn disable
 		if(${p.startPage} == ((parseInt((totalPage - 1) / 10)) * 10 + 1) ){
 			$("#next_btn").css("cursor","default");
 			$("#next_btn").css("background-color","#dee2e6");
 		}
 		function prev(n){
-			if(${p.pageNo} > 10){
-				pageNo = ((parseInt((n-1)/10)-1)*10)+1;
-				window.location = "boardList?pageNo=" + pageNo + "&pageScale=" + scale;
+			if(${p.pageNo} >= 10){								// 현재 페이지가 10이상 일때만 >> 이전페이지버튼 활성화
+				pageNo = ((parseInt((n-1)/10)-1)*10)+1;			// 이전페이지 > 21~30 페이지 사이일 때 21페이지로
+				redirect();
 			}
 			else{
 				return false;
@@ -204,7 +224,7 @@ th {
 		// 페이지에 출력하는 게시글 개수 조정
 		function scaleChange(){
 			scale = $(".pageScale option:selected").val();
-			window.location = "boardList?pageNo=" + pageNo + "&pageScale=" + scale;
+			redirect();
 		}
 		for(var i=0; i<$(".pageScale option").length; i++){
 			if(${p.pageScale} == $(".pageScale option")[i].value){
@@ -212,6 +232,7 @@ th {
 			}
 		}
 		
+		// 제재된 게시글 선택 X
 		$("#tbl_list tbody").on('click', "tr", function(){
 			if($(this).data("num")=='#'){
 				return false;
@@ -220,13 +241,45 @@ th {
 		});
 		
 		$("#searchBtn").on('click',function(){
-			event.preventDefault();
-			$.ajax({
-				url : "boardSearch",
-				data : {"key" : $("#searchKey").val(),
-						"val" : $("#searchVal").val()}
-			}).done(function(result){
-				console.log(result);
-			});
+			key = $("#searchKey").val();
+			val = $("#searchVal").val();
+			pageNo = 1;
+			scale = 10;
+			if(val == ''){
+				redirect();
+			} else{
+				redirect();
+			}
 		});
+		
+		// 댓글 수 출력
+		function printReCnt(){
+			$("#tbl_list tbody tr").not(".t2tr").each(function(){
+				let tr = $(this);
+				$.ajax({
+					url:"replyCount",
+					data:{bod_num:tr.data("num")}
+				}).done(function(reCnt){
+					title = tr.children(":eq(1)").text();
+					tr.children(":eq(1)").html("<b style='color:#777777;'>"+title+"</b><span> ["+reCnt+"] </span>");
+				});
+			});
+		}
+		
+		// 조건에 따라 list 다르게 유지
+		function redirect(){
+			if(val == ''){
+				window.location = "boardList?pageNo=" + pageNo + "&pageScale=" + scale;
+			} else{
+				window.location = "boardList?pageNo=" + pageNo + "&pageScale=" + scale + "&key=" + key + "&val=" + val;
+			}
+			printReCnt();
+		}
+
+		// 검색결과 0일 때
+		if(totalPage == 0){
+			$("#tbl_list").after("<h2>검색 결과가 없습니다.</h2>");
+		}else{
+			document.getElementById("page-num-"+${p.pageNo}).style = "background-color: blue; color: white";
+		}
 	</script>

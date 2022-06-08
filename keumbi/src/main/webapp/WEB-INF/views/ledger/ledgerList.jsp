@@ -30,7 +30,9 @@ $(window).ready(function(){
 })
 	
 	function priceToString(price) {
-	    return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+		if(price != null){
+		    return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');			
+		}
 	}
 	
 	function stringNumberToInt(stringNumber){
@@ -92,7 +94,6 @@ $(window).ready(function(){
 			eventClick : function(info) {
 				$("#dayOutTotal").empty();
 				$("#dayInTotal").empty();
-				$('#empty').empty();
 				
 				var clickDate = info.event._instance.range.start;
 				const date = dateFormat(clickDate);
@@ -149,7 +150,6 @@ $(window).ready(function(){
 								
 				$("#dayOutTotal").empty();
 				$("#dayInTotal").empty();
-				$('#empty').empty();
 				
 				const date = info.dateStr;
 				$("#dayTitle").html(date)
@@ -405,18 +405,17 @@ $(window).ready(function(){
 	
 	// 달력 하단 거래내역 데이터 호출 함수
 	function dayDrawList(datas, msg) {
-		
+		$('#empty').empty();
 		$("#listHead").empty();
 		$("#listBody").empty();
-		$('#empty').empty();
 		
 		if(datas.length != 0) {
-			let tr1 = `<tr>
-						<th scope="col">거래일시</th>
-						<th scope="col">분류</th>
-						<th scope="col">내용</th>
-						<th scope="col">금액</th>
-						<th></th>
+			let tr1 = `<tr style="text-align:center">
+						<th style="width : 10%" scope="col">거래일시</th>
+						<th style="width : 30%" scope="col">분류</th>
+						<th style="width : 30%" scope="col">내용</th>
+						<th style="width : 20%" scope="col">금액</th>
+						<th style="width : 10%"></th>
 					   </tr>`;
 				
 			$('#listHead').append(tr1);
@@ -428,7 +427,7 @@ $(window).ready(function(){
 							<td data-num=\${d.num}>\${date}</td>
 							<td data-cat=\${d.cat_code}>\${d.val}</td>
 							<td>\${d.content}</td>
-							<td data-iocode=\${d.io_code}>\${price}원</td>
+							<td style="text-align : right" data-iocode=\${d.io_code}>\${price}원</td>
 							<td><button type="button" class="btn btn-outline-info" data-toggle="modal" 
 							data-target="#editModal" id="editModalBtn">edit</button></td>
 						   </tr>`;
@@ -436,8 +435,8 @@ $(window).ready(function(){
 				$('#listBody').append(tr2);		
 			}
 		} else {
-				$('#empty').html(msg);
-			}
+			$('#empty').html(msg);
+		}
 	}
 	
 	// 키워드 검색 
@@ -513,8 +512,9 @@ $(window).ready(function(){
 						document.forms['updateModalForm'].reset(); 
 						//alert("변경이 완료되었습니다.");
 						swal("변경이 완료되었습니다.", {icon: 'success'})
+						location.reload();
 					})
-					dayDrawList(datas,"거래 내역이 없습니다.")
+					
 				}
 			})			
 		})
@@ -526,12 +526,13 @@ $(window).ready(function(){
 			$.ajax({
 				url : "ledgerDelete",
 				data : $("#ledUpdateFrm").serialize(),
-				success : function(result) {
+				success : function(datas) {
 					$('#editModal').modal('hide');
 					$('#editModal').on('hidden.bs.modal', function (e) { 
 						document.forms['updateModalForm'].reset(); 
 						//alert("삭제가 완료되었습니다.");
 						swal("삭제가 완료되었습니다.", {icon: 'success'})
+						location.reload();
 					})
 				} 
 			})			
@@ -650,8 +651,11 @@ body {
 	width: 480px;
 
 #dayTable {
-	table-layout:fixed;
+	
 }
+
+
+
 </style>
 <body>
 	<section class="banner_area">
@@ -717,7 +721,10 @@ body {
 						<tbody id="listBody">
 						</tbody>
 					</table>
-					<p class="h2 text-center" id="empty"></p>
+					<p class="h2 text-center" id="empty">
+					<br><br>
+					<br><br>
+					<br></p>
 				</div>
 				<!-- 클릭한 날짜 입출금 내역 끝 -->
 			</div>

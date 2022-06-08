@@ -2,6 +2,8 @@ package com.keumbi.prj.board.mapper;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.keumbi.prj.board.vo.BoardKwdVO;
 import com.keumbi.prj.board.vo.BoardSearchVO;
 import com.keumbi.prj.board.vo.BoardVO;
@@ -20,7 +22,8 @@ public interface BoardMapper {
 	int boardDelete(BoardVO vo);
 
 	int boardCount();
-	List<BoardVO> boardSearch(BoardSearchVO search);
+	int boardSearchCount(BoardSearchVO search);
+	List<BoardVO> boardSearch(@Param("p") PageVO page, @Param("s") BoardSearchVO search);
 	List<NotiVO> userSelectByKwd(int bod_num);
 	
 	

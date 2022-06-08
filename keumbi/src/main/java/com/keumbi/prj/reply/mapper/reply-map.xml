@@ -3,8 +3,9 @@
 <mapper namespace="com.keumbi.prj.reply.mapper.ReplyMapper">
 
 	<select id="replyCount" resultType="int">
-		SELECT COUNT(*)
-		FROM REPLIES
+		SELECT 	COUNT(*)
+		FROM 	REPLIES
+		WHERE	BOD_NUM = #{bod_num}
 	</select>
 	
 	<select id="replyList" resultType="ReplyVO">

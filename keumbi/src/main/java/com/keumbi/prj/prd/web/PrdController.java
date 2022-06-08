@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.keumbi.prj.account.service.AccountService;
 import com.keumbi.prj.chall.service.ChallService;
+import com.keumbi.prj.chall.vo.ChallVO;
 import com.keumbi.prj.common.service.CodeService;
 import com.keumbi.prj.ledger.service.LedgerService;
 import com.keumbi.prj.ledger.vo.LedgerVO;
@@ -229,5 +230,12 @@ public class PrdController {
 	public List<LedgerVO> transList(TransSearchVO vo){
 		
 	    return chal.transList(vo);
+	}
+	
+	@RequestMapping("/myChallCnt")
+	@ResponseBody
+	public int challCnt(ChallVO vo){
+		
+		return mychall.challCount(vo);
 	}
 }

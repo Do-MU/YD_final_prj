@@ -4,6 +4,6 @@ import lombok.Data;
 
 @Data
 public class BoardSearchVO {
-	private String key = "all";
+	private String key;
 	private String val;
 }

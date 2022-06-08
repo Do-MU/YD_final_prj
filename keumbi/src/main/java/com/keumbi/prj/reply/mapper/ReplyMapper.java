@@ -6,7 +6,7 @@ import com.keumbi.prj.reply.vo.ReplyVO;
 
 public interface ReplyMapper {
 
-	int replyCount();
+	int replyCount(int bod_num);
 	List<ReplyVO> replyList(ReplyVO vo);
 	int replyInsert(ReplyVO vo);
 	int replyUpdate(ReplyVO vo);
