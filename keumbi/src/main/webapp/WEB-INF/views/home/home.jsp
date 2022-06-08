@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
 <head>
 <style>
 #banner{
@@ -16,6 +18,34 @@
     height: 350px;
 }
 </style>
+<script>
+   $(window).ready(function(){
+      console.log("${loginUser}");
+      if("${loginUser.user_code}" == 'U3'){
+         swal({
+              title: "탈퇴철회 하시겠습니까?",
+              text: "탈퇴예정인상태라 사이트이용이 불가능합니다.",
+              icon: "warning",
+              buttons: true,
+              dangerMode: true,
+              closeOnClickOutside: false
+            }).then((willDelete) => {
+              if (willDelete) {
+                swal("탈퇴철회신청이 완료되었습니다.", {
+                  icon: "success",
+                  closeOnClickOutside: false
+                }).then((value) => {
+                   window.location = "userCancle";
+                })
+              } else {
+                swal("탈퇴철회를 취소하셨습니다.").then((value) => {
+                	window.location = "userSessionDelete";
+                });
+              }
+           });
+      }
+   })
+</script>
 </head>
 <body>
 	<section class="banner_area">

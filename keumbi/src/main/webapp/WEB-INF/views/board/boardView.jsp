@@ -5,6 +5,7 @@
 
 <script
 	src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
 <style>
 .st {
@@ -108,7 +109,8 @@
 						<a onclick="reportBoard()" style="float: right;">신고</a>
 					</c:if>
 					<c:if test="${loginUser.id eq board.user_id}">
-						<a href="boardDelete?bod_num=${board.bod_num}" onclick="return confirm('정말로 삭제하시겠습니까?')" style="float: right;">삭제</a>
+						<a  onclick="return swal('정말로 삭제하시겠습니까?', {buttons: true,dangerMode: true,closeOnClickOutside: false}).then((value) => 
+						{if(value){window.location='boardDelete?bod_num=${board.bod_num}'}})" style="float: right;">삭제</a>
 						<a href="boardUpdateForm?bod_num=${board.bod_num}" style="float: right;">수정</a>
 					</c:if>
 				</c:if>
@@ -137,36 +139,36 @@
 
 <script>
 	function reportBoard() {
-		if(confirm("위 게시글을 신고하시겠습니까?")){
+		swal("게시물을 신고하시겠습니까?").then((value) => {
 			$.ajax({
 				url:"reportBoard",
 				data:{rep_reason:${board.bod_num}}
 			}).done(function(data){
 				if(data==1){
-					alert("신고처리 완료되었습니다.");					
+					//alert("신고처리 완료되었습니다.");		
+					swal("신고처리 완료되었습니다.", {icon: 'success'});
 				}else{
-					alert("이미 신고처리 되었습니다.");
+					//alert("이미 신고처리 되었습니다.");
+					swal("이미 신고처리 되었습니다.", {icon: 'error'});
 				}
 			});
-		}else{
-			return false;
-		}
+		})
 	}
 	function reportReply(re_num) {
-		if(confirm("신고하시겠습니까?")){
+		swal("댓글을 신고하시겠습니까?").then((value) => {
 			$.ajax({
 				url:"reportReply",
 				data:{rep_reason:re_num}
 			}).done(function(data){
 				if(data==1){
-					alert("신고처리 완료되었습니다.");					
+					//alert("신고처리 완료되었습니다.");					
+					swal("신고처리 완료되었습니다.", {icon: 'success'});
 				}else{
-					alert("이미 신고처리 되었습니다.");
+					//alert("이미 신고처리 되었습니다.");
+					swal("이미 신고처리 되었습니다.", {icon: 'error'});
 				}
 			});
-		}else{
-			return false;
-		}
+		})
 	}
 	
 	$('#replyInsertBtn').click(function(){ 		//댓글 등록 버튼 클릭시   
