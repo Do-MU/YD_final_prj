@@ -4,6 +4,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <script src="http://code.jquery.com/jquery-3.6.0.js"></script>
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <style>
 	body{
 		background-color:#EEFAFA;
@@ -83,6 +84,17 @@
 	.red{
 		color:red;
 	}
+	.swal-text{
+	font-size: 25px;
+	margin-top: 20px;
+}
+.swal-footer{
+	text-align: center;
+	margin-top: 5px;
+}
+.swal-button{
+	width: 400px;
+}
 </style>
 
 <section>
@@ -466,39 +478,56 @@
 										if($("#termChk").is(":checked")){
 											joinFrm.submit();
 										}else{
-											alert("약관에 동의해주십시오.");
+											//alert("약관에 동의해주십시오.");
+											swal("약관에 동의해주십시오.", {icon: "error"})
 										}
 									}else{
-										$("#emailChk").focus();
-										alert("인증번호를 입력해주세요.");
+										//alert("인증번호를 입력해주세요.");
+										swal("인증번호를 입력해주세요",{icon: "error"}).then((value) =>{
+											$("#emailChk").focus();
+										})
 									}
 								}else{
-									$("#email").focus();
-									alert("이메일을 입력해주세요.");
+									//alert("이메일을 입력해주세요.");
+									swal("이메일을 입력해주세요",{icon: "error"}).then((value) =>{
+										$("#email").focus();										
+									})
 								}
 							}else{
-								$("#gender").focus();
-								alert("성별을 입력해주세요.");
+								//alert("성별을 입력해주세요.");
+								swal("성별을 입력해주세요",{icon: "error"}).then((value) =>{
+									$("#gender").focus();									
+								})
 							}
 						}else{
-							$("#birth").focus();
-							alert("생년월일을 입력해주세요.");
+							//alert("생년월일을 입력해주세요.");
+							swal("생년월일을 입력해주세요",{icon: "error"}).then((value) =>{
+								$("#birth").focus();								
+							})
 						}
 					}else{
-						$("#name").focus();
-						alert("이름을 입력해주세요.");
+						//alert("이름을 입력해주세요.");
+						swal("이름을 입력해주세요",{icon: "error"}).then((value) =>{
+							$("#name").focus();							
+						})
 					}
 				}else{
-					$("#pw1").focus();
-					alert("비밀번호를 확인해주세요.");
+					//alert("비밀번호를 확인해주세요.");
+					swal("비밀번호를 확인해주세요",{icon: "error"}).then((value) =>{
+						$("#pw1").focus();						
+					})
 				}
 			}else{
-				$("#pw").focus();
-				alert("비밀번호를 입력해주세요.");
+				//alert("비밀번호를 입력해주세요.");
+				swal("비밀번호를 입력해주세요.",{icon: "error"}).then((value) =>{
+					$("#pw").focus();					
+				})
 			}
 		}else{
-			$("#id").focus();
-			alert("아이디를 입력해주세요.");
+			//alert("아이디를 입력해주세요.");
+			swal("아이디를 입력해주세요",{icon: "error"}).then((value) =>{
+				$("#id").focus();				
+			})
 		}
 	});
 </script>

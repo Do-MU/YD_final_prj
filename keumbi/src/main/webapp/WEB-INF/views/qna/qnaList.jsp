@@ -113,7 +113,7 @@ $(window).ready(function(){
 									<td><a role="button"
 										class="btn btn-light"
 										onclick="return swal('정말로 삭제하시겠습니까?', {buttons: true,dangerMode: true,closeOnClickOutside: false}).then((value) => 
-										{if(value){window.loaction='qnaDelete?num=${q.num}'}})">삭제</a></td>
+										{if(value){window.location='qnaDelete?num=${q.num}'}})">삭제</a></td>
 								</tr>
 								<tr class="qbody">
 									<td colspan="4">

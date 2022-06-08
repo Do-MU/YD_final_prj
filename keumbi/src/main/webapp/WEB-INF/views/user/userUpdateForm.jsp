@@ -36,6 +36,17 @@ table {
 .btn_label {
    padding: 30px;
 }
+.swal-text{
+	font-size: 25px;
+	margin-top: 20px;
+}
+.swal-footer{
+	text-align: center;
+	margin-top: 5px;
+}
+.swal-button{
+	width: 400px;
+}
 </style>
 
 <section class="banner_area">
@@ -144,13 +155,9 @@ table {
    <div id="btn_div">
       <label class="btn_label">
          <button type="button" class="btn btn-primary" id="userUpdateBtn">수정</button>
-      </label> <label class="btn_label">
-         <c:if test="${empty loginUser.signoutdate}">
-            <button type="button" class="btn btn-danger" id="userDelete">회원탈퇴</button>
-         </c:if>
-         <c:if test="${not empty loginUser.signoutdate}">
-            <button type="button" class="btn btn-danger" id="userCancle">탈퇴철회</button>
-         </c:if>
+      </label> 
+      <label class="btn_label">
+         <button type="button" class="btn btn-danger" id="userDelete">회원탈퇴</button>
       </label>
    </div>
 </section>
@@ -296,10 +303,6 @@ $("#userUpdateBtn").click(function(){
 
 //회원탈퇴
 $("#userDelete").click(function(){
- /*  confirm("정말 탈퇴하시겠습니까?");
-   $("#userFrm").attr("action", "userDelete");
-   $("#userFrm").submit();
-   confirm("7일간의 탈퇴 유예기간 후 모든정보가 삭제됩니다."); */
 	swal({
 		  title: "탈퇴하시겠습니까?",
 		  text: "탈퇴하시면 금비혜택을 더이상 받을 수 없게됩니다.",
@@ -323,38 +326,4 @@ $("#userDelete").click(function(){
 		  	}
 		});
 	});
-
-//탈퇴철회
-$("#userCancle").click(function(){
-	swal({
-		  title: "철회하시겠습니까?",
-		  text: "7일의 유예기간이 지나지않아 철회가 가능합니다.",
-		  icon: "warning",
-		  buttons: true,
-		  dangerMode: true,
-		  closeOnClickOutside: false
-		}).then((willDelete) => {
-		  if (willDelete) {
-		    swal("탈퇴철회신청이 완료되었습니다.", {
-		      icon: "success",
-		      closeOnClickOutside: false
-		    }).then((value) => {
-		    	$("#userFrm").attr("action", "userCancle");
-			    document.getElementById("userFrm").submit();
-		    });
-		  } else {
-		    swal("탈퇴철회를 취소하셨습니다.");
-		  }
-		});
-})
-
-// 탈퇴유저가 페이지 이동시 수정폼으로 감 (수정중)
-$(window).on('beforeunload', function(e){
-	if(document.getElementById("userCancle")){
-		console.log("탈퇴철회");
-		window.location = "userUpdateForm";
-	}else{
-		console.log("페이지를 벗어납니다.")
-	}
-})
 </script>
