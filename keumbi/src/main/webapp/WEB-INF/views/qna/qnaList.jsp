@@ -102,7 +102,7 @@ th {
 									<td class="qdate"><c:out value="${q.qdate}" /></td>
 									<td><c:out value="${q.val}" /></td>
 									<td><a href="qnaDelete?num=${q.num}" role="button"
-										class="btn btn-light"
+										class="btn btn-secondary"
 										onclick="return confirm('문의글을 삭제하시겠습니까?')">삭제</a></td>
 								</tr>
 								<tr class="qbody">
@@ -129,11 +129,18 @@ th {
 		</div>
 	</section>
 	<script>
-		$(".qlist .qhead").on("click", function() {
-			$(".qbody").hide();
-			$(this).next().toggle(300);
+		//문의글 내용 보기 (hide&show)
+		$(".qlist .qhead").on("click", function() {			
+			if( $(this).next().css("display") == "table-row") {
+				console.log("작동됩니까")
+				$(this).next().hide();
+			} else {
+				$(".qbody").hide();
+				$(this).next().show();
+			}
 		});
-
+		
+		//작성일만 잘라내기
 		$(".qdate").text($(".qdate").text().substring(0, 10));
 	</script>
 </body>
