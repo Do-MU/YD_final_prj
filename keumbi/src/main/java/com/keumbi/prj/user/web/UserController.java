@@ -54,12 +54,7 @@ public class UserController {
 				
 				return "redirect:admin/home";
 			}else {
-				
-				if(loginUser.getSignoutdate() != null) {
-					return "redirect:userUpdateForm";
-				}else {
-					return "redirect:home";
-				}
+				return "redirect:home";
 			}
 		}else{
 			response.setContentType("text/html; charset=UTF-8");
@@ -124,7 +119,6 @@ public class UserController {
 	@RequestMapping("/userDelete")
 	public String userDelete(HttpSession session) {
 		UserVO vo = (UserVO) session.getAttribute("loginUser"); // 세션값 불러오기
-		System.out.println();
 		service.userDelete(vo);
 		session.invalidate();
 		return "redirect:home";
@@ -135,11 +129,17 @@ public class UserController {
 	public String userCancle(HttpSession session, UserVO uservo) {
 		UserVO vo = (UserVO) session.getAttribute("loginUser");
 		service.userCancle(vo);
-		UserVO loginUser = service.userSelect(uservo);
+		UserVO loginUser = service.userSelect(vo);
 		session.setAttribute("loginUser", loginUser);
 		return "redirect:home";
 	}
 	
+	//세션 삭제
+	@RequestMapping("/userSessionDelete")
+	public String userSessionDelete(HttpSession session) {
+		session.invalidate();
+		return "redirect:home";
+	}
 	
 	// aJax----------------------------------------------------------------------------------------
 	// ID 중복체크

@@ -2,6 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <script src="http://code.jquery.com/jquery-3.6.0.js"></script>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
 <style>
 .contact_area .container{
@@ -181,10 +182,18 @@
 	</div>
 </section>
 <script>
-	if (!'${loginUser.id}') {
-		alert('로그인이 필요합니다.');
-		window.location = "userLoginForm";
+$(window).ready(function(){
+	if (!"${loginUser.id}") {
+		swal({
+			text:"로그인이 필요합니다.",
+			button: "확인",
+			icon: "error",
+			closeOnClickOutside: false
+		}).then((value) => {
+			window.location = "userLoginForm";
+		});
 	}
+})
 	
 	$(".challs").each(function(){
 		let div = $(this);

@@ -8,12 +8,16 @@
 <!-- google charts -->
 <script type="text/javascript"
 	src="https://www.gstatic.com/charts/loader.js"></script>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <script type="text/javascript">
-	
+
+
 	// 로그인 체크 
 	if (!'${loginUser.id}') {
-		alert('로그인이 필요합니다.');
-		window.location = "userLoginForm";
+		//alert('로그인이 필요합니다.');
+		swal("로그인이 필요합니다.", {icon: 'error'}).then((value) => {
+			window.location = "userLoginForm";			
+		})
 	}	
 	
 	//금액 천단위 쉼표 function

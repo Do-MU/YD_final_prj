@@ -304,26 +304,33 @@ $(window).ready(function(){
 		var form = document.modalForm;
 		
 	    if (!form.io_code.value) {
-	        alert("지출/수입을 선택해주세요.");
+	        //alert("지출/수입을 선택해주세요.");
+	        swal("지출/수입을 선택해주세요", {icon: 'error'})
 	        return;
 	    }
 	    if (!form.tdate.value) {
-	        alert("거래 날짜를 선택해주세요.");
+	        //alert("거래 날짜를 선택해주세요.");
+	        swal("거래 날짜를 선택해주세요", {icon: 'error'})
 	        return;
 	    }
 	    if (!form.cat_code.value) {
-	        alert("분류를 선택해주세요.");
+	        //alert("분류를 선택해주세요.");
+	        swal("분류를 선택해주세요", {icon: 'error'})
 	        return;
 	    }
 	    if (!form.amt.value) {
-	        alert("금액을 입력해주세요.");
-	        form.amt.focus();
-	        return;
+	        //alert("금액을 입력해주세요.");
+	        swal("금액을 입력해주세요", {icon: 'error'}).then((value) => {
+		        form.amt.focus();	        	
+		        return;
+	        })
 	    }
 	    if (!form.content.value) {
-	        alert("내용을 입력해주세요.");
-	        form.content.focus();
-	        return;
+	        //alert("내용을 입력해주세요.");
+	        swal("내용을 입력해주세요", {icon: 'error'}).then((value) => {
+		        form.content.focus();
+		        return;
+	        })
 	    }
 		$.ajax({
 			url : "cashInsert",
@@ -334,8 +341,10 @@ $(window).ready(function(){
 				$('#myModal').on('hidden.bs.modal', function (e) { 
 					document.forms['modalForm'].reset(); 
 				})
-				alert("성공적으로 입력되었습니다.");
-				location.reload();
+				//alert("성공적으로 입력되었습니다.");
+				swal("성공적으로 입력되었습니다.", {icon: 'success'}).then((value) => {
+					location.reload();					
+				})
 			}
 		});
 	}
@@ -436,7 +445,8 @@ $(window).ready(function(){
 		e.preventDefault();
 		var form = document.searchForm;
 		if (!form.keyword.value) {
-	        alert("검색어를 입력해주세요.");
+	        //alert("검색어를 입력해주세요.");
+	        swal("검색어를 입력해주세요", {icon: 'error'});
 	        return;
 	    }
 		$("#dayTitle").empty();
@@ -492,7 +502,7 @@ $(window).ready(function(){
 	
 	// 거래내역 수정 처리
 	function ledUpdate() {
-		if (confirm("내용을 변경하시겠습니까??") == true){    //확인
+		swal("내용을 변경하시겠습니까??", {icon: 'question'}).then((value) => {
 			$.ajax({
 				url : "ledgerUpdate",
 				method : 'POST',
@@ -501,20 +511,18 @@ $(window).ready(function(){
 					$('#editModal').modal('hide');
 					$('#editModal').on('hidden.bs.modal', function (e) { 
 						document.forms['updateModalForm'].reset(); 
-						alert("변경이 완료되었습니다.");
+						//alert("변경이 완료되었습니다.");
+						swal("변경이 완료되었습니다.", {icon: 'success'})
 					})
 					dayDrawList(datas,"거래 내역이 없습니다.")
 				}
-			})
-		 }else{ 
-		     return false;
-		 }	
+			})			
+		})
 	}
 	
 	// 거래내역 삭제 처리
 	function ledDelete() {
-		 
-		if (confirm("정말 삭제하시겠습니까??") == true) {
+		swal("정말 삭제하시겠습니까??", {icon: 'question'}).then((value) => {
 			$.ajax({
 				url : "ledgerDelete",
 				data : $("#ledUpdateFrm").serialize(),
@@ -522,13 +530,12 @@ $(window).ready(function(){
 					$('#editModal').modal('hide');
 					$('#editModal').on('hidden.bs.modal', function (e) { 
 						document.forms['updateModalForm'].reset(); 
-						alert("삭제가 완료되었습니다.");
+						//alert("삭제가 완료되었습니다.");
+						swal("삭제가 완료되었습니다.", {icon: 'success'})
 					})
 				} 
-			})
-		 }else{
-		     return false;
-		 }
+			})			
+		})
 	}
 	
 </script>

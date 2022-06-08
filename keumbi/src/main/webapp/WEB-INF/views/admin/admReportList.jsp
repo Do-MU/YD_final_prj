@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <script src="http://code.jquery.com/jquery-3.6.0.js"></script>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <style>
 .container{
 	text-align:center;
@@ -32,6 +33,17 @@ td{
 
 #btn_div{
 	padding:5px 0px 0px 880px;
+}
+.swal-text{
+	font-size: 25px;
+	margin-top: 20px;
+}
+.swal-footer{
+	text-align: center;
+	margin-top: 5px;
+}
+.swal-button{
+	width: 400px;
 }
 </style>
 <div class="container">
@@ -126,8 +138,10 @@ td{
 				}
 			}).done(function(data){
 				if(data == 1){
-					alert(data + "건 처리 되었습니다.");
-					window.location.reload();
+					//alert(data + "건 처리 되었습니다.");
+					swal(data + "건 처리 되었습니다.", {icon: 'success'}).then((value) => {
+						window.location.reload();						
+					})
 				}
 			})
 		})
@@ -146,8 +160,10 @@ td{
 				}
 			}).done(function(data){
 				if(data != null){
-					alert(data + "건 처리 되었습니다.");
-					window.location.reload();
+					//alert(data + "건 처리 되었습니다.");
+					swal(data + "건 처리 되었습니다.", {icon: 'success'}).then((value) => {
+						window.location.reload();						
+					})
 				}
 			})
 		})

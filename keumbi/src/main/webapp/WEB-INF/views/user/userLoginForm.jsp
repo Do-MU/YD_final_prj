@@ -3,7 +3,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
 <script src="http://code.jquery.com/jquery-3.6.0.js"></script>
-
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <style>
 input {
 	width: 300px;
@@ -249,7 +249,8 @@ footer {
 <script>
 	// 송금 view -> 로그인메세지
 	if('${loginMsg}'){
-		alert('${loginMsg}');
+		//alert('${loginMsg}');
+		swal(${loginMsg});
 	}
 	
 	//아이디 찾기 모달창
@@ -369,11 +370,10 @@ footer {
 									}
 								}).done(function(data){
 									if(data == 1){
-										$("#updatePWModal").modal("hide");						
+										$("#updatePWModal").modal("hide");
+										swal("비밀번호 변경완료", {icon: "success"})
 									}
 								})
-							}else{
-								alert("비밀번호가 일치하지 않거나 8자 이상이 아닙니다.");
 							}
 						})
 					}
