@@ -279,15 +279,13 @@
 	
 	// 알림 선택시 -> 읽음 처리
 	function getRead(num){
-		console.log("코드 확인 " + num);
 		$.ajax({
 			url:"notiReadOne",
 			data:{
 				id : "${loginUser.id}",
 				num : num
 			}
-		}).done(function(data){
-			console.log(data);
+		}).done(function(){
 // 			notiSelect();
 // 			$(".badge").attr("hidden","hidden");
 		});

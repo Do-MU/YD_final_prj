@@ -1,11 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
 <style>
 .card_name {
@@ -41,7 +41,7 @@
 
 .cardCol {
 	display: inline-block;
-	margin-right: 60px;
+	margin-right: 89px;
 	margin-bottom: 30px;
 }
 
@@ -68,7 +68,7 @@
 }
 
 #card_image {
-	width: 200px;
+ 	width: 300px;
 	display: block;
 	margin-left: auto;
 	margin-right: auto;
@@ -93,11 +93,25 @@
 	font-size: large;
 }
 
-th, td {
-    border-bottom: 1px solid #444444;
-    padding: 10px;
+table {
+	width : 100%;
 }
-  
+
+h1 {
+	text-align: center;
+	color: black;
+}
+
+#category > h2 {
+	color: black;
+	text-align: left;
+}
+
+.active {
+	background-color: #007bff;
+    border-color: #007bff;
+    color: white;
+}
 </style>
 
 </head>
@@ -120,7 +134,6 @@ th, td {
 		<div class="container">
 			<div class="tab">
 				<div class="btn-group btn-lg " role="group" aria-label="Basic example">
-				  <!-- <button type="button" class="btn btn-outline-primary">전체</button>  -->
 				  <c:if test="${not empty loginUser }">
 					  <button type="button" class="btn btn-outline-primary" id="age">연령대별 추천</button>
 					  <button type="button" class="btn btn-outline-primary" id="consum">소비패턴별 추천</button>
@@ -135,6 +148,7 @@ th, td {
 			</div>
 
 			<div id="output" align="center">
+				<div><h1 align="center">이런 상품은 어떠신가요?</h1></div><br/><br/><br/>
 				<c:forEach items="${cardList}" var="list">
 					<div class="cardCol">
 						<div class="card" data-company="${list.card_company }">
@@ -168,27 +182,26 @@ th, td {
 					</button>
 				</div>
 				<div class="modal-body">
-<!-- 					<p id="card_image_content">카드이미지&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img id="card_image"/></p> -->
 					<img id="card_image"><br/>
-					<table width="100%">
+					<table class="table table-striped">
 						<tr>
-							<th width="110px">카드이름</th>
+							<th width="110px" scope="row">카드이름</th>
 							<td id="card_name"></td>
 						</tr>
 						<tr>
-							<th>카드혜택</th>
+							<th scope="row">카드혜택</th>
 							<td id="card_benefit"></td>
 						</tr>
 						<tr>
-							<th width="100px">분류</th>
+							<th width="100px" scope="row">분류</th>
 							<td id="card_class"></td>
 						</tr>
 						<tr>
-							<th>연회비</th>
+							<th scope="row">연회비</th>
 							<td id="card_annualfee"></td>
 						</tr>
 						<tr>
-							<th>전월실적</th>
+							<th scope="row">전월실적</th>
 							<td id="card_perfo"></td>
 						</tr>
 					</table>
@@ -213,12 +226,13 @@ th, td {
 					 card_seq : seqNum }
 		})
 		.done(function(data){
-			//console.log(data)
 			if(data != null){
+				var result = data.card_benefit.replace(/(\n|\r\n)/g, '<br>');
+				
 				$("#card_image").attr("src","${pageContext.request.contextPath}/resources/img/card/"+data.card_image);
 				$("#card_company").html(data.card_company + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + "[&nbsp;&nbsp;" + data.card_name + "&nbsp;&nbsp;]");
 				$("#card_name").html(data.card_name);
-				$("#card_benefit").html(data.card_benefit);
+				$("#card_benefit").html(result);
 				$("#card_class").html(data.val);
 				if(data.card_annualfee != null){
 					$("#card_annualfee").html(data.card_annualfee + "원");
@@ -240,10 +254,16 @@ th, td {
 		})
 	})
 	
+	// 상단 버튼 -> css Class
+	$(".btn-group > .btn-outline-primary").click(function(){
+	    $(".btn-outline-primary").removeClass("active");
+	    $(this).addClass("active");
+	});
 	
 	// 상단 버튼 -> 해당하는 목록 출력
 	$(".btn-outline-primary").on("click", this, function(){
 		var companyId = $(this).attr("id");
+		//$(this).addClass('active');
 		
 		if(companyId != null && (companyId == "C366"|| companyId == "C381"||companyId =="C365"||companyId =="C361"||companyId =="C367")){	//카드사별 출력
 			$.ajax({
@@ -251,17 +271,12 @@ th, td {
 				data : { card_company :  companyId }
 			})
 			.done(function(datas){
-				makeOutput(datas);
+				$("#output").empty();
+				for(list of datas) {
+					$("#output").append(makeOutput(list));
+				}
 			})
 		} 
-// 		else if(companyId == null) {		// 전체 목록
-// 			$.ajax({
-// 				url : "totalPrd"
-// 			})
-// 			.done(function (datas){
-// 				makeOutput(datas);
-// 			})
-// 		} 
 		else if(companyId == "age"){		// 연령별 추천 목록
 			// 비회원 접근시
 			if (!"${loginUser.id}") {
@@ -272,9 +287,12 @@ th, td {
 					url : "recommendedAge"				
 				})
 				.done(function(datas){
-					makeOutput(datas);
+					$("#output").empty();
+					for(list of datas) {
+						$("#output").append(makeOutput(list));
+					}
 					let userName = "${loginUser.name}"
-					let h1 = "<h1>" + userName + " 님과 비슷한 연령대의 회원들이 보유한 카드입니다.</h1><br/>";
+					let h1 = "<h1 align='center'>" + userName + " 님과 비슷한 연령대의 회원들이 보유한 카드입니다.</h1><br/><br/>";
 					$("#output").prepend(h1);
 				})
 			}			
@@ -288,11 +306,20 @@ th, td {
 					url : "recommendedConsum"				
 				})
 				.done(function(datas){
-					//console.log(datas);
-					makeOutput(datas);
-					
+					$("#output").empty();
+					var category = "";		// 카테고리 출력
+					for(list of datas) {
+						if(category != list.val) {					
+							var div = `<br/><br/><div id="category">
+											<h2>\${list.val}</h2>
+										</div><br/>`;
+							$("#output").append(div);							
+							category = list.val;
+						}
+						$("#output").append(makeOutput(list));
+					}
 					let userName = "${loginUser.name}"
-					let h1 = "<h1>" + userName + " 님의 최근 3개월 간 소비지출에 대한 추천 카드입니다.</h1><br/>";
+					let h1 = "<h1 align='center'>" + userName + " 님의 최근 3개월 간 소비지출에 대한 추천 카드입니다.</h1><br/>";
 					$("#output").prepend(h1);
 				})
 			}
@@ -306,7 +333,18 @@ th, td {
 					url : "recommendedKey"
 				})
 				.done(function(datas){
-					makeOutput(datas);
+					$("#output").empty();
+					var category = "";		// 카테고리 출력
+					for(list of datas) {
+						if(category != list.val) {					
+							var div = `<br/><br/><div id="category">
+											<h2>\${list.val}</h2>
+										</div><br/>`;
+							$("#output").append(div);							
+							category = list.val;
+						}
+						$("#output").append(makeOutput(list));
+					}
 					let userName = "${loginUser.name}"
 						let h1 = "<h1>" + userName + " 님의 관심사에 대한 추천 카드입니다.</h1><br/>";
 						$("#output").prepend(h1);
@@ -317,10 +355,8 @@ th, td {
 	
 	// 목록 초기화 후 결과 뿌려주는 공통 function
 	function makeOutput(datas){
-		$("#output").empty();
-		for(list of datas) {
-			let result = ` <div class="cardCol">
-								<div class="card" data-company="\${list.card_company }">
+		let result = ` <div class="cardCol">
+							<div class="card" data-company="\${list.card_company }">
 								<img
 									src="${pageContext.request.contextPath}/resources/img/card/\${list.card_image}"
 									class="card-img-top">
@@ -332,9 +368,8 @@ th, td {
 									</div>
 								</div>
 							</div>
-						</div> `;		
-			$("#output").append(result);
-		}
+						</div>`;
+		return result;
 	}
 </script>
 
