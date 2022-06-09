@@ -189,12 +189,9 @@ input[type="checkbox"]{
 	<div id="btn_div">
 		<label class="btn_label">
 			<button type="button" class="btn btn-primary" id="userUpdateBtn">수정</button>
-		</label> <label class="btn_label"> <c:if
-				test="${empty loginUser.signoutdate}">
+		</label> 
+		<label class="btn_label"> 
 				<button type="button" class="btn btn-danger" id="userDelete">회원탈퇴</button>
-			</c:if> <c:if test="${not empty loginUser.signoutdate}">
-				<button type="button" class="btn btn-danger" id="userCancle">탈퇴철회</button>
-			</c:if>
 		</label>
 	</div>
 </section>
@@ -366,7 +363,7 @@ $("#userDelete").click(function(){
 		    		}
 		    	});
 		  	} else {
-			    swal("탈퇴신청을 취소하셨습니다.");
+			    swal("탈퇴신청을 취소하셨습니다.", {icon: "success"});
 		  	}
 		});
 	});

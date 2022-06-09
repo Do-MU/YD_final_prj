@@ -37,25 +37,30 @@
 		margin: 30px auto;
 		text-align:center;
 	}
+	#div_btns button{
+		width: 100px;
+		font-size: 1.2em;
+		margin: 0 10px;
+	}
 	.swal-modal {
     width: 550px;
     height: 300px;
     text-align-last: center;
-}
-.swal-text:first-child {
-    margin-top: 60px;
-}
-.swal-text {
-	font-size: 30px;
-	color: black;
-	margin-top: 20px;
-}
-.swal-footer {
-	margin-top: 20px;
-}
-.swal-button {
-	width: 480px;
-}
+	}
+	.swal-text:first-child {
+	    margin-top: 60px;
+	}
+	.swal-text {
+		font-size: 30px;
+		color: black;
+		margin-top: 20px;
+	}
+	.swal-footer {
+		margin-top: 20px;
+	}
+	.swal-button {
+		width: 480px;
+	}
 </style>
 <script>
 	// 비회원 접근시
@@ -157,7 +162,7 @@
 				<br />
 				<div id="div_btns">
 					<button class="btn btn-secondary">취소</button>
-					<button class="btn btn-primary" onclick="depositFun()">이체하기</button>
+					<button class="btn btn-primary" onclick="depositFun()">송금</button>
 				</div>
 			</div>
 		</div>
@@ -204,7 +209,7 @@
 				
 				<div class="modal-footer">
 					<button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
-					<button type="submit" class="btn btn-primary" onclick="transPro()">이체실행</button>
+					<button type="submit" class="btn btn-primary" onclick="transPro()">송금</button>
 				</div>
 				
 			</div>
