@@ -29,7 +29,7 @@ table {
 	text-align: center;
 }
 
-.btn_label {
+.btn_label{
 	padding: 30px;
 }
 
@@ -184,10 +184,10 @@ input[type="checkbox"]{
 	</form>
 	<div id="btn_div">
 		<label class="btn_label">
-			<button type="button" class="btn btn-primary" id="userUpdateBtn">수정</button>
+			<button type="button" class="btn btn-primary" id="userUpdateBtn" style="width:130px; height:50px; font-size:20px; font-weight:bold;">수정</button>
 		</label> 
 		<label class="btn_label"> 
-				<button type="button" class="btn btn-danger" id="userDelete">회원탈퇴</button>
+				<button type="button" class="btn btn-danger" id="userDelete" style="width:130px; height:50px; font-size:20px; font-weight:bold;">회원탈퇴</button>
 		</label>
 	</div>
 </section>
@@ -332,8 +332,8 @@ $("#userUpdateBtn").click(function(){
 			swal("비밀번호가 일치하지않습니다.", {icon:"error"});
 		}
 	}else{
-		swal("회원정보 수정완료", "입력하신 정보로 수정되었습니다.", "success").then((value) => {
-			document.getElementById("userFrm").submit();
+		swal("비밀번호를 확인해주세요.", {icon:"error"}).then((value) => {
+			$("#password2").focus();
 		});
 	}
 })
