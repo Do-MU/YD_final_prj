@@ -6,10 +6,6 @@
 	src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <style>
-.banner_area {
-	padding-bottom: 100px;
-}
-
 table {
 	margin-left: auto;
 	margin-right: auto;
@@ -92,7 +88,7 @@ input[type="checkbox"]{
 		</div>
 	</div>
 </section>
-<section>
+<section class="contact_area p_120">
 	<form id="userFrm" action="userUpdate" method="post"
 		onsubmit="return false">
 		<table>
