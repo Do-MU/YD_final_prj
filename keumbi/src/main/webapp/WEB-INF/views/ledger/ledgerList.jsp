@@ -478,9 +478,12 @@ $(window).ready(function(){
 			var editDate = $(this).closest('tr').children().first().text();
 			var catCode = $(this).closest('tr').children().first().next().data('cat');
 			var content = $(this).closest('tr').children().first().next().next().text();
-			var amt = stringNumberToInt($(this).parent().prev().text().slice(0, -1));
 			var io = $(this).parent().prev().data('iocode');
+			var amt = stringNumberToInt($(this).parent().prev().text().slice(0, -1));
 			var num = $(this).closest('tr').children().first().data('num');
+			if(io=='I2') {
+				amt *= -1
+			}
 			
 			$('#editModalLabel').html(editDate + " 편집하기");
 			$('#editCont').val(content);
@@ -489,9 +492,9 @@ $(window).ready(function(){
 			$('#number').val(num);
 			
 			if(io == 'I2') {
-				$("input:radio[id='choice2']:radio[value='I2']").attr("checked",true);
+				$("input:radio[value='I2']").attr("checked",true);
 			} else {
-				$("input:radio[id='choice1']:radio[value='I1']").attr("checked",true);
+				$("input:radio[value='I1']").attr("checked",true);
 			}
 			
 			const el = document.getElementById('category');
@@ -847,14 +850,14 @@ body {
 						<input type="hidden" name="num" id="number"> <input
 							type="hidden" name="tdate" id="tdate"> <br>
 						<div class="form-check form-check-inline">
-							<input class="form-check-input" type="radio" id="choice1"
+							<input class="form-check-input" type="radio" id="choice2"
 								name="io_code" value="I2"> <label
-								class="form-check-label" for="choice1">지출</label>
+								class="form-check-label" for="choice2">지출</label>
 						</div>
 						<div class="form-check form-check-inline">
-							<input class="form-check-input" type="radio" id="choice2"
+							<input class="form-check-input" type="radio" id="choice1"
 								name="io_code" value="I1"> <label
-								class="form-check-label" for="choice2">수입</label>
+								class="form-check-label" for="choice1">수입</label>
 						</div>
 						<br> <br> <label>분류 </label> <br> <select
 							name="cat_code" id="category">
