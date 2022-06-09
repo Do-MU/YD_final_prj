@@ -180,14 +180,18 @@
 			}
 			
 			
-			if( Math.round( obj[today.getDate()-1].amt1/10000) > Math.round( obj[today.getDate()-1].amt2/10000) ){
-				tt = '오늘까지 '+obj[today.getDate()-1].amt1/10000+'만원 썼어요.\n';
-				tt += '지난달 이맘때보다 '+( obj[today.getDate()-1].amt1/10000 - obj[today.getDate()-1].amt2/10000 )+'만원 더 썼어요.';
-			}else if( Math.round( obj[today.getDate()-1].amt1/10000) < Math.round( obj[today.getDate()-1].amt2/10000) ){
-				tt = '오늘까지 '+obj[today.getDate()-1].amt1/10000+'만원 썼어요.\n';
-				tt += '지난달 이맘때보다 '+( Math.round( obj[today.getDate()-1].amt1/10000 ) - Math.round( obj[today.getDate()-1].amt2/10000 ) )+'만원 덜 썼어요.';
+			if(obj[today.getDate()-1].amt1 > obj[today.getDate()-1].amt2){
+				tt = (month+1)+'월 지출금액: '+Math.round(obj[today.getDate()-1].amt1/10000)+'만원\n';
+				tt += month+'월 지출금액: '+Math.round(obj[today.getDate()-1].amt2/10000)+'만원\n';
+				tt += '지난달보다 '+Math.round((obj[today.getDate()-1].amt1 - obj[today.getDate()-1].amt2)/10000)+'만원 더 썼어요.';
+			
+			}else if( obj[today.getDate()-1].amt1 < obj[today.getDate()-1].amt2) {
+				tt = (month+1)+'월 지출금액: '+Math.round(obj[today.getDate()-1].amt1/10000)+'만원\n';
+				tt += month+'월 지출금액: '+Math.round(obj[today.getDate()-1].amt2/10000)+'만원\n';
+				tt += '지난달보다 '+( Math.round( (obj[today.getDate()-1].amt1- obj[today.getDate()-1].amt2)/10000 ) )+'만원 덜 썼어요.';
 			}else{
-				tt = '오늘까지 '+Math.round( obj[today.getDate()-1].amt1/10000)+'만원 썼어요.\n';
+				tt = (month+1)+'월 지출금액: '+Math.round( obj[today.getDate()-1].amt1/10000)+'만원\n';
+				tt += month+'월 지출금액: '+Math.round(obj[today.getDate()-1].amt2/10000)+'만원\n';
 				tt += '지난달 이맘때와 비슷하게 썼어요.';
 			}
 		}else{
@@ -326,7 +330,7 @@
 }
 
 .tabnav li a.active:before {
-	background: #2E2EFE;
+	background: #66CDAA;
 }
 
 .tabnav li a {
@@ -341,7 +345,7 @@
 }
 
 .tabnav li a:hover, .tabnav li a.active {
-	background: #fff;
+	background: #4682B4;
 	color: #2E2EFE;
 }
 

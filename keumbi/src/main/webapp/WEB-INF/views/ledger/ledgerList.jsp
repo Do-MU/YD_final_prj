@@ -666,7 +666,12 @@ body {
 
 .swal-button {
 	width: 200px;
- }
+}
+
+.nice-select {
+	width: 100%;
+	margin-bottom: 20px;
+}
 </style>
 <body>
 	<section class="banner_area">
@@ -733,9 +738,7 @@ body {
 						</tbody>
 					</table>
 					<p class="h2 text-center" id="empty">
-						<br>
-						<br> <br>
-						<br> <br>
+						<br> <br> <br> <br> <br>
 					</p>
 				</div>
 				<!-- 클릭한 날짜 입출금 내역 끝 -->
@@ -759,22 +762,42 @@ body {
 				<div class="modal-body">
 					<form id="cashInsertFrm" name="modalForm">
 						<input type="hidden" name="user_id" value="${loginUser.id}">
-						<div>
-							<input type="radio" id="choice1" name="io_code" value="I1"
-								checked="checked"> <label for="choice1">지출</label> <input
-								type="radio" id="choice2" name="io_code" value="I2"> <label
-								for="choice2">수입</label>
+						<br>
+						<div class="form-check form-check-inline">
+							<input class="form-check-input" type="radio" id="choice1"
+								name="io_code" value="I1" checked="checked"> <label
+								class="form-check-label" for="choice1">지출</label>
 						</div>
-						<label>날짜 </label> <br> <input type="date" name="tdate"
-							id="cashModalDate"> <br> <br> <label>분류
-						</label><br> <select id="cat_code" name="cat_code">
-							<option value="">선택</option>
-							<c:forEach var="c" items="${code}">
-								<option value="${c.code}">${c.val}</option>
-							</c:forEach>
-						</select> <br> <br> <br> <label>금액 </label> <input
-							type="number" name="amt"> <br> <label>내용 </label> <input
-							type="text" name="content"> <br>
+
+						<div class="form-check form-check-inline">
+							<input class="form-check-input" type="radio" id="choice2"
+								name="io_code" value="I2"> <label
+								class="form-check-label" for="choice2">수입</label>
+						</div>
+						<br><br>
+
+						<div class="form-group">
+							<label>날짜 </label> <br> <input class="form-control"
+								type="date" name="tdate" id="cashModalDate">
+						</div>
+						<div class="form-group">
+							<label>분류</label><br> <select class="form-control"
+								id="cat_code" name="cat_code" style="width: 100%">
+								<option value="">선택</option>
+								<c:forEach var="c" items="${code}">
+									<option value="${c.code}">${c.val}</option>
+								</c:forEach>
+							</select>
+						</div>
+
+						<div class="form-group">
+							<label>금액 </label> <input class="form-control" type="number"
+								name="amt"> <br>
+							<div class="form-group">
+								<label>내용 </label> <input class="form-control" type="text"
+									name="content">
+							</div>
+						</div>
 					</form>
 				</div>
 				<div class="modal-footer">
@@ -805,21 +828,34 @@ body {
 						<input type="hidden" name="user_id" value="${loginUser.id}">
 						<input type="hidden" name="num" id="number"> <input
 							type="hidden" name="tdate" id="tdate">
-						<div>
-							<input type="radio" id="choice1" name="io_code" value="I1">
-							<label for="choice1">지출</label> <input type="radio" id="choice2"
-								name="io_code" value="I2"> <label for="choice2">수입</label>
+						<br> 
+						<div class="form-check form-check-inline">
+							<input class="form-check-input" type="radio" id="choice1"
+								name="io_code" value="I1"> <label
+								class="form-check-label" for="choice1">지출</label>
 						</div>
-						<br> <label>분류 </label> <br> <select name="cat_code"
+						<div class="form-check form-check-inline">
+							<input class="form-check-input" type="radio" id="choice2"
+								name="io_code" value="I2"> <label
+								class="form-check-label" for="choice2">수입</label>
+						</div>
+						<br><br>  <label>분류 </label> <br> <select name="cat_code"
 							id="category">
 							<option value="">선택</option>
 							<c:forEach var="c" items="${code}">
 								<option value="${c.code}">${c.val}</option>
 							</c:forEach>
-						</select> <br> <br>
-						<br> <label>금액 </label> <input type="number" name="amt"
-							id="editAmt"> <br> <label>내용 </label> <input
-							type="text" name="content" id="editCont"> <br>
+						</select>
+						<div class="form-group">
+							<label>금액 </label> <input class="form-control" type="number"
+								name="amt" id="editAmt">
+						</div>
+
+						<div class="form-group">
+							<label>내용 </label> <input class="form-control" type="text"
+								name="content" id="editCont">
+						</div>
+
 					</form>
 				</div>
 				<div class="modal-footer">
