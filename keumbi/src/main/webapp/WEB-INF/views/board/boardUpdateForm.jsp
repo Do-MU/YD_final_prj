@@ -64,6 +64,16 @@ ul li.tag-item {
 .swal-button{
 	width: 400px;
 }
+
+#div_btn{
+	margin-top: 30px; 
+	text-align:right;
+}
+
+#div_btn *{
+	text-align: center; 
+	width: 100px;
+}
 </style>
 
 <link rel="stylesheet"
@@ -100,8 +110,8 @@ ul li.tag-item {
 					style="border: 1px solid #dddddd">
 						<tr>
 							<td>
-								<input type="text" style="width: 100%;" value="${b.title}" name="title"> 
-								<input type="hidden" name="contents">
+								<input type="text" style="width: 100%;" value="${b.title}" name="title" id="title"> 
+								<input type="hidden" name="contents" id="contents">
 							</td>
 						</tr>
 						<tr>
@@ -185,13 +195,11 @@ ul li.tag-item {
 						class="btn btn-outline-info pull-right hashtag" value="#외식"
 						data-code="K020" style="width: 95px;">
 				</div>
-
-				<br> <br> <input name="bod_num" type="hidden"
-					value="${b.bod_num}"> <a
-					href="boardView?bod_num=${b.bod_num}" role="button"
-					class="btn btn-outline-info" style="float: right;">취소</a>
-				<button type="submit" id="submit" class="btn btn-outline-info" style="float: right;">수정완료</button>
-
+				
+				<div id="div_btn">
+					<button type="button" class="btn btn-secondary" onclick="location.href='boardView?bod_num=${b.bod_num}'">취소</button>
+					<button type="button" id="submit_btn" class="btn btn-primary" onclick="call_submit()">수정완료</button>
+				</div>
 			</form>
 		</div>
 	</div>
@@ -228,12 +236,25 @@ ul li.tag-item {
 				input1.setAttribute("hidden", "hidden");
 
 				frm.appendChild(input1);
-
 			}
-			
-			frm.submit();
-			
-			return true;
+			let title = $("#title").val();
+			if(!title){
+				alert('제목을 입력하세요');
+				$("#title").focus();
+				
+				return false;
+			}else if(title.length < 3){
+				alert('3자 이상 입력 바랍니다.');
+				$("#title").focus();
+					
+				return false;
+			} else if(!editor.getMarkdown()){
+				alert('내용을 입력하세요');
+				
+				return false;
+			} else{
+				frm.submit();				
+			}
 		}
 	</script>
 

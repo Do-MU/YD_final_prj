@@ -44,6 +44,7 @@
 		flex:8;
 		line-height:50px;
 		font-size: 1.3em;
+		font-weight:bold;
 	}
 	.div_img{
 		flex:2;
@@ -70,14 +71,24 @@
 		margin-bottom:50px;
 	}
 	#challengeJoin_modal #mod_back_btn button.close{
-		color: 	#1E90FF;
+		color: 	#0309bf;
+		font-weight:bold;
 	}
 	#challengeJoin_modal #mod_body_top{
 		display:flex;
 	}
 	#challengeJoin_modal #mod_chal_title{
 		flex:3;
-		font-size: 30px;
+		font-size: 35px;
+		font-weight: bold;
+	}
+	#challengeJoin_modal #mod_chal_date{
+		font-size:1.2em;
+		font-weight:bold;
+	}
+	#challengeJoin_modal #mod_chal_user{
+		font-size:1.2em;
+		font-weight:bold;
 	}
 	#challengeJoin_modal #mod_chal_cont{
 		margin: 20px 0 10px;
@@ -93,6 +104,12 @@
 		text-align:center;
 	}
 	
+	#challengeJoin_modal #mod_goal > div{		
+		text-align:center;
+		font-size:1.3em;
+		font-weight:bold;
+	}
+	
 	/* Slider */
 	#challengeJoin_modal #slider{
 		width:50%;
@@ -105,15 +122,20 @@
 	#challengeJoin_modal #goal_min{
 		flex:1;
 		text-align:left;
+		font-size:1.1em;
+		font-weight:bold;
 	}
 	#challengeJoin_modal #goal_now{
 		flex:1;
+		font-size:1.1em;
+		font-weight:bold;
 	}
 	#challengeJoin_modal #goal_max{
 		flex:1;
 		text-align:right;
+		font-size:1.1em;
+		font-weight:bold;
 	}
-	
 	
 	#challengeJoin_modal #challengeJoinBtn{
 		width:100%;
@@ -146,22 +168,25 @@
     width: 550px;
     height: 300px;
     text-align-last: center;
-}
-.swal-text:first-child {
-    margin-top: 60px;
-}
-.swal-text {
-	font-size: 30px;
-	color: black;
-	margin-top: 20px;
-}
-.swal-footer {
-	margin-top: 20px;
-}
-.swal-button {
-	width: 480px;
-}
-  }
+	}
+	.swal-text:first-child {
+	    margin-top: 60px;
+	}
+	.swal-text {
+		font-size: 30px;
+		color: black;
+		margin-top: 20px;
+	}
+	.swal-footer {
+		margin-top: 20px;
+	}
+	.swal-button {
+		width: 480px;
+	}
+	.h2_disable{
+		margin: 90px auto;
+		text-align: center;
+	}
 </style>
 <section class="banner_area">
 	<div class="container box_1620">
@@ -224,8 +249,8 @@
 							<div id="mod_chal_title">챌린지 제목</div>
 						</div>
 						<div id="mod_chal_cont">문구문구문구문구문구문구문구문구문구문구문구문구문구문구</div>
+						<div id="mod_chal_date">목표기간 : 1개월</div>
 						<div id="mod_chal_user">도전자 : 100명</div>
-						<div>목표기간 : 1개월</div>
 						
 						<div id="mod_chal_top3">
 							<h3>월 평균 소비 TOP3</h3>
@@ -239,9 +264,9 @@
 							<div>추천</div>
 							<input id="slider" type="range" min="0" max="0"><br>
 							<div id="goal_price">
-								<div id="goal_min">0</div>
-								<div id="goal_now">0</div>
-								<div id="goal_max">0</div>
+								<div id="goal_min"></div>
+								<div id="goal_now"></div>
+								<div id="goal_max"></div>
 							</div>
 						</div>
 					</div>
@@ -307,49 +332,76 @@
 			}).done(function(totalUser){
 				$("#mod_chal_user").html("도전자 : " + addComm(totalUser) + "명");				// 챌린지-유저 테이블 count
 			});
-			$("#mod_chal_top3").html("<h3>월 평균 소비 TOP 3</h3>");
 			$.ajax({
 				url:"prdChalltransList",
 				data:{ category : chall.category,
 					   user_id : "${loginUser.id}" }
 			}).done(function(list){
-				for(vo of list){					// 지출내역 테이블 >> userId + 챌린지키워드 or 검색키워드 >> 금액 합계 >> 확장 for문 사용
-					if(i<3){						// 3개 출력시 stop
-						$("<div>").html((i+1) + ". " + vo.content + '  ' + addComm(vo.amt) + "원").appendTo($("#mod_chal_top3"));
+				if(list.length > 0){		// 로그인 중이며 지출 내역이 있을 때 
+					$("#mod_chal_top3").html("<h3>월 평균 소비 TOP 3</h3>");
+					for(vo of list){					// 지출내역 테이블 >> userId + 챌린지키워드 or 검색키워드 >> 금액 합계 >> 확장 for문 사용
+						if(i<3){						// 3개 출력시 stop
+							$("<div>").html((i+1) + ". " + vo.content + '  ' + addComm(vo.amt) + "원").appendTo($("#mod_chal_top3"));
+						}
+						allSum += parseInt(vo.amt);		// 불러온 목록의 전체 금액을 다 더함
+						i++;
 					}
-					allSum += parseInt(vo.amt);		// 불러온 목록의 전체 금액을 다 더함
-					i++;
-				}
-				allSum = Math.ceil(allSum/1000)*1000;
-				
-				// slider 초기화
-				$("#slider").val(0);
-				$("#slider").attr("max", allSum);								// max값 설정
-				$("#goal_max").html(addComm($("#slider").attr("max")));			// max값 출력
-				$("#slider").val(Math.ceil(allSum/2000)*1000);		// 슬라이드 바 중앙으로
-				$("#goal_now").html(addComm($("#slider").val()));				// 하단 금액 추천 금액으로
-				$("#slider").attr("step", 1000);								// 금액 단위 조정
-				
-				if(allSum == 0 || !'${loginUser.id}'){								// 비로그인 / 해당 카테고리 총액이 0일 때 [도전하기] 비활성화
-					$("#challengeJoinBtn").removeClass("btn-primary");
-					$("#challengeJoinBtn").addClass("btn-secondary");
-					$("#challengeJoinBtn").attr("disabled", "disabled");
-				}else{
+					allSum = Math.ceil(allSum/1000)*1000;
+					
+					// slider 초기화
+					$("#slider").val(0);
+					$("#goal_min").html("0");			// max값 출력
+					$("#slider").attr("max", allSum);								// max값 설정
+					$("#goal_max").html(addComm($("#slider").attr("max")));			// max값 출력
+					$("#slider").val(Math.ceil(allSum/2000)*1000);		// 슬라이드 바 중앙으로
+					$("#goal_now").html(addComm($("#slider").val()));				// 하단 금액 추천 금액으로
+					$("#slider").attr("step", 1000);								// 금액 단위 조정
+					
 					$.ajax({
 						url: "myChallCnt",
 						data:{	user_id: '${loginUser.id}',
 								chall_num: $("#challengeJoinBtn").data("chall_num")	}
 					}).done(function(cnt){
-						if(cnt){
+						if(cnt){			// 이미 도전중이라면
+							$(".h2_disable").remove();
 							$("#challengeJoinBtn").removeClass("btn-primary");
 							$("#challengeJoinBtn").addClass("btn-secondary");
 							$("#challengeJoinBtn").attr("disabled", "disabled");
+							$("#mod_chal_top3").attr("hidden","hidden");
+							$("#mod_goalTitle").attr("hidden","hidden");
+							$("#mod_goal").attr("hidden","hidden");
+							console.log("이미 진행중인 챌린지 입니다.")
+							$("#mod_chal_user").after($("<div class='h2_disable'>").html("<h2>이미 진행중인 챌린지 입니다.</h2>"));
 						}else{
+							$(".h2_disable").remove();
 							$("#challengeJoinBtn").removeClass("btn-secondary");
 							$("#challengeJoinBtn").addClass("btn-primary");
 							$("#challengeJoinBtn").removeAttr("disabled");
+							$("#mod_chal_top3").removeAttr("hidden");
+							$("#mod_goalTitle").removeAttr("hidden");
+							$("#mod_goal").removeAttr("hidden");
 						}
 					});
+				}else if(list.length == 0 && '${loginUser.id}'){					// 해당 카테고리 총액이 0일 때 [도전하기] 비활성화
+					$(".h2_disable").remove();
+					$("#challengeJoinBtn").removeClass("btn-primary");
+					$("#challengeJoinBtn").addClass("btn-secondary");
+					$("#challengeJoinBtn").attr("disabled", "disabled");
+					$("#mod_chal_top3").attr("hidden","hidden");
+					$("#mod_goalTitle").attr("hidden","hidden");
+					$("#mod_goal").attr("hidden","hidden");
+
+					$("#mod_chal_user").after($("<div class='h2_disable'>").html("<h2>해당 카테고리에 지출내역이 없습니다.</h2>"));
+				}else{																// 비로그인시 비활성화
+					$(".h2_disable").remove();
+					$("#challengeJoinBtn").removeClass("btn-primary");
+					$("#challengeJoinBtn").addClass("btn-secondary");
+					$("#challengeJoinBtn").attr("disabled", "disabled");
+					$("#mod_chal_top3").attr("hidden","hidden");
+					$("#mod_goalTitle").attr("hidden","hidden");
+					$("#mod_goal").attr("hidden","hidden");
+
+					$("#mod_chal_user").after($("<div class='h2_disable'>").html("<h2>로그인 후 이용 바랍니다.</h2>"));
 				}
 			});
 			

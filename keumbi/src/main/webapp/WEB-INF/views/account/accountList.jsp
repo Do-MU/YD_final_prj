@@ -11,9 +11,16 @@
 <style>
 #div_noAcc{
 	text-align:center;
+	min-height: 233px;
+	padding: 150px 0;
 }
-#div_noAcc h1{
-	margin-bottom:50px;
+#div_noAcc h2{
+	font-size: 80px;
+}
+#callAcc{
+	margin-top: 30px;
+	width: 200px;
+	font-size: 1.2em;
 }
 .div_view{
 	border-radius: 15px;
@@ -85,6 +92,9 @@
 .swal-button {
 	width: 480px;
 }
+.p_120{
+    min-height: 670px;
+}
 </style>
 <script>
 	// 비회원 접근시
@@ -129,8 +139,9 @@
 			
 				<c:when test="${empty loginUser.access_token}">
 					<div id="div_noAcc">
+						<h2><i class="bi bi-info-circle"></i></h2>
 						<h1>불러올 계좌가 없어요...</h1>
-						<button type="button" class="btn btn-primary"
+						<button id="callAcc" type="button" class="btn btn-primary"
 							onclick="location.href ='bankAuth'">내 계좌 불러오기</button>
 					</div>
 				</c:when>

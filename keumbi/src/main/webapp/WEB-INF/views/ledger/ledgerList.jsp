@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+   pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 
@@ -8,38 +8,38 @@
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <!-- fullcalendar -->
 <script
-	src="${pageContext.request.contextPath}/resources/ledger/main.js"></script>
+   src="${pageContext.request.contextPath}/resources/ledger/main.js"></script>
 <link rel="stylesheet"
-	href="${pageContext.request.contextPath}/resources/ledger/main.css">
+   href="${pageContext.request.contextPath}/resources/ledger/main.css">
 <!-- fullcalendar 언어 CDN -->
 <script
-	src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.0/locales-all.js"></script>
+   src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.0/locales-all.js"></script>
 <script>
 //비회원 접근시
 $(window).ready(function(){
-	if (!"${loginUser.id}") {
-		swal({
-			text:"로그인이 필요합니다.",
-			button: "확인",
-			icon: "error",
-			closeOnClickOutside: false
-		}).then((value) => {
-			window.location = "userLoginForm";
-		});
-	}
+   if (!"${loginUser.id}") {
+      swal({
+         text:"로그인이 필요합니다.",
+         button: "확인",
+         icon: "error",
+         closeOnClickOutside: false
+      }).then((value) => {
+         window.location = "userLoginForm";
+      });
+   }
 })
-	
-	function priceToString(price) {
-		if(price != null){
-		    return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');			
-		}
-	}
-	
-	function stringNumberToInt(stringNumber){
-	    return parseInt(stringNumber.replace(/,/g , ''));
-	}
-	
-	function dateFormat(date) {
+   
+   function priceToString(price) {
+      if(price != null){
+          return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');         
+      }
+   }
+   
+   function stringNumberToInt(stringNumber){
+       return parseInt(stringNumber.replace(/,/g , ''));
+   }
+   
+   function dateFormat(date) {
         let month = date.getMonth() + 1;
         let day = date.getDate();
 
@@ -554,26 +554,26 @@ $(window).ready(function(){
 
 <style>
 .fc-daygrid-day-frame:hover {
-	cursor: pointer;
-	background: #FFF0F5;
+   cursor: pointer;
+   background: #FFF0F5;
 }
 
 .fc-sticky:hover {
-	cursor: pointer;
+   cursor: pointer;
 }
 
 .out {
-	color: red !important;
+   color: red !important;
 }
 
 .in {
-	color: blue !important;
+   color: blue !important;
 }
 
 body {
-	padding: 0;
-	font-family: Arial, Helvetica Neue, Helvetica, sans-serif;
-	font-size: 14px;
+   padding: 0;
+   font-family: Arial, Helvetica Neue, Helvetica, sans-serif;
+   font-size: 14px;
 }
 
 [data-iocode="I2"] {
@@ -585,9 +585,9 @@ body {
 }
 
 #calendar, #ledgerFooter {
-	width: 100%;
-	margin-left: auto;
-	margin-right: auto;
+   width: 100%;
+   margin-left: auto;
+   margin-right: auto;
 }
 
 #ledgerSearch {
@@ -599,14 +599,14 @@ body {
 }
 
 #dayTotal {
-	width: 100%;
-	height: 30px;
-	position: relative;
+   width: 100%;
+   height: 30px;
+   position: relative;
 }
 
 #dayOutTotal, #dayInTotal {
-	padding-right: 5px;
-	padding-left: 5px;
+   padding-right: 5px;
+   padding-left: 5px;
 }
 
 #dayInTotal {
@@ -624,55 +624,55 @@ body {
 }
 
 #monthTotalAmt {
-	font-size: 4em;
-	font-weight: bold;
+   font-size: 4em;
+   font-weight: bold;
 }
 
 .list {
-	overflow-y: scroll !important;
-	max-height: 300px;
+   overflow-y: scroll !important;
+   max-height: 300px;
 }
 
 #div_totalAmt {
-	margin: 0 0 50px;
-	color: black;
+   margin: 0 0 50px;
+   color: black;
 }
 
 #div_totalAmt h3 {
-	padding-bottom: 10px;
+   padding-bottom: 10px;
 }
 
 #ledgerFooter {
-	margin-top: 50px;
+   margin-top: 50px;
 }
 
 #div_tableHeader {
-	display: flex;
-	margin-bottom: 20px;
+   display: flex;
+   margin-bottom: 20px;
 }
 
 #div_tableHeader div {
-	height: 40px;
+   height: 40px;
 }
 
 .swal-modal {
-	width: 550px;
-	height: 300px;
-	text-align-last: center;
+   width: 550px;
+   height: 300px;
+   text-align-last: center;
 }
 
 .swal-text:first-child {
-	margin-top: 60px;
+   margin-top: 60px;
 }
 
 .swal-text {
-	font-size: 30px;
-	color: black;
-	margin-top: 20px;
+   font-size: 30px;
+   color: black;
+   margin-top: 20px;
 }
 
 .swal-footer {
-	margin-top: 20px;
+   margin-top: 20px;
 }
 
 .swal-button {

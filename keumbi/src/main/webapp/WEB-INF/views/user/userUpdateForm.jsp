@@ -188,12 +188,10 @@ input[type="checkbox"]{
 	</form>
 	<div id="btn_div">
 		<label class="btn_label">
-			<button type="button" class="btn btn-primary" id="userUpdateBtn">수정</button>
+			<button type="button" class="btn btn-primary" id="userUpdateBtn" style="width:130px; height:50px; font-size:20px; font-weight:bold;">수정</button>
 		</label> <label class="btn_label"> <c:if
 				test="${empty loginUser.signoutdate}">
-				<button type="button" class="btn btn-danger" id="userDelete">회원탈퇴</button>
-			</c:if> <c:if test="${not empty loginUser.signoutdate}">
-				<button type="button" class="btn btn-danger" id="userCancle">탈퇴철회</button>
+				<button type="button" class="btn btn-danger" id="userDelete" style="width:130px; height:50px; font-size:20px; font-weight:bold;">회원탈퇴</button>
 			</c:if>
 		</label>
 	</div>

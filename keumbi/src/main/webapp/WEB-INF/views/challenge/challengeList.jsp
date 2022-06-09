@@ -30,8 +30,12 @@
 }
 .ch_btns a {
 	color: black;
+	font-weight:bold;
 }
-
+.contour{
+	font-size:1.1em;
+	font-weight:bold;
+}
 #chall_ul a:hover {
 	color: skyblue;
 }
@@ -111,7 +115,6 @@
 	background-color: #00000088;
 }
 #div_nochall{
-	font-size: 50px;
 	text-align: center;
 	font-weight: bold;
 	margin-top: 150px;
@@ -204,7 +207,7 @@ $(window).ready(function(){
 	}
 	if($("div.challs").length == 0){
 		console.log($("div.challs").length)
-		$("<div id='div_nochall'>").html("도전 중인 챌린지가 없어요..").appendTo($("#list"))
+		$("<div id='div_nochall'>").html("<p style='font-size:80px'><i class='bi bi-info-circle'></i></p><h2>도전 중인 챌린지가 없어요..</h2>").appendTo($("#list"))
 	}
 })
 	
@@ -270,7 +273,7 @@ $(window).ready(function(){
 		$(".ch_btns").removeClass("active");
 		$("#ch_a").addClass("active");
 		if($("div.challs").length == 0){
-			$("<div id='div_nochall'>").html("도전 중인 챌린지가 없어요..").appendTo($("#list"));
+			$("<div id='div_nochall'>").html("<p style='font-size:80px'><i class='bi bi-info-circle'></i></p><h2>도전 중인 챌린지가 없어요..</h2>").appendTo($("#list"));
 		}
 	});
 	
@@ -281,7 +284,7 @@ $(window).ready(function(){
 		$(".ch_btns").removeClass("active");
 		$("#ch_i").addClass("active");
 		if($("div.ch_i").length == 0){
-			$("<div id='div_nochall'>").html("도전 중인 챌린지가 없어요..").appendTo($("#list"));
+			$("<div id='div_nochall'>").html("<p style='font-size:80px'><i class='bi bi-info-circle'></i></p><h2>도전 중인 챌린지가 없어요..</h2>").appendTo($("#list"));
 		}
 	});
 	
@@ -292,7 +295,7 @@ $(window).ready(function(){
 		$(".ch_btns").removeClass("active");
 		$("#ch_s").addClass("active");
 		if($("div.ch_s").length == 0){
-			$("<div id='div_nochall'>").html("성공한 챌린지가 없어요..").appendTo($("#list"));
+			$("<div id='div_nochall'>").html("<p style='font-size:80px'><i class='bi bi-info-circle'></i></p><h2>성공한 챌린지가 없어요..</h2>").appendTo($("#list"));
 		}
 	});
 	
@@ -303,7 +306,7 @@ $(window).ready(function(){
 		$(".ch_btns").removeClass("active");
 		$("#ch_f").addClass("active");
 		if($("div.ch_f").length == 0){
-			$("<div id='div_nochall'>").html("실패한 챌린지가 없어요..").appendTo($("#list"));
+			$("<div id='div_nochall'>").html("<p style='font-size:80px'><i class='bi bi-info-circle'></i></p><h2>실패한 챌린지가 없어요..</h2>").appendTo($("#list"));
 		}
 	});
 	
