@@ -35,7 +35,7 @@
 	font-size:1.5em;
 }
 #savView{
-	margin-top:100%;
+	margin-top:150%;
 	
 }
 #savingBase1, #savingBase2{
@@ -105,11 +105,6 @@
 	height:50px;
 	flex:1;
 }
-#div_content{
-	font-size: 30px;
-    padding-bottom: 30px;
-    color: black;
-}
 .wel_item{
 	border: 1px solid #212529;
     padding: 15px 15px;
@@ -131,8 +126,8 @@
 	padding-bottom: 0px;
 }
 #titleList{
-	text-align: center;
-    font-size: 30px;
+	text-align: left;
+    font-size: 36px;
     color: black;
     font-weight: bold;
     margin-bottom: 50px;
@@ -152,12 +147,25 @@ table {
 
 #savingOpt > div{
 	display: inline-block;
-    margin-right: 5px;
-    margin-left: 5px;
+    margin-right: 20px;
+    margin-left: 20px;
+    margin-bottom: 20px;
 }
 
 #savingOpt > div > hr{
 	border-top: 1px solid black;
+}
+.main_title > h1{
+	align: center;
+	color: black;
+}
+.main_title > h4{
+	font-size: 20px;
+}
+#savingOpt > div > #optName{
+	font-weight: bold;
+    color: black;
+    font-size: large;
 }
 </style>
 
@@ -180,8 +188,8 @@ table {
 		<div class="container">
 			<c:if test="${empty loginUser.name}">
 			<div class="main_title">
-				<div id="div_content">이런 상품은 어떠신가요?</div>
-				<p>회원들이 가장 많이 이용하는 상품이에요</p>
+				<h1>이런 상품은 어떠신가요?</h1>
+				<h4>회원들이 가장 많이 이용하는 상품이에요</h4>
 			</div>
 			<div class="testi_inner">
 				<div class="testi_slider owl-carousel">
@@ -287,14 +295,12 @@ table {
 								<th>유의사항</th>
 								<td id="etc_note"></td>
 							</tr>
-<!-- 							<tr> -->
-<!-- 								<th>최고한도</th> -->
-<!-- 								<td id="savingBase2"></td> -->
-<!-- 							</tr> -->
+							<tr>
+								<th>기간별 금리</th>
+								<td></td>
+							</tr>
 						</table>
 					</div>
-					<!-- <div id="savingBase2"></div> -->
-					<div id="savingBase3"><h4>저축 기간별 금리</h4></div>
 					<div id="savingOpt"></div>
 				</div>
 				
@@ -462,7 +468,7 @@ table {
 							<th>최고한도</th>
 							<td id="savingBase2">\${sav.max_limit}</td>
 						</tr>`;
-				$("table").append(tr);
+				$("#etc_note").parent().after(tr);
 				//$("#savingBase2").html(dep.max_limit);
 				
 				for(amt of $("#savingBase2")){
@@ -475,10 +481,8 @@ table {
 		function makeSavOpt(result){
 			$('#date').empty();
 	        let opthtml = '<option value="">선택</option>';
-	        
 			for(opt of result){
-				$("<div>").append( $("<hr>") )
-						  .append( $("<div>").html("적립유형명 : " + opt.rsrv_type_nm))
+				$("<div>").append( $("<div id='optName'>").html(opt.rsrv_type_nm))
 						  .append( $("<div>").html("저축기간 : " + opt.save_trm + "개월"))
 						  .append( $("<div>").html("최소 " + opt.intr_rate + "%") )
 						  .append( $("<div>").html("최대 " + opt.intr_rate2 + "%") )
@@ -486,8 +490,7 @@ table {
 						  .appendTo($("#savingOpt"));
 
 	            opthtml += "<option value='"+opt.intr_rate2+"' name='"+opt.save_trm+"'>"+opt.rsrv_type_nm+" "+opt.save_trm+"개월</option>"
-			}
-			
+			}		
 	        $("#date").html(opthtml);
 	        $("#date").niceSelect("update");
 		}
@@ -498,8 +501,9 @@ table {
 				$(".list > li").remove(); // select개월수 초기화
 				$("#date > option").remove(); // select개월수 초기화
 				$("#totalText").html(""); // 만기금액 초기화
-				$(".depOpt > #depMoney").val(""); // 입력금액 초기화
+				$(".savOpt > #savMoney").val(""); // 입력금액 초기화
 				$("#savingBase2").closest('tr').remove(); // 최고한도 초기화
+				$("#totalText").attr("hidden","hidden");
 			})
 		}
 		// 더보기

@@ -9,10 +9,6 @@
 <title>Insert title here</title>
 </head>
 <style>
-.btn-dark {
-	float: right;
-}
-
 .question, .answer {
 	font-family: fantasy;
 	font-size: 200%;
@@ -30,6 +26,7 @@
 
 .btn-dark {
 	margin: 0px 0px 50px 0px;
+	float: right;
 }
 
 .qbody {
@@ -77,6 +74,25 @@ th {
 .btn-outline-secondary:hover {
 	color: #f1f1f1 !important;
 }
+
+.insertBtn {
+	float: right;
+}
+
+.asdf {
+	display: -ms-flexbox;
+	-ms-flex-wrap: wrap;
+	flex-wrap: wrap;
+	margin-right: -15px;
+	margin-left: -15px;
+}
+.fdsa {
+	text-align : center;
+	margin : 50px;
+}
+.emptyImg {
+	margin : 50px;
+}
 </style>
 <script>
 $(window).ready(function(){
@@ -111,51 +127,64 @@ $(window).ready(function(){
 
 	<section class="contact_area p_120">
 		<div class="container">
+
 			<div>
-				<div class="row">
+				<div class="asdf">
 
-					<table class="table qlist"
-						style="text-align: center; border: 1px solid #dddddd">
-						<thead class="thead-dark">
-							<tr>
-								<th class="th-title">제목</th>
-								<th>작성일</th>
-								<th class="th-yn">답변유무</th>
-								<th class="th-deleteBtn"></th>
-							</tr>
-						</thead>
+					<c:choose>
+						<c:when test="${empty qnas}">
+							<div class="fdsa">
+							<img class="emptyImg" src="resources/img/favicon.png">
+							<h3>문의한 글이 없습니다.</h3>
+							</div>
+						</c:when>
+						<c:otherwise>
+							<table class="table qlist"
+								style="text-align: center; border: 1px solid #dddddd">
+								<thead class="thead-dark">
+									<tr>
+										<th class="th-title">제목</th>
+										<th>작성일</th>
+										<th class="th-yn">답변유무</th>
+										<th class="th-deleteBtn"></th>
+									</tr>
+								</thead>
 
-						<tbody>
-							<c:forEach var="q" items="${qnas}">
-								<tr class="qhead">
-									<td><c:out value="${q.title}" /></td>
-									<td class="qdate"><c:out value="${q.qdate}" /></td>
-									<td><c:out value="${q.val}" /></td>
-									<td><a role="button" class="btn btn-outline-secondary"
-										onclick="return swal('정말로 삭제하시겠습니까?', {buttons: true,dangerMode: true,closeOnClickOutside: false}).then((value) => 
+								<tbody>
+									<c:forEach var="q" items="${qnas}">
+										<tr class="qhead">
+											<td><c:out value="${q.title}" /></td>
+											<td class="qdate"><c:out value="${q.qdate}" /></td>
+											<td><c:out value="${q.val}" /></td>
+											<td><a role="button" class="btn btn-outline-secondary"
+												onclick="return swal('정말로 삭제하시겠습니까?', {buttons: true,dangerMode: true,closeOnClickOutside: false}).then((value) => 
 										{if(value){window.location='qnaDelete?num=${q.num}'}})">삭제</a></td>
-								</tr>
-								<tr class="qbody">
-									<td colspan="4">
-										<div class="qnabox">
-											<div class="qbox">
-												<span class="question">Q. </span> <span
-													style="text-align: left"><pre>${q.qcontents}</pre></span>
-											</div>
-											<c:if test="${not empty q.acontents}">
-												<div class="abox">
-													<span class="answer">A. </span> <span
-														style="text-align: left"><pre>${q.acontents}</pre></span>
+										</tr>
+										<tr class="qbody">
+											<td colspan="4">
+												<div class="qnabox">
+													<div class="qbox">
+														<span class="question">Q. </span> <span
+															style="text-align: left"><pre>${q.qcontents}</pre></span>
+													</div>
+													<c:if test="${not empty q.acontents}">
+														<div class="abox">
+															<span class="answer">A. </span> <span
+																style="text-align: left"><pre>${q.acontents}</pre></span>
+														</div>
+													</c:if>
 												</div>
-											</c:if>
-										</div>
-									</td>
-								</tr>
-							</c:forEach>
-						</tbody>
-					</table>
-					<span><a href="qnaInsertForm" role="button"
-						class="btn btn-dark">1:1문의 쓰기</a></span>
+											</td>
+										</tr>
+									</c:forEach>
+								</tbody>
+							</table>
+						</c:otherwise>
+					</c:choose>
+					<div class="float-right">
+						<a href="qnaInsertForm" role="button" class="btn btn-dark">1:1문의
+							쓰기</a>
+					</div>
 				</div>
 			</div>
 		</div>

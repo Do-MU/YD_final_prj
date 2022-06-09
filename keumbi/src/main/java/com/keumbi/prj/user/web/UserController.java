@@ -1,6 +1,5 @@
 package com.keumbi.prj.user.web;
 
-import java.io.PrintWriter;
 import java.util.List;
 import java.util.Map;
 
@@ -45,7 +44,7 @@ public class UserController {
 
 	// 로그인 처리
 	@RequestMapping("/userLogin")
-	public String userLogin(HttpSession session, UserVO userVO, HttpServletResponse response) throws Exception {
+	public String userLogin(HttpSession session, UserVO userVO, HttpServletResponse response, Model model){
 		UserVO loginUser = service.userSelect(userVO);
 		if (loginUser != null && passwordEncoder.matches(userVO.getPw(), loginUser.getPw())) {
 			session.setAttribute("loginUser", loginUser);
@@ -57,17 +56,9 @@ public class UserController {
 				return "redirect:home";
 			}
 		}else{
-			response.setContentType("text/html; charset=UTF-8");
-			PrintWriter out = response.getWriter();
-			out.println("<script src=\"https://unpkg.com/sweetalert/dist/sweetalert.min.js\"></script>");
-			out.println("<script type='text/javascript'>");
-			out.println("swal('아이디 또는 비밀번호가 일치하지 않습니다.', {icon: 'error'}).then((value) => {window.location = 'userLoginForm';});");
-			out.println("console.log('가나다')");
-			//out.println("alert('아이디 또는 비밀번호가 일치하지 않습니다.');");
-			//out.println("location.href='userLoginForm';");
-			out.println("</script>");
-			out.flush();			
-			return null;
+			model.addAttribute("message", "fail");
+			System.out.println("비밀번호가 틀렸습니다.");
+			return "user/userLoginForm";
 		}
 	}
 

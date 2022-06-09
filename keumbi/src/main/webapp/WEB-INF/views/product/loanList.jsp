@@ -35,7 +35,7 @@
 	font-size:1.5em;
 }
 #loanView{
-	margin-top:100%;
+	margin-top:150%;
 	
 }
 #loanBase1, #loanBase2{
@@ -77,11 +77,6 @@
 	height:50px;
 	flex:1;
 }
-#div_content{
-	font-size: 30px;
-    padding-bottom: 30px;
-    color: black;
-}
 .wel_item{
 	border: 1px solid #212529;
     padding: 15px 15px;
@@ -106,8 +101,8 @@
 	padding-bottom: 0px;
 }
 #titleList{
-	text-align: center;
-    font-size: 30px;
+	text-align: left;
+    font-size: 36px;
     color: black;
     font-weight: bold;
     margin-bottom: 50px;
@@ -132,6 +127,13 @@ th, td {
 #loanOpt > div > hr{
 	border-top: 1px solid black;
 }
+.main_title > h1{
+	align: center;
+	color: black;
+}
+.main_title > h4{
+	font-size: 20px;
+}
 </style>
 
 <section class="banner_area">
@@ -153,8 +155,8 @@ th, td {
 		<div class="container">
 			<c:if test="${empty loginUser.name}">
 			<div class="main_title">
-				<div id="div_content">이런 상품은 어떠신가요?</div>
-				<p>회원들이 가장 많이 이용하는 상품이에요</p>
+				<h1>이런 상품은 어떠신가요?</h1>
+				<h4>회원들이 가장 많이 이용하는 상품이에요</h4>
 			</div>
 			<div class="testi_inner">
 				<div class="testi_slider owl-carousel">

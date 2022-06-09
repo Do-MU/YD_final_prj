@@ -14,5 +14,5 @@ public interface LedgerMapper {
 	int cashInsert(LedgerVO vo);
 	List<LedgerVO> ledgerSearch(LedgerVO vo);
 	int ledgerUpdate(LedgerVO vo); // 가계부 거래내역 수정 처리
-	int ledgerDelete(LedgerVO vo); // 가계부 서래내역 삭제 처리
+	int ledgerDelete(LedgerVO vo); // 가계부 거래내역 삭제 처리
 }

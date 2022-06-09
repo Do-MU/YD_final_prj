@@ -180,14 +180,14 @@
 			}
 			
 			
-			if( Math.round( obj[today.getDate()-1].amt1/10000) > Math.round( obj[today.getDate()-1].amt2/10000) ){
-				tt = '오늘까지 '+obj[today.getDate()-1].amt1/10000+'만원 썼어요.\n';
-				tt += '지난달 이맘때보다 '+( obj[today.getDate()-1].amt1/10000 - obj[today.getDate()-1].amt2/10000 )+'만원 더 썼어요.';
-			}else if( Math.round( obj[today.getDate()-1].amt1/10000) < Math.round( obj[today.getDate()-1].amt2/10000) ){
-				tt = '오늘까지 '+obj[today.getDate()-1].amt1/10000+'만원 썼어요.\n';
-				tt += '지난달 이맘때보다 '+( Math.round( obj[today.getDate()-1].amt1/10000 ) - Math.round( obj[today.getDate()-1].amt2/10000 ) )+'만원 덜 썼어요.';
+			if(obj[today.getDate()-1].amt1 > obj[today.getDate()-1].amt2){
+				tt = '오늘까지 지출금액 약 '+Math.round(obj[today.getDate()-1].amt1/10000)+'만원\n';
+				tt += '지난달 이맘때보다 약 '+Math.round((obj[today.getDate()-1].amt1 - obj[today.getDate()-1].amt2)/10000)+'만원 정도 더 썼어요.';
+			}else if( obj[today.getDate()-1].amt1 < obj[today.getDate()-1].amt2) {
+				tt = '오늘까지 지출금액 약 '+Math.round(obj[today.getDate()-1].amt1/10000)+'만원\n';
+				tt += '지난달 이맘때보다 약 '+Math.round((obj[today.getDate()-1].amt2 - obj[today.getDate()-1].amt1)/10000)+'만원 정도 덜 썼어요.';
 			}else{
-				tt = '오늘까지 '+Math.round( obj[today.getDate()-1].amt1/10000)+'만원 썼어요.\n';
+				tt = '오늘까지 지출금액 약 '+Math.round(obj[today.getDate()-1].amt1/10000)+'만원\n';
 				tt += '지난달 이맘때와 비슷하게 썼어요.';
 			}
 		}else{
@@ -197,8 +197,10 @@
 				}else{
 					arr.push([ '', obj[i].amt1, obj[i].amt2 ]);
 				}
-			}
-			tt = (month+1)+'월에는 '+Math.round( obj[obj.length-1].amt1/10000 )+'만원 썼어요.\n';
+			}	
+				tt = (month+1)+'월 총 지출 약 '+Math.round( obj[obj.length-1].amt1/10000 )+'만원\n';
+				tt += month+'월 총 지출 약 '+Math.round( obj[obj.length-1].amt2/10000 )+'만원\n';
+	
 		}
 		
 		data.addRows(arr);
@@ -246,8 +248,8 @@
 					
 		var options = {
 			chart : {
-				title : '나의 일별 지출 차트',
-				subtitle : '한달 간 일별 지출액을 확인해보세요.',
+				title : '나의 일별 지출 차트'
+				
 			}
 		};
 
@@ -326,7 +328,7 @@
 }
 
 .tabnav li a.active:before {
-	background: #2E2EFE;
+	background: #66CDAA;
 }
 
 .tabnav li a {
@@ -531,7 +533,13 @@
 		}
 	}).filter(':eq(0)').click();
 	
-	
+	//차트 크기 조정
+	$(window).resize(function() {
+        if(this.resizeTO) clearTimeout(this.resizeTO);
+        this.resizeTO = setTimeout(function() {
+            drawVisualization();
+        }, 200);
+    })
 </script>
 </body>
 </html>

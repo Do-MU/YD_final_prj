@@ -90,6 +90,9 @@
 .navbar_fixed .badge{
     top: -50%;
 }
+.mod_data:hover{
+	cursor: pointer;
+}
 </style>
 <header class="header_area">
 	<div class="main_menu">
