@@ -16,7 +16,7 @@ table {
 }
 
 #div_kwd {
-	width: 25%;
+	width: 33%;
 	margin: 0 auto;
 	padding-bottom: 50px;
 }
@@ -35,6 +35,11 @@ table {
 
 .btn_label {
 	padding: 30px;
+}
+
+tr > td {
+	font-size:1.5em;
+	font-weight:bold;
 }
 
 td {
@@ -63,6 +68,14 @@ div > #birth {
 .swal-button{
 	width: 400px;
 }
+input[type="checkbox"]{
+	width: 25px;
+	height: 25px;
+	cursor: pointer;
+}
+.keywordval{
+	font-size:1.5em;
+}
 </style>
 
 <section class="banner_area">
@@ -84,22 +97,22 @@ div > #birth {
 		onsubmit="return false">
 		<table>
 			<tr>
-				<td width="151px">아이디</td>
-				<td><input type="text" id="id" name="id"
-					value="${loginUser.id}" readonly="readonly"></td>
+				<td width="250px">아이디</td>
+				<td width="450px"><input type="text" id="id" name="id"
+					value="${loginUser.id}" readonly="readonly" style="width:300px; height:40px"></td>
 			</tr>
 
 			<tr>
 				<td>비밀번호</td>
 				<td><input type="password" id="password1" name="pw"
-					readonly="readonly" value="${loginUser.pw}" min="8"> <input
-					type="button" id="pwUpdate" value="비밀번호 변경"
-					class="btn btn-secondary" style="height: 32px"></td>
+					readonly="readonly" value="${loginUser.pw}" min="8" style="width:300px; height:40px"> <input
+					type="button" id="pwUpdate" value="비밀번호 변경" style="width:130px; height:40px; margin-bottom:5px;"
+					class="btn btn-secondary"></td>
 			</tr>
 
 			<tr id="pw2" style="display: none;">
 				<td>비밀번호 확인</td>
-				<td><input type="password" id="password2" min="8"></td>
+				<td><input type="password" id="password2" min="8" style="width:300px; height:40px"></td>
 			</tr>
 			<tr>
 				<td></td>
@@ -111,7 +124,7 @@ div > #birth {
 			<tr>
 				<td>이름</td>
 				<td><input type="text" id="name" name="name" readonly="readonly"
-					value="${loginUser.name}"></td>
+					value="${loginUser.name}" style="width:300px; height:40px"></td>
 			</tr>
 
 			<tr>
@@ -119,7 +132,7 @@ div > #birth {
 				<td>
 					<div>
 						<input type="text" id="birth" name="birth" readonly="readonly"
-							value="${loginUser.birth}">
+							value="${loginUser.birth}" style="width:300px; height:40px">
 					</div>
 				</td>
 			</tr>
@@ -128,14 +141,14 @@ div > #birth {
 				<td>이메일</td>
 				<td><input class="mail_input" type="email" id="email"
 					name="email" maxlength="30" readonly="readonly"
-					value="${loginUser.email}">
+					value="${loginUser.email}" style="width:300px; height:40px">
 					<button class="mail_update_btn btn btn-secondary" type="button"
-						style="height: 32px">이메일 변경</button></td>
+						style="width:130px; height:40px; margin-bottom:5px;">이메일 변경</button></td>
 			</tr>
 			<tr id="mail_check" style="display: none;">
 				<td>이메일 인증번호</td>
 				<td><input id="mail_check_input" disabled="disabled"
-					type="text" name="emailCheck" maxlength="6"> <input
+					type="text" name="emailCheck" maxlength="6" style="width:300px; height:40px"> <input
 					id="mail_check_btn_result" type="button" value="확인"
 					class="btn btn-secondary" style="height: 32px"><br> <label
 					id="result" style="display: none"></label></td>
@@ -143,17 +156,17 @@ div > #birth {
 			<tr>
 				<td>전화번호</td>
 				<td><input type="text" id="phone" name="phone"
-					value="${loginUser.phone}"></td>
+					value="${loginUser.phone}" style="width:300px; height:40px"></td>
 			</tr>
 			<tr>
 				<td>주소</td>
-				<td><input type="text" id="addr_1" name="addr_1"> <input
+				<td><input type="text" id="addr_1" name="addr_1" style="width:300px; height:40px"> <input
 					id="addrBtn" type="button" value="주소검색" class="btn btn-secondary"
-					style="height: 32px"></td>
+					style="width:130px; height:40px; margin-bottom:5px;"></td>
 			</tr>
 			<tr>
 				<td>상세주소</td>
-				<td><input type="text" id="addr_2" name="addr_2" required>
+				<td><input type="text" id="addr_2" name="addr_2" required style="width:300px; height:40px">
 					<input type="hidden" id="addr" name="addr"></td>
 			</tr>
 			<tr>
@@ -167,7 +180,7 @@ div > #birth {
 				<c:forEach var="c" items="${code}">
 					<div class="col-md-3" style="width: 25%; text-align: left;">
 						<input type="checkbox" value="${c.code}" name="keyword"
-							class="keyword"> <label>${c.val}</label>
+							class="keyword"> <label class="keywordval">${c.val}</label>
 					</div>
 				</c:forEach>
 			</div>
