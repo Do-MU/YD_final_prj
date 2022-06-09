@@ -236,14 +236,17 @@ h1 {
 				$("#card_class").html(data.val);
 				if(data.card_annualfee != null){
 					$("#card_annualfee").html(data.card_annualfee + "원");
+					for(amt of $("#card_annualfee")){
+						amt.innerHTML = amt.innerHTML.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
+					}
 				} else {
 					$("#card_annualfee").html("연회비 없음");
 				}
 				
 				if(data.card_perfo != null){
-					$("#card_perfo").html(data.card_perfo + " 만원부터");
+					$("#card_perfo").html(data.card_perfo + " 만원 이상");
 				} else{
-					$("#card_perfo").html("전월실적 해당사항 없음");
+					$("#card_perfo").html("해당사항 없음");
 				}
 				
 				$('#exampleModal').modal('show');

@@ -3,8 +3,11 @@
 <mapper namespace="com.keumbi.prj.ledger.mapper.LedgerMapper">
 
 	<select id="totalTrans" resultType="LedgerMonthVO">  
-		SELECT   SUM(AMT) AS TITLE, TO_CHAR(TDATE, 'yyyy-MM-dd') AS "start", USER_ID,
-			     CASE WHEN IO_CODE='I1' THEN 'out'  
+		SELECT   CASE WHEN IO_CODE='I2' THEN '-'||SUM(AMT)
+				 ELSE '+'||SUM(AMT)
+				 END  AS TITLE,
+				 TO_CHAR(TDATE, 'yyyy-MM-dd') AS "start", USER_ID,
+			     CASE WHEN IO_CODE='I2' THEN 'out'  
 			   	 ELSE 'in' 
 			   	 END AS "className"
 		FROM   	 TOTAL_TRANS
@@ -17,7 +20,7 @@
 		SELECT NVL(SUM(AMT),0) AS TITLE
 		FROM   TOTAL_TRANS
 		WHERE  USER_ID = #{user_id}
-		AND    IO_CODE = 'I1'
+		AND    IO_CODE = 'I2'
 		AND    TO_CHAR(TDATE, 'yyyy-MM') = #{yearMonth}
 	</select>
 	

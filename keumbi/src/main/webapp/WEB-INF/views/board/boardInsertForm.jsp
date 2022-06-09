@@ -62,6 +62,15 @@ ul li.tag-item {
 .swal-button{
 	width: 400px;
 }
+#div_btn{
+	margin-top: 30px; 
+	text-align:right;
+}
+
+#div_btn *{
+	text-align: center; 
+	width: 100px;
+}
 </style>
 
 <link rel="stylesheet"
@@ -97,7 +106,7 @@ ul li.tag-item {
 						<tr>
 							<td>
 								<input type="text" class="form-control" placeholder="글 제목" id="title" name="title" maxlength="50" style="text-align: left; width: 100%; padding-right: 50em;">
-								<input type="hidden" name="contents">
+								<input type="hidden" name="contents" id="contents">
 							</td>
 						</tr>
 						<tr>
@@ -177,9 +186,11 @@ ul li.tag-item {
 						class="btn btn-outline-info pull-right hashtag" value="#외식"
 						data-code="K020" style="width: 95px;">
 				</div>
-				<br> <br> <br> <br> <br> <input
-					type="submit" id="submit" class="btn btn-primary" value="작성"
-					style="text-align: center; width: 100px;">
+				<div id="div_btn">
+					<button type="button" class="btn btn-secondary" onclick="history.back()">취소</button>
+					<button type="button" id="submit_btn" class="btn btn-primary" onclick="call_submit()">작성</button>
+				</div>
+				
 			</form>
 		</div>
 	</div>
@@ -216,11 +227,24 @@ ul li.tag-item {
 				frm.appendChild(input1);
 
 			}
-
-			frm.submit();
-
-			return true;
-
+			let title = $("#title").val();
+			if(!title){
+				alert('제목을 입력하세요');
+				$("#title").focus();
+				
+				return false;
+			}else if(title.length < 3){
+				alert('3자 이상 입력 바랍니다.');
+				$("#title").focus();
+					
+				return false;
+			} else if(!editor.getMarkdown()){
+				alert('내용을 입력하세요');
+				
+				return false;
+			} else{
+				frm.submit();				
+			}
 		}
 	</script>
 

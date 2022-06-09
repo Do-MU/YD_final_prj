@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+   pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 
@@ -8,38 +8,38 @@
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <!-- fullcalendar -->
 <script
-	src="${pageContext.request.contextPath}/resources/ledger/main.js"></script>
+   src="${pageContext.request.contextPath}/resources/ledger/main.js"></script>
 <link rel="stylesheet"
-	href="${pageContext.request.contextPath}/resources/ledger/main.css">
+   href="${pageContext.request.contextPath}/resources/ledger/main.css">
 <!-- fullcalendar 언어 CDN -->
 <script
-	src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.0/locales-all.js"></script>
+   src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.0/locales-all.js"></script>
 <script>
 //비회원 접근시
 $(window).ready(function(){
-	if (!"${loginUser.id}") {
-		swal({
-			text:"로그인이 필요합니다.",
-			button: "확인",
-			icon: "error",
-			closeOnClickOutside: false
-		}).then((value) => {
-			window.location = "userLoginForm";
-		});
-	}
+   if (!"${loginUser.id}") {
+      swal({
+         text:"로그인이 필요합니다.",
+         button: "확인",
+         icon: "error",
+         closeOnClickOutside: false
+      }).then((value) => {
+         window.location = "userLoginForm";
+      });
+   }
 })
-	
-	function priceToString(price) {
-		if(price != null){
-		    return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');			
-		}
-	}
-	
-	function stringNumberToInt(stringNumber){
-	    return parseInt(stringNumber.replace(/,/g , ''));
-	}
-	
-	function dateFormat(date) {
+   
+   function priceToString(price) {
+      if(price != null){
+          return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');         
+      }
+   }
+   
+   function stringNumberToInt(stringNumber){
+       return parseInt(stringNumber.replace(/,/g , ''));
+   }
+   
+   function dateFormat(date) {
         let month = date.getMonth() + 1;
         let day = date.getDate();
 
@@ -73,11 +73,16 @@ $(window).ready(function(){
 						function(result) {
 						
 							var events = [];
-						
-							if(result!=null) {
 							
+							if(result!=null) {
+								
 								$.each(result, function(index, element) {
-									var price = priceToString(element.title);
+									var price;
+									if(element.className == 'in') {
+										price = '+'+priceToString(element.title);
+									} else {
+										price = priceToString(element.title);
+									}
 									events.push({
 	                                	 title: price,
 	                                	 start: element.start,
@@ -135,12 +140,12 @@ $(window).ready(function(){
 					$("#dayInTotal").html(  '총 수입 : 0원');
 					
 					for(d of data) {
-						if(d.io_code=='I1') {
+						if(d.io_code=='I2') {
 							var outTotal = priceToString(d.amt);
-							$("#dayOutTotal").html('총 지출 : '+outTotal + '원');
+							$("#dayOutTotal").html('총 지출 : -'+outTotal + '원');
 						} else {
 							var inTotal = priceToString(d.amt);
-							$("#dayInTotal").html('총 수입 : '+inTotal + '원');
+							$("#dayInTotal").html('총 수입 : +'+inTotal + '원');
 						}
 					}
 				});
@@ -178,12 +183,12 @@ $(window).ready(function(){
 					$("#dayInTotal").html(  '총 수입 : 0원');
 					
 					for(d of data) {
-						if(d.io_code=='I1') {
+						if(d.io_code=='I2') {
 							var outTotal = priceToString(d.amt);
-							$("#dayOutTotal").html('총 지출 : '+outTotal + '원');
+							$("#dayOutTotal").html('총 지출 : -'+outTotal + '원');
 						} else {
 							var inTotal = priceToString(d.amt);
-							$("#dayInTotal").html('총 수입 : '+inTotal + '원');
+							$("#dayInTotal").html('총 수입 : +'+inTotal + '원');
 						}
 					}
 				});
@@ -267,14 +272,13 @@ $(window).ready(function(){
 					$("#dayOutTotal").html( '총 지출 : 0원');
 					$("#dayInTotal").html(  '총 수입 : 0원');
 					
-					if(d.io_code=='I1') {
+					if(d.io_code=='I2') {
 						var dayOutTotal = priceToString(d.amt);
-						$("#dayOutTotal").html('총 지출 : '+dayOutTotal + '원');
+						$("#dayOutTotal").html('총 지출 : -'+dayOutTotal + '원');
 					} else {
 						var dayInTotal = priceToString(d.amt);
-						$("#dayInTotal").html('총 수입 : '+dayInTotal + '원');
+						$("#dayInTotal").html('총 수입 : +'+dayInTotal + '원');
 					}
-					console.log(d)
 				}
 			});
 			
@@ -368,7 +372,6 @@ $(window).ready(function(){
 		
 		var curDate = new Date().toISOString().substring(0,10);
 		$("#dayTitle").html(curDate);
-		
 		$.ajax({
 			url : "dayTotalAmt",
 			data : {
@@ -380,14 +383,13 @@ $(window).ready(function(){
 				$("#dayOutTotal").html( '총 지출 : 0원');
 				$("#dayInTotal").html(  '총 수입 : 0원');
 				
-				if(d.io_code=='I1') {
+				if(d.io_code=='I2') {
 					var dayOutTotal = priceToString(d.amt);
-					$("#dayOutTotal").html('총 지출 : '+dayOutTotal + '원');
+					$("#dayOutTotal").html('총 지출 : -'+dayOutTotal + '원');
 				} else {
 					var dayInTotal = priceToString(d.amt);
-					$("#dayInTotal").html('총 수입 : '+dayInTotal + '원');
+					$("#dayInTotal").html('총 수입 : +'+dayInTotal + '원');
 				}
-				console.log(d)
 			}
 		});
 		
@@ -421,14 +423,20 @@ $(window).ready(function(){
 			$('#listHead').append(tr1);
 				
 			for(d of datas) {
-				let price = priceToString(d.amt);
+				let price;
 				let date = d.tdate.substring(0,10);
+				if(d.io_code == 'I1') {
+					price = '+'+priceToString(d.amt);
+				} else {
+					price = '-'+priceToString(d.amt);
+				}
+				
 				let tr2 = `<tr>
-							<td data-num=\${d.num}>\${date}</td>
-							<td data-cat=\${d.cat_code}>\${d.val}</td>
-							<td>\${d.content}</td>
-							<td style="text-align : right" data-iocode=\${d.io_code}>\${price}원</td>
-							<td><button type="button" class="btn btn-outline-info" data-toggle="modal" 
+							<td style="padding-left:20px;" data-num=\${d.num}>\${date}</td>
+							<td style="text-align:center;" data-cat=\${d.cat_code}>\${d.val}</td>
+							<td style="text-align:center;">\${d.content}</td>
+							<td style="text-align:right; padding-right:40px;" data-iocode=\${d.io_code}>\${price}원</td>
+							<td style="text-align:center;"><button type="button" class="btn btn-outline-info" data-toggle="modal" 
 							data-target="#editModal" id="editModalBtn">edit</button></td>
 						   </tr>`;
 					   
@@ -473,7 +481,6 @@ $(window).ready(function(){
 			var amt = stringNumberToInt($(this).parent().prev().text().slice(0, -1));
 			var io = $(this).parent().prev().data('iocode');
 			var num = $(this).closest('tr').children().first().data('num');
-			console.log("날짜: " + editDate + ", 번호: " + num + ", 분류: " + catCode + ", 내용: " + content + ", 금액: " + amt + ", 코드: " + io); 
 			
 			$('#editModalLabel').html(editDate + " 편집하기");
 			$('#editCont').val(content);
@@ -481,10 +488,10 @@ $(window).ready(function(){
 			$('#editAmt').val(amt);
 			$('#number').val(num);
 			
-			if(io == 'I1') {
-				$("input:radio[id='choice1']:radio[value='I1']").attr("checked",true);
-			} else {
+			if(io == 'I2') {
 				$("input:radio[id='choice2']:radio[value='I2']").attr("checked",true);
+			} else {
+				$("input:radio[id='choice1']:radio[value='I1']").attr("checked",true);
 			}
 			
 			const el = document.getElementById('category');
@@ -555,126 +562,135 @@ $(window).ready(function(){
 
 <style>
 .fc-daygrid-day-frame:hover {
-	cursor: pointer;
-	background: #FFF0F5;
+   cursor: pointer;
+   background: #FFF0F5;
 }
 
 .fc-sticky:hover {
-	cursor: pointer;
+   cursor: pointer;
 }
 
 .out {
-	color: red !important;
+   color: red !important;
 }
 
 .in {
-	color: blue !important;
+   color: blue !important;
 }
 
 body {
-	padding: 0;
-	font-family: Arial, Helvetica Neue, Helvetica, sans-serif;
-	font-size: 14px;
-}
-
-[data-iocode="I1"] {
-	color: red;
+   padding: 0;
+   font-family: Arial, Helvetica Neue, Helvetica, sans-serif;
+   font-size: 14px;
 }
 
 [data-iocode="I2"] {
+	color: red;
+}
+
+[data-iocode="I1"] {
 	color: blue;
 }
 
 #calendar, #ledgerFooter {
-	width: 100%;
-	margin-left: auto;
-	margin-right: auto;
+   width: 100%;
+   margin-left: auto;
+   margin-right: auto;
+}
+
+#ledgerSearch {
+	float: right;
 }
 
 .pull-right {
-	margin-left: 30px;
+	margin-right: 30px;
 }
 
 #dayTotal {
-	width: 100%;
-	height: 30px;
-	position: relative;
+   width: 100%;
+   height: 30px;
+   position: relative;
 }
 
 #dayOutTotal, #dayInTotal {
-	padding-right: 5px;
-	padding-left: 5px;
+   padding-right: 5px;
+   padding-left: 5px;
 }
 
 #dayInTotal {
 	color: blue;
 	position: absolute;
-	right: 150px;
+	left: 0;
 	bottom: 0;
 }
 
 #dayOutTotal {
 	color: red;
 	position: absolute;
-	right: 0;
+	left: 150px;
 	bottom: 0;
 }
 
 #monthTotalAmt {
-	font-size: 4em;
-	font-weight: bold;
+   font-size: 4em;
+   font-weight: bold;
 }
 
 .list {
-	overflow-y: scroll !important;
-	max-height: 300px;
+   overflow-y: scroll !important;
+   max-height: 300px;
 }
 
 #div_totalAmt {
-	margin: 0 0 50px;
-	color: black;
+   margin: 0 0 50px;
+   color: black;
 }
 
 #div_totalAmt h3 {
-	padding-bottom: 10px;
+   padding-bottom: 10px;
 }
 
 #ledgerFooter {
-	margin-top: 50px;
+   margin-top: 50px;
 }
 
 #div_tableHeader {
-	display: flex;
-	margin-bottom: 20px;
+   display: flex;
+   margin-bottom: 20px;
 }
 
 #div_tableHeader div {
-	height: 40px;
+   height: 40px;
 }
 
 .swal-modal {
-	width: 550px;
-	height: 300px;
-	text-align-last: center;
+   width: 550px;
+   height: 300px;
+   text-align-last: center;
 }
 
 .swal-text:first-child {
-	margin-top: 60px;
+   margin-top: 60px;
 }
 
 .swal-text {
-	font-size: 30px;
-	color: black;
-	margin-top: 20px;
+   font-size: 30px;
+   color: black;
+   margin-top: 20px;
 }
 
 .swal-footer {
-	margin-top: 20px;
+   margin-top: 20px;
 }
 
 .swal-button {
 	width: 200px;
- }
+}
+
+.nice-select {
+	width: 100%;
+	margin-bottom: 20px;
+}
 </style>
 <body>
 	<section class="banner_area">
@@ -708,6 +724,12 @@ body {
 			<div id="ledgerFooter">
 				<p class="h1 text-center" id="dayTitle"></p>
 				<div id="div_tableHeader">
+					<!-- 오늘날짜(디폴트)와 클릭한 날짜의 입출금 내역 출력 되는 곳 -->
+					<div id="dayView" class="container-fluid">
+						<div id="dayTotal">
+							<span id="dayInTotal"></span> <span id="dayOutTotal"></span>
+						</div>
+					</div>
 					<!-- 가계부 검색창 -->
 					<div id="ledgerSearch">
 						<div class="row">
@@ -725,13 +747,6 @@ body {
 							</form>
 						</div>
 					</div>
-
-					<!-- 오늘날짜(디폴트)와 클릭한 날짜의 입출금 내역 출력 되는 곳 -->
-					<div id="dayView" class="container-fluid">
-						<div id="dayTotal">
-							<span id="dayInTotal"></span> <span id="dayOutTotal"></span>
-						</div>
-					</div>
 				</div>
 				<div>
 					<table class="table" id="dayTable">
@@ -741,9 +756,7 @@ body {
 						</tbody>
 					</table>
 					<p class="h2 text-center" id="empty">
-						<br>
-						<br> <br>
-						<br> <br>
+						<br> <br> <br> <br> <br>
 					</p>
 				</div>
 				<!-- 클릭한 날짜 입출금 내역 끝 -->
@@ -767,22 +780,42 @@ body {
 				<div class="modal-body">
 					<form id="cashInsertFrm" name="modalForm">
 						<input type="hidden" name="user_id" value="${loginUser.id}">
-						<div>
-							<input type="radio" id="choice1" name="io_code" value="I1"
-								checked="checked"> <label for="choice1">지출</label> <input
-								type="radio" id="choice2" name="io_code" value="I2"> <label
-								for="choice2">수입</label>
+						<br>
+						<div class="form-check form-check-inline">
+							<input class="form-check-input" type="radio" id="choice2"
+								name="io_code" value="I2" checked="checked"> <label
+								class="form-check-label" for="choice2">지출</label>
 						</div>
-						<label>날짜 </label> <br> <input type="date" name="tdate"
-							id="cashModalDate"> <br> <br> <label>분류
-						</label><br> <select id="cat_code" name="cat_code">
-							<option value="">선택</option>
-							<c:forEach var="c" items="${code}">
-								<option value="${c.code}">${c.val}</option>
-							</c:forEach>
-						</select> <br> <br> <br> <label>금액 </label> <input
-							type="number" name="amt"> <br> <label>내용 </label> <input
-							type="text" name="content"> <br>
+
+						<div class="form-check form-check-inline">
+							<input class="form-check-input" type="radio" id="choice1"
+								name="io_code" value="I1"> <label
+								class="form-check-label" for="choice1">수입</label>
+						</div>
+						<br> <br>
+
+						<div class="form-group">
+							<label>날짜 </label> <br> <input class="form-control"
+								type="date" name="tdate" id="cashModalDate">
+						</div>
+						<div class="form-group">
+							<label>분류</label><br> <select class="form-control"
+								id="cat_code" name="cat_code" style="width: 100%">
+								<option value="">선택</option>
+								<c:forEach var="c" items="${code}">
+									<option value="${c.code}">${c.val}</option>
+								</c:forEach>
+							</select>
+						</div>
+
+						<div class="form-group">
+							<label>금액 </label> <input class="form-control" type="number"
+								name="amt"> <br>
+							<div class="form-group">
+								<label>내용 </label> <input class="form-control" type="text"
+									name="content">
+							</div>
+						</div>
 					</form>
 				</div>
 				<div class="modal-footer">
@@ -812,22 +845,34 @@ body {
 					<form id="ledUpdateFrm" name="updateModalForm">
 						<input type="hidden" name="user_id" value="${loginUser.id}">
 						<input type="hidden" name="num" id="number"> <input
-							type="hidden" name="tdate" id="tdate">
-						<div>
-							<input type="radio" id="choice1" name="io_code" value="I1">
-							<label for="choice1">지출</label> <input type="radio" id="choice2"
-								name="io_code" value="I2"> <label for="choice2">수입</label>
+							type="hidden" name="tdate" id="tdate"> <br>
+						<div class="form-check form-check-inline">
+							<input class="form-check-input" type="radio" id="choice1"
+								name="io_code" value="I2"> <label
+								class="form-check-label" for="choice1">지출</label>
 						</div>
-						<br> <label>분류 </label> <br> <select name="cat_code"
-							id="category">
+						<div class="form-check form-check-inline">
+							<input class="form-check-input" type="radio" id="choice2"
+								name="io_code" value="I1"> <label
+								class="form-check-label" for="choice2">수입</label>
+						</div>
+						<br> <br> <label>분류 </label> <br> <select
+							name="cat_code" id="category">
 							<option value="">선택</option>
 							<c:forEach var="c" items="${code}">
 								<option value="${c.code}">${c.val}</option>
 							</c:forEach>
-						</select> <br> <br>
-						<br> <label>금액 </label> <input type="number" name="amt"
-							id="editAmt"> <br> <label>내용 </label> <input
-							type="text" name="content" id="editCont"> <br>
+						</select>
+						<div class="form-group">
+							<label>금액 </label> <input class="form-control" type="number"
+								name="amt" id="editAmt">
+						</div>
+
+						<div class="form-group">
+							<label>내용 </label> <input class="form-control" type="text"
+								name="content" id="editCont">
+						</div>
+
 					</form>
 				</div>
 				<div class="modal-footer">
