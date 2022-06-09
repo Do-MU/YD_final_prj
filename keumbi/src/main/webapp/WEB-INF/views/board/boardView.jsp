@@ -253,6 +253,7 @@
 
 	//댓글 수정 - 댓글 내용 출력을 input 폼으로 변경 
 	function replyUpdate(re_num, re_contents){
+		$('.replies'+re_num).next(".ror_contents").remove();
 	    var a ='';        	
 		a += `	<div class="input-group mb-3">
 	            	<input type="text" id="re_contents\${re_num}" value="\${re_contents}" class="form-control">

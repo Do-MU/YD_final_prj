@@ -48,6 +48,9 @@
 	text-align: center;
 	margin: 0 auto;
 }
+#div_noCards h2{
+	font-size: 80px;
+}
 </style>
 </head>
 <body>
@@ -71,6 +74,7 @@
 			
 			<c:if test="${fn:length(cardList) eq 0}">
 				<div id="div_noCards">
+					<h2><i class="bi bi-info-circle"></i></h2>
 					<h1>불러온 카드가 없어요...</h1>
 				</div>
 			</c:if>

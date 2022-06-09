@@ -12,9 +12,10 @@
 #div_noAcc{
 	text-align:center;
 	min-height: 233px;
+	padding: 150px 0;
 }
-#div_noAcc h1{
-	margin-top: 250px;
+#div_noAcc h2{
+	font-size: 80px;
 }
 #callAcc{
 	margin-top: 30px;
@@ -135,6 +136,7 @@
 			
 				<c:when test="${empty loginUser.access_token}">
 					<div id="div_noAcc">
+						<h2><i class="bi bi-info-circle"></i></h2>
 						<h1>불러올 계좌가 없어요...</h1>
 						<button id="callAcc" type="button" class="btn btn-primary"
 							onclick="location.href ='bankAuth'">내 계좌 불러오기</button>
