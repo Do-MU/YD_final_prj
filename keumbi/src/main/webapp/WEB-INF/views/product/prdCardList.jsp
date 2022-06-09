@@ -41,7 +41,8 @@
 
 .cardCol {
 	display: inline-block;
-	margin-right: 89px;
+	margin-right: 40px;
+	margin-left: 40px;
 	margin-bottom: 30px;
 }
 
@@ -68,7 +69,7 @@
 }
 
 #card_image {
- 	width: 300px;
+	width: 300px;
 	display: block;
 	margin-left: auto;
 	margin-right: auto;
@@ -88,13 +89,13 @@
 	font-size: larger;
 }
 
-.modal-body{
+.modal-body {
 	line-height: 40px;
 	font-size: large;
 }
 
 table {
-	width : 100%;
+	width: 100%;
 }
 
 h1 {
@@ -102,15 +103,15 @@ h1 {
 	color: black;
 }
 
-#category > h2 {
+#category>h2 {
 	color: black;
 	text-align: left;
 }
 
 .active {
 	background-color: #007bff;
-    border-color: #007bff;
-    color: white;
+	border-color: #007bff;
+	color: white;
 }
 </style>
 
