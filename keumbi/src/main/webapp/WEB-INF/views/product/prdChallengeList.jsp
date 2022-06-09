@@ -44,6 +44,7 @@
 		flex:8;
 		line-height:50px;
 		font-size: 1.3em;
+		font-weight:bold;
 	}
 	.div_img{
 		flex:2;
@@ -70,14 +71,24 @@
 		margin-bottom:50px;
 	}
 	#challengeJoin_modal #mod_back_btn button.close{
-		color: 	#1E90FF;
+		color: 	#0309bf;
+		font-weight:bold;
 	}
 	#challengeJoin_modal #mod_body_top{
 		display:flex;
 	}
 	#challengeJoin_modal #mod_chal_title{
 		flex:3;
-		font-size: 30px;
+		font-size: 35px;
+		font-weight: bold;
+	}
+	#challengeJoin_modal #mod_chal_date{
+		font-size:1.2em;
+		font-weight:bold;
+	}
+	#challengeJoin_modal #mod_chal_user{
+		font-size:1.2em;
+		font-weight:bold;
 	}
 	#challengeJoin_modal #mod_chal_cont{
 		margin: 20px 0 10px;
@@ -93,6 +104,12 @@
 		text-align:center;
 	}
 	
+	#challengeJoin_modal #mod_goal > div{		
+		text-align:center;
+		font-size:1.3em;
+		font-weight:bold;
+	}
+	
 	/* Slider */
 	#challengeJoin_modal #slider{
 		width:50%;
@@ -105,15 +122,20 @@
 	#challengeJoin_modal #goal_min{
 		flex:1;
 		text-align:left;
+		font-size:1.1em;
+		font-weight:bold;
 	}
 	#challengeJoin_modal #goal_now{
 		flex:1;
+		font-size:1.1em;
+		font-weight:bold;
 	}
 	#challengeJoin_modal #goal_max{
 		flex:1;
 		text-align:right;
+		font-size:1.1em;
+		font-weight:bold;
 	}
-	
 	
 	#challengeJoin_modal #challengeJoinBtn{
 		width:100%;
@@ -146,22 +168,22 @@
     width: 550px;
     height: 300px;
     text-align-last: center;
-}
-.swal-text:first-child {
-    margin-top: 60px;
-}
-.swal-text {
-	font-size: 30px;
-	color: black;
-	margin-top: 20px;
-}
-.swal-footer {
-	margin-top: 20px;
-}
-.swal-button {
-	width: 480px;
-}
-  }
+	}
+	.swal-text:first-child {
+	    margin-top: 60px;
+	}
+	.swal-text {
+		font-size: 30px;
+		color: black;
+		margin-top: 20px;
+	}
+	.swal-footer {
+		margin-top: 20px;
+	}
+	.swal-button {
+		width: 480px;
+	}
+	
 </style>
 <section class="banner_area">
 	<div class="container box_1620">
@@ -224,8 +246,8 @@
 							<div id="mod_chal_title">챌린지 제목</div>
 						</div>
 						<div id="mod_chal_cont">문구문구문구문구문구문구문구문구문구문구문구문구문구문구</div>
+						<div id="mod_chal_date">목표기간 : 1개월</div>
 						<div id="mod_chal_user">도전자 : 100명</div>
-						<div>목표기간 : 1개월</div>
 						
 						<div id="mod_chal_top3">
 							<h3>월 평균 소비 TOP3</h3>

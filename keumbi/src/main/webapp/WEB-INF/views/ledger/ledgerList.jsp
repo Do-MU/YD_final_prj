@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+   pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 
@@ -8,38 +8,38 @@
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <!-- fullcalendar -->
 <script
-	src="${pageContext.request.contextPath}/resources/ledger/main.js"></script>
+   src="${pageContext.request.contextPath}/resources/ledger/main.js"></script>
 <link rel="stylesheet"
-	href="${pageContext.request.contextPath}/resources/ledger/main.css">
+   href="${pageContext.request.contextPath}/resources/ledger/main.css">
 <!-- fullcalendar 언어 CDN -->
 <script
-	src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.0/locales-all.js"></script>
+   src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.0/locales-all.js"></script>
 <script>
 //비회원 접근시
 $(window).ready(function(){
-	if (!"${loginUser.id}") {
-		swal({
-			text:"로그인이 필요합니다.",
-			button: "확인",
-			icon: "error",
-			closeOnClickOutside: false
-		}).then((value) => {
-			window.location = "userLoginForm";
-		});
-	}
+   if (!"${loginUser.id}") {
+      swal({
+         text:"로그인이 필요합니다.",
+         button: "확인",
+         icon: "error",
+         closeOnClickOutside: false
+      }).then((value) => {
+         window.location = "userLoginForm";
+      });
+   }
 })
-	
-	function priceToString(price) {
-		if(price != null){
-		    return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');			
-		}
-	}
-	
-	function stringNumberToInt(stringNumber){
-	    return parseInt(stringNumber.replace(/,/g , ''));
-	}
-	
-	function dateFormat(date) {
+   
+   function priceToString(price) {
+      if(price != null){
+          return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');         
+      }
+   }
+   
+   function stringNumberToInt(stringNumber){
+       return parseInt(stringNumber.replace(/,/g , ''));
+   }
+   
+   function dateFormat(date) {
         let month = date.getMonth() + 1;
         let day = date.getDate();
 
@@ -47,621 +47,621 @@ $(window).ready(function(){
         day = day >= 10 ? day : '0' + day;
 
         return date.getFullYear() + '-' + month + '-' + day;
-	}
+   }
 
-	document.addEventListener('DOMContentLoaded', function() {
-		
-		// 달력 화면 편집
-		var calendarEl = document.getElementById('calendar');
-		var calendar = new FullCalendar.Calendar(calendarEl, {
-			height: 800,
-			locale: "ko",
-			selectable : true,
-			dayMaxEvents : true, 
-			eventColor: '#ffffff00',
-			events: function(info, successCallback, failureCallback) {
+   document.addEventListener('DOMContentLoaded', function() {
+      
+      // 달력 화면 편집
+      var calendarEl = document.getElementById('calendar');
+      var calendar = new FullCalendar.Calendar(calendarEl, {
+         height: 800,
+         locale: "ko",
+         selectable : true,
+         dayMaxEvents : true, 
+         eventColor: '#ffffff00',
+         events: function(info, successCallback, failureCallback) {
 
-			    const startDate = info.start;
-			    
-				$.ajax({
-					url : "totalTrans",
-					data : { 
-						tdate : startDate,
-						user_id : "${loginUser.id}"
-					},
-					success : 
-						function(result) {
-						
-							var events = [];
-						
-							if(result!=null) {
-							
-								$.each(result, function(index, element) {
-									var price = priceToString(element.title);
-									events.push({
-	                                	 title: price,
-	                                	 start: element.start,
-	                                	 className: element.className
-	                                })
+             const startDate = info.start;
+             
+            $.ajax({
+               url : "totalTrans",
+               data : { 
+                  tdate : startDate,
+                  user_id : "${loginUser.id}"
+               },
+               success : 
+                  function(result) {
+                  
+                     var events = [];
+                  
+                     if(result!=null) {
+                     
+                        $.each(result, function(index, element) {
+                           var price = priceToString(element.title);
+                           events.push({
+                                       title: price,
+                                       start: element.start,
+                                       className: element.className
+                                   })
                                 })                                
-							}
-							successCallback(events);
-						}		
-				})
-			},
-			
-			// 이벤트 클릭 후 해당날짜 거래내역 출력
-			eventClick : function(info) {
-				$("#dayOutTotal").empty();
-				$("#dayInTotal").empty();
-				
-				var clickDate = info.event._instance.range.start;
-				const date = dateFormat(clickDate);
-			
-				$("#dayTitle").html(date)
-				
-				// 입출금 내역 
-				$.ajax({
-					type : 'GET',
-					url : "dayView",
-					data : {
-						tdate : date,
-						user_id : "${loginUser.id}"
-					}
-				}).done(function(datas) {
-					dayDrawList(datas, "해당 날짜에 거래내역이 없습니다.")
-				});
-				// 입출금 내역 
-				$.ajax({
-					type : 'GET',
-					url : "dayView",
-					data : {
-						tdate : date,
-						user_id : "${loginUser.id}"
-					}
-				}).done(function(datas) {
-					dayDrawList(datas, "해당 날짜에 거래내역이 없습니다.")
-				});
-				
-				//입출금 총액 출력
-				$.ajax({
-					url : "dayTotalAmt",
-					data : {
-						tdate : date,
-						user_id : "${loginUser.id}"
-					}
-				}).done(function(data) {
-					$("#dayOutTotal").html( '총 지출 : 0원');
-					$("#dayInTotal").html(  '총 수입 : 0원');
-					
-					for(d of data) {
-						if(d.io_code=='I1') {
-							var outTotal = priceToString(d.amt);
-							$("#dayOutTotal").html('총 지출 : '+outTotal + '원');
-						} else {
-							var inTotal = priceToString(d.amt);
-							$("#dayInTotal").html('총 수입 : '+inTotal + '원');
-						}
-					}
-				});
-			},
-			// 날짜 클릭 시 해당날짜 거래내역 출력
-			dateClick : function(info) {
-								
-				$("#dayOutTotal").empty();
-				$("#dayInTotal").empty();
-				
-				const date = info.dateStr;
-				$("#dayTitle").html(date)
-				
-				// 입출금 내역 
-				$.ajax({
-					type : 'GET',
-					url : "dayView",
-					data : {
-						tdate : date,
-						user_id : "${loginUser.id}"
-					}
-				}).done(function(datas) {
-					dayDrawList(datas, "해당 날짜에 거래내역이 없습니다.")
-				});
-				
-				//입출금 총액 출력
-				$.ajax({
-					url : "dayTotalAmt",
-					data : {
-						tdate : date,
-						user_id : "${loginUser.id}"
-					}
-				}).done(function(data) {
-					$("#dayOutTotal").html( '총 지출 : 0원');
-					$("#dayInTotal").html(  '총 수입 : 0원');
-					
-					for(d of data) {
-						if(d.io_code=='I1') {
-							var outTotal = priceToString(d.amt);
-							$("#dayOutTotal").html('총 지출 : '+outTotal + '원');
-						} else {
-							var inTotal = priceToString(d.amt);
-							$("#dayInTotal").html('총 수입 : '+inTotal + '원');
-						}
-					}
-				});
-				
-				
-			},
-			customButtons : {
-				cashInsertButton : {
-					text : '현금내역등록',
-					click : function() {
-						$('#myModal').modal('show');
-					}
-				}
-			},
-			headerToolbar : {
-				left : 'prev,next today',
-				center : 'title',
-				right : 'cashInsertButton'
-			}
-		});
-	
-		calendar.render();
-		
-		// 이전달 버튼 기능
-		$(".fc-prev-button").on("click", function() {
-			var prevMonth = calendar.getDate().getFullYear()+'-'+("0"+(calendar.getDate().getMonth()+1)).slice(-2);
-			$.ajax({
-				url : "monthTotalAmt",
-				data : {
-					user_id : "${loginUser.id}",
-					yearMonth : prevMonth
-				},
-				success : function(result) {
-					$("#monthTotalAmt").html(priceToString(result)+" 원");
-				}
-			})
-		})
-		
-		// 다음달 버튼 기능
-		$(".fc-next-button").on("click", function() {
-			var nextMonth = calendar.getDate().getFullYear()+'-'+("0"+(calendar.getDate().getMonth()+1)).slice(-2);
-			$.ajax({
-				url : "monthTotalAmt",
-				data : {
-					user_id : "${loginUser.id}",
-					yearMonth : nextMonth
-				},
-				success : function(result) {
-					$("#monthTotalAmt").html(priceToString(result)+" 원");
-				}
-			})
-		})
-		
-		// '오늘' 버튼 기능
-		$(".fc-today-button").on("click", function() {
-			var dt = new Date();
-			var curMonth = dt.getFullYear()+'-'+("0"+(dt.getMonth()+1)).slice(-2);
-			$.ajax({
-				url : "monthTotalAmt",
-				data : {
-					user_id : "${loginUser.id}",
-					yearMonth : curMonth
-				},
-				success : function(result) {
-					var totalAmt = priceToString(result)
-					$("#monthTotalAmt").html(totalAmt+" 원");
-				}
-			})
-			
-			var curDate = new Date().toISOString().substring(0,10);
-			$("#dayTitle").html(curDate);
-			
-			$.ajax({
-				url : "dayTotalAmt",
-				data : {
-					tdate : curDate,
-					user_id : "${loginUser.id}"
-				}
-			}).done(function(data) {
-				for(d of data) {
-					$("#dayOutTotal").html( '총 지출 : 0원');
-					$("#dayInTotal").html(  '총 수입 : 0원');
-					
-					if(d.io_code=='I1') {
-						var dayOutTotal = priceToString(d.amt);
-						$("#dayOutTotal").html('총 지출 : '+dayOutTotal + '원');
-					} else {
-						var dayInTotal = priceToString(d.amt);
-						$("#dayInTotal").html('총 수입 : '+dayInTotal + '원');
-					}
-					console.log(d)
-				}
-			});
-			
-			$.ajax({
-				type : 'GET',
-				url : "dayView",
-				data : {
-					tdate : curDate,
-					user_id : "${loginUser.id}"
-				}
-			}).done(function(datas) {
-				dayDrawList(datas,"거래 내역이 없습니다.")
-			});	
-		})
-	}); 
-	
-	// 현금 거래 입력 오늘날짜 함수
-	window.onload = function() {
-		today = new Date().toISOString().slice(0, 10);
-		bir = document.getElementById("cashModalDate");
-		bir.value = today;
-		}
-	
-	//현금 거래 입력 처리
-	function btnInsert() {
-		
-		var form = document.modalForm;
-		
-	    if (!form.io_code.value) {
-	        //alert("지출/수입을 선택해주세요.");
-	        swal("지출/수입을 선택해주세요", {icon: 'error'})
-	        return;
-	    }
-	    if (!form.tdate.value) {
-	        //alert("거래 날짜를 선택해주세요.");
-	        swal("거래 날짜를 선택해주세요", {icon: 'error'})
-	        return;
-	    }
-	    if (!form.cat_code.value) {
-	        //alert("분류를 선택해주세요.");
-	        swal("분류를 선택해주세요", {icon: 'error'})
-	        return;
-	    }
-	    if (!form.amt.value) {
-	        //alert("금액을 입력해주세요.");
-	        swal("금액을 입력해주세요", {icon: 'error'}).then((value) => {
-		        form.amt.focus();	        	
-		        return;
-	        })
-	    }
-	    if (!form.content.value) {
-	        //alert("내용을 입력해주세요.");
-	        swal("내용을 입력해주세요", {icon: 'error'}).then((value) => {
-		        form.content.focus();
-		        return;
-	        })
-	    }
-		$.ajax({
-			url : "cashInsert",
-			method : 'POST',
-			data : $("#cashInsertFrm").serialize(),
-			success : function(result) {
-				$('#myModal').modal('hide');
-				$('#myModal').on('hidden.bs.modal', function (e) { 
-					document.forms['modalForm'].reset(); 
-				})
-				//alert("성공적으로 입력되었습니다.");
-				swal("성공적으로 입력되었습니다.", {icon: 'success'}).then((value) => {
-					location.reload();					
-				})
-			}
-		});
-	}
-	
-	// 가계부 기본자동출력
-	window.addEventListener('DOMContentLoaded', function todayView() {
-		
-		var dt = new Date();
-		var curMonth = dt.getFullYear()+'-'+("0"+(dt.getMonth()+1)).slice(-2);
-		$.ajax({
-			url : "monthTotalAmt",
-			data : {
-				user_id : "${loginUser.id}",
-				yearMonth : curMonth
-			},
-			success : function(result) {
-				var totalAmt = priceToString(result)
-				$("#monthTotalAmt").html(totalAmt+" 원");
-			}
-		})
-		
-		var curDate = new Date().toISOString().substring(0,10);
-		$("#dayTitle").html(curDate);
-		
-		$.ajax({
-			url : "dayTotalAmt",
-			data : {
-				tdate : curDate,
-				user_id : "${loginUser.id}"
-			}
-		}).done(function(data) {
-			for(d of data) {
-				$("#dayOutTotal").html( '총 지출 : 0원');
-				$("#dayInTotal").html(  '총 수입 : 0원');
-				
-				if(d.io_code=='I1') {
-					var dayOutTotal = priceToString(d.amt);
-					$("#dayOutTotal").html('총 지출 : '+dayOutTotal + '원');
-				} else {
-					var dayInTotal = priceToString(d.amt);
-					$("#dayInTotal").html('총 수입 : '+dayInTotal + '원');
-				}
-				console.log(d)
-			}
-		});
-		
-		$.ajax({
-			type : 'GET',
-			url : "dayView",
-			data : {
-				tdate : curDate,
-				user_id : "${loginUser.id}"
-			}
-		}).done(function(datas) {
-			dayDrawList(datas,"거래 내역이 없습니다.")
-		});	
-	});
-	
-	// 달력 하단 거래내역 데이터 호출 함수
-	function dayDrawList(datas, msg) {
-		$('#empty').empty();
-		$("#listHead").empty();
-		$("#listBody").empty();
-		
-		if(datas.length != 0) {
-			let tr1 = `<tr style="text-align:center">
-						<th style="width : 10%" scope="col">거래일시</th>
-						<th style="width : 30%" scope="col">분류</th>
-						<th style="width : 30%" scope="col">내용</th>
-						<th style="width : 20%" scope="col">금액</th>
-						<th style="width : 10%"></th>
-					   </tr>`;
-				
-			$('#listHead').append(tr1);
-				
-			for(d of datas) {
-				let price = priceToString(d.amt);
-				let date = d.tdate.substring(0,10);
-				let tr2 = `<tr>
-							<td data-num=\${d.num}>\${date}</td>
-							<td data-cat=\${d.cat_code}>\${d.val}</td>
-							<td>\${d.content}</td>
-							<td style="text-align : right" data-iocode=\${d.io_code}>\${price}원</td>
-							<td><button type="button" class="btn btn-outline-info" data-toggle="modal" 
-							data-target="#editModal" id="editModalBtn">edit</button></td>
-						   </tr>`;
-					   
-				$('#listBody').append(tr2);		
-			}
-		} else {
-			$('#empty').html(msg);
-		}
-	}
-	
-	// 키워드 검색 
-	function btnSearch(e) {
-		e.preventDefault();
-		var form = document.searchForm;
-		if (!form.keyword.value) {
-	        //alert("검색어를 입력해주세요.");
-	        swal("검색어를 입력해주세요", {icon: 'error'});
-	        return;
-	    }
-		$("#dayTitle").empty();
-		$.ajax({
-			url : "ledgerSearch",
-			data : $("#ledgerSearchFrm").serialize()
-		}).done(function(datas) {
-			if(datas.length != 0) {
-				$("#dayTitle").html("최근 한달 \'" + datas[0].keyword + "\' 거래 내역");
-				dayDrawList(datas);
-			} else {
-				dayDrawList(datas, "검색 결과가 없습니다.");
-			}
-			document.getElementById("ledgerSearchFrm").reset();
-			$("#keyInput").focus();
-		})
-	}
-	
-	//업데이트 및 삭제 모달창에 데이터 호출
-	window.addEventListener('DOMContentLoaded', function() {
-		$('#dayTable').on('click', "#editModalBtn", function() {
-			var editDate = $(this).closest('tr').children().first().text();
-			var catCode = $(this).closest('tr').children().first().next().data('cat');
-			var content = $(this).closest('tr').children().first().next().next().text();
-			var amt = stringNumberToInt($(this).parent().prev().text().slice(0, -1));
-			var io = $(this).parent().prev().data('iocode');
-			var num = $(this).closest('tr').children().first().data('num');
-			console.log("날짜: " + editDate + ", 번호: " + num + ", 분류: " + catCode + ", 내용: " + content + ", 금액: " + amt + ", 코드: " + io); 
-			
-			$('#editModalLabel').html(editDate + " 편집하기");
-			$('#editCont').val(content);
-			$('#tdate').val(editDate);
-			$('#editAmt').val(amt);
-			$('#number').val(num);
-			
-			if(io == 'I1') {
-				$("input:radio[id='choice1']:radio[value='I1']").attr("checked",true);
-			} else {
-				$("input:radio[id='choice2']:radio[value='I2']").attr("checked",true);
-			}
-			
-			const el = document.getElementById('category');
-			const len = el.options.length;
+                     }
+                     successCallback(events);
+                  }      
+            })
+         },
+         
+         // 이벤트 클릭 후 해당날짜 거래내역 출력
+         eventClick : function(info) {
+            $("#dayOutTotal").empty();
+            $("#dayInTotal").empty();
+            
+            var clickDate = info.event._instance.range.start;
+            const date = dateFormat(clickDate);
+         
+            $("#dayTitle").html(date)
+            
+            // 입출금 내역 
+            $.ajax({
+               type : 'GET',
+               url : "dayView",
+               data : {
+                  tdate : date,
+                  user_id : "${loginUser.id}"
+               }
+            }).done(function(datas) {
+               dayDrawList(datas, "해당 날짜에 거래내역이 없습니다.")
+            });
+            // 입출금 내역 
+            $.ajax({
+               type : 'GET',
+               url : "dayView",
+               data : {
+                  tdate : date,
+                  user_id : "${loginUser.id}"
+               }
+            }).done(function(datas) {
+               dayDrawList(datas, "해당 날짜에 거래내역이 없습니다.")
+            });
+            
+            //입출금 총액 출력
+            $.ajax({
+               url : "dayTotalAmt",
+               data : {
+                  tdate : date,
+                  user_id : "${loginUser.id}"
+               }
+            }).done(function(data) {
+               $("#dayOutTotal").html( '총 지출 : 0원');
+               $("#dayInTotal").html(  '총 수입 : 0원');
+               
+               for(d of data) {
+                  if(d.io_code=='I1') {
+                     var outTotal = priceToString(d.amt);
+                     $("#dayOutTotal").html('총 지출 : '+outTotal + '원');
+                  } else {
+                     var inTotal = priceToString(d.amt);
+                     $("#dayInTotal").html('총 수입 : '+inTotal + '원');
+                  }
+               }
+            });
+         },
+         // 날짜 클릭 시 해당날짜 거래내역 출력
+         dateClick : function(info) {
+                        
+            $("#dayOutTotal").empty();
+            $("#dayInTotal").empty();
+            
+            const date = info.dateStr;
+            $("#dayTitle").html(date)
+            
+            // 입출금 내역 
+            $.ajax({
+               type : 'GET',
+               url : "dayView",
+               data : {
+                  tdate : date,
+                  user_id : "${loginUser.id}"
+               }
+            }).done(function(datas) {
+               dayDrawList(datas, "해당 날짜에 거래내역이 없습니다.")
+            });
+            
+            //입출금 총액 출력
+            $.ajax({
+               url : "dayTotalAmt",
+               data : {
+                  tdate : date,
+                  user_id : "${loginUser.id}"
+               }
+            }).done(function(data) {
+               $("#dayOutTotal").html( '총 지출 : 0원');
+               $("#dayInTotal").html(  '총 수입 : 0원');
+               
+               for(d of data) {
+                  if(d.io_code=='I1') {
+                     var outTotal = priceToString(d.amt);
+                     $("#dayOutTotal").html('총 지출 : '+outTotal + '원');
+                  } else {
+                     var inTotal = priceToString(d.amt);
+                     $("#dayInTotal").html('총 수입 : '+inTotal + '원');
+                  }
+               }
+            });
+            
+            
+         },
+         customButtons : {
+            cashInsertButton : {
+               text : '현금내역등록',
+               click : function() {
+                  $('#myModal').modal('show');
+               }
+            }
+         },
+         headerToolbar : {
+            left : 'prev,next today',
+            center : 'title',
+            right : 'cashInsertButton'
+         }
+      });
+   
+      calendar.render();
+      
+      // 이전달 버튼 기능
+      $(".fc-prev-button").on("click", function() {
+         var prevMonth = calendar.getDate().getFullYear()+'-'+("0"+(calendar.getDate().getMonth()+1)).slice(-2);
+         $.ajax({
+            url : "monthTotalAmt",
+            data : {
+               user_id : "${loginUser.id}",
+               yearMonth : prevMonth
+            },
+            success : function(result) {
+               $("#monthTotalAmt").html(priceToString(result)+" 원");
+            }
+         })
+      })
+      
+      // 다음달 버튼 기능
+      $(".fc-next-button").on("click", function() {
+         var nextMonth = calendar.getDate().getFullYear()+'-'+("0"+(calendar.getDate().getMonth()+1)).slice(-2);
+         $.ajax({
+            url : "monthTotalAmt",
+            data : {
+               user_id : "${loginUser.id}",
+               yearMonth : nextMonth
+            },
+            success : function(result) {
+               $("#monthTotalAmt").html(priceToString(result)+" 원");
+            }
+         })
+      })
+      
+      // '오늘' 버튼 기능
+      $(".fc-today-button").on("click", function() {
+         var dt = new Date();
+         var curMonth = dt.getFullYear()+'-'+("0"+(dt.getMonth()+1)).slice(-2);
+         $.ajax({
+            url : "monthTotalAmt",
+            data : {
+               user_id : "${loginUser.id}",
+               yearMonth : curMonth
+            },
+            success : function(result) {
+               var totalAmt = priceToString(result)
+               $("#monthTotalAmt").html(totalAmt+" 원");
+            }
+         })
+         
+         var curDate = new Date().toISOString().substring(0,10);
+         $("#dayTitle").html(curDate);
+         
+         $.ajax({
+            url : "dayTotalAmt",
+            data : {
+               tdate : curDate,
+               user_id : "${loginUser.id}"
+            }
+         }).done(function(data) {
+            for(d of data) {
+               $("#dayOutTotal").html( '총 지출 : 0원');
+               $("#dayInTotal").html(  '총 수입 : 0원');
+               
+               if(d.io_code=='I1') {
+                  var dayOutTotal = priceToString(d.amt);
+                  $("#dayOutTotal").html('총 지출 : '+dayOutTotal + '원');
+               } else {
+                  var dayInTotal = priceToString(d.amt);
+                  $("#dayInTotal").html('총 수입 : '+dayInTotal + '원');
+               }
+               console.log(d)
+            }
+         });
+         
+         $.ajax({
+            type : 'GET',
+            url : "dayView",
+            data : {
+               tdate : curDate,
+               user_id : "${loginUser.id}"
+            }
+         }).done(function(datas) {
+            dayDrawList(datas,"거래 내역이 없습니다.")
+         });   
+      })
+   }); 
+   
+   // 현금 거래 입력 오늘날짜 함수
+   window.onload = function() {
+      today = new Date().toISOString().slice(0, 10);
+      bir = document.getElementById("cashModalDate");
+      bir.value = today;
+      }
+   
+   //현금 거래 입력 처리
+   function btnInsert() {
+      
+      var form = document.modalForm;
+      
+       if (!form.io_code.value) {
+           //alert("지출/수입을 선택해주세요.");
+           swal("지출/수입을 선택해주세요", {icon: 'error'})
+           return;
+       }
+       if (!form.tdate.value) {
+           //alert("거래 날짜를 선택해주세요.");
+           swal("거래 날짜를 선택해주세요", {icon: 'error'})
+           return;
+       }
+       if (!form.cat_code.value) {
+           //alert("분류를 선택해주세요.");
+           swal("분류를 선택해주세요", {icon: 'error'})
+           return;
+       }
+       if (!form.amt.value) {
+           //alert("금액을 입력해주세요.");
+           swal("금액을 입력해주세요", {icon: 'error'}).then((value) => {
+              form.amt.focus();              
+              return;
+           })
+       }
+       if (!form.content.value) {
+           //alert("내용을 입력해주세요.");
+           swal("내용을 입력해주세요", {icon: 'error'}).then((value) => {
+              form.content.focus();
+              return;
+           })
+       }
+      $.ajax({
+         url : "cashInsert",
+         method : 'POST',
+         data : $("#cashInsertFrm").serialize(),
+         success : function(result) {
+            $('#myModal').modal('hide');
+            $('#myModal').on('hidden.bs.modal', function (e) { 
+               document.forms['modalForm'].reset(); 
+            })
+            //alert("성공적으로 입력되었습니다.");
+            swal("성공적으로 입력되었습니다.", {icon: 'success'}).then((value) => {
+               location.reload();               
+            })
+         }
+      });
+   }
+   
+   // 가계부 기본자동출력
+   window.addEventListener('DOMContentLoaded', function todayView() {
+      
+      var dt = new Date();
+      var curMonth = dt.getFullYear()+'-'+("0"+(dt.getMonth()+1)).slice(-2);
+      $.ajax({
+         url : "monthTotalAmt",
+         data : {
+            user_id : "${loginUser.id}",
+            yearMonth : curMonth
+         },
+         success : function(result) {
+            var totalAmt = priceToString(result)
+            $("#monthTotalAmt").html(totalAmt+" 원");
+         }
+      })
+      
+      var curDate = new Date().toISOString().substring(0,10);
+      $("#dayTitle").html(curDate);
+      
+      $.ajax({
+         url : "dayTotalAmt",
+         data : {
+            tdate : curDate,
+            user_id : "${loginUser.id}"
+         }
+      }).done(function(data) {
+         for(d of data) {
+            $("#dayOutTotal").html( '총 지출 : 0원');
+            $("#dayInTotal").html(  '총 수입 : 0원');
+            
+            if(d.io_code=='I1') {
+               var dayOutTotal = priceToString(d.amt);
+               $("#dayOutTotal").html('총 지출 : '+dayOutTotal + '원');
+            } else {
+               var dayInTotal = priceToString(d.amt);
+               $("#dayInTotal").html('총 수입 : '+dayInTotal + '원');
+            }
+            console.log(d)
+         }
+      });
+      
+      $.ajax({
+         type : 'GET',
+         url : "dayView",
+         data : {
+            tdate : curDate,
+            user_id : "${loginUser.id}"
+         }
+      }).done(function(datas) {
+         dayDrawList(datas,"거래 내역이 없습니다.")
+      });   
+   });
+   
+   // 달력 하단 거래내역 데이터 호출 함수
+   function dayDrawList(datas, msg) {
+      $('#empty').empty();
+      $("#listHead").empty();
+      $("#listBody").empty();
+      
+      if(datas.length != 0) {
+         let tr1 = `<tr style="text-align:center">
+                  <th style="width : 10%" scope="col">거래일시</th>
+                  <th style="width : 30%" scope="col">분류</th>
+                  <th style="width : 30%" scope="col">내용</th>
+                  <th style="width : 20%" scope="col">금액</th>
+                  <th style="width : 10%"></th>
+                  </tr>`;
+            
+         $('#listHead').append(tr1);
+            
+         for(d of datas) {
+            let price = priceToString(d.amt);
+            let date = d.tdate.substring(0,10);
+            let tr2 = `<tr>
+                     <td data-num=\${d.num}>\${date}</td>
+                     <td data-cat=\${d.cat_code}>\${d.val}</td>
+                     <td>\${d.content}</td>
+                     <td style="text-align : right" data-iocode=\${d.io_code}>\${price}원</td>
+                     <td><button type="button" class="btn btn-outline-info" data-toggle="modal" 
+                     data-target="#editModal" id="editModalBtn">edit</button></td>
+                     </tr>`;
+                  
+            $('#listBody').append(tr2);      
+         }
+      } else {
+         $('#empty').html(msg);
+      }
+   }
+   
+   // 키워드 검색 
+   function btnSearch(e) {
+      e.preventDefault();
+      var form = document.searchForm;
+      if (!form.keyword.value) {
+           //alert("검색어를 입력해주세요.");
+           swal("검색어를 입력해주세요", {icon: 'error'});
+           return;
+       }
+      $("#dayTitle").empty();
+      $.ajax({
+         url : "ledgerSearch",
+         data : $("#ledgerSearchFrm").serialize()
+      }).done(function(datas) {
+         if(datas.length != 0) {
+            $("#dayTitle").html("최근 한달 \'" + datas[0].keyword + "\' 거래 내역");
+            dayDrawList(datas);
+         } else {
+            dayDrawList(datas, "검색 결과가 없습니다.");
+         }
+         document.getElementById("ledgerSearchFrm").reset();
+         $("#keyInput").focus();
+      })
+   }
+   
+   //업데이트 및 삭제 모달창에 데이터 호출
+   window.addEventListener('DOMContentLoaded', function() {
+      $('#dayTable').on('click', "#editModalBtn", function() {
+         var editDate = $(this).closest('tr').children().first().text();
+         var catCode = $(this).closest('tr').children().first().next().data('cat');
+         var content = $(this).closest('tr').children().first().next().next().text();
+         var amt = stringNumberToInt($(this).parent().prev().text().slice(0, -1));
+         var io = $(this).parent().prev().data('iocode');
+         var num = $(this).closest('tr').children().first().data('num');
+         console.log("날짜: " + editDate + ", 번호: " + num + ", 분류: " + catCode + ", 내용: " + content + ", 금액: " + amt + ", 코드: " + io); 
+         
+         $('#editModalLabel').html(editDate + " 편집하기");
+         $('#editCont').val(content);
+         $('#tdate').val(editDate);
+         $('#editAmt').val(amt);
+         $('#number').val(num);
+         
+         if(io == 'I1') {
+            $("input:radio[id='choice1']:radio[value='I1']").attr("checked",true);
+         } else {
+            $("input:radio[id='choice2']:radio[value='I2']").attr("checked",true);
+         }
+         
+         const el = document.getElementById('category');
+         const len = el.options.length;
 
-			for (let i=0; i<len; i++) {
-				if(el.options[i].value == catCode) {
-					el.options[i].selected = true;
-					$('select').niceSelect('update');
-				}
-			}  		
-		})
-	});
-	
-	// 거래내역 수정 처리
-	function ledUpdate() {
-		swal("내용을 변경하시겠습니까??", {icon: 'warning',
-									buttons: true,
-			  						dangerMode: true,
-			  						closeOnClickOutside: false}).then((value) => {
-			swal("변경이 완료되었습니다.", {icon: "success"}).then((value) => {
-				$.ajax({
-					url : "ledgerUpdate",
-					method : 'POST',
-					data : $("#ledUpdateFrm").serialize(),
-					success : function(datas) {
-						$('#editModal').modal('hide');
-						$('#editModal').on('hidden.bs.modal', function (e) { 
-							document.forms['updateModalForm'].reset(); 
-							location.reload();
-						})
-					}
-				})
-			})
-		})
-	}
-	
-	// 거래내역 삭제 처리
-	function ledDelete() {
-		swal("정말 삭제하시겠습니까??", {icon: 'warning', 
-								   buttons: true,
-								   dangerMode: true, 
-								   closeOnClickOutside: false}).then((value) => {
-			swal("삭제가 완료되었습니다.", {icon: "success"}).then((value) => {
-				$.ajax({
-					url : "ledgerDelete",
-					data : $("#ledUpdateFrm").serialize(),
-					success : function(datas) {
-						$('#editModal').modal('hide');
-						$('#editModal').on('hidden.bs.modal', function (e) { 
-							document.forms['updateModalForm'].reset(); 
-							location.reload();
-						})
-					} 
-				})
-			})
-		})
-	}
+         for (let i=0; i<len; i++) {
+            if(el.options[i].value == catCode) {
+               el.options[i].selected = true;
+               $('select').niceSelect('update');
+            }
+         }        
+      })
+   });
+   
+   // 거래내역 수정 처리
+   function ledUpdate() {
+      swal("내용을 변경하시겠습니까??", {icon: 'warning',
+                           buttons: true,
+                             dangerMode: true,
+                             closeOnClickOutside: false}).then((value) => {
+         swal("변경이 완료되었습니다.", {icon: "success"}).then((value) => {
+            $.ajax({
+               url : "ledgerUpdate",
+               method : 'POST',
+               data : $("#ledUpdateFrm").serialize(),
+               success : function(datas) {
+                  $('#editModal').modal('hide');
+                  $('#editModal').on('hidden.bs.modal', function (e) { 
+                     document.forms['updateModalForm'].reset(); 
+                     location.reload();
+                  })
+               }
+            })
+         })
+      })
+   }
+   
+   // 거래내역 삭제 처리
+   function ledDelete() {
+      swal("정말 삭제하시겠습니까??", {icon: 'warning', 
+                           buttons: true,
+                           dangerMode: true, 
+                           closeOnClickOutside: false}).then((value) => {
+         swal("삭제가 완료되었습니다.", {icon: "success"}).then((value) => {
+            $.ajax({
+               url : "ledgerDelete",
+               data : $("#ledUpdateFrm").serialize(),
+               success : function(datas) {
+                  $('#editModal').modal('hide');
+                  $('#editModal').on('hidden.bs.modal', function (e) { 
+                     document.forms['updateModalForm'].reset(); 
+                     location.reload();
+                  })
+               } 
+            })
+         })
+      })
+   }
 </script>
 
 <style>
 .fc-daygrid-day-frame:hover {
-	cursor: pointer;
-	background: #FFF0F5;
+   cursor: pointer;
+   background: #FFF0F5;
 }
 
 .fc-sticky:hover {
-	cursor: pointer;
+   cursor: pointer;
 }
 
 .out {
-	color: red !important;
+   color: red !important;
 }
 
 .in {
-	color: blue !important;
+   color: blue !important;
 }
 
 body {
-	padding: 0;
-	font-family: Arial, Helvetica Neue, Helvetica, sans-serif;
-	font-size: 14px;
+   padding: 0;
+   font-family: Arial, Helvetica Neue, Helvetica, sans-serif;
+   font-size: 14px;
 }
 
 [data-iocode="I1"] {
-	color: red;
+   color: red;
 }
 
 [data-iocode="I2"] {
-	color: blue;
+   color: blue;
 }
 
 #calendar, #ledgerFooter {
-	width: 100%;
-	margin-left: auto;
-	margin-right: auto;
+   width: 100%;
+   margin-left: auto;
+   margin-right: auto;
 }
 
 .pull-right {
-	margin-left: 30px;
+   margin-left: 30px;
 }
 
 #dayTotal {
-	width: 100%;
-	height: 30px;
-	position: relative;
+   width: 100%;
+   height: 30px;
+   position: relative;
 }
 
 #dayOutTotal, #dayInTotal {
-	padding-right: 5px;
-	padding-left: 5px;
+   padding-right: 5px;
+   padding-left: 5px;
 }
 
 #dayInTotal {
-	color: blue;
-	position: absolute;
-	right: 150px;
-	bottom: 0;
+   color: blue;
+   position: absolute;
+   right: 150px;
+   bottom: 0;
 }
 
 #dayOutTotal {
-	color: red;
-	position: absolute;
-	right: 0;
-	bottom: 0;
+   color: red;
+   position: absolute;
+   right: 0;
+   bottom: 0;
 }
 
 #monthTotalAmt {
-	font-size: 4em;
-	font-weight: bold;
+   font-size: 4em;
+   font-weight: bold;
 }
 
 .list {
-	overflow-y: scroll !important;
-	max-height: 300px;
+   overflow-y: scroll !important;
+   max-height: 300px;
 }
 
 #div_totalAmt {
-	margin: 0 0 50px;
-	color: black;
+   margin: 0 0 50px;
+   color: black;
 }
 
 #div_totalAmt h3 {
-	padding-bottom: 10px;
+   padding-bottom: 10px;
 }
 
 #ledgerFooter {
-	margin-top: 50px;
+   margin-top: 50px;
 }
 
 #div_tableHeader {
-	display: flex;
-	margin-bottom: 20px;
+   display: flex;
+   margin-bottom: 20px;
 }
 
 #div_tableHeader div {
-	height: 40px;
+   height: 40px;
 }
 
 .swal-modal {
-	width: 550px;
-	height: 300px;
-	text-align-last: center;
+   width: 550px;
+   height: 300px;
+   text-align-last: center;
 }
 
 .swal-text:first-child {
-	margin-top: 60px;
+   margin-top: 60px;
 }
 
 .swal-text {
-	font-size: 30px;
-	color: black;
-	margin-top: 20px;
+   font-size: 30px;
+   color: black;
+   margin-top: 20px;
 }
 
 .swal-footer {
-	margin-top: 20px;
+   margin-top: 20px;
 }
 
 .swal-button {
