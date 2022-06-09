@@ -11,6 +11,9 @@
 .contact_area>.container {
 	min-height: 410px;
 }
+.btnGroup {
+	float : right;
+}
 </style>
 <body>
 
@@ -45,9 +48,11 @@
 						required="required"></textarea>
 				</div>
 			</form>
-			<button id="backBtn" type="button" class="btn btn-secondary">뒤로가기</button>
-			<input id="insertBtn" type="submit" class="btn btn-primary"
-				value="등록하기">
+			<div class="btnGroup">
+				<button id="backBtn" type="button" class="btn btn-secondary">뒤로가기</button>
+				<input id="insertBtn" type="submit" class="btn btn-primary"
+					value="등록하기">
+			</div>
 		</div>
 	</section>
 	<script type="text/javascript">
