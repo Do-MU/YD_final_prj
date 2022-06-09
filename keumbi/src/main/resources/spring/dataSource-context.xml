@@ -17,6 +17,7 @@
 		<property name="url" value="${url}" />
 		<property name="username" value="${user}" />
 		<property name="password" value="${password}" />
+		<property name="maxTotal" value="5"/>
 	</bean>
 	
 	<bean class="org.mybatis.spring.SqlSessionFactoryBean" id="sqlSessionFactoryBean">

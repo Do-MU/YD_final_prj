@@ -69,7 +69,9 @@
 		font-size: 10px;
 		margin-bottom:50px;
 	}
-	
+	#challengeJoin_modal #mod_back_btn button.close{
+		color: 	#1E90FF;
+	}
 	#challengeJoin_modal #mod_body_top{
 		display:flex;
 	}
@@ -327,23 +329,33 @@
 				$("#slider").val(Math.ceil(allSum/2000)*1000);		// 슬라이드 바 중앙으로
 				$("#goal_now").html(addComm($("#slider").val()));				// 하단 금액 추천 금액으로
 				$("#slider").attr("step", 1000);								// 금액 단위 조정
+				
+				if(allSum == 0 || !'${loginUser.id}'){								// 비로그인 / 해당 카테고리 총액이 0일 때 [도전하기] 비활성화
+					$("#challengeJoinBtn").removeClass("btn-primary");
+					$("#challengeJoinBtn").addClass("btn-secondary");
+					$("#challengeJoinBtn").attr("disabled", "disabled");
+				}else{
+					$.ajax({
+						url: "myChallCnt",
+						data:{	user_id: '${loginUser.id}',
+								chall_num: $("#challengeJoinBtn").data("chall_num")	}
+					}).done(function(cnt){
+						if(cnt){
+							$("#challengeJoinBtn").removeClass("btn-primary");
+							$("#challengeJoinBtn").addClass("btn-secondary");
+							$("#challengeJoinBtn").attr("disabled", "disabled");
+						}else{
+							$("#challengeJoinBtn").removeClass("btn-secondary");
+							$("#challengeJoinBtn").addClass("btn-primary");
+							$("#challengeJoinBtn").removeAttr("disabled");
+						}
+					});
+				}
 			});
 			
 			$("#challengeJoinBtn").data("chall_num", chall_num);				// 도전하기 버튼에 챌린지 번호 부여
 			
-			if(allSum == 0 && !'${loginUser.id}'){								// 비로그인 / 해당 카테고리 총액이 0일 때 [도전하기] 비활성화
-				$("#challengeJoinBtn").attr("disabled", "disabled");
-			}else{
-				$.ajax({
-					url: "myChallCnt",
-					data:{	user_id: '${loginUser.id}',
-							chall_num: $("#challengeJoinBtn").data("chall_num")	}
-				}).done(function(cnt){
-					if(cnt){
-						$("#challengeJoinBtn").attr("disabled", "disabled");
-					}
-				});
-			}
+			
 		});
 	});
 	

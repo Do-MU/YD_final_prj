@@ -11,6 +11,7 @@
 /* 챌린지 출력 선택 목록 */
 #div_challSelect {
 	display: flex;
+	font-size: 1.2em;
 }
 
 #chall_ul {
@@ -24,7 +25,10 @@
 	margin-left: 10px;
 }
 
-#chall_ul a {
+.ch_btns.active a{
+	color: skyblue;
+}
+.ch_btns a {
 	color: black;
 }
 
@@ -106,7 +110,12 @@
 .challs_s{
 	background-color: #00000088;
 }
-
+#div_nochall{
+	font-size: 50px;
+	text-align: center;
+	font-weight: bold;
+	margin-top: 150px;
+}
 </style>
 
 <section class="banner_area">
@@ -132,13 +141,13 @@
 		<!-- 챌린지 출력 구분 -->
 		<div id="div_challSelect">
 			<ul id="chall_ul">
-				<li id="ch_a"><a href="#">전체 챌린지</a></li>
+				<li id="ch_a" class="ch_btns"><a href="#">전체 챌린지</a></li>
 				<li class="contour">||</li>
-				<li id="ch_i"><a href="#">진행중인 챌린지</a></li>
+				<li id="ch_i" class="ch_btns"><a href="#">진행중인 챌린지</a></li>
 				<li class="contour">||</li>
-				<li id="ch_s"><a href="#">성공한 챌린지</a></li>
+				<li id="ch_s" class="ch_btns"><a href="#">성공한 챌린지</a></li>
 				<li class="contour">||</li>
-				<li id="ch_f"><a href="#">실패한 챌린지</a></li>
+				<li id="ch_f" class="ch_btns"><a href="#">실패한 챌린지</a></li>
 			</ul>
 		</div>
 		
@@ -192,6 +201,10 @@ $(window).ready(function(){
 		}).then((value) => {
 			window.location = "userLoginForm";
 		});
+	}
+	if($("div.challs").length == 0){
+		console.log($("div.challs").length)
+		$("<div id='div_nochall'>").html("도전 중인 챌린지가 없어요..").appendTo($("#list"))
 	}
 })
 	
@@ -253,21 +266,45 @@ $(window).ready(function(){
 	
 	$("#ch_a").on('click',function(){
 		$("div.challs").removeAttr("hidden");
+		$("div#div_nochall").remove();
+		$(".ch_btns").removeClass("active");
+		$("#ch_a").addClass("active");
+		if($("div.challs").length == 0){
+			$("<div id='div_nochall'>").html("도전 중인 챌린지가 없어요..").appendTo($("#list"));
+		}
 	});
 	
 	$("#ch_i").on('click',function(){
 		$("div.challs").attr("hidden","hidden");
 		$("div.ch_i").removeAttr("hidden");
+		$("div#div_nochall").remove();
+		$(".ch_btns").removeClass("active");
+		$("#ch_i").addClass("active");
+		if($("div.ch_i").length == 0){
+			$("<div id='div_nochall'>").html("도전 중인 챌린지가 없어요..").appendTo($("#list"));
+		}
 	});
 	
 	$("#ch_s").on('click',function(){
 		$("div.challs").attr("hidden","hidden");
-		$("div.ch_s").removeAttr("hidden");		
+		$("div.ch_s").removeAttr("hidden");
+		$("div#div_nochall").remove();
+		$(".ch_btns").removeClass("active");
+		$("#ch_s").addClass("active");
+		if($("div.ch_s").length == 0){
+			$("<div id='div_nochall'>").html("성공한 챌린지가 없어요..").appendTo($("#list"));
+		}
 	});
 	
 	$("#ch_f").on('click',function(){
 		$("div.challs").attr("hidden","hidden");
 		$("div.ch_f").removeAttr("hidden");
+		$("div#div_nochall").remove();
+		$(".ch_btns").removeClass("active");
+		$("#ch_f").addClass("active");
+		if($("div.ch_f").length == 0){
+			$("<div id='div_nochall'>").html("실패한 챌린지가 없어요..").appendTo($("#list"));
+		}
 	});
 	
 	function addComm(num){
