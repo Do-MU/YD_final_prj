@@ -435,7 +435,7 @@ $(window).ready(function(){
             $('#listBody').append(tr2);      
          }
       } else {
-         $('#empty').html(msg);
+         $('#empty').html("<p style='font-size:80px'><i class='bi bi-info-circle'></i></p>" + msg);
       }
    }
    
