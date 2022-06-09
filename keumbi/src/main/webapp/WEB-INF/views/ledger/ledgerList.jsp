@@ -505,20 +505,24 @@ $(window).ready(function(){
 									buttons: true,
 			  						dangerMode: true,
 			  						closeOnClickOutside: false}).then((value) => {
-			swal("변경이 완료되었습니다.", {icon: "success"}).then((value) => {
-				$.ajax({
-					url : "ledgerUpdate",
-					method : 'POST',
-					data : $("#ledUpdateFrm").serialize(),
-					success : function(datas) {
-						$('#editModal').modal('hide');
-						$('#editModal').on('hidden.bs.modal', function (e) { 
-							document.forms['updateModalForm'].reset(); 
-							location.reload();
-						})
-					}
+			if(value){
+				swal("변경이 완료되었습니다.", {icon: "success"}).then((value) => {
+					$.ajax({
+						url : "ledgerUpdate",
+						method : 'POST',
+						data : $("#ledUpdateFrm").serialize(),
+						success : function(datas) {
+							$('#editModal').modal('hide');
+							$('#editModal').on('hidden.bs.modal', function (e) { 
+								document.forms['updateModalForm'].reset(); 
+								location.reload();
+							})
+						}
+					})
 				})
-			})
+			}else{
+				swal("변경을 취소하셨습니다.", {icon: "success"});
+			}
 		})
 	}
 	
@@ -528,19 +532,23 @@ $(window).ready(function(){
 								   buttons: true,
 								   dangerMode: true, 
 								   closeOnClickOutside: false}).then((value) => {
-			swal("삭제가 완료되었습니다.", {icon: "success"}).then((value) => {
-				$.ajax({
-					url : "ledgerDelete",
-					data : $("#ledUpdateFrm").serialize(),
-					success : function(datas) {
-						$('#editModal').modal('hide');
-						$('#editModal').on('hidden.bs.modal', function (e) { 
-							document.forms['updateModalForm'].reset(); 
-							location.reload();
-						})
-					} 
+			if(value){
+				swal("삭제가 완료되었습니다.", {icon: "success"}).then((value) => {
+					$.ajax({
+						url : "ledgerDelete",
+						data : $("#ledUpdateFrm").serialize(),
+						success : function(datas) {
+							$('#editModal').modal('hide');
+							$('#editModal').on('hidden.bs.modal', function (e) { 
+								document.forms['updateModalForm'].reset(); 
+								location.reload();
+							})
+						} 
+					})
 				})
-			})
+			}else{
+				swal("변경을 취소하셨습니다.", {icon: "success"});
+			}
 		})
 	}
 </script>

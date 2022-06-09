@@ -33,7 +33,7 @@
 	font-size:1.5em;
 }
 #depView{
-	margin-top:100%;
+	margin-top:150%;
 	
 }
 #depositBase1, #depositBase2{
@@ -103,11 +103,6 @@
 	height:50px;
 	flex:1;
 }
-#div_content{
-	font-size: 30px;
-    padding-bottom: 30px;
-    color: black;
-}
 .wel_item{
 	border: 1px solid #212529;
     padding: 15px 15px;
@@ -129,8 +124,8 @@
 	padding-bottom: 0px;
 }
 #titleList{
-	text-align: center;
-    font-size: 30px;
+	text-align: left;
+    font-size: 36px;
     color: black;
     font-weight: bold;
     margin-bottom: 50px;
@@ -148,8 +143,6 @@ table {
 }
 
 
-
-
 #depositOpt > div{
 	display: inline-block;
     margin-right: 30px;
@@ -160,6 +153,12 @@ table {
 	border-top: 1px solid black;
 }
 
+.main_title > h1{
+	color: black;
+}
+.main_title > h4{
+	font-size: 20px;
+}
 </style>
 
 
@@ -182,8 +181,8 @@ table {
 		<div class="container">
 			<c:if test="${empty loginUser.name}">
 			<div class="main_title">
-				<div id="div_content">이런 상품은 어떠신가요?</div>
-				<p>회원들이 가장 많이 이용하는 상품이에요</p>
+				<h1 align="center">이런 상품은 어떠신가요?</h1>
+				<h4>회원들이 가장 많이 이용하는 상품이에요</h4>
 			</div>
 			<div class="testi_inner">
 				<div class="testi_slider owl-carousel" id="div_dep">
@@ -293,10 +292,14 @@ table {
 								<th>최고한도</th>
 								<td id="depositBase2"></td>
 							</tr> -->
+							<tr>
+								<th>기간별 금리</th>
+								<td></td>
+							</tr>
 						</table>
 					</div>
 					<!-- <div id="depositBase2"></div> -->
-					<div id="depositBase3"><h4>저축 기간별 금리</h4></div>
+					<!-- <div id="depositBase3"><h4>저축 기간별 금리</h4></div>-->
 					<div id="depositOpt"></div>
 				</div>
 				
@@ -431,12 +434,12 @@ table {
 			var interest = money * (num2/100);
 			var tax = interest * (15.4 / 100);
 			var total = money + (interest - tax);			
-			document.getElementById("totalText").innerHTML = "만기수령액은 <span id='total'>" + Math.round(total) + "원 </span>입니다.";
+			document.getElementById("totalText").innerHTML = "<div id='totalText'>만기수령액은 <span id='total'>" + Math.round(total) + "원 </span>입니다.</div>";
 		}else if(type == 'M'){ //복리일경우
 			var price = money * ((1+(num2/100)) ** month1) //세전금액: 입력된금액 * ((1+(금리/100))^년수)
 			var tax = (price - money) * (15.4 / 100); // 세금계산 (만기액 - 원금) * 15.4%
 			var total = (price - tax); // 세후금액: 금액 - 세금
-			document.getElementById("totalText").innerHTML = "만기수령액은 <span id='total'>" + Math.round(total) + "원 </span>입니다.";
+			document.getElementById("totalText").innerHTML = "<div id='totalText'>만기수령액은 <span id='total'>" + Math.round(total) + "원 </span>입니다.</div>";
 		}
 		//천단위 콤마
 		$("#totalText").html($("#totalText").html().toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ","));
@@ -484,7 +487,7 @@ table {
 						<th>최고한도</th>
 						<td id="depositBase2">\${dep.max_limit}</td>
 					</tr>`;
-			$("table").append(tr);
+			$("#etc_note").parent().after(tr);
 			//$("#depositBase2").html(dep.max_limit);
 			
 			for(amt of $("#depositBase2")){
@@ -499,10 +502,10 @@ table {
         let opthtml = '<option value="">선택</option>';
         
 		for(opt of result){
-			$("<div>").append( $("<hr>") )
-					  .append( $("<div>").html("저축기간 : " + opt.save_trm + "개월"))
+			$("<div>").append( $("<div>").html("저축기간 : " + opt.save_trm + "개월"))
 					  .append( $("<div>").html("최소 " + opt.intr_rate + "%") )
 					  .append( $("<div>").html("최대 " + opt.intr_rate2 + "%") )
+					  .append( $("<div style='display:none;' id='type'>").html(opt.intr_rate_type))
 					  .appendTo($("#depositOpt"));
 
            opthtml += "<option value='"+opt.intr_rate2+"' name='"+opt.save_trm+"'>"+opt.save_trm+"개월</option>"
@@ -520,6 +523,7 @@ table {
 			$("#totalText").html(""); // 만기금액 초기화
 			$(".depOpt > #depMoney").val(""); // 입력금액 초기화
 			$("#depositBase2").closest('tr').remove(); // 최고한도 초기화
+			$("#totalText").attr("hidden","hidden");
 		})
 	}
 </script>

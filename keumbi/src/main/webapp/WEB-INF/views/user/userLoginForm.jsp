@@ -69,7 +69,17 @@ footer {
 .incorrect{
     color : red;
 }
-
+.swal-text{
+	font-size: 25px;
+	margin-top: 20px;
+}
+.swal-footer{
+	text-align: center;
+	margin-top: 5px;
+}
+.swal-button{
+	width: 400px;
+}
 #idf{
 	font-size:2rem;
 	color:red;
@@ -92,7 +102,7 @@ footer {
 					</label>
 				</div>
 				<div>
-					<label> <span> <input type="password" name="pw" placeholder="비밀번호">
+					<label> <span> <input type="password" id="pw" name="pw" placeholder="비밀번호">
 					</span>
 					</label>
 				</div>
@@ -240,10 +250,7 @@ footer {
 			</div>
 		</div>
 	</div>
-	
 </section>
-
-
 
 
 <script>
@@ -405,5 +412,10 @@ footer {
 			}
 		});
 	});
-
+	
+	if('${message}' == 'fail'){
+		swal("아이디나 비밀번호가 틀렸습니다.", {icon: "error"}).then((value) => {
+			$("#pw").focus();
+		})
+	}
 </script>

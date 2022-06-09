@@ -96,7 +96,8 @@ mark{
 	padding:0 30px;
 	line-height:46px;
 	text-decoration:none;
-	font-size:16px;
+	font-size:20px;
+	font-weight: bold;
 }
 .tabnav li a:hover,
 .tabnav li a.active{
@@ -149,7 +150,6 @@ mark{
 			$(this).addClass('active');
 			let url = $(this).attr("href");
 			url = url.substr(1, url.length);
-			console.log(url);
 			$.ajax({
 				url:"webCrawling",
 				data: {tip:url}

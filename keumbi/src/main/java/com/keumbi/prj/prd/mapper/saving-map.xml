@@ -54,7 +54,7 @@
 		SELECT *
 		FROM PRD_SAV_OPTIONS
 		WHERE SAV_ID = #{sav_id}
-		ORDER BY SAVE_TRM
+		ORDER BY RSRV_TYPE, SAVE_TRM
 	</select>
 	
 	<select id="selectBankName" resultType="CodeVO">
