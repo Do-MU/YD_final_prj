@@ -17,7 +17,7 @@ public class BankTest {
 	
 	@Test
 	public void encMySelf() {
-		String pwd = "testtest";
+		String pwd = "1234";
 		
 		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 		String encPwd = encoder.encode(pwd);

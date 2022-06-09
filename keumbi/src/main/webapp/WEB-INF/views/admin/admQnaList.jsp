@@ -110,7 +110,7 @@ th {
 		</a></li>
 		<c:forEach begin="${p.startPage}" end="${p.endPage}" var="i">
 			<li class="page-item">
-			<a id="page-num-${i}" class="page-link" data-pageNo="${i}">${i}</a></li>
+			<a id="page-num-${i}" class="page-link" onclick="changePage(${i})">${i}</a></li>
 		</c:forEach>
 		<li class="page-item"><a class="page-link" aria-label="Next" onclick="next(${p.pageNo})" id="next_btn"> 
 		<span aria-hidden="true">&raquo;</span>
@@ -139,19 +139,19 @@ th {
 			console.log($(this).val);			
 		}
 		pageNo = 1;
-		change(code, pageNo);
+		change();
 	});
 	
 	// 페이지 선택
-	$(".pagination").on('click', ".page-link", function(){
-		pageNo = $(this).text();
-		change(code, pageNo);
-	});
+	function changePage(n){
+		pageNo = n;
+		change();
+	}
 	
 	document.getElementById("page-num-"+${p.pageNo}).style = "background-color: blue; color: white";
 	
 	// 이전페이지 > 21~30 페이지 사이일 때 20페이지로
-	// 첫 페이지일때 prev btn disable
+	// 마지막 페이지일때 next btn disable
 	if(${p.pageNo} <= 10){
 		$("#prev_btn").css("cursor","default");
 		$("#prev_btn").css("background-color","#dee2e6");
@@ -159,13 +159,14 @@ th {
 	function next(n){
 		if(${p.pageNo} < parseInt(totalPage/10)*10){
 			pageNo = ((parseInt((n-1)/10)+1)*10)+1;
+			change();
 		}else{
 			return false;
 		}
 		
 	}
 	// 다음페이지 > 1~10 페이지 사이일 때 11페이지로
-	// 마지막 페이지일때 next btn disable
+	// 첫 페이지일때 prev btn disable
 	if(${p.startPage} == ((parseInt((totalPage - 1) / 10)) * 10 + 1) ){
 		$("#next_btn").css("cursor","default");
 		$("#next_btn").css("background-color","#dee2e6");
@@ -173,13 +174,14 @@ th {
 	function prev(n){
 		if(${p.pageNo} > 10){
 			pageNo = ((parseInt((n-1)/10)-1)*10)+1;
+			change();
 		}
 		else{
 			return false;
 		}
 	}
 	
-	function change(code, pageNo){
+	function change(){
 		var url = 'admQnaList';
 		console.log(code);
 		if(code != ''){
