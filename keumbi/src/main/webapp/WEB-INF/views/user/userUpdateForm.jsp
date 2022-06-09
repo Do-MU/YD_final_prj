@@ -101,7 +101,7 @@ input[type="checkbox"]{
 			<tr>
 				<td>비밀번호</td>
 				<td><input type="password" id="password1" name="pw"
-					readonly="readonly" value="${loginUser.pw}" min="8" style="width:300px; height:40px"> <input
+					disabled="disabled" value="${loginUser.pw}" min="8" style="width:300px; height:40px"> <input
 					type="button" id="pwUpdate" value="비밀번호 변경" style="width:130px; height:40px; margin-bottom:5px;"
 					class="btn btn-secondary"></td>
 			</tr>
@@ -198,7 +198,7 @@ input[type="checkbox"]{
    $("#fail").hide();
    $("#pwUpdate").click(function(){
       $("#pw2").css("display", "");
-      $("#password1").removeAttr("readonly");
+      $("#password1").removeAttr("disabled");
       $("#password1").val("");
       $("#password1").attr("placeholder", "새비밀번호를 입력하세요.");
       $("#password2").keyup(function(){
@@ -314,28 +314,29 @@ $.ajax({
 })
 
 //회원정보 수정
+//회원정보 수정
 $("#userUpdateBtn").click(function(){
-	$("#addr").val($("#addr_1").val() + ', ' + $("#addr_2").val());
-	var pwd1=document.getElementById("password1").value;
-	var pwd2=$("#password2").val();
-	var pwdMin=$("#password1").val().length;
-	if(pwd2 != ''){
-		if(pwd1 == pwd2){
-			if(pwdMin >= 8){
-				swal("회원정보 수정완료", "입력하신 정보로 수정되었습니다.", "success").then((value) => {
-					document.getElementById("userFrm").submit();
-				});
-			}else{
-				swal("비밀번호는 8자 이상 입력해주세요", {icon:"error"});
-			}
-		}else{
-			swal("비밀번호가 일치하지않습니다.", {icon:"error"});
-		}
-	}else{
-		swal("비밀번호를 확인해주세요.", {icon:"error"}).then((value) => {
-			$("#password2").focus();
-		});
-	}
+   $("#addr").val($("#addr_1").val() + ', ' + $("#addr_2").val());
+   var pwd1=document.getElementById("password1").value;
+   var pwd2=$("#password2").val();
+   var pwdMin=$("#password1").val().length;
+   if(pwd2 != ''){
+      if(pwd1 == pwd2){
+         if(pwdMin >= 8){
+            swal("회원정보 수정완료", "입력하신 정보로 수정되었습니다.", "success").then((value) => {
+               document.getElementById("userFrm").submit();
+            });
+         }else{
+            swal("비밀번호는 8자 이상 입력해주세요", {icon:"error"});
+         }
+      }else{
+         swal("비밀번호가 일치하지않습니다.", {icon:"error"});
+      }
+   }else{
+      swal("회원정보 수정완료", "입력하신 정보로 수정되었습니다.", "success").then((value) => {
+         document.getElementById("userFrm").submit();
+      });
+   }
 })
 
 //회원탈퇴
