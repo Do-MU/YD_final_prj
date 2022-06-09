@@ -90,7 +90,7 @@
 		<div class="row">
 			<div id="board">
 				<h2>${board.title}</h2>
-				<h4>${board.user_id}| ${board.wdate }</h4>
+				<h4>${board.user_id} | ${board.wdate }</h4>
 				<hr>
 				<div id="contents">
 					<pre>${board.contents}</pre>
@@ -103,7 +103,6 @@
 			</div>
 
 			<div id="btns">
-				<a href="boardList" style="float: right;">목록</a>
 				<c:if test="${not empty loginUser.id}">
 					<c:if test="${loginUser.id ne board.user_id}">
 						<a onclick="reportBoard()" style="float: right;">신고</a>
@@ -114,6 +113,7 @@
 						<a href="boardUpdateForm?bod_num=${board.bod_num}" style="float: right;">수정</a>
 					</c:if>
 				</c:if>
+				<a href="boardList" style="float: right;">목록</a>
 			</div>
 		</div>
 		<div id="reply">
@@ -252,7 +252,7 @@
 	}
 
 	//댓글 수정 - 댓글 내용 출력을 input 폼으로 변경 
-	function replyUpdate(re_num, re_contents){		
+	function replyUpdate(re_num, re_contents){
 	    var a ='';        	
 		a += `	<div class="input-group mb-3">
 	            	<input type="text" id="re_contents\${re_num}" value="\${re_contents}" class="form-control">
@@ -300,6 +300,7 @@
 	
 	//대댓글 등록
 	function rorInsert(re_num){
+		replyList();
 		var bod_num = ${board.bod_num};
 		var pre_re_num = re_num;
 		var re_contents = $('#re_contents'+re_num).val();

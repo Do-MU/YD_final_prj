@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -11,10 +13,11 @@
 .div_submenu{
 	display:none;
 }
-.cardCol {
+#output {
 	display: inline-block;
 	margin-right: 89px;
 	margin-bottom: 30px;
+	min-height: 182px;
 }
 .card {
 	width : 18rem;
@@ -41,6 +44,10 @@
 .swal-button {
 	width: 480px;
 }
+#div_noCards{
+	text-align: center;
+	margin: 0 auto;
+}
 </style>
 </head>
 <body>
@@ -61,7 +68,15 @@
 
 	<section class="contact_area p_120">
 		<div class="container">
+			
+			<c:if test="${fn:length(cardList) eq 0}">
+				<div id="div_noCards">
+					<h1>불러온 카드가 없어요...</h1>
+				</div>
+			</c:if>
+			
 			<div id="output" align="center">
+				
 				<c:forEach items="${cardList}" var="list">
 					<div class="cardCol">
 						<div class="card">
