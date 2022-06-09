@@ -11,9 +11,15 @@
 <style>
 #div_noAcc{
 	text-align:center;
+	min-height: 233px;
 }
 #div_noAcc h1{
-	margin-bottom:50px;
+	margin-top: 250px;
+}
+#callAcc{
+	margin-top: 30px;
+	width: 200px;
+	font-size: 1.2em;
 }
 .div_view{
 	border-radius: 15px;
@@ -130,7 +136,7 @@
 				<c:when test="${empty loginUser.access_token}">
 					<div id="div_noAcc">
 						<h1>불러올 계좌가 없어요...</h1>
-						<button type="button" class="btn btn-primary"
+						<button id="callAcc" type="button" class="btn btn-primary"
 							onclick="location.href ='bankAuth'">내 계좌 불러오기</button>
 					</div>
 				</c:when>
