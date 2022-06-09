@@ -9,7 +9,7 @@
 		JOIN     COMMON_CODE C
 		ON       T.CAT_CODE = C.CODE
 		WHERE    USER_ID = #{user_id}
-		AND      IO_CODE = 'I1'
+		AND      IO_CODE = 'I2'
 		AND 	 TO_CHAR(T.TDATE, 'YYYY-MM') = #{yearMonth}
 		GROUP BY TO_CHAR(T.TDATE, 'YYYY-MM'), C.VAL
 		ORDER BY 1 DESC
@@ -28,7 +28,7 @@
 		                       FROM  TOTAL_TRANS
 		                       WHERE TO_CHAR(TDATE,'YYYY-MM') = #{thisMonth}
 		                       AND USER_ID = #{user_id}
-		                       AND IO_CODE = 'I1'
+		                       AND IO_CODE = 'I2'
 		                       GROUP BY TO_CHAR(TDATE, 'DD')
 		                     ) A,
 		                     ( SELECT  LEVEL  AS DT
@@ -46,7 +46,7 @@
                                FROM  TOTAL_TRANS
                                WHERE TO_CHAR(TDATE,'YYYY-MM') = #{prevMonth}
                                AND USER_ID = #{user_id}
-                               AND IO_CODE = 'I1'
+                               AND IO_CODE = 'I2'
                                GROUP BY TO_CHAR(TDATE, 'DD')
                         	 ) A,
                          	 ( SELECT  LEVEL  AS DT
@@ -70,7 +70,7 @@
           	   WHERE TDATE BETWEEN TO_DATE(#{firstday}, 'YYYY-MM-DD')
                		           AND TO_DATE(#{lastday}, 'YYYY-MM-DD') 
                 AND USER_ID = #{user_id}
-        		AND IO_CODE = 'I1'
+        		AND IO_CODE = 'I2'
           		GROUP BY TDATE
        		 ) A
      	   , ( SELECT TO_DATE(#{firstday},'YYYY-MM-DD') + LEVEL - 1 AS DT
@@ -92,7 +92,7 @@
 				WHERE TDATE BETWEEN TO_DATE(#{firstMonth},'YYYY-MM-DD') 
                 				AND TO_DATE(#{lastMonth},'YYYY-MM-DD')
 				AND USER_ID = #{user_id}
-				AND IO_CODE = 'I1'
+				AND IO_CODE = 'I2'
 				GROUP BY TDATE
       		  ) A,
 	 		  ( SELECT TO_DATE(#{firstMonth}, 'YYYY-MM-DD') + LEVEL -1 AS DT
@@ -113,7 +113,7 @@
 				WHERE TDATE BETWEEN TO_DATE(#{firstYear},'YYYY-MM-DD') 
                 AND TO_DATE(#{lastYear},'YYYY-MM-DD')
 				AND USER_ID = #{user_id}
-				AND IO_CODE = 'I1'
+				AND IO_CODE = 'I2'
 				GROUP BY TDATE
       		  ) A,
 	 		( SELECT TO_DATE(#{firstYear}, 'YYYY-MM-DD') + LEVEL -1 AS DT
