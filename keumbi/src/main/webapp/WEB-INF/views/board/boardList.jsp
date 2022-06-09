@@ -5,14 +5,15 @@
 .num {
 	text-align: center;
 }
-
+#div_btn{
+	text-align: right;
+}
 .btn {
 	text-align: center;
 }
 
-.btn-info {
+#div_btn a {
 	margin-top: 10px;
-	float: right;
 	width: 150px;
 }
 
@@ -141,9 +142,11 @@ th {
 		</div>
 
 		<!-- 글쓰기 버튼 생성 -->
-		<c:if test="${loginUser != null && loginUser.user_code == 'U1'}">
-			<a href="boardInsertForm" role="button" class="btn btn-info">게시글 작성</a>
-		</c:if>
+		<div id="div_btn">
+			<c:if test="${loginUser != null && loginUser.user_code == 'U1'}">
+				<a href="boardInsertForm" role="button" class="btn btn-primary">게시글 작성</a>
+			</c:if>
+		</div>
 		<br>
 
 		<div>
