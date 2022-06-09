@@ -10,14 +10,17 @@
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <title>Insert title here</title>
 <style>
+.p_120 {
+	min-height: 564px;
+}
 .div_submenu{
 	display:none;
 }
-#output {
+.cardCol {
 	display: inline-block;
-	margin-right: 89px;
+	margin-right: 40px;
+	margin-left: 40px;
 	margin-bottom: 30px;
-	min-height: 182px;
 }
 .card {
 	width : 18rem;
