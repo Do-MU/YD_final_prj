@@ -30,8 +30,12 @@
 }
 .ch_btns a {
 	color: black;
+	font-weight:bold;
 }
-
+.contour{
+	font-size:1.1em;
+	font-weight:bold;
+}
 #chall_ul a:hover {
 	color: skyblue;
 }
