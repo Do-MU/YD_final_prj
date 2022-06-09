@@ -44,6 +44,9 @@
 	.swal-button{
 		width: 400px;
 	}
+	.p_120{
+    	min-height: 910px;
+	}
 </style>
 </head>
 <body>

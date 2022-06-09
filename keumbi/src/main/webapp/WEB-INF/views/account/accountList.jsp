@@ -85,6 +85,9 @@
 .swal-button {
 	width: 480px;
 }
+.p_120{
+    min-height: 670px;
+}
 </style>
 <script>
 	// 비회원 접근시
