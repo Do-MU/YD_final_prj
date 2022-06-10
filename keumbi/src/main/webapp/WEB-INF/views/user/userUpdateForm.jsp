@@ -62,7 +62,13 @@ div > #birth {
 	margin-top: 5px;
 }
 .swal-button{
-	width: 400px;
+   width: 212px;
+}
+.swal-button--confirm{
+   width: 440px;
+}
+.swal-button--danger{
+   width: 212px;
 }
 input[type="checkbox"]{
 	width: 25px;
