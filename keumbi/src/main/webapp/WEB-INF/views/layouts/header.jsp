@@ -271,12 +271,12 @@
 		} else if(noti_code == 'N3'){											// 고객센터 알림
 			getRead(num)
 			location.href='qnaList';	
-		} else if(noti_code == 'N6'){											// 제재 알림
-			getRead(num)
-			location.href='userUpdateForm';
 		} else if(noti_code == 'N7'|| noti_code == 'N8' || noti_code == 'N9'){	//챌린지 알림
 			getRead(num)
 			location.href='challengeList';
+		}else{
+			getRead(num)
+			location.href='home';
 		}
 	})
 	
