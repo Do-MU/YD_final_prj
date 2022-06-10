@@ -256,7 +256,6 @@ ul li.tag-item {
 
 	<script>
 		$(document).ready(function() {
-			//console.log(editor.getHtml()); 
 			var tag = {};
 			var counter = 0;
 
@@ -299,7 +298,6 @@ ul li.tag-item {
 
 			$("#tag").on("keyup",function(e) {
 				var self = $(this);
-				console.log("keypress");
 
 				// input 에 focus 되있을 때 엔터 및 스페이스바 입력시 구동
 				if (e.key === "Enter"|| e.keyCode == 32) {

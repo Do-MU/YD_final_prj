@@ -133,10 +133,8 @@ th {
 	$("#sortKey").on("change", this ,function(){
 		if($(this).val() == ''){
 			code = '';
-			console.log($(this).val);	
 		} else{
-			code = $(this).val();
-			console.log($(this).val);			
+			code = $(this).val();		
 		}
 		pageNo = 1;
 		change();
@@ -183,7 +181,6 @@ th {
 	
 	function change(){
 		var url = 'admQnaList';
-		console.log(code);
 		if(code != ''){
 			url += '?code='+code+"&pageNo="+pageNo;
 		}else{

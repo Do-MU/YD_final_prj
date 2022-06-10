@@ -29,7 +29,6 @@
 </style>
 <script>
    $(window).ready(function(){
-      console.log("${loginUser}");
       if("${loginUser.user_code}" == 'U3'){
          swal({
               title: "탈퇴철회 하시겠습니까?",

@@ -226,7 +226,6 @@ ul li.tag-item {
 			initialEditType : 'wysiwyg',
 			language : 'ko-KR'			
 		});
-		console.log($("#tag-list").find("li"))
 		// !!여기!! editor.getHtml()을 사용해서 에디터 내용 받아오기
 		//document.querySelector('#contents').insertAdjacentHTML('afterbegin' ,editor.getHtml()); 
 
@@ -276,7 +275,6 @@ ul li.tag-item {
 		$(document)
 				.ready(
 						function() {
-							//console.log(editor.getHtml()); 
 							var tag = {};
 							var counter = 0;
 							
@@ -332,7 +330,6 @@ ul li.tag-item {
 											"keyup",
 											function(e) {
 												var self = $(this);
-												console.log("keypress");
 
 												// input 에 focus 되있을 때 엔터 및 스페이스바 입력시 구동
 												if (e.key === "Enter"

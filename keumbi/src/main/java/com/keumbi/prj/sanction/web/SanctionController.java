@@ -24,7 +24,6 @@ public class SanctionController {
 	@RequestMapping("/admin/sanInsert")
 	@ResponseBody
 	public int sanInsert(SanctionVO vo) {
-		System.out.println(vo);
 		
 		return sc.sanInsert(vo);
 	}
