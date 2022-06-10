@@ -392,7 +392,6 @@ th, td {
 	      $("#list").children("div").slice(0,10).show().css("display", "flex");
 	      
 	      $("#read").click(function(e){
-	         console.log($("#list").children("div:hidden").length)
 	         if( $("#list").children("div:hidden").length == 0){
 	        	 $("#read").hide();
 	         }else{

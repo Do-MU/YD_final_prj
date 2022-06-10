@@ -320,9 +320,6 @@
 	    var innerHeight = $(this).innerHeight();
 	    var scrollHeight = $(this).prop('scrollHeight');
 	    
-	    console.log(scrollTop);
-	    console.log(innerHeight); 100
-	    console.log(scrollHeight); 134
 	    if (scrollTop + innerHeight+1 <= scrollHeight) {
 	    	$("#termsCheck").attr('disabled', true);
 	    } else {

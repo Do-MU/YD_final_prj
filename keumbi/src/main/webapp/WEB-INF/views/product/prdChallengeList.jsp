@@ -370,7 +370,6 @@
 							$("#mod_chal_top3").attr("hidden","hidden");
 							$("#mod_goalTitle").attr("hidden","hidden");
 							$("#mod_goal").attr("hidden","hidden");
-							console.log("이미 진행중인 챌린지 입니다.")
 							$("#mod_chal_user").after($("<div class='h2_disable'>").html("<h2>이미 진행중인 챌린지 입니다.</h2>"));
 						}else{
 							$(".h2_disable").remove();

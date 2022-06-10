@@ -42,7 +42,6 @@ public class QnaController {
 	// 문의글 삭제하기
 	@RequestMapping("/qnaDelete")
 	public String qnaDelete(@RequestParam("num") int num) {
-		System.out.println(num);
 		service.qnaDelete(num);
 		return "redirect:qnaList";
 	}	

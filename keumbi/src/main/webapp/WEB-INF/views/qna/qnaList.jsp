@@ -62,7 +62,9 @@ th {
 	cursor: pointer;
 	background-color: #dddddd;
 }
-
+.asdf> *:nth-child(1){
+	min-height: 300px;
+}
 .qlist:hover {
 	cursor: default;
 }
@@ -134,8 +136,8 @@ $(window).ready(function(){
 					<c:choose>
 						<c:when test="${empty qnas}">
 							<div class="fdsa">
-							<img class="emptyImg" src="resources/img/favicon.png">
-							<h3>문의한 글이 없습니다.</h3>
+								<h2 style="font-size:80px"><i class="bi bi-info-circle"></i></h2>
+								<h2>문의한 글이 없습니다.</h2>
 							</div>
 						</c:when>
 						<c:otherwise>
