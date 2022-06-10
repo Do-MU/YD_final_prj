@@ -232,9 +232,8 @@ ul li.tag-item {
 				//alert('제목을 입력하세요');
 				swal("제목을 입력하세요", {icon: "error"}).then((value) => {
 					$("#title").focus();					
-				})
-				
-				return false;
+					return false;
+				})				
 			}else if(title.length < 3){
 				//alert('3자 이상 입력 바랍니다.');
 				swal("3자 이상 입력 바랍니다.", {icon: "error"}).then((value) => {
@@ -244,8 +243,8 @@ ul li.tag-item {
 				});
 			} else if(!editor.getMarkdown()){
 				//alert('내용을 입력하세요');
-				swal("내용을 입력하세요", {icon: "error"}).then((value) => {
-				return false;
+					swal("내용을 입력하세요", {icon: "error"}).then((value) => {
+					return false;
 				})
 			} else{
 				swal("등록완료", {icon: "success"}).then((value) => {

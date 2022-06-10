@@ -61,6 +61,14 @@ ul li.tag-item {
 	text-align: center;
 	margin-top: 5px;
 }
+.swal-text{
+	font-size: 25px;
+	margin-top: 20px;
+}
+.swal-footer{
+	text-align: center;
+	margin-top: 5px;
+}
 .swal-button{
 	width: 400px;
 }
@@ -239,21 +247,27 @@ ul li.tag-item {
 			}
 			let title = $("#title").val();
 			if(!title){
-				alert('제목을 입력하세요');
-				$("#title").focus();
-				
-				return false;
+				//alert('제목을 입력하세요');
+				swal("제목을 입력하세요", {icon: "error"}).then((value) => {
+					$("#title").focus();					
+					return false;
+				})				
 			}else if(title.length < 3){
-				alert('3자 이상 입력 바랍니다.');
-				$("#title").focus();
-					
-				return false;
+				//alert('3자 이상 입력 바랍니다.');
+				swal("3자 이상 입력 바랍니다.", {icon: "error"}).then((value) => {
+					$("#title").focus();
+						
+					return false;
+				});
 			} else if(!editor.getMarkdown()){
-				alert('내용을 입력하세요');
-				
-				return false;
+				//alert('내용을 입력하세요');
+					swal("내용을 입력하세요", {icon: "error"}).then((value) => {
+					return false;
+				})
 			} else{
-				frm.submit();				
+				swal("등록완료", {icon: "success"}).then((value) => {
+					frm.submit();					
+				})
 			}
 		}
 	</script>
