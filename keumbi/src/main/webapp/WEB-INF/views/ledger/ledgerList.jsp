@@ -557,7 +557,7 @@ $(window).ready(function(){
 					})
 				})
 			}else{
-				swal("변경을 취소하셨습니다.", {icon: "success"});
+				swal("삭제를 취소하셨습니다.", {icon: "success"});
 			}
 		})
 	}
