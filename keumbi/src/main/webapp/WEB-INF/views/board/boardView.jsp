@@ -69,6 +69,23 @@
 .ror_contents{
 	padding-left: 50px;
 }
+.swal-text{
+	font-size: 25px;
+	margin-top: 20px;
+}
+.swal-footer{
+	text-align: center;
+	margin-top: 5px;
+}
+.swal-button{
+   width: 212px;
+}
+.swal-button--confirm{
+   width: 440px;
+}
+.swal-button--danger{
+   width: 212px;
+}
 </style>
 
 <section class="banner_area">
@@ -139,35 +156,53 @@
 
 <script>
 	function reportBoard() {
-		swal("게시물을 신고하시겠습니까?").then((value) => {
-			$.ajax({
-				url:"reportBoard",
-				data:{rep_reason:${board.bod_num}}
-			}).done(function(data){
-				if(data==1){
-					//alert("신고처리 완료되었습니다.");		
-					swal("신고처리 완료되었습니다.", {icon: 'success'});
-				}else{
-					//alert("이미 신고처리 되었습니다.");
-					swal("이미 신고처리 되었습니다.", {icon: 'error'});
-				}
-			});
+		swal("게시물을 신고하시겠습니까?", {
+			icon: "warning",
+			buttons: true,
+			dangerMode: true,
+			closeOnClickOutside: false
+		}).then((value) => {
+			if(value){
+				$.ajax({
+					url:"reportBoard",
+					data:{rep_reason:${board.bod_num}}
+				}).done(function(data){
+					if(data==1){
+						//alert("신고처리 완료되었습니다.");		
+						swal("신고처리 완료되었습니다.", {icon: 'success'});
+					}else{
+						//alert("이미 신고처리 되었습니다.");
+						swal("이미 신고처리 되었습니다.", {icon: 'error'});
+					}
+				});
+			}else{
+				swal("신고를 취소하셨습니다.", {icon: "success"});
+			}
 		})
 	}
 	function reportReply(re_num) {
-		swal("댓글을 신고하시겠습니까?").then((value) => {
-			$.ajax({
-				url:"reportReply",
-				data:{rep_reason:re_num}
-			}).done(function(data){
-				if(data==1){
-					//alert("신고처리 완료되었습니다.");					
-					swal("신고처리 완료되었습니다.", {icon: 'success'});
-				}else{
-					//alert("이미 신고처리 되었습니다.");
-					swal("이미 신고처리 되었습니다.", {icon: 'error'});
-				}
-			});
+		swal("댓글을 신고하시겠습니까?",{
+			icon: "warning",
+			buttons: true,
+			dangerMode: true,
+			closeOnClickOutside: false
+		}).then((value) => {
+			if(value){
+				$.ajax({
+					url:"reportReply",
+					data:{rep_reason:re_num}
+				}).done(function(data){
+					if(data==1){
+						//alert("신고처리 완료되었습니다.");					
+						swal("신고처리 완료되었습니다.", {icon: 'success'});
+					}else{
+						//alert("이미 신고처리 되었습니다.");
+						swal("이미 신고처리 되었습니다.", {icon: 'error'});
+					}
+				});
+			}else{
+				swal("신고를 취소하셨습니다.", {icon: "success"});
+			}
 		})
 	}
 	
