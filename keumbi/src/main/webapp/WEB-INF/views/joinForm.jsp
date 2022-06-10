@@ -87,14 +87,26 @@
 	.swal-text{
 	font-size: 25px;
 	margin-top: 20px;
-}
-.swal-footer{
-	text-align: center;
-	margin-top: 5px;
-}
-.swal-button{
-	width: 400px;
-}
+	}
+	.swal-footer{
+		text-align: center;
+		margin-top: 5px;
+	}
+	.swal-button{
+		width: 400px;
+	}
+	input[type="checkbox"]{
+		width:20px;
+		height:20px;
+		cursor:pointer;
+		position:relative;
+		top: 3px;
+	}
+	.col-md-3 > label{
+		font-size:1.2em;
+		font-weight:bold;
+	}
+
 </style>
 
 <section>
@@ -265,7 +277,7 @@
 				</div>
 				<div>
 					<input type="checkbox"  id="termChk" disabled>
-					<label>위 약관을 확인하였으며, 이에 동의합니다.</label>
+					<label style="font-size:1.3em; font-weight:bold; padding-top:10px;">위 약관을 확인하였으며, 이에 동의합니다.</label>
 				</div>
 			</div>
 	

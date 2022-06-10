@@ -152,7 +152,7 @@ input[type="checkbox"]{
 				<td><input id="mail_check_input" disabled="disabled"
 					type="text" name="emailCheck" maxlength="6" style="width:300px; height:40px"> <input
 					id="mail_check_btn_result" type="button" value="확인"
-					class="btn btn-secondary" style="height: 32px"><br> <label
+					class="btn btn-secondary" style="width:130px; height:40px; margin-bottom:5px;"><br> <label
 					id="result" style="display: none"></label></td>
 			</tr>
 			<tr>
