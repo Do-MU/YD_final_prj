@@ -1,75 +1,80 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <script src="http://code.jquery.com/jquery-3.6.0.js"></script>
 
 <style>
-.container{
-	text-align:center;
+.container {
+	text-align: center;
 }
 
-table{
-	margin:0 auto;
-	width:90%;
-	border:1px solid;
+table {
+	margin: 0 auto;
+	width: 90%;
+	border: 1px solid;
 }
 
-th{
-	border:1px solid;
-	background-color:#e9ecef;
+th {
+	border: 1px solid;
+	background-color: #e9ecef;
 }
 
-td{
-	border:1px solid;
+td {
+	border: 1px solid;
 }
 
-#user_select{
-	padding-left:55px;
-	height:30px;
+#user_select {
+	height: 30px;
 }
 
-#san_select{
-	padding-left:550px;
-	padding-right:5px;
+#san_select {
+	padding-left: 830px;
+	padding-right: 0px;
 }
 
-#search{
-	width:170px;
+#search {
+	width: 170px;
 }
 
-.input-group{
-	padding-top:100px;
-	padding-bottom:5px;
+.input-group {
+	padding-top: 100px;
+	padding-bottom: 5px;
 }
 
-.sanCon{
-	
-	width:300px;
+.sanCon {
+	width: 300px;
 }
 
-.userId{
-	width:250px;
+.userId {
+	width: 250px;
 }
 
-.userState{
-	width:150px;
+.userState {
+	width: 150px;
 }
 
-.sanDate{
-	width:150px;
+.sanDate {
+	width: 150px;
 }
 
-.trhidden{
-	display:none;
+.trhidden {
+	display: none;
 }
 </style>
 
-<div class="container">
+<div class="pagetitle">
 	<h1>회원관리</h1>
+	<ol class="breadcrumb">
+		<li class="breadcrumb-item">제재 회원</li>
+		<li class="breadcrumb-item">탈퇴예정 회원</li>
+	</ol>
+</div>
+<!-- End Page Title -->
+<div class="container">
 	<div class="input-group">
 		<div id="user_select">
-			<select id="selectboxA" style="height:30px;">
+			<select id="selectboxA" style="height: 30px;">
 				<option value="all" selected>전체회원</option>
 				<option value="U1">일반회원</option>
 				<option value="U2">제재회원</option>
@@ -77,7 +82,7 @@ td{
 			</select>
 		</div>
 		<div id="san_select">
-			<select id="selectboxB" style="height:30px;">
+			<select id="selectboxB" style="height: 30px;">
 				<option value="id">아이디</option>
 				<option value="sdate">제재일자</option>
 			</select>
@@ -86,32 +91,34 @@ td{
 		<button id="searchBtn" type="button">검색</button>
 	</div>
 	<div>
-		<table class="sanList">
-		<thead>
-			<tr>
-				<th>아이디</th>
-				<th>회원상태</th>
-				<th class="sanCon">제재내용</th>
-				<th class="sanDate">제재일자</th>
-			</tr>
-		</thead>
-		<tbody>
-			<c:forEach var="allu" items="${allUser}">
-				<tr class="userList">
-					<td class="userId">${allu.id}</td>
-					<td class="userState">${allu.user_alias}</td>
-					<td class="sanContent"><a href="#"></a></td>
-					<td class="sanDate"></td>
+		<table class="sanList table table-striped">
+			<thead>
+				<tr>
+					<th>아이디</th>
+					<th>회원상태</th>
+					<th class="sanCon">제재내용</th>
+					<th class="sanDate">제재일자</th>
 				</tr>
-			</c:forEach>
-		</tbody>
+			</thead>
+			<tbody>
+				<c:forEach var="allu" items="${allUser}">
+					<tr class="userList">
+						<td class="userId">${allu.id}</td>
+						<td class="userState">${allu.user_alias}</td>
+						<td class="sanContent"><a href="#"></a></td>
+						<td class="sanDate"></td>
+					</tr>
+				</c:forEach>
+			</tbody>
 		</table>
 	</div>
 	<!-- MODAL -->
-	<div class="modal fade" id="sanContent_modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
-		<div class="modal-dialog modal-lg" >
+	<div class="modal fade" id="sanContent_modal" tabindex="-1"
+		aria-labelledby="exampleModalLabel" aria-hidden="true"
+		data-backdrop="static" data-keyboard="false">
+		<div class="modal-dialog modal-lg">
 			<div class="modal-content">
-		
+
 				<!-- MODAL BODY -->
 				<div class="modal-body">
 					<div id="mod_body_top">
@@ -120,18 +127,30 @@ td{
 					</div>
 					<div id="mod_body_middle"></div>
 				</div>
-				
+
 				<!-- MODAL FOOTER -->
 				<div class="modal-footer">
 					<button type="button" id="modal_close" class="btn btn-primary">확인</button>
 				</div>
-				
+
 			</div>
 		</div>
 	</div>
 </div>
 
 <script>
+
+	// 관리자외 접근시
+	if (!"${loginUser.id}" || "${loginUser.id}" != 'admin') {
+		swal({
+			text:"권한이 없습니다.",
+			button: "확인",
+			icon: "error",
+			closeOnClickOutside: false
+		}).then((value) => {
+			window.location = "${pageContext.request.contextPath}/userLoginForm";
+		});
+	}
 	//제재회원 정보
 	$.ajax({
 		url:"sanUser"

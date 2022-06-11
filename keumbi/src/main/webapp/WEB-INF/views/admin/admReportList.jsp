@@ -13,6 +13,7 @@ table{
 	width:90%;
 	border:1px solid;
 	table-layout:fixed;
+	margin-top: 100px;
 }
 
 th{
@@ -46,9 +47,12 @@ td{
 	width: 400px;
 }
 </style>
+
+<div class="pagetitle">
+	<h1>신고 목록</h1>
+</div>
 <div class="container">
-	<h1>신고목록</h1>
-	<table>
+	<table class="table table-striped">
 		<thead>
 			<tr>
 				<th width="50px;">#</th>
@@ -100,6 +104,17 @@ td{
 	</div>
 </div>
 <script>
+	// 관리자외 접근시
+	if (!"${loginUser.id}" || "${loginUser.id}" != 'admin') {
+		swal({
+			text:"권한이 없습니다.",
+			button: "확인",
+			icon: "error",
+			closeOnClickOutside: false
+		}).then((value) => {
+			window.location = "${pageContext.request.contextPath}/userLoginForm";
+		});
+	}
 	// 제재 내용
 	$(".reason a").on('click', function(){
 		$.ajax({

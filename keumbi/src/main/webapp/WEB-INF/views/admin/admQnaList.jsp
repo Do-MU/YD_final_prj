@@ -16,6 +16,7 @@
 }
 table {
 	table-layout:fixed;
+	margin-top:100px;
 }
 th {
 	background-color: #eeeeee; 
@@ -39,21 +40,15 @@ th {
 .th6, .th6 {
 	width : 100px;
 }
+.pin:hover{
+	cursor:pointer;
+}
 </style>
 
 
-<section class="banner_area">
-	<div class="box_1620">
-		<div class="banner_inner d-flex align-items-center">
-			<div class="container">
-				<div class="banner_content text-center">
-					<h2>고객센터 관리자 페이지</h2>
-				</div>
-			</div>
-		</div>
-	</div>
-</section>
-
+<div class="pagetitle">
+	<h1>고객센터</h1>
+</div>
 
 <div class="container">
 	<!-- 답변완료/미답변 Select -->
@@ -109,7 +104,7 @@ th {
 			<span aria-hidden="true">&laquo;</span>
 		</a></li>
 		<c:forEach begin="${p.startPage}" end="${p.endPage}" var="i">
-			<li class="page-item">
+			<li class="page-item pin">
 			<a id="page-num-${i}" class="page-link" onclick="changePage(${i})">${i}</a></li>
 		</c:forEach>
 		<li class="page-item"><a class="page-link" aria-label="Next" onclick="next(${p.pageNo})" id="next_btn"> 
@@ -119,6 +114,18 @@ th {
 </div>
 
 <script>
+	// 관리자외 접근시
+	if (!"${loginUser.id}" || "${loginUser.id}" != 'admin') {
+		swal({
+			text:"권한이 없습니다.",
+			button: "확인",
+			icon: "error",
+			closeOnClickOutside: false
+		}).then((value) => {
+			window.location = "${pageContext.request.contextPath}/userLoginForm";
+		});
+	}
+
 	var totalPage = ${p.totalPage};
 	var code = '';
 	var pageNo = 1;
