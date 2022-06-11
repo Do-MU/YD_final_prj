@@ -178,8 +178,8 @@ th, td {
 			</c:if>
 			<c:if test="${not empty loginUser.name}">
 			<div class="main_title">
-				<div id="div_content">이런 상품은 어떠신가요?</div>
-				<p>${loginUser.name} 님과 비슷한 연령대가 많이 이용하는 상품이에요</p>
+				<h1>이런 상품은 어떠신가요?</h1>
+				<h4>${loginUser.name} 님과 비슷한 연령대가 많이 이용하는 상품이에요</h4>
 			</div>
 			<div class="testi_inner">
 				<div class="testi_slider owl-carousel">
@@ -392,7 +392,6 @@ th, td {
 	      $("#list").children("div").slice(0,10).show().css("display", "flex");
 	      
 	      $("#read").click(function(e){
-	         console.log($("#list").children("div:hidden").length)
 	         if( $("#list").children("div:hidden").length == 0){
 	        	 $("#read").hide();
 	         }else{

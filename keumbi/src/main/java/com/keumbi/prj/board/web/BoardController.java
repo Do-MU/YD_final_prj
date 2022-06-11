@@ -31,23 +31,21 @@ public class BoardController {
 		    page.setTotalNo(total);
 		    page.setTotalPage(pageCnt);
 		    page.setStartPage(((page.getPageNo()-1)/10)*10+1);
-		    page.setEndPage(endPage > pageCnt ? pageCnt : endPage);  
-			System.out.println(page);
+		    page.setEndPage(endPage > pageCnt ? pageCnt : endPage);
+		    
 			model.addAttribute("p", page);
 			model.addAttribute("s",search);
 			model.addAttribute("boards", b.boardSearch(page, search));
 		}
 		
 		else {
-			System.out.println("########################Nothing to Search###############################");
 			int total = b.boardCount();
 			int pageCnt = total/page.getPageScale()  + (total%page.getPageScale()>0?1:0);
 		    int endPage = ((page.getPageNo()-1)/10+1)*10;
 		    page.setTotalNo(total);
 		    page.setTotalPage(pageCnt);
 		    page.setStartPage(((page.getPageNo()-1)/10)*10+1);
-		    page.setEndPage(endPage > pageCnt ? pageCnt : endPage);  
-			System.out.println(page);
+		    page.setEndPage(endPage > pageCnt ? pageCnt : endPage);
 			
 			model.addAttribute("p", page);
 			model.addAttribute("s", search);
@@ -94,8 +92,6 @@ public class BoardController {
 
 	@RequestMapping("/boardUpdate")
 	public String postUpdate(BoardVO vo, @RequestParam(required = false) String[] keyword) {
-		System.out.println(vo);
-		System.out.println(keyword);
 		b.boardKwdUpdate(vo.getBod_num(), keyword);
 		b.boardUpdate(vo);
 

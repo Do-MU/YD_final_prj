@@ -61,6 +61,14 @@ ul li.tag-item {
 	text-align: center;
 	margin-top: 5px;
 }
+.swal-text{
+	font-size: 25px;
+	margin-top: 20px;
+}
+.swal-footer{
+	text-align: center;
+	margin-top: 5px;
+}
 .swal-button{
 	width: 400px;
 }
@@ -218,7 +226,6 @@ ul li.tag-item {
 			initialEditType : 'wysiwyg',
 			language : 'ko-KR'			
 		});
-		console.log($("#tag-list").find("li"))
 		// !!여기!! editor.getHtml()을 사용해서 에디터 내용 받아오기
 		//document.querySelector('#contents').insertAdjacentHTML('afterbegin' ,editor.getHtml()); 
 
@@ -239,21 +246,27 @@ ul li.tag-item {
 			}
 			let title = $("#title").val();
 			if(!title){
-				alert('제목을 입력하세요');
-				$("#title").focus();
-				
-				return false;
+				//alert('제목을 입력하세요');
+				swal("제목을 입력하세요", {icon: "error"}).then((value) => {
+					$("#title").focus();					
+					return false;
+				})				
 			}else if(title.length < 3){
-				alert('3자 이상 입력 바랍니다.');
-				$("#title").focus();
-					
-				return false;
+				//alert('3자 이상 입력 바랍니다.');
+				swal("3자 이상 입력 바랍니다.", {icon: "error"}).then((value) => {
+					$("#title").focus();
+						
+					return false;
+				});
 			} else if(!editor.getMarkdown()){
-				alert('내용을 입력하세요');
-				
-				return false;
+				//alert('내용을 입력하세요');
+					swal("내용을 입력하세요", {icon: "error"}).then((value) => {
+					return false;
+				})
 			} else{
-				frm.submit();				
+				swal("등록완료", {icon: "success"}).then((value) => {
+					frm.submit();					
+				})
 			}
 		}
 	</script>
@@ -262,7 +275,6 @@ ul li.tag-item {
 		$(document)
 				.ready(
 						function() {
-							//console.log(editor.getHtml()); 
 							var tag = {};
 							var counter = 0;
 							
@@ -318,7 +330,6 @@ ul li.tag-item {
 											"keyup",
 											function(e) {
 												var self = $(this);
-												console.log("keypress");
 
 												// input 에 focus 되있을 때 엔터 및 스페이스바 입력시 구동
 												if (e.key === "Enter"

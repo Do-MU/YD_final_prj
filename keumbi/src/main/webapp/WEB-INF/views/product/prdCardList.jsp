@@ -315,7 +315,7 @@ h1 {
 					for(list of datas) {
 						if(category != list.val) {					
 							var div = `<br/><br/><div id="category">
-											<h2>\${list.val}</h2>
+											<h2># \${list.val}</h2>
 										</div><br/>`;
 							$("#output").append(div);							
 							category = list.val;
@@ -342,7 +342,7 @@ h1 {
 					for(list of datas) {
 						if(category != list.val) {					
 							var div = `<br/><br/><div id="category">
-											<h2>\${list.val}</h2>
+											<h2># \${list.val}</h2>
 										</div><br/>`;
 							$("#output").append(div);							
 							category = list.val;

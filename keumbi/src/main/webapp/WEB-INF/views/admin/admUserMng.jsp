@@ -156,7 +156,6 @@ td {
 		url:"sanUser"
 	}).done(function(list){
 		for(sanc of list){
-			console.log(sanc);
 			$(".userId").each(function(){
 				var id = $(this);
 				if(id.text() == sanc.user_id){

@@ -206,7 +206,6 @@ $(window).ready(function(){
 		});
 	}
 	if($("div.challs").length == 0){
-		console.log($("div.challs").length)
 		$("<div id='div_nochall'>").html("<p style='font-size:80px'><i class='bi bi-info-circle'></i></p><h2>도전 중인 챌린지가 없어요..</h2>").appendTo($("#list"))
 	}
 })

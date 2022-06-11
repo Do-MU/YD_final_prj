@@ -57,7 +57,7 @@ public class UserController {
 			}
 		}else{
 			model.addAttribute("message", "fail");
-			System.out.println("비밀번호가 틀렸습니다.");
+
 			return "user/userLoginForm";
 		}
 	}

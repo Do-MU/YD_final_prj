@@ -80,7 +80,7 @@
 						<div id="div_btns">
 							<input id="from_date" name="from_date" type="date"> - <input id="to_date" name="to_date" type="date">
 							<button class="btn btn-success" onclick="transCheck()">조회하기</button>
-							<button type="submit" class="deposit btn btn-primary">이체하기</button>
+							<button type="submit" class="deposit btn btn-primary">송금하기</button>
 						</div>
 					</form>
 				</div>
@@ -181,7 +181,7 @@
 		});
 	}
 	
-	// 이체하기 넘어가는 곳
+	// 송금하기 넘어가는 곳
 	$(".deposit").on("click", this, function(){
 		var finNum = $("#result").children().first().data("fin");
 		console.log(finNum);

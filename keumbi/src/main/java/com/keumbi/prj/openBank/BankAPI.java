@@ -76,7 +76,7 @@ public class BankAPI {
 		}
 
 		JsonNode jsonVal = json.get("res_list");
-		System.out.println("jsonVal : " + jsonVal);
+		// System.out.println("jsonVal : " + jsonVal);
 		if(jsonVal != null) {
 			for (JsonNode i : jsonVal) {
 				AccountVO avo = new AccountVO();

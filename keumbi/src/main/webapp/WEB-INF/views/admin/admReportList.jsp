@@ -166,7 +166,6 @@ td{
 	// 삭제 버튼
 	$("#deleteBtn").on('click', function(){
 		$(".check:checked").each(function(){
-			console.log($(this).closest("tr").data("rep_num"));
 			$.ajax({
 				url:"reportDelete",
 				data:{

@@ -17,10 +17,18 @@
     box-shadow: 0px 20px 80px 0px #eeeeee;
     height: 350px;
 }
+.swal-button{
+   width: 212px;
+}
+.swal-button--confirm{
+   width: 440px;
+}
+.swal-button--danger{
+   width: 212px;
+}
 </style>
 <script>
    $(window).ready(function(){
-      console.log("${loginUser}");
       if("${loginUser.user_code}" == 'U3'){
          swal({
               title: "탈퇴철회 하시겠습니까?",

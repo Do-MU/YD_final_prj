@@ -77,7 +77,7 @@
     			  FROM		COMMON_CODE
     			  WHERE 	VAL = #{io_code} ), 
     			 #{content}, #{amt},
-    			( SELECT 	NVL(CODE, 'D019')
+    			( SELECT 	CODE
     			  FROM 		COMMON_CODE
     			  WHERE 	VAL LIKE '%'||#{cat_code}||'%' AND PRE_CODE='D' )
     			)

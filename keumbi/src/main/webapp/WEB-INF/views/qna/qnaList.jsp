@@ -62,7 +62,9 @@ th {
 	cursor: pointer;
 	background-color: #dddddd;
 }
-
+.asdf> *:nth-child(1){
+	min-height: 300px;
+}
 .qlist:hover {
 	cursor: default;
 }
@@ -134,51 +136,52 @@ $(window).ready(function(){
 					<c:choose>
 						<c:when test="${empty qnas}">
 							<div class="fdsa">
-							<img class="emptyImg" src="resources/img/favicon.png">
-							<h3>문의한 글이 없습니다.</h3>
+								<h2 style="font-size:80px"><i class="bi bi-info-circle"></i></h2>
+								<h2>문의한 글이 없습니다.</h2>
 							</div>
 						</c:when>
 						<c:otherwise>
-							<table class="table qlist"
-								style="text-align: center; border: 1px solid #dddddd">
-								<thead class="thead-dark">
-									<tr>
-										<th class="th-title">제목</th>
-										<th>작성일</th>
-										<th class="th-yn">답변유무</th>
-										<th class="th-deleteBtn"></th>
-									</tr>
-								</thead>
-
-								<tbody>
-									<c:forEach var="q" items="${qnas}">
-										<tr class="qhead">
-											<td><c:out value="${q.title}" /></td>
-											<td class="qdate"><c:out value="${q.qdate}" /></td>
-											<td><c:out value="${q.val}" /></td>
-											<td><a role="button" class="btn btn-outline-secondary"
-												onclick="return swal('정말로 삭제하시겠습니까?', {buttons: true,dangerMode: true,closeOnClickOutside: false}).then((value) => 
-										{if(value){window.location='qnaDelete?num=${q.num}'}})">삭제</a></td>
+							<div>
+								<table class="table qlist" style="text-align: center; border: 1px solid #dddddd">
+									<thead class="thead-dark">
+										<tr>
+											<th class="th-title">제목</th>
+											<th>작성일</th>
+											<th class="th-yn">답변유무</th>
+											<th class="th-deleteBtn"></th>
 										</tr>
-										<tr class="qbody">
-											<td colspan="4">
-												<div class="qnabox">
-													<div class="qbox">
-														<span class="question">Q. </span> <span
-															style="text-align: left"><pre>${q.qcontents}</pre></span>
-													</div>
-													<c:if test="${not empty q.acontents}">
-														<div class="abox">
-															<span class="answer">A. </span> <span
-																style="text-align: left"><pre>${q.acontents}</pre></span>
+									</thead>
+	
+									<tbody>
+										<c:forEach var="q" items="${qnas}">
+											<tr class="qhead">
+												<td><c:out value="${q.title}" /></td>
+												<td class="qdate"><c:out value="${q.qdate}" /></td>
+												<td><c:out value="${q.val}" /></td>
+												<td><a role="button" class="btn btn-outline-secondary"
+													onclick="return swal('정말로 삭제하시겠습니까?', {buttons: true,dangerMode: true,closeOnClickOutside: false}).then((value) => 
+											{if(value){window.location='qnaDelete?num=${q.num}'}})">삭제</a></td>
+											</tr>
+											<tr class="qbody">
+												<td colspan="4">
+													<div class="qnabox">
+														<div class="qbox">
+															<span class="question">Q. </span> <span
+																style="text-align: left"><pre>${q.qcontents}</pre></span>
 														</div>
-													</c:if>
-												</div>
-											</td>
-										</tr>
-									</c:forEach>
-								</tbody>
-							</table>
+														<c:if test="${not empty q.acontents}">
+															<div class="abox">
+																<span class="answer">A. </span> <span
+																	style="text-align: left"><pre>${q.acontents}</pre></span>
+															</div>
+														</c:if>
+													</div>
+												</td>
+											</tr>
+										</c:forEach>
+									</tbody>
+								</table>
+							</div>
 						</c:otherwise>
 					</c:choose>
 					<div class="float-right">
