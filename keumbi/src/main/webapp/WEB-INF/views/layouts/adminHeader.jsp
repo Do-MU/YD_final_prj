@@ -16,20 +16,42 @@
 <aside id="sidebar" class="sidebar">
 
 	<ul class="sidebar-nav" id="sidebar-nav">
-		<li class="nav-item"><a class="nav-link collapsed"
-			href="admUserMng"> <i class="bi bi-person"></i> <span>회원목록 관리</span>
-		</a></li>
+		<li class="nav-item">
+			<a class="nav-link collapsed" href="admUserMng">
+				<i class="bi bi-person"></i>
+				<span>회원목록 관리</span>
+			</a>
+		</li>
 
-		<li class="nav-item"><a class="nav-link collapsed"
-			href="prdUpdate"> <i class="bi bi-menu-button-wide"></i> <span>상품관리</span>
-		</a></li>
+		<li class="nav-item">
+			<a class="nav-link collapsed" href="prdUpdate"> 
+				<i class="bi bi-menu-button-wide"></i> 
+				<span>상품관리</span>
+			</a>
+		</li>
 
-		<li class="nav-item"><a class="nav-link collapsed"
-			href="admReportList"> <i class="bi bi-dash-circle"></i> <span>신고목록 관리</span>
-		</a></li>
+		<li class="nav-item">
+			<a class="nav-link collapsed" href="admReportList"> 
+				<i class="bi bi-dash-circle"></i> 
+				<span>신고목록 관리</span>
+			</a>
+		</li>
 
-		<li class="nav-item"><a class="nav-link collapsed"
-			href="admQnaList"> <i class="bi bi-question-circle"></i> <span>고객센터 관리</span>
-		</a></li>
+		<li class="nav-item">
+			<a class="nav-link collapsed" href="admQnaList"> 
+				<i class="bi bi-question-circle"></i> 
+				<span>고객센터 관리</span>
+			</a>
+		</li>
+		
+		<li class="nav-heading"></li>
+		
+		<li class="nav-item">
+			<a class="nav-link collapsed" href="${pageContext.request.contextPath}/userLoginForm">
+	          <i class="bi bi-box-arrow-in-right"></i>
+	          <span>Logout</span>
+	        </a>
+		</li>
 	</ul>
+	
 </aside>
