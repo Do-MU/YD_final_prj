@@ -44,7 +44,7 @@
 	}
 	.swal-modal {
     width: 550px;
-    height: 300px;
+    height: 360px;
     text-align-last: center;
 	}
 	.swal-text:first-child {
@@ -162,7 +162,7 @@
 				<br />
 				<div id="div_btns">
 					<button class="btn btn-secondary">취소</button>
-					<button class="btn btn-primary" onclick="depositFun()">송금</button>
+					<button class="btn btn-primary" onclick="depositFun()">확인</button>
 				</div>
 			</div>
 		</div>
@@ -257,10 +257,12 @@
 			var tranVal = Number($('#tran_amt').val()); 				// 이체금액
 			
 			if ((wit_amt - tranVal) < 0) {
-				alert("잔액부족\n" + "이체금액을 다시 입력해주세요.");
-				$('#tran_amt').val("")
-				$('#tran_amt').focus();
-				return false;
+				//alert("잔액부족\n" + "이체금액을 다시 입력해주세요.");
+				swal("잔액부족", "이체금액을 다시 입력해주세요", {icon: "error"}).then((value) => {
+					$('#tran_amt').val("")
+					$('#tran_amt').focus();
+					return false;					
+				})			
 			}
 		}
 
