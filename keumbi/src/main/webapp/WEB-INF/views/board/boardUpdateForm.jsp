@@ -231,19 +231,6 @@ ul li.tag-item {
 
 		function call_submit() {
 			//event.preventDefault();
-			frm.contents.value = editor.getHTML();
-			
-			var tagObj = $("#tag-list").find("li");
-
-			for (i = 0; i < tagObj.length; i++) {
-
-				var input1 = document.createElement('input');
-				input1.setAttribute("name", "keyword");
-				input1.setAttribute("value", tagObj.eq(i).data('code'));
-				input1.setAttribute("hidden", "hidden");
-
-				frm.appendChild(input1);
-			}
 			let title = $("#title").val();
 			if(!title){
 				//alert('제목을 입력하세요');
@@ -265,6 +252,19 @@ ul li.tag-item {
 				})
 			} else{
 				swal("등록완료", {icon: "success"}).then((value) => {
+					frm.contents.value = editor.getHTML();
+					
+					var tagObj = $("#tag-list").find("li");
+
+					for (i = 0; i < tagObj.length; i++) {
+
+						var input1 = document.createElement('input');
+						input1.setAttribute("name", "keyword");
+						input1.setAttribute("value", tagObj.eq(i).data('code'));
+						input1.setAttribute("hidden", "hidden");
+
+						frm.appendChild(input1);
+					}
 					frm.submit();					
 				})
 			}
