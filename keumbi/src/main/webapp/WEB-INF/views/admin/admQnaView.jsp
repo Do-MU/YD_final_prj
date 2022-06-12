@@ -7,21 +7,21 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <style>
+table{
+	margin-top:100px;
+}
 </style>
 </head>
 <body>
-
-	<section class="banner_area">
-		<div class="box_1620">
-			<div class="banner_inner d-flex align-items-center">
-				<div class="container">
-					<div class="banner_content text-center">
-						<h3>고객센터 관리자 페이지</h3>
-					</div>
-				</div>
-			</div>
-		</div>
-	</section>
+<div class="pagetitle">
+	<h1>고객센터 답변하기</h1>
+      <nav>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="admQnaList">고객센터</a></li>
+          <li class="breadcrumb-item active">답변하기</li>
+        </ol>
+      </nav>
+</div>
 
 	<div class="container">
 		<div class="row">
@@ -86,6 +86,17 @@
 	</div>
 
 	<script>
+	// 관리자외 접근시
+	if (!"${loginUser.id}" || "${loginUser.id}" != 'admin') {
+		swal({
+			text:"권한이 없습니다.",
+			button: "확인",
+			icon: "error",
+			closeOnClickOutside: false
+		}).then((value) => {
+			window.location = "${pageContext.request.contextPath}/userLoginForm";
+		});
+	}
 		//문의 날짜
 		$("#qdate").text($("#qdate").text().substring(0, 10));
 		//답변 날짜

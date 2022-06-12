@@ -51,7 +51,7 @@ public class UserController {
 			
 			if(loginUser.getId().equals("admin")) {			// 관리자 로그인
 				
-				return "redirect:admin/home";
+				return "redirect:admin/";
 			}else {
 				return "redirect:home";
 			}

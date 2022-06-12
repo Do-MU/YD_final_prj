@@ -30,10 +30,10 @@ public class AdminController {
 	@Autowired SanctionService san;
 	
 	// 관리자 메인 화면
-	@RequestMapping("/home")
+	@RequestMapping("/")
 	public String home() {
 		
-		return "admin/home";
+		return "redirect:admUserMng";
 	}
 	
 	// 관리자 상품 업데이트 페이지

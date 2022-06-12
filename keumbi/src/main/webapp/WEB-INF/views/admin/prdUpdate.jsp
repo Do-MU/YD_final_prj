@@ -12,9 +12,15 @@
 	margin-top: 50px;
 }
 </style>
-
+<div class="pagetitle">
+	<h1>상품 관리</h1>
+	<ol class="breadcrumb">
+		<li class="breadcrumb-item">예금</li>
+		<li class="breadcrumb-item">적금</li>
+		<li class="breadcrumb-item">대출</li>
+	</ol>
+</div>
 <div class="container">
-	<h3>상품 관리 (관리자)</h3>
 	<div id="btn_cont">
 		<button id="deposit">예금목록 가져오기</button>
 		<br>
@@ -39,6 +45,18 @@
 </div>
 
 <script>
+	// 관리자외 접근시
+	if (!"${loginUser.id}" || "${loginUser.id}" != 'admin') {
+		swal({
+			text:"권한이 없습니다.",
+			button: "확인",
+			icon: "error",
+			closeOnClickOutside: false
+		}).then((value) => {
+			window.location = "${pageContext.request.contextPath}/userLoginForm";
+		});
+	}
+
 	$("#deposit").on('click', function(){
 		$.ajax({
 			url : "depUpdate"
