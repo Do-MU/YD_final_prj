@@ -15,7 +15,7 @@ public class BankTest {
 		System.out.println( Math.round( (double)sum/goal *1000)/10.0 );
 	}
 	
-	@Test
+	//@Test
 	public void encMySelf() {
 		String pwd = "1234";
 		
